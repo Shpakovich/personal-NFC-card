@@ -34,7 +34,7 @@
 
           <v-card-text>
             <div class="font-weight-bold ml-8 mb-2">
-              Today
+              <socialIconsBlock />
             </div>
           </v-card-text>
         </v-card>
@@ -43,13 +43,10 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
-
+import socialIconsBlock from '~/components/socialIconsBlock'
 export default {
   components: {
-    Logo,
-    VuetifyLogo
+    socialIconsBlock
   }
 }
 </script>
