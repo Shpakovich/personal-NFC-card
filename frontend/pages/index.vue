@@ -1,7 +1,20 @@
+<script>
+  import socialIconsBlock from '~/components/socialIconsBlock'
+  export default {
+    components: {
+      socialIconsBlock
+    }
+  }
+</script>
+
 <template>
   <v-container>
       <v-row justify="space-around">
-        <v-card width="400">
+        <v-card
+          tile
+          card-outlined-border-width="small"
+          width="400"
+        >
           <v-img
             height="300px"
             src="https://images.pexels.com/photos/2404554/pexels-photo-2404554.jpeg?cs=srgb&dl=pexels-rizwan-malik-2404554.jpg&fm=jpg"
@@ -31,22 +44,15 @@
               </p>
             </v-card-title>
           </v-img>
-
-          <v-card-text>
-            <div class="font-weight-bold ml-8 mb-2">
-              <socialIconsBlock />
-            </div>
-          </v-card-text>
         </v-card>
+        <socialIconsBlock/>
       </v-row>
   </v-container>
 </template>
 
-<script>
-import socialIconsBlock from '~/components/socialIconsBlock'
-export default {
-  components: {
-    socialIconsBlock
+<style lang="scss">
+  .v-card {
+    border-width: 0;
   }
-}
-</script>
+
+</style>
