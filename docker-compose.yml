@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+    api-nginx:
+        build:
+            context: ./api/docker/dev/nginx
+        ports:
+            - 8080:80
+        volumes:
+            - ./api:/app
+            - socket_php:/var/run/php
+        depends_on:
+            - api-php-fpm
+
+    api-php-fpm:
+        build:
+            context: ./api/docker
+            dockerfile: dev/php-fpm/Dockerfile
+        environment:
+            IDE_PROJECT_HOME: ${IDE_PROJECT_HOME:-}
+        volumes:
+            - ./api:/app
+            - socket_php:/var/run/php
+
+    api-php-cli:
+        build:
+            context: ./api/docker
+            dockerfile: dev/php-cli/Dockerfile
+        environment:
+            IDE_PROJECT_HOME: ${IDE_PROJECT_HOME:-}
+        volumes:
+            - ./api:/app
+
+volumes:
+    socket_php:
