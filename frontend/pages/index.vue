@@ -1,52 +1,21 @@
 <template>
-  <v-container>
-      <v-row justify="space-around">
-        <v-card width="400">
-          <v-img
-            height="300px"
-            src="https://images.pexels.com/photos/2404554/pexels-photo-2404554.jpeg?cs=srgb&dl=pexels-rizwan-malik-2404554.jpg&fm=jpg"
-          >
-            <v-app-bar
-              flat
-              color="rgba(0, 0, 0, 0)"
-            >
-              <v-app-bar-nav-icon color="white"></v-app-bar-nav-icon>
-
-              <v-toolbar-title class="title white--text pl-0">
-              </v-toolbar-title>
-
-              <v-spacer></v-spacer>
-
-              <v-btn
-                color="white"
-                icon
-              >
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </v-app-bar>
-
-            <v-card-title class="absolute bottom-0 white--text">
-              <p class="ml-3">
-                John Doe
-              </p>
-            </v-card-title>
-          </v-img>
-
-          <v-card-text>
-            <div class="font-weight-bold ml-8 mb-2">
-              <socialIconsBlock />
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-row>
+  <v-container class="py-12">
+        <h1 class="text-4xl text-center pb-6">
+          Электронная визитка myID
+        </h1>
+        <h2 class="text-xl text-center pb-4">
+          myID — это электронная визитка в которой можно указать ссылки на все свои соцсети и контакты.
+          Что позволит любому, кто прислонит телефон перейти в соц. сеть, позвонить, начать чат, открыть сайт,
+          поделиться плейлистом или портфолио и так далее. Так же можно просто сохранить контакт в записную книгу
+          телефона, нажав всего одну кнопку.
+        </h2>
+        <p class="text-md text-center">Работает на iPhone и Android с поддержкой NFC <a>&laquo;Список поддерживаемых устройств&raquo;</a></p>
   </v-container>
 </template>
 
 <script>
-import socialIconsBlock from '~/components/socialIconsBlock'
 export default {
   components: {
-    socialIconsBlock
   }
 }
 </script>
