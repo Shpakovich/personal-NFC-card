@@ -29,24 +29,26 @@
 <template>
   <v-app dark>
     <v-main>
-      <v-toolbar color="elevation-0">
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-toolbar-title class="m-auto p-0">myID</v-toolbar-title>
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </v-toolbar>
         <nuxt />
     </v-main>
   </v-app>
 </template>
 
 <style lang="scss">
+  @import "~/assets/styles/variables.scss";
 
+  .font-croc {
+    font-family: 'CrocWeb', sans-serif;
+  }
+  .font-gilroy {
+    font-family: 'Gilroy', sans-serif;
+  }
+
+  .theme--light.v-application {
+    color: $text-color-primary;
+  }
+
+  .text-color-secondary {
+    color: $text-color-secondary;
+  }
 </style>
