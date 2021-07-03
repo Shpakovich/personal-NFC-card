@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,10 +16,16 @@ class CardController extends AbstractController
 {
     /**
      * @Route(name="", methods={"POST"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function card(): Response
+    public function card(Request $request): Response
     {
+        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        if ($content['identity'] !== '69b0d264-518e-4889-9949-2fac14fefb61') {
+            throw new \DomainException('Card not found', 404);
+        }
+
         return $this->json(
             [
                 'id' => "69b0d264-518e-4889-9949-2fac14fefb61",
