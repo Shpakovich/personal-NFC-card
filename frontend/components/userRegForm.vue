@@ -10,7 +10,7 @@
       data: () => ({
         valid: true,
         userInfo: {
-          email: 'test@test.ru',
+          name: 'test@test.ru',
           password: 'test1',
           passwordConfirm: 'test1',
         },
@@ -37,7 +37,7 @@
   >
 
     <v-text-field
-      v-model="userInfo.email"
+      v-model="userInfo.name"
       :rules="emailRules"
       label="Email"
       required
