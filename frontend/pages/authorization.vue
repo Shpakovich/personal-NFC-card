@@ -11,7 +11,7 @@
     data: () => ({
       valid: true,
       userInfo: {
-        email: '',
+        user: '',
         password: ''
       },
       emailRules: [
@@ -23,13 +23,19 @@
       ]
     }),
 
+    computed:{
+      isAuth() {
+        return this.$auth.loggedIn;
+      }
+    },
+
     methods: {
       async loginUser (loginInfo) {
         try {
-          let response = await this.$auth.loginWith('local',{
+          await this.$auth.loginWith('local',{
             data: loginInfo
           });
-          console.log(response)
+          console.log('login ' + this.$auth.loggedIn);
         } catch (err) {
           console.log(err)
         }
@@ -62,6 +68,12 @@
       Назад
     </v-btn>
     <userAuthForm buttonText="Войти" :submitForm="loginUser" />
+    <p v-if="isAuth">
+      Вы Авторизованны
+    </p>
+    <p v-else>
+      Вы не авторизованны
+    </p>
   </v-container>
 </template>
 
