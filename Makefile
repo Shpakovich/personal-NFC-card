@@ -1,4 +1,4 @@
-init: docker-down-clear docker-pull docker-build docker-up
+init: docker-down-clear frontend-clear docker-pull docker-build docker-up frontend-init
 up: docker-up
 down: docker-down
 restart: down up
@@ -21,3 +21,15 @@ docker-build:
 docker-push-cache:
 	docker-compose push
 
+### Frontend
+
+frontend-init: frontend-install frontend-ready
+
+frontend-clear:
+	docker run --rm -v ${PWD}/frontend:/app -w /app alpine sh -c 'rm -rf .ready .nuxt'
+
+frontend-install:
+	docker-compose run --rm frontend-cli yarn install
+
+frontend-ready:
+	docker run --rm -v ${PWD}/frontend:/app -w /app alpine sh -c 'touch .ready'
