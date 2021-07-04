@@ -45,18 +45,28 @@ export default {
   auth: {
     strategies: {
       local: {
-        endpoints: {
-          login: { url: '/sessions', method: 'post', propertyName: 'token' },
-          logout: { url: '/sessions', method: 'delete' },
-          user: { url: '/sessions/user', method: 'get', propertyName: 'data.attributes' }
+        token: {
+          property: 'token',
+          global: true
         },
-        tokenType: ''
+        user: {
+          property: 'user'
+        },
+        endpoints: {
+          login: { url: '/api/auth/login', method: 'post' },
+          logout: { url: '/api/auth/logout', method: 'post' },
+          user: { url: '/api/auth/user', method: 'get' }
+        }
       }
     }
   },
 
+  serverMiddleware: {
+    '/api': '~/api'
+  },
+
   axios: {
-    baseURL: 'http://localhost:3000/api'
+    baseURL: 'http://localhost:3000'
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
