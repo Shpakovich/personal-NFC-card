@@ -43,7 +43,20 @@ export default {
     '@nuxtjs/auth-next'
   ],
   auth: {
-    // Options
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/sessions', method: 'post', propertyName: 'token' },
+          logout: { url: '/sessions', method: 'delete' },
+          user: { url: '/sessions/user', method: 'get', propertyName: 'data.attributes' }
+        },
+        tokenType: ''
+      }
+    }
+  },
+
+  axios: {
+    baseURL: 'http://localhost:3000/api'
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

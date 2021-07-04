@@ -28,6 +28,10 @@
       контакт в записную книгу
       телефона, нажав всего одну кнопку.
     </h2>
+    <v-row class="flex-row pb-10" style="gap: 5%;" v-if="$auth.loggedIn">
+      Your auth
+      {{ $auth.user.email }}
+    </v-row>
     <v-row class="flex-row pb-10" style="gap: 5%;" >
       <v-btn
         class="rounded-lg flex-initial"
@@ -36,6 +40,7 @@
         min-width="150px"
         height="48"
         color="primary"
+        to="/registration"
       >
         Регистрация
       </v-btn>
@@ -46,6 +51,7 @@
         min-width="45px"
         height="48"
         color="secondary"
+        to="/authorization"
         icon
       >
         Войти
