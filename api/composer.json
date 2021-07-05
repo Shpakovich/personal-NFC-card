@@ -23,7 +23,8 @@
     },
     "require-dev": {
         "overtrue/phplint": "^3.0",
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "squizlabs/php_codesniffer": "^3.6"
     },
     "config": {
         "optimize-autoloader": true,
@@ -49,6 +50,7 @@
     },
     "scripts": {
         "lint": "phplint",
+        "phpcs": "phpcs -s",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
