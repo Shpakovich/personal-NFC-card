@@ -4,6 +4,8 @@ down: docker-down
 restart: down up
 check: api-lint api-phpcs api-psalm
 
+### Docker
+
 docker-up:
 	docker-compose up -d
 
