@@ -16,13 +16,12 @@ RUN apk update \
         bash \
         git \
         postgresql-dev \
-    && pecl install \
-        xdebug-$XDEBUG_VER \
-    && docker-php-ext-enable \
-        xdebug \
+    && git clone --branch $XDEBUG_VER --depth 1 https://github.com/xdebug/xdebug.git /usr/src/php/ext/xdebug \
+    && docker-php-ext-configure xdebug --enable-xdebug-dev \
     && docker-php-ext-install \
         intl \
         pdo_pgsql \
+        xdebug \
     && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf \
