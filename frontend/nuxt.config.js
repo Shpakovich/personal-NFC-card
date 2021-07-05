@@ -43,13 +43,13 @@ export default {
     '@nuxtjs/auth-next'
   ],
   auth: {
-    plugins: ['~/plugins/auth.js'],
+    rewriteRedirects: true, // почему-то не работает
+    plugins: ['~/plugins/auth.js'], // временное решение по редиректу
     redirect: {
       login: '/authorization',
       logout: '/authorization',
       home: '/'
     },
-    rewriteRedirects: true,
     strategies: {
       local: {
         token: {

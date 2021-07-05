@@ -25,7 +25,7 @@
 
     mounted() {
       if(this.$auth.loggedIn) {
-        window.location.href = "/profile/businessСard";
+        window.location.href = "/profile/businessСard"; // router не работает
       }
     },
 
