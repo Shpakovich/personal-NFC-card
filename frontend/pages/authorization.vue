@@ -25,7 +25,8 @@
 
     mounted() {
       if(this.$auth.loggedIn) {
-        window.location.href = "/profile/businessСard"; // router не работает
+        // const cookieRes = this.$cookies.get('auth.redirect');
+        // window.location.href = cookieRes; // router не работает
       }
     },
 

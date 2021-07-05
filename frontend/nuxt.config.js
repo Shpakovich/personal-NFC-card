@@ -40,11 +40,12 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    'cookie-universal-nuxt'
   ],
   auth: {
-    rewriteRedirects: true, // почему-то не работает
-    plugins: ['~/plugins/auth.js'], // временное решение по редиректу
+    rewriteRedirects: true, // работает только с cookie-universal-nuxt
+    plugins: ['~/plugins/auth.js'], //почему то работает с обратным редиректом
     redirect: {
       login: '/authorization',
       logout: '/authorization',
