@@ -1,7 +1,8 @@
 <script>
   import socialIconsBlock from '~/components/socialIconsBlock'
     export default {
-        name: "businessСard",
+      name: "businessСard",
+      layout: "profile",
 
       components: {
         socialIconsBlock

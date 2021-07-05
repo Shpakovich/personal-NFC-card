@@ -20,11 +20,15 @@ app.use(
 
 
 router.post("/auth/login", jsonParser, async (req, res) => {
-  jsonwebtoken.sign({ user: req.body.user }, "secret", function(err, token) {
-    res.json({
-      token: token, user: req.body.user
+  jsonwebtoken.sign(
+    { user: req.body.user },
+    "secret",
+    { expiresIn: "1h" },
+    function(err, token) {
+      res.json({
+        token: token, user: req.body.user
+      });
     });
-  });
 });
 
 router.get("/auth/user", async (req, res) => {

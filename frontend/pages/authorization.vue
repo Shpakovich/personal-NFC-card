@@ -23,9 +23,9 @@
       ]
     }),
 
-    computed:{
-      isAuth() {
-        return this.$auth.loggedIn;
+    mounted() {
+      if(this.$auth.loggedIn) {
+        window.location.href = "/profile/businessСard";
       }
     },
 
@@ -35,7 +35,6 @@
           await this.$auth.loginWith('local',{
             data: loginInfo
           });
-          console.log('login ' + this.$auth.loggedIn);
         } catch (err) {
           console.log(err)
         }
@@ -68,12 +67,6 @@
       Назад
     </v-btn>
     <userAuthForm buttonText="Войти" :submitForm="loginUser" />
-    <p v-if="isAuth">
-      Вы Авторизованны
-    </p>
-    <p v-else>
-      Вы не авторизованны
-    </p>
   </v-container>
 </template>
 

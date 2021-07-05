@@ -43,6 +43,13 @@ export default {
     '@nuxtjs/auth-next'
   ],
   auth: {
+    plugins: ['~/plugins/auth.js'],
+    redirect: {
+      login: '/authorization',
+      logout: '/authorization',
+      home: '/'
+    },
+    rewriteRedirects: true,
     strategies: {
       local: {
         token: {
@@ -55,7 +62,7 @@ export default {
         endpoints: {
           login: { url: '/api/auth/login', method: 'post' },
           logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/api/auth/user', method: 'get' }
+          user: { url: '/api/auth/user', method: 'get', propertyName: false }
         }
       }
     }
