@@ -21,7 +21,10 @@ class CardController extends AbstractController
      */
     public function card(Request $request): Response
     {
-        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        /** @var string $content */
+        $content = $request->getContent();
+        /** @var array{identity: string} */
+        $content = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if ($content['identity'] !== '69b0d264-518e-4889-9949-2fac14fefb61') {
             throw new \DomainException('Card not found', 404);
         }

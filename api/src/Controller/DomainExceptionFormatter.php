@@ -26,13 +26,16 @@ class DomainExceptionFormatter implements EventSubscriberInterface
             return;
         }
 
+        /** @var int $code */
+        $code = $error->getCode();
+
         $event->setResponse(
             new JsonResponse([
                 'error' => [
-                    'code' => $error->getCode(),
+                    'code' => $code,
                     'message' => $error->getMessage(),
                 ]
-            ], $error->getCode())
+            ], $code)
         );
     }
 }
