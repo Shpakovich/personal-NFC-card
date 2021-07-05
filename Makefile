@@ -2,7 +2,7 @@ init: docker-down-clear frontend-clear docker-pull docker-build docker-up fronte
 up: docker-up
 down: docker-down
 restart: down up
-check: api-lint api-phpcs
+check: api-lint api-phpcs api-psalm
 
 docker-up:
 	docker-compose up -d
@@ -29,6 +29,9 @@ api-lint:
 
 api-phpcs:
 	docker-compose run --rm api-php-cli composer phpcs
+
+api-psalm:
+	docker-compose run --rm api-php-cli composer psalm
 
 ### Frontend
 
