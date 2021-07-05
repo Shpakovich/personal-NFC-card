@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+    gateway:
+        build:
+            context: ./gateway/docker/dev/nginx
+        ports:
+            - 8080:8080
+            - 8081:8081
+        depends_on:
+            - frontend
+            - api
+
+    frontend:
+        image: node:16-alpine
+        working_dir: /app
+        volumes:
+            - ./frontend:/app
+        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && yarn dev"
+        tty: true
+
+    frontend-cli:
+        image: node:16-alpine
+        working_dir: /app
+        volumes:
+            - ./frontend:/app
+
+    api:
+        build:
+            context: ./api/docker/dev/nginx
+        volumes:
+            - ./api:/app
+            - socket_php:/var/run/php
+        depends_on:
+            - api-php-fpm
+
+    api-php-fpm:
+        build:
+            context: ./api/docker
+            dockerfile: dev/php-fpm/Dockerfile
+        environment:
+            IDE_PROJECT_HOME: ${IDE_PROJECT_HOME:-}
+        volumes:
+            - ./api:/app
+            - socket_php:/var/run/php
+
+    api-php-cli:
+        build:
+            context: ./api/docker
+            dockerfile: dev/php-cli/Dockerfile
+        environment:
+            IDE_PROJECT_HOME: ${IDE_PROJECT_HOME:-}
+        volumes:
+            - ./api:/app
+
+volumes:
+    socket_php:
