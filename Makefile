@@ -2,6 +2,7 @@ init: docker-down-clear frontend-clear docker-pull docker-build docker-up fronte
 up: docker-up
 down: docker-down
 restart: down up
+check: api-lint
 
 docker-up:
 	docker-compose up -d
@@ -20,6 +21,11 @@ docker-build:
 
 docker-push-cache:
 	docker-compose push
+
+### API
+
+api-lint:
+	docker-compose run --rm api-php-cli composer lint
 
 ### Frontend
 

@@ -22,6 +22,7 @@
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
+        "overtrue/phplint": "^3.0",
         "roave/security-advisories": "dev-latest"
     },
     "config": {
@@ -47,6 +48,7 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
+        "lint": "phplint",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
