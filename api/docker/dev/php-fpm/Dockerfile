@@ -9,10 +9,7 @@ COPY ./dev/php-fpm/config/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 RUN apk update \
     && apk --no-cache add \
-        autoconf \
         unzip \
-        g++ \
-        make \
         bash \
         git \
         postgresql-dev \
@@ -22,7 +19,8 @@ RUN apk update \
         intl \
         pdo_pgsql \
         xdebug \
-    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
+    && apk del git
 
 RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf \
     && docker-php-source delete \

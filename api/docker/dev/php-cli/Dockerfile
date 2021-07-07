@@ -7,10 +7,7 @@ COPY ./dev/php/conf.d /usr/local/etc/php/conf.d
 
 RUN apk update \
     && apk --no-cache add \
-        autoconf \
         unzip \
-        g++ \
-        make \
         bash \
         git \
         postgresql-dev \
@@ -20,7 +17,8 @@ RUN apk update \
         intl \
         pdo_pgsql \
         xdebug \
-    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
+    && apk del git
 
 # Install Composer
 RUN wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer --quiet \
