@@ -53,5 +53,17 @@ services:
         volumes:
             - ./api:/app
 
+    db:
+        image: postgres:13.3-alpine
+        ports:
+            - 54321:5432
+        volumes:
+            - db:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: dev
+            POSTGRES_USER: dev
+            POSTGRES_PASSWORD: dev
+
 volumes:
     socket_php:
+    db:
