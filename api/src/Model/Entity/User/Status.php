@@ -54,4 +54,9 @@ class Status
     {
         return $this->value === self::BLOCK;
     }
+
+    public function getValue(): int
+    {
+        return $this->value;
+    }
 }

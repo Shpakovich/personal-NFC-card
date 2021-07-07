@@ -4,15 +4,58 @@ declare(strict_types=1);
 
 namespace App\Model\Entity\User;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="users")
+ */
 class User
 {
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="user_id")
+     */
     private Id $id;
+
+    /**
+     * @ORM\Column(type="user_email", length=64)
+     */
     private Email $email;
-    private ?ConfirmEmail $confirmEmail = null;
+
+    /**
+     * @ORM\Embedded(class="Token")
+     */
+    private ?Token $confirmToken = null;
+
+    /**
+     * @ORM\Embedded(class="Token")
+     */
+    private ?Token $resetToken = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private string $passwordHash;
+
+    /**
+     * @ORM\Column(type="user_status")
+     */
     private Status $status;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
     private \DateTimeImmutable $createdAt;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
     private \DateTimeImmutable $updatedAt;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable", nullable=true)
+     */
     private ?\DateTimeImmutable $lastAuthAt = null;
 
     public function __construct(
@@ -43,14 +86,26 @@ class User
         return $this->email;
     }
 
-    public function getConfirmEmail(): ?ConfirmEmail
+    public function getConfirmToken(): ?Token
     {
-        return $this->confirmEmail;
+        return $this->confirmToken;
     }
 
-    public function setConfirmEmail(?ConfirmEmail $confirmEmail): void
+    public function setConfirmToken(Token $confirmToken): User
     {
-        $this->confirmEmail = $confirmEmail;
+        $this->confirmToken = $confirmToken;
+        return $this;
+    }
+
+    public function getResetToken(): ?Token
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(Token $resetToken): User
+    {
+        $this->resetToken = $resetToken;
+        return $this;
     }
 
     public function getPasswordHash(): string
@@ -58,9 +113,10 @@ class User
         return $this->passwordHash;
     }
 
-    public function setPasswordHash(string $passwordHash): void
+    public function setPasswordHash(string $passwordHash): User
     {
         $this->passwordHash = $passwordHash;
+        return $this;
     }
 
     public function getStatus(): Status
@@ -68,9 +124,10 @@ class User
         return $this->status;
     }
 
-    public function setStatus(Status $status): void
+    public function setStatus(Status $status): User
     {
         $this->status = $status;
+        return $this;
     }
 
     public function getCreatedAt(): \DateTimeImmutable
@@ -83,9 +140,10 @@ class User
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): User
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 
     public function getLastAuthAt(): ?\DateTimeImmutable
@@ -93,8 +151,9 @@ class User
         return $this->lastAuthAt;
     }
 
-    public function setLastAuthAt(\DateTimeImmutable $lastAuthAt): void
+    public function setLastAuthAt(\DateTimeImmutable $lastAuthAt): User
     {
         $this->lastAuthAt = $lastAuthAt;
+        return $this;
     }
 }
