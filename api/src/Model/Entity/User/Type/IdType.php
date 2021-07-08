@@ -25,7 +25,7 @@ class IdType extends GuidType
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
      * @return mixed
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         return $value instanceof Id ? $value->getValue() : $value;
     }
@@ -37,7 +37,7 @@ class IdType extends GuidType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Id
     {
-        return !empty($value) ? new Id($value) : null;
+        return !empty($value) ? new Id((string)$value) : null;
     }
 
     /**

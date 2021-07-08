@@ -21,11 +21,11 @@ class EmailType extends StringType
     }
 
     /**
-     * @param \App\Model\Entity\User\Email|string $value
+     * @param mixed $value
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
      * @return mixed
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         return $value instanceof Email ? $value->getValue() : $value;
     }
@@ -37,7 +37,7 @@ class EmailType extends StringType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Email
     {
-        return !empty($value) ? new Email($value) : null;
+        return !empty($value) ? new Email((string)$value) : null;
     }
 
     /**

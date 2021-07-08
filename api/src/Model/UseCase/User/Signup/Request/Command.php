@@ -13,11 +13,11 @@ class Command
      * @Assert\Length(max=64)
      * @Assert\Email(mode="html5")
      */
-    public string $email;
+    public string $email = '';
 
     /**
      * @Assert\NotBlank()
      * @Assert\Length(min=5)
      */
-    public string $password;
+    public string $password = '';
 }

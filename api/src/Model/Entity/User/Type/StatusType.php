@@ -21,11 +21,11 @@ class StatusType extends SmallIntType
     }
 
     /**
-     * @param \App\Model\Entity\User\Status|string $value
+     * @param mixed $value
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
      * @return mixed
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         return $value instanceof Status ? $value->getValue() : $value;
     }
@@ -37,7 +37,7 @@ class StatusType extends SmallIntType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Status
     {
-        return !empty($value) ? new Status($value) : null;
+        return !empty($value) ? new Status((int)$value) : null;
     }
 
     /**

@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/auth", name="auth")
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class AuthController extends AbstractController
 {
