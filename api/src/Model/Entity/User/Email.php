@@ -13,7 +13,7 @@ class Email
     public function __construct(string $value)
     {
         Assert::email($value);
-        $this->value = $value;
+        $this->value = strtolower($value);
     }
 
     public function getValue(): string
