@@ -7,9 +7,11 @@ services:
         ports:
             - 8080:8080
             - 8081:8081
+            - 8082:8082
         depends_on:
             - frontend
             - api
+            - mailer
 
     frontend:
         image: node:16-alpine
@@ -63,6 +65,9 @@ services:
             POSTGRES_DB: dev
             POSTGRES_USER: dev
             POSTGRES_PASSWORD: dev
+
+    mailer:
+        image: mailhog/mailhog
 
 volumes:
     socket_php:
