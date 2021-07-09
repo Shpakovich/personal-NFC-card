@@ -27,6 +27,9 @@
         confirmPasswordRules: [
           v => !!v || 'Подтвердите пароль',
         ],
+        checkboxRules: [
+          v => !!v || 'Посмотрите политику конфиденциальности',
+        ],
         checkbox: false
       }),
 
@@ -42,19 +45,22 @@
 <template>
   <v-form
     ref="form"
+    class="flex flex-col"
     v-model="valid"
-    lazy-validation
   >
 
     <v-text-field
+      class="font-croc"
       v-model="userInfo.name"
       :rules="emailRules"
       label="Email"
       required
+      outlined
       placeholder="Ваш email"
     ></v-text-field>
 
     <v-text-field
+      class="font-croc"
       v-model="userInfo.password"
       :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="passwordRules"
@@ -63,11 +69,13 @@
       label="Пароль"
       placeholder="Ваш пароль"
       hint="Пароль недёжный, наверное"
+      outlined
       counter
       @click:append="showPassword = !showPassword"
     ></v-text-field>
 
     <v-text-field
+      class="font-croc"
       v-model="userInfo.confirmPassword"
       :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="confirmPasswordRules.concat(passwordConfirmationRule)"
@@ -76,19 +84,21 @@
       label="Повторите пароль"
       placeholder="Ваш пароль"
       counter
+      outlined
       @click:append="showConfirm = !showConfirm"
     ></v-text-field>
-
-    <v-checkbox
-      v-model="checkbox"
-      label="Я согласен(а) на обработку персональных данных и соглашаюсь с политикой конфиденциальности"
-      required
-    ></v-checkbox>
+    <div class="flex flex-row">
+      <input v-model="checkbox" :rules="checkboxRules" class="ml-4 font-croc" type="checkbox" id="privacy" name="privacy">
+      <label for="privacy">Я согласен(а) на обработку персональных данных и соглашаюсь с политикой конфиденциальности</label>
+    </div>
 
     <v-btn
       :disabled="!valid"
       color="primary"
-      class="mr-4"
+      class="rounded-lg flex-initial m-auto w-8/12"
+      max-width="225px"
+      min-width="150px"
+      height="48"
       @click="regForm(userInfo)"
     >
       {{ buttonText }}
@@ -96,6 +106,15 @@
   </v-form>
 </template>
 
-<style scoped>
+<style lang="scss">
+
+  .v-input__slot {
+    min-height: 50px!important;
+  }
+
+  .v-text-field input{
+    padding: 12px 0 0px!important;
+  }
+
 
 </style>

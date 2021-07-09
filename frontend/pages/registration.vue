@@ -46,8 +46,7 @@
     />
     <v-btn
       icon
-      class="rounded-lg flex-initial"
-      style="width: 28%"
+      class="rounded-lg flex-initial font-bold w-4/12 mb-6 ml-1.5 btn-back"
       max-width="81px"
       min-width="45px"
       height="48"
@@ -64,6 +63,9 @@
   </v-container>
 </template>
 
-<style scoped>
+<style lang="scss">
 
+  .btn-back {
+    justify-content: normal!important;
+  }
 </style>
