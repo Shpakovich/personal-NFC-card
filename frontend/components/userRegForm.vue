@@ -8,24 +8,34 @@
       ],
 
       data: () => ({
-        valid: true,
+        showPassword: false,
+        showConfirm: false,
+        valid: false,
         userInfo: {
-          name: 'test@test.ru',
-          password: 'test1',
-          passwordConfirm: 'test1',
+          name: '',
+          password: '',
+          confirmPassword: '',
         },
         emailRules: [
           v => !!v || 'E-mail обязательное поле',
           v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
         ],
         passwordRules: [
-          v => !!v || 'Пароль обязательное поле'
+          v => !!v || 'Пароль обязательное поле',
+          v => v.length >= 5 || 'Минимальная длинна 5'
         ],
-        passwordConfirmRules: [
-          v => !!v || 'Пароль обязательное поле'
+        confirmPasswordRules: [
+          v => !!v || 'Подтвердите пароль',
         ],
         checkbox: false
-      })
+      }),
+
+      computed: {
+        passwordConfirmationRule() {
+          return () =>
+            this.userInfo.password === this.userInfo.confirmPassword || "Пароли не совпадают";
+        }
+      }
     }
 </script>
 
@@ -46,18 +56,27 @@
 
     <v-text-field
       v-model="userInfo.password"
+      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="passwordRules"
+      :type="showPassword ? 'text' : 'password'"
+      name="password"
       label="Пароль"
-      required
       placeholder="Ваш пароль"
+      hint="Пароль недёжный, наверное"
+      counter
+      @click:append="showPassword = !showPassword"
     ></v-text-field>
 
     <v-text-field
-      v-model="userInfo.passwordConfirm"
-      :rules="passwordConfirmRules"
+      v-model="userInfo.confirmPassword"
+      :append-icon="showConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+      :rules="confirmPasswordRules.concat(passwordConfirmationRule)"
+      :type="showConfirm ? 'text' : 'password'"
+      name="password"
       label="Повторите пароль"
-      required
       placeholder="Ваш пароль"
+      counter
+      @click:append="showConfirm = !showConfirm"
     ></v-text-field>
 
     <v-checkbox

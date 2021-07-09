@@ -8,14 +8,27 @@
       userRegForm
     },
 
+    data: () => ({
+      valid: true,
+      userInfo: {
+        user: '',
+        password: ''
+      },
+      emailRules: [
+        v => !!v || 'E-mail обязательное поле',
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      ],
+      passwordRules: [
+        v => !!v || 'Пароль обязательное поле'
+      ]
+    }),
+
     methods: {
       async regUser (regInfo) {
-        await this.$axios.post('/users', regInfo);
         try {
-          let response = await this.$auth.loginWith('local',{
+          await this.$auth.loginWith('local',{
             data: regInfo
           });
-          console.log(response)
         } catch (err) {
           console.log(err)
         }
@@ -42,8 +55,8 @@
       to="/"
     >
       <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10.6925 16.4502H22.2075" stroke="#FFA436" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M16.45 10.6924L22.2075 16.4499L16.45 22.2074" stroke="#FFA436" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22.2075 16.45H10.6925" stroke="#FFA436" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16.45 10.6924L10.6925 16.4499L16.45 22.2074" stroke="#FFA436" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       Назад
     </v-btn>
