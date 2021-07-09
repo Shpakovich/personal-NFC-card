@@ -38,6 +38,8 @@ final class Version20210707193455 extends AbstractMigration
         );
 
         $this->addSql('CREATE UNIQUE INDEX users_email_uidx ON users (lower(email))');
+        $this->addSql('CREATE UNIQUE INDEX users_confirm_token_value_uidx ON users (confirm_token_value)');
+        $this->addSql('CREATE UNIQUE INDEX users_reset_token_value_uidx ON users (reset_token_value)');
         $this->addSql('CREATE INDEX users_status_idx ON users (status)');
 
         $this->addSql('COMMENT ON COLUMN users.id IS \'(DC2Type:user_id)\'');
