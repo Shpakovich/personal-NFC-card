@@ -23,7 +23,7 @@ router.post("/auth/login", jsonParser, async (req, res) => {
   jsonwebtoken.sign(
     { user: req.body.user },
     "secret",
-    { expiresIn: "1h" },
+    { expiresIn: "55m" },
     function(err, token) {
       res.json({
         token: token, user: req.body.user
