@@ -10,8 +10,8 @@ use App\Model\Entity\User\User;
 use App\Model\Flusher;
 use App\Model\Repository\UserRepository;
 use App\Model\Service\Auth\ConfirmTokenMailSender;
-use App\Model\Service\PasswordHasher;
-use App\Model\Service\Tokenizer;
+use App\Model\Service\Auth\PasswordHasher;
+use App\Model\Service\Auth\Tokenizer;
 
 class Handler
 {
