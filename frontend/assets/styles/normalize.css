@@ -1,6 +1,7 @@
 .v-btn {
   outline: none!important;
   text-transform: none!important;
+  font-family: 'CrocWeb', sans-serif;
 }
 
 .row {
