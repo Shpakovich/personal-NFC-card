@@ -1,4 +1,4 @@
-init: docker-down-clear frontend-clear docker-pull docker-build docker-up frontend-init
+init: docker-down-clear frontend-clear docker-pull docker-build docker-up api-init frontend-init
 up: docker-up
 down: docker-down
 restart: down up
@@ -34,6 +34,14 @@ api-phpcs:
 
 api-psalm:
 	docker-compose run --rm api-php-cli composer psalm
+
+api-init: api-composer-install api-migration-migrate
+
+api-composer-install:
+	docker-compose run --rm api-php-cli composer install
+
+api-migration-migrate:
+	docker-compose run --rm api-php-cli bin/console doctrine:migrations:migrate --no-interaction
 
 ### Frontend
 
