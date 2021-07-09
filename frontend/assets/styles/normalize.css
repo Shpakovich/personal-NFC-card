@@ -4,6 +4,10 @@
   font-family: 'CrocWeb', sans-serif;
 }
 
+.font-bold {
+  font-weight: 700!important;
+}
+
 .row {
   margin: 0!important;
 }
