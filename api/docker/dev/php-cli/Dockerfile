@@ -7,21 +7,18 @@ COPY ./dev/php/conf.d /usr/local/etc/php/conf.d
 
 RUN apk update \
     && apk --no-cache add \
-        autoconf \
         unzip \
-        g++ \
-        make \
         bash \
         git \
         postgresql-dev \
-    && pecl install \
-        xdebug-$XDEBUG_VER \
-    && docker-php-ext-enable \
-        xdebug \
+    && git clone --branch $XDEBUG_VER --depth 1 https://github.com/xdebug/xdebug.git /usr/src/php/ext/xdebug \
+    && docker-php-ext-configure xdebug --enable-xdebug-dev \
     && docker-php-ext-install \
         intl \
         pdo_pgsql \
-    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+        xdebug \
+    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
+    && apk del git
 
 # Install Composer
 RUN wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer --quiet \

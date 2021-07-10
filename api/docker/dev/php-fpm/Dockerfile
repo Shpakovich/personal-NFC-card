@@ -9,21 +9,18 @@ COPY ./dev/php-fpm/config/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 RUN apk update \
     && apk --no-cache add \
-        autoconf \
         unzip \
-        g++ \
-        make \
         bash \
         git \
         postgresql-dev \
-    && pecl install \
-        xdebug-$XDEBUG_VER \
-    && docker-php-ext-enable \
-        xdebug \
+    && git clone --branch $XDEBUG_VER --depth 1 https://github.com/xdebug/xdebug.git /usr/src/php/ext/xdebug \
+    && docker-php-ext-configure xdebug --enable-xdebug-dev \
     && docker-php-ext-install \
         intl \
         pdo_pgsql \
-    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+        xdebug \
+    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
+    && apk del git
 
 RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf \
     && docker-php-source delete \
