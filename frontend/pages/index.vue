@@ -28,7 +28,7 @@
       контакт в записную книгу
       телефона, нажав всего одну кнопку.
     </h2>
-    <v-row class="flex-row pb-10" style="gap: 5%;" >
+    <v-row class="flex-row pb-10" >
       <v-btn
         class="rounded-lg flex-initial w-8/12"
         max-width="225px"
@@ -40,8 +40,7 @@
         Регистрация
       </v-btn>
       <v-btn
-        class="rounded-lg flex-initial font-bold"
-        style="width: 28%"
+        class="rounded-lg flex-initial flex font-bold ml-6"
         max-width="81px"
         min-width="45px"
         height="48"
