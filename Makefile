@@ -52,7 +52,7 @@ api-oauth-schema:
 	docker-compose run --rm api-php-cli bin/console doctrine:schema:update --force
 
 api-oauth-client:
-	docker-compose run --rm api-php-cli bin/console trikoder:oauth2:create-client --public --grant-type password frontend
+	docker-compose run --rm api-php-cli bin/console trikoder:oauth2:create-client --public --grant-type password --grant-type refresh_token frontend
 
 api-oauth-keys:
 	docker-compose run --rm api-php-cli mkdir -p var/oauth
