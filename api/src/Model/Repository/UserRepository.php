@@ -12,15 +12,14 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository
 {
     private EntityManagerInterface $em;
+
+    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\User\User> */
     private EntityRepository $repo;
 
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-
-        /** @var EntityRepository $repo */
-        $repo = $em->getRepository(User::class);
-        $this->repo = $repo;
+        $this->repo = $em->getRepository(User::class);
     }
 
     public function add(User $user): void
