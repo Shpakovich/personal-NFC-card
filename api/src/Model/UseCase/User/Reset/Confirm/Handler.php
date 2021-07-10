@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Model\UseCase\User\Reset\Confirm;
+
+use App\Model\Flusher;
+use App\Model\Repository\UserRepository;
+use App\Model\Service\Auth\PasswordHasher;
+
+class Handler
+{
+    private UserRepository $users;
+    private PasswordHasher $hasher;
+    private Flusher $flusher;
+
+    public function __construct(
+        UserRepository $users,
+        PasswordHasher $hasher,
+        Flusher $flusher
+    ) {
+        $this->users = $users;
+        $this->hasher = $hasher;
+        $this->flusher = $flusher;
+    }
+
+    public function handle(Command $command): void
+    {
+        $user = $this->users->findByResetToken($command->token);
+        if ($user === null) {
+            throw new \DomainException('Reset token not found.');
+        }
+
+        if ($user->getStatus()->isBlock()) {
+            throw new \DomainException('User is blocked.');
+        }
+
+        /** @var \App\Model\Entity\User\Token $token */
+        $token = $user->getResetToken();
+        if ($token->isExpired(new \DateTimeImmutable())) {
+            throw new \DomainException('Reset token expired.');
+        }
+
+        $user->setPasswordHash($this->hasher->hash($command->password));
+        $this->flusher->flush();
+    }
+}

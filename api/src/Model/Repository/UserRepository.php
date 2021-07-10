@@ -19,6 +19,7 @@ class UserRepository
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
+        /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
         $this->repo = $em->getRepository(User::class);
     }
 
@@ -39,5 +40,15 @@ class UserRepository
     public function findByConfirmToken(string $token): ?User
     {
         return $this->repo->findOneBy(['confirmToken.value' => $token]);
+    }
+
+    public function findByResetToken(string $token): ?User
+    {
+        return $this->repo->findOneBy(['resetToken.value' => $token]);
+    }
+
+    public function findByEmail(Email $email): ?User
+    {
+        return $this->repo->findOneBy(['email' => $email]);
     }
 }
