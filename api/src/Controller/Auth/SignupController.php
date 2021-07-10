@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Auth;
 
 use App\Model\UseCase\User\Signup;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * @Route("/auth", name="auth")
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class AuthController extends AbstractController
+class SignupController extends AbstractController
 {
     private SerializerInterface $serializer;
     private ValidatorInterface $validator;
