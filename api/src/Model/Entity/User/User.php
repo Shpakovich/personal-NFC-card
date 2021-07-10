@@ -84,7 +84,7 @@ class User
         $this->status = Status::wait();
     }
 
-    public function confirm(): void
+    public function confirm(\DateTimeImmutable $data): void
     {
         if (!$this->status->isWait()) {
             throw new \DomainException('User already is active.');
@@ -92,6 +92,7 @@ class User
 
         $this->status = Status::active();
         $this->confirmToken = null;
+        $this->updatedAt = $data;
     }
 
     /**

@@ -35,13 +35,17 @@ class Handler
             throw new \DomainException('User is blocked.');
         }
 
+        $now = new \DateTimeImmutable();
         /** @var \App\Model\Entity\User\Token $token */
         $token = $user->getResetToken();
-        if ($token->isExpired(new \DateTimeImmutable())) {
+        if ($token->isExpired($now)) {
             throw new \DomainException('Reset token expired.');
         }
 
-        $user->setPasswordHash($this->hasher->hash($command->password));
+        $user
+            ->setPasswordHash($this->hasher->hash($command->password))
+            ->setUpdatedAt($now);
+
         $this->flusher->flush();
     }
 }

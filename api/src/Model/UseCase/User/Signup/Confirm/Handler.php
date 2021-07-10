@@ -27,13 +27,14 @@ class Handler
             throw new \DomainException('Confirm token not found.');
         }
 
+        $now = new \DateTimeImmutable();
         /** @var \App\Model\Entity\User\Token $token */
         $token = $user->getConfirmToken();
-        if ($token->isExpired(new \DateTimeImmutable())) {
+        if ($token->isExpired($now)) {
             throw new \DomainException('Confirm token expired.');
         }
 
-        $user->confirm();
+        $user->confirm($now);
         $this->flusher->flush();
     }
 }
