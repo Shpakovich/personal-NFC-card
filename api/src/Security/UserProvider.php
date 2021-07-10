@@ -6,10 +6,10 @@ namespace App\Security;
 
 use App\Model\Entity\User\Email;
 use App\Model\Repository\UserRepository;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-
 
 class UserProvider implements UserProviderInterface
 {
@@ -30,8 +30,13 @@ class UserProvider implements UserProviderInterface
         return new UserIdentity($user->getEmail()->getValue(), $user->getPasswordHash());
     }
 
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface
     {
+        if (!$user instanceof UserIdentity) {
+            throw new UnsupportedUserException('Wrong user identity class: ' . get_class($user));
+        }
+
+        return $user;
     }
 
     public function supportsClass(string $class): bool
@@ -42,7 +47,8 @@ class UserProvider implements UserProviderInterface
     /**
      * @deprecated
      */
-    public function loadUserByUsername(string $username)
+    public function loadUserByUsername(string $username): UserInterface
     {
+        return $this->loadUserByIdentifier($username);
     }
 }

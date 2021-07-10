@@ -21,13 +21,13 @@ class UserResolveListener
 
     public function onUserResolve(UserResolveEvent $event): void
     {
-        /** @var \App\Security\UserIdentity $user */
+        /** @var null|\App\Security\UserIdentity $user */
         $user = $this->userProvider->loadUserByIdentifier($event->getUsername());
         if (null === $user) {
             return;
         }
 
-        if (!$this->passwordHasher->verify($user->getPassword(), $event->getPassword())) {
+        if (!$this->passwordHasher->verify((string)$user->getPassword(), $event->getPassword())) {
             return;
         }
 
