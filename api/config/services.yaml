@@ -25,9 +25,11 @@ services:
         resource: '../src/Controller/'
         tags: [ 'controller.service_arguments' ]
 
+    Symfony\Component\PasswordHasher\PasswordHasherInterface:
+        class: Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher
+        arguments:
+            $algorithm: argon2i
+
     App\Security\OAuth\UserResolveListener:
-#        arguments:
-#            - '@app.repository.user_repository'
-#            - '@security.password_hasher'
         tags:
             - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }

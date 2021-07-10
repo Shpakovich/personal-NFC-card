@@ -10,20 +10,20 @@ use App\Model\Entity\User\User;
 use App\Model\Flusher;
 use App\Model\Repository\UserRepository;
 use App\Model\Service\Auth\ConfirmTokenMailSender;
-use App\Model\Service\Auth\PasswordHasher;
 use App\Model\Service\Auth\Tokenizer;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class Handler
 {
     private UserRepository $users;
-    private PasswordHasher $hasher;
+    private PasswordHasherInterface $hasher;
     private Tokenizer $tokenizer;
     private ConfirmTokenMailSender $sender;
     private Flusher $flusher;
 
     public function __construct(
         UserRepository $users,
-        PasswordHasher $hasher,
+        PasswordHasherInterface $hasher,
         Tokenizer $tokenizer,
         ConfirmTokenMailSender $sender,
         Flusher $flusher

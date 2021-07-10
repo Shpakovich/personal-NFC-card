@@ -4,7 +4,7 @@ security:
 
     password_hashers:
         App\Security\UserIdentity:
-            algorithm: auto
+            algorithm: native
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:

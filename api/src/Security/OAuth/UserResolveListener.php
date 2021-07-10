@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Security\OAuth;
 
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Trikoder\Bundle\OAuth2Bundle\Event\UserResolveEvent;
 
 class UserResolveListener
 {
     private UserProviderInterface $userProvider;
-    private UserPasswordHasherInterface $userPasswordHasher;
+    private PasswordHasherInterface $passwordHasher;
 
-    public function __construct(UserProviderInterface $userProvider, UserPasswordHasherInterface $userPasswordHasher)
+    public function __construct(UserProviderInterface $userProvider, PasswordHasherInterface $passwordHasher)
     {
         $this->userProvider = $userProvider;
-        $this->userPasswordHasher = $userPasswordHasher;
+        $this->passwordHasher = $passwordHasher;
     }
 
     public function onUserResolve(UserResolveEvent $event): void
@@ -27,7 +27,7 @@ class UserResolveListener
             return;
         }
 
-        if (!$this->userPasswordHasher->isPasswordValid($user, $event->getPassword())) {
+        if (!$this->passwordHasher->verify($user->getPassword(), $event->getPassword())) {
             return;
         }
 
