@@ -37,7 +37,7 @@ class StatusType extends SmallIntType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Status
     {
-        return !empty($value) ? new Status((int)$value) : null;
+        return is_int($value) ? new Status($value) : null;
     }
 
     /**
