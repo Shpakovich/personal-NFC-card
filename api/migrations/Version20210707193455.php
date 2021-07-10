@@ -26,9 +26,9 @@ final class Version20210707193455 extends AbstractMigration
                 email varchar(64) NOT NULL,
                 password_hash varchar(255) DEFAULT NULL,
                 status smallint NOT NULL,
-                created_at timestamp(0) WITH TIME ZONE NOT NULL,
-                updated_at timestamp(0) WITH TIME ZONE NOT NULL,
-                last_auth_at timestamp(0) WITH TIME ZONE DEFAULT NULL,
+                created_at timestamp(0) WITHOUT TIME ZONE NOT NULL,
+                updated_at timestamp(0) WITHOUT TIME ZONE NOT NULL,
+                last_auth_at timestamp(0) WITHOUT TIME ZONE DEFAULT NULL,
                 confirm_token_value varchar(255) DEFAULT NULL,
                 confirm_token_expires timestamp(0) WITHOUT TIME ZONE DEFAULT NULL,
                 reset_token_value varchar(255) DEFAULT NULL,
@@ -45,9 +45,9 @@ final class Version20210707193455 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN users.id IS \'(DC2Type:user_id)\'');
         $this->addSql('COMMENT ON COLUMN users.email IS \'(DC2Type:user_email)\'');
         $this->addSql('COMMENT ON COLUMN users.status IS \'(DC2Type:user_status)\'');
-        $this->addSql('COMMENT ON COLUMN users.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('COMMENT ON COLUMN users.updated_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('COMMENT ON COLUMN users.last_auth_at IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('COMMENT ON COLUMN users.created_at IS \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('COMMENT ON COLUMN users.updated_at IS \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('COMMENT ON COLUMN users.last_auth_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN users.confirm_token_expires IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN users.reset_token_expires IS \'(DC2Type:datetime_immutable)\'');
     }

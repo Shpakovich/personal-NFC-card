@@ -8,7 +8,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="users")
+ * @ORM\Table(
+ *     name="users",
+ *     uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="users_confirm_token_value_uidx", columns={"confirm_token_value"}),
+ *          @ORM\UniqueConstraint(name="users_reset_token_value_uidx", columns={"reset_token_value"})
+ *     },
+ *     indexes={
+ *          @ORM\Index(name="users_status_idx", columns={"status"})
+ *     }
+ * )
  */
 class User
 {
@@ -44,17 +53,17 @@ class User
     private Status $status;
 
     /**
-     * @ORM\Column(type="datetimetz_immutable")
+     * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
 
     /**
-     * @ORM\Column(type="datetimetz_immutable")
+     * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $updatedAt;
 
     /**
-     * @ORM\Column(type="datetimetz_immutable", nullable=true)
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private ?\DateTimeImmutable $lastAuthAt = null;
 
