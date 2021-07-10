@@ -17,9 +17,6 @@ trikoder_oauth2:
             refresh_token:
                 enable: true
 
-#            client_credentials:
-#                enable: true
-
     resource_server:
         public_key: '%kernel.project_dir%/var/oauth/public.key'
 

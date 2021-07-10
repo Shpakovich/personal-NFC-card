@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\User\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CardController extends AbstractController
 {
     /**
-     * @Route(name="", methods={"POST"})
+     * @Route(methods={"POST"}, name="")
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -66,5 +68,15 @@ class CardController extends AbstractController
                 ]
             ]
         );
+    }
+
+    /**
+     * @Route("/create", methods={"POST"}, name=".create")
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function create(): JsonResponse
+    {
+        return $this->json(['id' => Id::next()->getValue()], 201);
     }
 }
