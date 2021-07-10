@@ -37,7 +37,7 @@
 
     <v-text-field
       class="font-croc"
-      v-model="userInfo.name"
+      v-model="userInfo.user"
       :rules="emailRules"
       label="Email"
       required
