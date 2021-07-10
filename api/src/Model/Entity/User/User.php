@@ -84,6 +84,16 @@ class User
         $this->status = Status::wait();
     }
 
+    public function confirm(): void
+    {
+        if (!$this->status->isWait()) {
+            throw new \DomainException('User already is active.');
+        }
+
+        $this->status = Status::active();
+        $this->confirmToken = null;
+    }
+
     /**
      * @return \App\Model\Entity\User\Id
      */

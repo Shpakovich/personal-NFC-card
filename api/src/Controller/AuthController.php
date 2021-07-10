@@ -28,11 +28,13 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/signup", name=".signup", methods={"POST"})
+     * @Route("/request", name=".request", methods={"POST"})
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \App\Model\UseCase\User\Signup\Request\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function signup(Request $request, Signup\Request\Handler $handler): JsonResponse
+    public function request(Request $request, Signup\Request\Handler $handler): JsonResponse
     {
         /** @var string $content */
         $content = $request->getContent();
@@ -48,5 +50,30 @@ class AuthController extends AbstractController
         $handler->handle($command);
 
         return $this->json([], 201);
+    }
+
+    /**
+     * @Route("/confirm", name=".confirm", methods={"POST"})
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Model\UseCase\User\Signup\Confirm\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function confirm(Request $request, Signup\Confirm\Handler $handler): JsonResponse
+    {
+        /** @var string $content */
+        $content = $request->getContent();
+        /** @var \App\Model\UseCase\User\Signup\Confirm\Command $command */
+        $command = $this->serializer->deserialize($content, Signup\Confirm\Command::class, 'json');
+
+        $validations = $this->validator->validate($command);
+        if (\count($validations)) {
+            $json = $this->serializer->serialize($validations, 'json');
+            return new JsonResponse($json, 422, [], true);
+        }
+
+        $handler->handle($command);
+
+        return $this->json([]);
     }
 }

@@ -36,4 +36,9 @@ class UserRepository
                 ->setParameter(':email', $email->getValue())
                 ->getQuery()->getSingleScalarResult() > 0;
     }
+
+    public function findByConfirmToken(string $token): ?User
+    {
+        return $this->repo->findOneBy(['confirmToken.value' => $token]);
+    }
 }
