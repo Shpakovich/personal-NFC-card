@@ -36,14 +36,17 @@
   >
 
     <v-text-field
-      v-model="userInfo.user"
+      class="font-croc"
+      v-model="userInfo.name"
       :rules="emailRules"
       label="Email"
       required
+      outlined
       placeholder="Ваш email"
     ></v-text-field>
 
     <v-text-field
+      class="font-croc"
       v-model="userInfo.password"
       :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="passwordRules"
@@ -51,18 +54,26 @@
       name="password"
       label="Пароль"
       placeholder="Ваш пароль"
-      hint="Пароль недёжный, наверное"
+      outlined
       counter
       @click:append="showPassword = !showPassword"
     ></v-text-field>
-    <p>
-      Забыли пароль? <a>Перейти -></a>
+    <p class="text-sm font-gilroy inline-flex mb-9">
+      Забыли пароль?
+      <nuxt-link class="contents" to="/resetPassword">Перейти
+      <svg width="22" height="22" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.6925 16.4502H22.2075" stroke="#475DEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16.45 10.6924L22.2075 16.4499L16.45 22.2074" stroke="#475DEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      </nuxt-link>
     </p>
 
     <v-btn
       :disabled="!valid"
       color="primary"
-      class="m-auto w-2/6"
+      height="48"
+      max-width="136"
+      class="m-auto w-2/5"
       @click="submitForm(userInfo)"
     >
       {{ buttonText }}
