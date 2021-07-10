@@ -2,7 +2,7 @@ init: docker-down-clear frontend-clear docker-pull docker-build docker-up api-in
 up: docker-up
 down: docker-down
 restart: down up
-check: api-lint api-phpcs api-psalm
+check: api-check
 
 ### Docker
 
@@ -26,6 +26,8 @@ docker-push-cache:
 
 ### API
 
+api-check: api-lint api-phpcs api-psalm api-schema-validate
+
 api-lint:
 	docker-compose run --rm api-php-cli composer lint
 
@@ -34,6 +36,9 @@ api-phpcs:
 
 api-psalm:
 	docker-compose run --rm api-php-cli composer psalm
+
+api-schema-validate:
+	docker-compose run --rm api-php-cli bin/console doctrine:schema:validate
 
 api-init: api-composer-install api-migration-migrate
 
