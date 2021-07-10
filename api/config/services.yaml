@@ -24,3 +24,10 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: [ 'controller.service_arguments' ]
+
+    App\Security\OAuth\UserResolveListener:
+#        arguments:
+#            - '@app.repository.user_repository'
+#            - '@security.password_hasher'
+        tags:
+            - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }
