@@ -1,5 +1,5 @@
 <script>
-    export default {
+  export default {
       name: "userAuthForm",
 
       props: [
@@ -23,7 +23,16 @@
           v => !!v || 'Пароль обязательное поле',
           v => v.length >= 5 || 'Минимальная длинна 5'
         ]
-      })
+      }),
+
+    computed:{
+        colorIcon () {
+          return this.showPassword ? '#68676C' : '#FFA436';
+        },
+        typeInput () {
+          return this.showPassword ? 'text' : 'password'
+        }
+    }
     }
 </script>
 
@@ -46,25 +55,24 @@
     ></v-text-field>
 
     <v-text-field
+      id="password"
       class="font-croc"
       v-model="userInfo.password"
       :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="passwordRules"
-      :type="showPassword ? 'text' : 'password'"
+      :type="typeInput"
       name="password"
       label="Пароль"
       placeholder="Ваш пароль"
       outlined
       counter
-      @click:append="showPassword = !showPassword"
-    ></v-text-field>
+      @click="showPassword = !showPassword"
+    >
+    </v-text-field>
     <p class="text-sm font-gilroy inline-flex mb-9">
       Забыли пароль?
       <nuxt-link class="contents" to="/resetPassword">Перейти
-      <svg width="22" height="22" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10.6925 16.4502H22.2075" stroke="#475DEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M16.45 10.6924L22.2075 16.4499L16.45 22.2074" stroke="#475DEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+        <img src="../assets/images/icon/icon-arrow-right-primary.svg" alt="">
       </nuxt-link>
     </p>
 
