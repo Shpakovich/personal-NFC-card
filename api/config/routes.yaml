@@ -1,3 +1,8 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+oauth2_token:
+    path: /auth/token
+    controller: 'Trikoder\Bundle\OAuth2Bundle\Controller\TokenController::indexAction'
+    methods: POST

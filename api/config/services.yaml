@@ -17,9 +17,19 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/Model/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: [ 'controller.service_arguments' ]
+
+    Symfony\Component\PasswordHasher\PasswordHasherInterface:
+        class: Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher
+        arguments:
+            $algorithm: argon2i
+
+    App\Security\OAuth\UserResolveListener:
+        tags:
+            - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }

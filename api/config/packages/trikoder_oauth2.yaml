@@ -1,0 +1,25 @@
+trikoder_oauth2:
+
+    authorization_server:
+        private_key: '%kernel.project_dir%/var/oauth/private.key'
+        private_key_passphrase: null
+
+        encryption_key: '%env(string:OAUTH2_ENCRYPTION_KEY)%'
+        encryption_key_type: plain
+
+        access_token_ttl: PT1H
+        refresh_token_ttl: P1M
+
+        grant_types:
+            password:
+                enable: true
+
+            refresh_token:
+                enable: true
+
+    resource_server:
+        public_key: '%kernel.project_dir%/var/oauth/public.key'
+
+    persistence:
+        doctrine:
+            entity_manager: default
