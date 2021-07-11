@@ -26,12 +26,23 @@ class DomainExceptionFormatter implements EventSubscriberInterface
             return;
         }
 
+        $code = $error->getCode();
+        if (!$this->isCodeValid($code)) {
+            $code = 400;
+        }
+
         $event->setResponse(
             new JsonResponse([
                 'error' => [
+                    'code' => $code,
                     'message' => $error->getMessage(),
                 ]
-            ], 400)
+            ], $code)
         );
+    }
+
+    public function isCodeValid(mixed $code): bool
+    {
+        return is_int($code) && $code > 399 && $code < 500;
     }
 }
