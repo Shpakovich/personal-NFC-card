@@ -30,6 +30,10 @@ class PublicController extends AbstractController
      */
     public function show(string $id): JsonResponse
     {
+        if ($id !== '00000000-0000-0000-0000-000000000000') {
+            throw new \DomainException('Card not found');
+        }
+
         return $this->json(
             [
                 'id' => $id,
