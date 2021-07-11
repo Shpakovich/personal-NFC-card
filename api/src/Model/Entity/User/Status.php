@@ -8,9 +8,9 @@ use Webmozart\Assert\Assert;
 
 class Status
 {
-    private const WAIT = 0;
-    private const ACTIVE = 1;
-    private const BLOCK = 2;
+    public const WAIT = 0;
+    public const ACTIVE = 1;
+    public const BLOCK = 2;
 
     private int $value;
 

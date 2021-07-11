@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Model\Entity\User\Status;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,11 +13,13 @@ class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface,
 {
     private string $username;
     private string $password;
+    private int $status;
 
-    public function __construct(string $username, string $password)
+    public function __construct(string $username, string $password, int $status)
     {
         $this->username = $username;
         $this->password = $password;
+        $this->status = $status;
     }
 
     public function getUserIdentifier(): string
@@ -32,6 +35,16 @@ class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface,
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === Status::ACTIVE;
     }
 
     public function getRoles(): array
