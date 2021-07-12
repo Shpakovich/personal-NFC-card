@@ -25,9 +25,14 @@
 
     methods: {
       async regUser (regInfo) {
+        let data = {
+          'username': regInfo.user,
+          'password': regInfo.password
+        };
+
         try {
           await this.$auth.loginWith('local',{
-            data: regInfo
+            data
           });
         } catch (err) {
           console.log(err)
