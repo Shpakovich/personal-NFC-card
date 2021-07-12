@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Card;
 
 use App\Model\Entity\User\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
