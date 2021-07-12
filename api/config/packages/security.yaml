@@ -1,0 +1,32 @@
+security:
+    # https://symfony.com/doc/current/security/experimental_authenticators.html
+    enable_authenticator_manager: false
+
+    password_hashers:
+        App\Security\UserIdentity:
+            algorithm: native
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        user_provider:
+            id: App\Security\UserProvider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        token:
+            pattern: ^/auth/token$
+            security: false
+        main:
+            anonymous: true
+            stateless: true
+            oauth2: true
+            security: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         - { path: ^/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/card$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

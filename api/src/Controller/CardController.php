@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\User\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,13 +17,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class CardController extends AbstractController
 {
     /**
-     * @Route(name="", methods={"POST"})
+     * @Route(methods={"POST"}, name="")
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function card(Request $request): Response
     {
-        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        /** @var string $content */
+        $content = $request->getContent();
+        /** @var array{identity: string} */
+        $content = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if ($content['identity'] !== '69b0d264-518e-4889-9949-2fac14fefb61') {
             throw new \DomainException('Card not found', 404);
         }
@@ -63,5 +68,15 @@ class CardController extends AbstractController
                 ]
             ]
         );
+    }
+
+    /**
+     * @Route("/create", methods={"POST"}, name=".create")
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function create(): JsonResponse
+    {
+        return $this->json(['id' => Id::next()->getValue()], 201);
     }
 }
