@@ -34,8 +34,10 @@ class PublicController extends AbstractController
 
         return $this->json(
             [
-                "id" => "00000000-0000-0000-0000-000000000000",
-                "alias" => "nick.norman",
+                "card" => [
+                    "id" => "00000000-0000-0000-0000-000000000000",
+                    "alias" => "nick.norman",
+                ],
                 "profile" => [
                     "name" => "Nick Norman",
                     "photo" => "path/to/photo.jpg",
