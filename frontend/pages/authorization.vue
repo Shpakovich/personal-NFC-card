@@ -45,10 +45,7 @@
       color="secondary"
       to="/"
     >
-      <svg class="button-svg" width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M22.2075 16.45H10.6925" stroke="#FFA436" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M16.45 10.6924L10.6925 16.4499L16.45 22.2074" stroke="#FFA436" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      <img src="../assets/images/icon/icon-arrow-left.svg" alt="">
       Назад
     </v-btn>
     <userAuthForm buttonText="Войти" :submitForm="loginUser" />
