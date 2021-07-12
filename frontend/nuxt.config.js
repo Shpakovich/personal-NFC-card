@@ -48,23 +48,23 @@ export default {
     rewriteRedirects: true, // работает только с cookie-universal-nuxt
     plugins: ['~/plugins/auth.js'], //почему то работает с обратным редиректом
     redirect: {
-      login: '/authorization',
+      login: '/profile/card',
       logout: '/authorization',
       home: '/'
     },
     strategies: {
       local: {
         token: {
-          property: 'token',
+          property: 'access_token',
           global: true
         },
         user: {
-          property: 'user'
+          property: 'profile'
         },
         endpoints: {
-          login: { url: '/auth/request', method: 'post' },
-          logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/api/auth/user', method: 'get', propertyName: false }
+          login: { url: '/auth/token', method: 'post' },
+          logout: { url: '', method: '' },
+          user: { url: '/profile/create', method: 'post' }
         }
       }
     }

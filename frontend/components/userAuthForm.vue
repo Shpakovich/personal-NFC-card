@@ -12,7 +12,7 @@
         showConfirm: false,
         valid: false,
         userInfo: {
-          user: '',
+          username: '',
           password: ''
         },
         emailRules: [
@@ -46,7 +46,7 @@
 
     <v-text-field
       class="font-croc"
-      v-model="userInfo.user"
+      v-model="userInfo.username"
       :rules="emailRules"
       label="Email"
       required
@@ -80,6 +80,12 @@
         <img src="../assets/images/icon/icon-arrow-right-primary.svg" alt="">
       </nuxt-link>
     </p>
+    <div v-if="$auth.loggedIn">
+      <p>You loggin</p>
+    </div>
+    <div v-else>
+      <p>You not loggin</p>
+    </div>
 
     <v-btn
       :disabled="!valid"

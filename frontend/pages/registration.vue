@@ -11,7 +11,7 @@
     data: () => ({
       valid: true,
       userInfo: {
-        user: '',
+        email: '',
         password: ''
       },
       emailRules: [
@@ -26,17 +26,13 @@
     methods: {
       async regUser (regInfo) {
         let data = {
-          'username': regInfo.user,
+          'email': regInfo.email,
           'password': regInfo.password
         };
 
-        try {
-          await this.$auth.loginWith('local',{
-            data
-          });
-        } catch (err) {
-          console.log(err)
-        }
+        await this.$axios.post('http://localhost:8081/auth/request', data)
+          .then(() => this.$router.push('/confirmEmail'))
+          .catch((err) => console.log(err)); // пока console.log, потом придумает что то другое
       }
     }
   }

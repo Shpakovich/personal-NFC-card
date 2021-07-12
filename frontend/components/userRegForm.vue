@@ -12,7 +12,7 @@
         showConfirm: false,
         valid: false,
         userInfo: {
-          user: '',
+          email: '',
           password: '',
           confirmPassword: '',
         },
@@ -57,7 +57,7 @@
 
     <v-text-field
       class="font-croc"
-      v-model="userInfo.user"
+      v-model="userInfo.email"
       :rules="emailRules"
       label="Email"
       required

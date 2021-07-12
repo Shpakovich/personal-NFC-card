@@ -10,16 +10,15 @@
 
     methods: {
       async loginUser(loginInfo) {
-        let data = {
-          'grant_type': 'password',
-          'username': loginInfo.user,
-          'password': loginInfo.password,
-          'client_id': 'frontend'
-        };
+        const params = new URLSearchParams();
+        params.append('grant_type', 'password');
+        params.append('username', loginInfo.username);
+        params.append('password', loginInfo.password);
+        params.append('client_id', 'frontend');
 
         try {
           await this.$auth.loginWith('local',{
-            data
+            data: params
           });
         } catch (err) {
           console.log(err)

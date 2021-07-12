@@ -2,7 +2,11 @@
     export default {
       name: "profile",
 
-      middleware: 'auth',
+      mounted() {
+        if (!this.$auth.loggedIn){
+          this.$router.push('/authorization');
+        }
+      },
 
       data: () => ({
         links: [
