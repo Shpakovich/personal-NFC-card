@@ -21,6 +21,10 @@ security:
         api:
             pattern: ^/
             stateless: true
+            security: true
+            guard:
+                authenticators:
+                    - Trikoder\Bundle\OAuth2Bundle\Security\Guard\Authenticator\OAuth2Authenticator
         main:
             lazy: true
 
