@@ -7,7 +7,6 @@ namespace App\Controller\Card;
 use App\Model\Entity\User\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,55 +16,37 @@ use Symfony\Component\Routing\Annotation\Route;
 class CardController extends AbstractController
 {
     /**
-     * @Route(methods={"POST"}, name="")
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @Route("s", methods={"GET"}, name=".index")
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function card(Request $request): Response
+    public function index(): Response
     {
-        /** @var string $content */
-        $content = $request->getContent();
-        /** @var array{identity: string} */
-        $content = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        if ($content['identity'] !== '69b0d264-518e-4889-9949-2fac14fefb61') {
+        return $this->json(
+            [
+                ['id' => "00000000-0000-0000-0000-000000000000"],
+                ['id' => "11111111-1111-1111-1111-111111111111"],
+                ['id' => "22222222-2222-2222-2222-222222222222"],
+                ['id' => "33333333-3333-3333-3333-333333333333"],
+            ]
+        );
+    }
+
+    /**
+     * @Route("/{id}", methods={"GET"}, name=".show")
+     *
+     * @param string $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function card(string $id): Response
+    {
+        if ($id !== '00000000-0000-0000-0000-000000000000') {
             throw new \DomainException('Card not found', 404);
         }
 
         return $this->json(
             [
-                'id' => "69b0d264-518e-4889-9949-2fac14fefb61",
-                'name' => "nick.norman",
-                "profile" => [
-                    "photo" => "path/to/photo.jpg",
-                    "post" => "Director",
-                    "description" => "...",
-                    "fields" => [
-                        [
-                            "id" => "ec982d5b-aea5-4565-99ec-9afef507f498",
-                            "title" => "facebook",
-                            "value" => "https://facebook.com/...",
-                            "type" => "network",
-                            "icon" => "path/to/icon.png",
-                            "colors" => [
-                                "bg" => "#000000",
-                                "text" => "#444333"
-                            ]
-                        ]
-                    ],
-                    "custom" => [
-                        [
-                            "id" => "b38285f0-e0eb-4ef9-9a70-ff9b20d44a66",
-                            "title" => "facebook",
-                            "value" => "https://facebook.com/...",
-                            "type" => "network",
-                            "icon" => "path/to/icon.png",
-                            "colors" => [
-                                "bg" => "#000000",
-                                "text" => "#444333"
-                            ]
-                        ]
-                    ]
-                ]
+                'id' => "00000000-0000-0000-0000-000000000000",
             ]
         );
     }
