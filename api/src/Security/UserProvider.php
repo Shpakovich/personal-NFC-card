@@ -27,7 +27,11 @@ class UserProvider implements UserProviderInterface
             throw new UserNotFoundException();
         }
 
-        return new UserIdentity($user->getEmail()->getValue(), $user->getPasswordHash());
+        return new UserIdentity(
+            $user->getEmail()->getValue(),
+            $user->getPasswordHash(),
+            $user->getStatus()->getValue()
+        );
     }
 
     public function refreshUser(UserInterface $user): UserInterface
