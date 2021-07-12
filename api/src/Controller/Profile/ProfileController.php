@@ -20,6 +20,25 @@ class ProfileController extends AbstractController
      */
     public function create(): JsonResponse
     {
-        return $this->json([], 201);
+        return $this->json(
+            [
+                "id" => "11111111-1111-1111-1111-111111111111",
+                "card" => [
+                    "id" => "00000000-0000-0000-0000-000000000000",
+                    "alias" => "nick.norman",
+                ],
+                "profile" => [
+                    "title" => "Main",
+                    "name" => "Nick Norman",
+                    "nickname" => "nick",
+                    "default_name" => "name",
+                    "photo" => "path/to/photo.jpg",
+                    "post" => "Director",
+                    "description" => "...",
+                    "is_published" => false,
+                ]
+            ],
+            201
+        );
     }
 }
