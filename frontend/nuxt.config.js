@@ -62,7 +62,7 @@ export default {
           property: 'user'
         },
         endpoints: {
-          login: { url: '/api/auth/login', method: 'post' },
+          login: { url: '/auth/token', method: 'post' },
           logout: { url: '/api/auth/logout', method: 'post' },
           user: { url: '/api/auth/user', method: 'get', propertyName: false }
         }
@@ -70,12 +70,8 @@ export default {
     }
   },
 
-  serverMiddleware: {
-    '/api': '~/api'
-  },
-
   axios: {
-    baseURL: 'http://localhost:8080'
+    baseURL: 'http://localhost:8081'
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
