@@ -28,6 +28,11 @@ class CardRepository
         $this->em->persist($card);
     }
 
+    public function delete(Card $card): void
+    {
+        $this->em->remove($card);
+    }
+
     public function hasById(Id $id): bool
     {
         return $this->repo->createQueryBuilder('t')
@@ -37,8 +42,13 @@ class CardRepository
                 ->getQuery()->getSingleScalarResult() > 0;
     }
 
-    public function findById(Id $id): ?Card
+    public function getById(Id $id): Card
     {
-        return $this->repo->find($id);
+        $card = $this->repo->find($id);
+        if ($card !== null) {
+            return $card;
+        }
+
+        throw new \DomainException("Card {$id->getValue()} not found.");
     }
 }
