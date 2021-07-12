@@ -8,18 +8,18 @@
       userAuthForm
     },
 
-    mounted() {
-      if(this.$auth.loggedIn) {
-        // const cookieRes = this.$cookies.get('auth.redirect');
-        // window.location.href = cookieRes; // router не работает
-      }
-    },
-
     methods: {
-      async loginUser (loginInfo) {
+      async loginUser(loginInfo) {
+        let data = {
+          'grant_type': 'password',
+          'username': loginInfo.user,
+          'password': loginInfo.password,
+          'client_id': 'frontend'
+        };
+
         try {
           await this.$auth.loginWith('local',{
-            data: loginInfo
+            data
           });
         } catch (err) {
           console.log(err)
