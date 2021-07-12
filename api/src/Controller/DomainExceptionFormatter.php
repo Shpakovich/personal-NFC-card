@@ -37,11 +37,11 @@ class DomainExceptionFormatter implements EventSubscriberInterface
                     'code' => $code,
                     'message' => $error->getMessage(),
                 ]
-            ], $code)
+            ], (int)$code)
         );
     }
 
-    public function isCodeValid(mixed $code): bool
+    public function isCodeValid(int|string $code): bool
     {
         return is_int($code) && $code > 399 && $code < 500;
     }
