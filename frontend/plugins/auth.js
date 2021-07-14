@@ -11,7 +11,7 @@ export default function ({ app }) {
   app.$auth.login = (...args) => {
     const _ = oldLogin(...args);
     _.then(() => {
-      app.$auth.redirect('home')
+      app.$auth.redirect('login')
     });
     return _
   }
