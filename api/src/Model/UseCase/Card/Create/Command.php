@@ -12,11 +12,16 @@ class Command
      * @Assert\NotBlank()
      * @Assert\Uuid()
      */
-    public string $id;
+    public string $id = '';
 
     /**
      * @Assert\NotBlank()
      * @Assert\Uuid()
      */
     public string $userId;
+
+    public function __construct(string $userId)
+    {
+        $this->userId = $userId;
+    }
 }

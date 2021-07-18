@@ -4,17 +4,31 @@ declare(strict_types=1);
 
 namespace App\Controller\Card;
 
-use App\Model\Entity\User\Id;
+use App\Model\Repository\CardRepository;
+use App\Model\UseCase\Card;
+use DateTimeInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/card", name="card")
  */
 class CardController extends AbstractController
 {
+    private SerializerInterface $serializer;
+    private ValidatorInterface $validator;
+
+    public function __construct(SerializerInterface $serializer, ValidatorInterface $validator)
+    {
+        $this->serializer = $serializer;
+        $this->validator = $validator;
+    }
+
     /**
      * @Route("s", methods={"GET"}, name=".index")
      *
@@ -54,10 +68,47 @@ class CardController extends AbstractController
     /**
      * @Route("/create", methods={"POST"}, name=".create")
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Model\UseCase\Card\Create\Handler $handler
+     * @param \App\Model\Repository\CardRepository $cards
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function create(): JsonResponse
+    public function create(Request $request, Card\Create\Handler $handler, CardRepository $cards): JsonResponse
     {
-        return $this->json(['id' => Id::next()->getValue()], 201);
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        /** @var string $content */
+        $content = $request->getContent();
+
+        /** @var \App\Model\UseCase\Card\Create\Command $command */
+        $command = $this->serializer->deserialize(
+            $content,
+            Card\Create\Command::class,
+            'json',
+            [
+                'object_to_populate' => new Card\Create\Command($user->getId()),
+                'ignored_attributes' => ['userId'],
+            ]
+        );
+
+        $violations = $this->validator->validate($command);
+        if (\count($violations)) {
+            $json = $this->serializer->serialize($violations, 'json');
+            return new JsonResponse($json, 422, [], true);
+        }
+
+        $handler->handle($command);
+
+        $card = $cards->getById(new \App\Model\Entity\Card\Id($command->id));
+
+        return $this->json(
+            [
+                'id' => $card->getId()->getValue(),
+                'created_at' => $card->getCreatedAt()->format(DateTimeInterface::RFC3339),
+                'creator_id' => $card->getCreator()->getId()->getValue()
+            ],
+            201
+        );
     }
 }
