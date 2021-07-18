@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Entity\Card;
 
 use App\Model\Entity\User\User;
+use App\Model\Entity\UserCard\UserCard;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +31,11 @@ class Card
      */
     private \DateTimeImmutable $createdAt;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Model\Entity\UserCard\UserCard", mappedBy="card")
+     */
+    private ?UserCard $owner = null;
+
     public function __construct(Id $id, User $creator, \DateTimeImmutable $createdAt)
     {
         $this->id = $id;
@@ -50,5 +56,10 @@ class Card
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getOwner(): UserCard
+    {
+        return $this->owner;
     }
 }

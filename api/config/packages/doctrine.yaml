@@ -3,6 +3,7 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
         server_version: '13'
         types:
+            entity_id: '\App\Model\Entity\Common\Type\IdType'
             user_id: '\App\Model\Entity\User\Type\IdType'
             user_email: '\App\Model\Entity\User\Type\EmailType'
             user_status: '\App\Model\Entity\User\Type\StatusType'
