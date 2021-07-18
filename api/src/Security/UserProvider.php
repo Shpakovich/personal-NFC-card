@@ -28,6 +28,7 @@ class UserProvider implements UserProviderInterface
         }
 
         return new UserIdentity(
+            $user->getId()->getValue(),
             $user->getEmail()->getValue(),
             $user->getPasswordHash(),
             $user->getStatus()->getValue()

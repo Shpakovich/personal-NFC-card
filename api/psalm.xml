@@ -22,6 +22,7 @@
         <PropertyNotSetInConstructor>
             <errorLevel type="suppress">
                 <referencedProperty name="Symfony\Bundle\FrameworkBundle\Controller\AbstractController::$container"/>
+                <referencedProperty name="Doctrine\Common\DataFixtures\AbstractFixture::$referenceRepository"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
     </issueHandlers>

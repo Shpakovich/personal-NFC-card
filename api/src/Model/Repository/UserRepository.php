@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Repository;
 
 use App\Model\Entity\User\Email;
+use App\Model\Entity\User\Id;
 use App\Model\Entity\User\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -35,6 +36,16 @@ class UserRepository
                 ->where('t.email = :email')
                 ->setParameter(':email', $email->getValue())
                 ->getQuery()->getSingleScalarResult() > 0;
+    }
+
+    public function getById(Id $id): User
+    {
+        $user = $this->repo->find($id);
+        if ($user !== null) {
+            return $user;
+        }
+
+        throw new \DomainException("User {$id->getValue()} not found.");
     }
 
     public function findByConfirmToken(string $token): ?User

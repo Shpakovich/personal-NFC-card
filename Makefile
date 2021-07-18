@@ -40,13 +40,16 @@ api-psalm:
 api-schema-validate:
 	docker-compose run --rm api-php-cli bin/console doctrine:schema:validate
 
-api-init: api-composer-install api-migration-migrate api-oauth-schema api-oauth-client
+api-init: api-composer-install api-migration-migrate api-oauth-schema api-fixtures-load api-oauth-client
 
 api-composer-install:
 	docker-compose run --rm api-php-cli composer install
 
 api-migration-migrate:
 	docker-compose run --rm api-php-cli bin/console doctrine:migrations:migrate --no-interaction
+
+api-fixtures-load:
+	docker-compose run --rm api-php-cli bin/console doctrine:fixtures:load --no-interaction
 
 api-oauth-schema:
 	docker-compose run --rm api-php-cli bin/console doctrine:schema:update --force

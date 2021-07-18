@@ -51,7 +51,6 @@ class Handler
             $email,
             $this->hasher->hash($command->password),
             $confirmToken,
-            $now,
             $now
         );
 

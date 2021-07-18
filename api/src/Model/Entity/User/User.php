@@ -72,26 +72,35 @@ class User
         Email $email,
         string $passwordHash,
         Token $confirmToken,
-        \DateTimeImmutable $createdAt,
-        \DateTimeImmutable $updatedAt
+        \DateTimeImmutable $createdAt
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
         $this->confirmToken = $confirmToken;
         $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = $createdAt;
         $this->status = Status::wait();
     }
 
     public function confirm(\DateTimeImmutable $data): void
     {
-        if (!$this->status->isWait()) {
+        if ($this->status->isActive()) {
             throw new \DomainException('User already is active.');
         }
 
         $this->status = Status::active();
         $this->confirmToken = null;
+        $this->updatedAt = $data;
+    }
+
+    public function block(\DateTimeImmutable $data): void
+    {
+        if ($this->status->isBlock()) {
+            throw new \DomainException('User already is block.');
+        }
+
+        $this->status = Status::block();
         $this->updatedAt = $data;
     }
 
