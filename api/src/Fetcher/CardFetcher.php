@@ -23,10 +23,12 @@ class CardFetcher
     {
         $qb = $this->connection->createQueryBuilder()
             ->select(
-                'c.id',
-                'c.created_at',
-                'u.id as user_id',
-                'u.email as user_email',
+                [
+                    'c.id',
+                    'c.created_at',
+                    'u.id as user_id',
+                    'u.email as user_email',
+                ]
             )
             ->from('cards', 'c')
             ->innerJoin('c', 'users', 'u', 'c.created_by = u.id')
