@@ -72,15 +72,14 @@ class User
         Email $email,
         string $passwordHash,
         Token $confirmToken,
-        \DateTimeImmutable $createdAt,
-        \DateTimeImmutable $updatedAt
+        \DateTimeImmutable $createdAt
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
         $this->confirmToken = $confirmToken;
         $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = $createdAt;
         $this->status = Status::wait();
     }
 
