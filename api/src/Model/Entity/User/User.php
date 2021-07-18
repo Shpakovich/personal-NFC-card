@@ -85,12 +85,22 @@ class User
 
     public function confirm(\DateTimeImmutable $data): void
     {
-        if (!$this->status->isWait()) {
+        if ($this->status->isActive()) {
             throw new \DomainException('User already is active.');
         }
 
         $this->status = Status::active();
         $this->confirmToken = null;
+        $this->updatedAt = $data;
+    }
+
+    public function block(\DateTimeImmutable $data): void
+    {
+        if ($this->status->isBlock()) {
+            throw new \DomainException('User already is block.');
+        }
+
+        $this->status = Status::block();
         $this->updatedAt = $data;
     }
 
