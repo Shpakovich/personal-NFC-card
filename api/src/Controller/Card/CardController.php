@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Card;
 
+use App\Controller\Guid;
+use App\Model\Entity\Card\Id;
 use App\Model\Repository\CardRepository;
 use App\Model\UseCase\Card;
 use DateTimeInterface;
@@ -47,20 +49,20 @@ class CardController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"}, name=".show")
+     * @Route("/{id}", methods={"GET"}, name=".show", requirements={
+     *     "id"=Guid::PATTERN
+     * })
      *
-     * @param string $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param \App\Model\Entity\Card\Card $card
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function card(string $id): Response
+    public function card(\App\Model\Entity\Card\Card $card): JsonResponse
     {
-        if ($id !== '00000000-0000-0000-0000-000000000000') {
-            throw new \DomainException('Card not found', 404);
-        }
-
         return $this->json(
             [
-                'id' => "00000000-0000-0000-0000-000000000000",
+                'id' => $card->getId()->getValue(),
+                'created_at' => $card->getCreatedAt()->format(DateTimeInterface::RFC3339),
+                'creator_id' => $card->getCreator()->getId()->getValue()
             ]
         );
     }
@@ -100,7 +102,7 @@ class CardController extends AbstractController
 
         $handler->handle($command);
 
-        $card = $cards->getById(new \App\Model\Entity\Card\Id($command->id));
+        $card = $cards->getById(new Id($command->id));
 
         return $this->json(
             [
