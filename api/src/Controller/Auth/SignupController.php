@@ -41,9 +41,9 @@ class SignupController extends AbstractController
         /** @var \App\Model\UseCase\User\Signup\Request\Command $command */
         $command = $this->serializer->deserialize($content, Signup\Request\Command::class, 'json');
 
-        $validations = $this->validator->validate($command);
-        if (\count($validations)) {
-            $json = $this->serializer->serialize($validations, 'json');
+        $violations = $this->validator->validate($command);
+        if (\count($violations)) {
+            $json = $this->serializer->serialize($violations, 'json');
             return new JsonResponse($json, 422, [], true);
         }
 
@@ -66,9 +66,9 @@ class SignupController extends AbstractController
         /** @var \App\Model\UseCase\User\Signup\Confirm\Command $command */
         $command = $this->serializer->deserialize($content, Signup\Confirm\Command::class, 'json');
 
-        $validations = $this->validator->validate($command);
-        if (\count($validations)) {
-            $json = $this->serializer->serialize($validations, 'json');
+        $violations = $this->validator->validate($command);
+        if (\count($violations)) {
+            $json = $this->serializer->serialize($violations, 'json');
             return new JsonResponse($json, 422, [], true);
         }
 
