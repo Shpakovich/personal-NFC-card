@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Card;
 
 use App\Controller\Guid;
+use App\Controller\PaginationSerializer;
+use App\Fetcher\CardFetcher;
 use App\Model\Entity\Card\Id;
 use App\Model\Repository\CardRepository;
 use App\Model\UseCase\Card;
@@ -12,7 +14,6 @@ use DateTimeInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -34,16 +35,30 @@ class CardController extends AbstractController
     /**
      * @Route("s", methods={"GET"}, name=".index")
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Fetcher\CardFetcher $fetcher
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function index(): Response
+    public function index(Request $request, CardFetcher $fetcher): JsonResponse
     {
+        $page = $request->query->getInt('page', 1);
+        $perPage = $this->getParameter('app.items_per_page');
+        $pagination = $fetcher->all($page, $perPage);
+
         return $this->json(
             [
-                ['id' => "00000000-0000-0000-0000-000000000000"],
-                ['id' => "11111111-1111-1111-1111-111111111111"],
-                ['id' => "22222222-2222-2222-2222-222222222222"],
-                ['id' => "33333333-3333-3333-3333-333333333333"],
+                'items' => array_map(
+                    static function (array $item) {
+                        return [
+                            'id' => $item['id'],
+                            'created_at' => $item['created_at'],
+                            'user_id' => $item['user_id'],
+                            'user_email' => $item['user_email'],
+                        ];
+                    },
+                    (array)$pagination->getItems()
+                ),
+                'pagination' => PaginationSerializer::serialize($pagination),
             ]
         );
     }
