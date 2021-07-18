@@ -34,6 +34,7 @@
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "overtrue/phplint": "^3.0",
         "roave/security-advisories": "dev-latest",
         "squizlabs/php_codesniffer": "^3.6",
