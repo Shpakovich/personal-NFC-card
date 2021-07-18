@@ -21,16 +21,36 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = new User(
+        $active = new User(
+            Id::next(),
+            new Email('aaa@aaa.ru'),
+            $this->hasher->hash('11111'),
+            new Token(Id::next(), new \DateTimeImmutable()),
+            (new \DateTimeImmutable())->modify('-5 days')
+        );
+        $active->confirm((new \DateTimeImmutable())->modify('-5 hours'));
+
+        $wait = new User(
+            Id::next(),
+            new Email('aaa@bbb.ru'),
+            $this->hasher->hash('11111'),
+            new Token(Id::next(), new \DateTimeImmutable()),
+            (new \DateTimeImmutable())->modify('-3 days')
+        );
+
+        $block = new User(
             Id::next(),
             new Email('aaa@ccc.ru'),
             $this->hasher->hash('11111'),
-            new Token('2ba243bc-af86-4c23-8410-fd4c0436ae31', new \DateTimeImmutable()),
-            (new \DateTimeImmutable())->modify('-5 days')
+            new Token(Id::next(), new \DateTimeImmutable()),
+            (new \DateTimeImmutable())->modify('-10 days')
         );
-        $user->confirm(new \DateTimeImmutable());
+        $block->block((new \DateTimeImmutable())->modify('-1 days'));
 
-        $manager->persist($user);
+        $manager->persist($active);
+        $manager->persist($wait);
+        $manager->persist($block);
+
         $manager->flush();
     }
 }
