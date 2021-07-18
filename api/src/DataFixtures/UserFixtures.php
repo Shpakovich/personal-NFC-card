@@ -12,6 +12,8 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
+    public const ADMIN_REF = 'admin';
+
     private PasswordHasherInterface $hasher;
 
     public function __construct(PasswordHasherInterface $hasher)
@@ -21,14 +23,14 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $active = new User(
+        $admin = new User(
             Id::next(),
             new Email('aaa@aaa.ru'),
             $this->hasher->hash('11111'),
             new Token(Id::next(), new \DateTimeImmutable()),
             (new \DateTimeImmutable())->modify('-5 days')
         );
-        $active->confirm((new \DateTimeImmutable())->modify('-5 hours'));
+        $admin->confirm((new \DateTimeImmutable())->modify('-5 hours'));
 
         $wait = new User(
             Id::next(),
@@ -47,10 +49,22 @@ class UserFixtures extends Fixture
         );
         $block->block((new \DateTimeImmutable())->modify('-1 days'));
 
-        $manager->persist($active);
+        $active = new User(
+            Id::next(),
+            new Email('aaa@ddd.ru'),
+            $this->hasher->hash('11111'),
+            new Token(Id::next(), new \DateTimeImmutable()),
+            (new \DateTimeImmutable())->modify('-3 days')
+        );
+        $active->confirm((new \DateTimeImmutable())->modify('-9 hours'));
+
+        $manager->persist($admin);
         $manager->persist($wait);
         $manager->persist($block);
+        $manager->persist($active);
 
         $manager->flush();
+
+        $this->addReference(self::ADMIN_REF, $admin);
     }
 }
