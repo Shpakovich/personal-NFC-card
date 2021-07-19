@@ -9,7 +9,9 @@ use App\Controller\PaginationSerializer;
 use App\Fetcher\CardFetcher;
 use App\Model\Entity\Card\Id;
 use App\Model\Repository\CardRepository;
+use App\Model\Repository\UserCardRepository;
 use App\Model\UseCase\Card;
+use App\Model\UseCase\User\Card\Register;
 use DateTimeInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -125,6 +127,54 @@ class CardController extends AbstractController
                 'id' => $card->getId()->getValue(),
                 'created_at' => $card->getCreatedAt()->format(DateTimeInterface::RFC3339),
                 'creator_id' => $card->getCreator()->getId()->getValue()
+            ],
+            201
+        );
+    }
+
+    /**
+     * @Route("/register", methods={"POST"}, name=".register")
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Model\UseCase\User\Card\Register\Handler $handler
+     * @param \App\Model\Repository\UserCardRepository $cards
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function register(Request $request, Register\Handler $handler, UserCardRepository $cards): JsonResponse
+    {
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        /** @var string $content */
+        $content = $request->getContent();
+
+        /** @var \App\Model\UseCase\User\Card\Register\Command $command */
+        $command = $this->serializer->deserialize(
+            $content,
+            Register\Command::class,
+            'json',
+            [
+                'object_to_populate' => new Register\Command($user->getId()),
+                'ignored_attributes' => ['userId'],
+            ]
+        );
+
+        $violations = $this->validator->validate($command);
+        if (\count($violations)) {
+            $json = $this->serializer->serialize($violations, 'json');
+            return new JsonResponse($json, 422, [], true);
+        }
+
+        $handler->handle($command);
+
+        $card = $cards->getByCardId(new Id($command->id));
+
+        return $this->json(
+            [
+                'id' => $card->getId()->getValue(),
+                'card_id' => $card->getCard()->getId()->getValue(),
+                'alias' => $card->getAlias(),
+                'added_at' => $card->getAddedAt()->format(DateTimeInterface::RFC3339),
             ],
             201
         );

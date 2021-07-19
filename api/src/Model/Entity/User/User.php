@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Model\Entity\User;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
@@ -67,6 +69,14 @@ class User
      */
     private ?\DateTimeImmutable $lastAuthAt = null;
 
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Model\Entity\UserCard\UserCard",
+     *     mappedBy="user", orphanRemoval=true, cascade={"all"}
+     * )
+     */
+    private PersistentCollection $cards;
+
     public function __construct(
         Id $id,
         Email $email,
@@ -81,6 +91,8 @@ class User
         $this->createdAt = $createdAt;
         $this->updatedAt = $createdAt;
         $this->status = Status::wait();
+
+        $this->cards = new ArrayCollection();
     }
 
     public function confirm(\DateTimeImmutable $data): void
@@ -186,5 +198,10 @@ class User
     {
         $this->lastAuthAt = $lastAuthAt;
         return $this;
+    }
+
+    public function getCards(): ArrayCollection
+    {
+        return $this->cards;
     }
 }

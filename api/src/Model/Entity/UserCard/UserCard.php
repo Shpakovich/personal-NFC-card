@@ -25,7 +25,7 @@ class UserCard
     private Id $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entity\User\User")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entity\User\User", inversedBy="cards")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
      */
     private User $user;
@@ -46,12 +46,12 @@ class UserCard
      */
     private \DateTimeImmutable $addedAt;
 
-    public function __construct(Id $id, User $user, Card $card, \DateTimeImmutable $createdAt, ?string $alias = null)
+    public function __construct(Id $id, User $user, Card $card, \DateTimeImmutable $addedAt, ?string $alias = null)
     {
         $this->id = $id;
         $this->user = $user;
         $this->card = $card;
-        $this->addedAt = $createdAt;
+        $this->addedAt = $addedAt;
         $this->alias = $alias;
     }
 
