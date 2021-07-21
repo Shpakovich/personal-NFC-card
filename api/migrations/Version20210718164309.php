@@ -37,8 +37,8 @@ final class Version20210718164309 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX user_cards_alias_uidx ON user_cards (alias)');
 
         $this->addSql('COMMENT ON COLUMN user_cards.id IS \'(DC2Type:entity_id)\'');
-        $this->addSql('COMMENT ON COLUMN user_cards.user_id IS \'(DC2Type:user_id)\'');
-        $this->addSql('COMMENT ON COLUMN user_cards.card_id IS \'(DC2Type:card_id)\'');
+        $this->addSql('COMMENT ON COLUMN user_cards.user_id IS \'(DC2Type:entity_id)\'');
+        $this->addSql('COMMENT ON COLUMN user_cards.card_id IS \'(DC2Type:entity_id)\'');
         $this->addSql('COMMENT ON COLUMN user_cards.added_at IS \'(DC2Type:datetime_immutable)\'');
 
         $this->addSql(

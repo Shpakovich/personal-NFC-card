@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\UseCase\User\Card\Register;
 
-use App\Model\Entity\Card\Id;
+use App\Model\Entity\Common\Id;
 use App\Model\Entity\UserCard\UserCard;
 use App\Model\Flusher;
 use App\Model\Repository\CardRepository;
@@ -18,8 +18,12 @@ class Handler
     private UserCardRepository $userCards;
     private Flusher $flusher;
 
-    public function __construct(CardRepository $cards, UserRepository $users, UserCardRepository $userCards, Flusher $flusher)
-    {
+    public function __construct(
+        CardRepository $cards,
+        UserRepository $users,
+        UserCardRepository $userCards,
+        Flusher $flusher
+    ) {
         $this->cards = $cards;
         $this->users = $users;
         $this->userCards = $userCards;
@@ -28,7 +32,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $user = $this->users->getById(new \App\Model\Entity\User\Id($command->userId));
+        $user = $this->users->getById(new Id($command->userId));
         $card = $this->cards->getById(new Id($command->id));
 
         if ($this->userCards->hasByCard($card)) {
@@ -40,7 +44,7 @@ class Handler
         }
 
         $userCard = new UserCard(
-            \App\Model\Entity\Common\Id::next(),
+            Id::next(),
             $user,
             $card,
             new \DateTimeImmutable(),

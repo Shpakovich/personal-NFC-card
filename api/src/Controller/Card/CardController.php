@@ -7,7 +7,7 @@ namespace App\Controller\Card;
 use App\Controller\Guid;
 use App\Controller\PaginationSerializer;
 use App\Fetcher\CardFetcher;
-use App\Model\Entity\Card\Id;
+use App\Model\Entity\Common\Id;
 use App\Model\Repository\CardRepository;
 use App\Model\Repository\UserCardRepository;
 use App\Model\UseCase\Card;

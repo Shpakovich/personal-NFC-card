@@ -31,8 +31,8 @@ final class Version20210712182642 extends AbstractMigration
 
         $this->addSql('CREATE INDEX idx_4c258fdde12ab56 ON cards (created_by)');
 
-        $this->addSql('COMMENT ON COLUMN cards.id IS \'(DC2Type:card_id)\'');
-        $this->addSql('COMMENT ON COLUMN cards.created_by IS \'(DC2Type:user_id)\'');
+        $this->addSql('COMMENT ON COLUMN cards.id IS \'(DC2Type:entity_id)\'');
+        $this->addSql('COMMENT ON COLUMN cards.created_by IS \'(DC2Type:entity_id)\'');
         $this->addSql('COMMENT ON COLUMN cards.created_at IS \'(DC2Type:datetime_immutable)\'');
 
         $this->addSql(

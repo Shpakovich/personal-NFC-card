@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Model\Entity\Card\Card;
-use App\Model\Entity\Card\Id;
+use App\Model\Entity\Common\Id;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;

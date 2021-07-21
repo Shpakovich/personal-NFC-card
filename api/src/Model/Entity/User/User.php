@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity\User;
 
+use App\Model\Entity\Common\Id;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -25,7 +26,7 @@ class User
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="user_id")
+     * @ORM\Column(type="entity_id")
      */
     private Id $id;
 
@@ -75,7 +76,7 @@ class User
      *     mappedBy="user", orphanRemoval=true, cascade={"all"}
      * )
      */
-    private PersistentCollection $cards;
+    private $cards;
 
     public function __construct(
         Id $id,
@@ -116,9 +117,6 @@ class User
         $this->updatedAt = $data;
     }
 
-    /**
-     * @return \App\Model\Entity\User\Id
-     */
     public function getId(): Id
     {
         return $this->id;

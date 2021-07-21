@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\Email;
-use App\Model\Entity\User\Id;
 use App\Model\Entity\User\Token;
 use App\Model\Entity\User\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;

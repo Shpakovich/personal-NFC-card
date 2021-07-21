@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity\Card;
 
+use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\User;
 use App\Model\Entity\UserCard\UserCard;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,7 @@ class Card
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="card_id")
+     * @ORM\Column(type="entity_id")
      */
     private Id $id;
 

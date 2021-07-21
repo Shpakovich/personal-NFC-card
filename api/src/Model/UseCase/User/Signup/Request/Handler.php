@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model\UseCase\User\Signup\Request;
 
+use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\Email;
-use App\Model\Entity\User\Id;
 use App\Model\Entity\User\User;
 use App\Model\Flusher;
 use App\Model\Repository\UserRepository;
