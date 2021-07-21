@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Model\Entity\User;
 
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\UserCard\UserCard;
 use Webmozart\Assert\Assert;
 
 class Profile

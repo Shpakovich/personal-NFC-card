@@ -6,7 +6,7 @@ namespace App\Model\Entity\Card;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\User;
-use App\Model\Entity\UserCard\UserCard;
+use App\Model\Entity\User\UserCard;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

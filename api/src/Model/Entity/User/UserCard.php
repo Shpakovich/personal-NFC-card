@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Entity\UserCard;
+namespace App\Model\Entity\User;
 
 use App\Model\Entity\Card\Card;
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\User\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

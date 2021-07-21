@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model\UseCase\User\Card\Register;
 
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\UserCard\UserCard;
+use App\Model\Entity\User\UserCard;
 use App\Model\Flusher;
 use App\Model\Repository\CardRepository;
 use App\Model\Repository\UserCardRepository;

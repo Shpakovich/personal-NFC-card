@@ -6,7 +6,7 @@ namespace App\Model\Repository;
 
 use App\Model\Entity\Card\Card;
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\UserCard\UserCard;
+use App\Model\Entity\User\UserCard;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -14,7 +14,7 @@ class UserCardRepository
 {
     private EntityManagerInterface $em;
 
-    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\UserCard\UserCard> */
+    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\User\UserCard> */
     private EntityRepository $repo;
 
     public function __construct(EntityManagerInterface $em)
