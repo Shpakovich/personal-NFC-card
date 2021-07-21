@@ -4,49 +4,81 @@ declare(strict_types=1);
 
 namespace App\Controller\Card;
 
-use App\Model\Entity\User\Id;
+use App\Controller\Guid;
+use App\Controller\PaginationSerializer;
+use App\Fetcher\CardFetcher;
+use App\Model\Entity\Card\Id;
+use App\Model\Repository\CardRepository;
+use App\Model\UseCase\Card;
+use DateTimeInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/card", name="card")
  */
 class CardController extends AbstractController
 {
+    private SerializerInterface $serializer;
+    private ValidatorInterface $validator;
+
+    public function __construct(SerializerInterface $serializer, ValidatorInterface $validator)
+    {
+        $this->serializer = $serializer;
+        $this->validator = $validator;
+    }
+
     /**
      * @Route("s", methods={"GET"}, name=".index")
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Fetcher\CardFetcher $fetcher
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function index(): Response
+    public function index(Request $request, CardFetcher $fetcher): JsonResponse
     {
+        $page = $request->query->getInt('page', 1);
+        /** @var int $perPage */
+        $perPage = $this->getParameter('app.items_per_page');
+        $pagination = $fetcher->all($page, $perPage);
+
         return $this->json(
             [
-                ['id' => "00000000-0000-0000-0000-000000000000"],
-                ['id' => "11111111-1111-1111-1111-111111111111"],
-                ['id' => "22222222-2222-2222-2222-222222222222"],
-                ['id' => "33333333-3333-3333-3333-333333333333"],
+                'items' => array_map(
+                    static function (array $item) {
+                        return [
+                            'id' => $item['id'],
+                            'created_at' => $item['created_at'],
+                            'user_id' => $item['user_id'],
+                            'user_email' => $item['user_email'],
+                        ];
+                    },
+                    (array)$pagination->getItems()
+                ),
+                'pagination' => PaginationSerializer::serialize($pagination),
             ]
         );
     }
 
     /**
-     * @Route("/{id}", methods={"GET"}, name=".show")
+     * @Route("/{id}", methods={"GET"}, name=".show", requirements={
+     *     "id"=Guid::PATTERN
+     * })
      *
-     * @param string $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param \App\Model\Entity\Card\Card $card
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function card(string $id): Response
+    public function card(\App\Model\Entity\Card\Card $card): JsonResponse
     {
-        if ($id !== '00000000-0000-0000-0000-000000000000') {
-            throw new \DomainException('Card not found', 404);
-        }
-
         return $this->json(
             [
-                'id' => "00000000-0000-0000-0000-000000000000",
+                'id' => $card->getId()->getValue(),
+                'created_at' => $card->getCreatedAt()->format(DateTimeInterface::RFC3339),
+                'creator_id' => $card->getCreator()->getId()->getValue()
             ]
         );
     }
@@ -54,10 +86,47 @@ class CardController extends AbstractController
     /**
      * @Route("/create", methods={"POST"}, name=".create")
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Model\UseCase\Card\Create\Handler $handler
+     * @param \App\Model\Repository\CardRepository $cards
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function create(): JsonResponse
+    public function create(Request $request, Card\Create\Handler $handler, CardRepository $cards): JsonResponse
     {
-        return $this->json(['id' => Id::next()->getValue()], 201);
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        /** @var string $content */
+        $content = $request->getContent();
+
+        /** @var \App\Model\UseCase\Card\Create\Command $command */
+        $command = $this->serializer->deserialize(
+            $content,
+            Card\Create\Command::class,
+            'json',
+            [
+                'object_to_populate' => new Card\Create\Command($user->getId()),
+                'ignored_attributes' => ['userId'],
+            ]
+        );
+
+        $violations = $this->validator->validate($command);
+        if (\count($violations)) {
+            $json = $this->serializer->serialize($violations, 'json');
+            return new JsonResponse($json, 422, [], true);
+        }
+
+        $handler->handle($command);
+
+        $card = $cards->getById(new Id($command->id));
+
+        return $this->json(
+            [
+                'id' => $card->getId()->getValue(),
+                'created_at' => $card->getCreatedAt()->format(DateTimeInterface::RFC3339),
+                'creator_id' => $card->getCreator()->getId()->getValue()
+            ],
+            201
+        );
     }
 }
