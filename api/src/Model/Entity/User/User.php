@@ -6,6 +6,7 @@ namespace App\Model\Entity\User;
 
 use App\Model\Entity\Common\Id;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
@@ -76,7 +77,7 @@ class User
      *     mappedBy="user", orphanRemoval=true, cascade={"all"}
      * )
      */
-    private $cards;
+    private ArrayCollection|PersistentCollection $cards;
 
     public function __construct(
         Id $id,
@@ -198,7 +199,7 @@ class User
         return $this;
     }
 
-    public function getCards(): ArrayCollection
+    public function getCards(): Collection
     {
         return $this->cards;
     }

@@ -59,7 +59,7 @@ class Card
         return $this->createdAt;
     }
 
-    public function getOwner(): UserCard
+    public function getOwner(): ?UserCard
     {
         return $this->owner;
     }
