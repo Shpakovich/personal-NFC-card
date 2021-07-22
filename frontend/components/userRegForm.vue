@@ -43,6 +43,9 @@
         },
         colorConfirmPasswordIcon () {
           return this.showConfirm ? '#68676C' : '#FFA436';
+        },
+        isDisabledButton () {
+          return (!this.valid || !this.checkbox);
         }
       }
     }
@@ -54,7 +57,6 @@
     class="flex flex-col"
     v-model="valid"
   >
-
     <v-text-field
       class="font-croc"
       v-model="userInfo.email"
@@ -106,13 +108,13 @@
       </template>
     </v-text-field>
     <div class="flex flex-row ml-4 mb-6">
-      <input v-model="checkbox" :rules="checkboxRules" class="ml-4 font-croc custom-checkbox" type="checkbox" id="privacy" name="privacy">
-      <label for="privacy">Я согласен(а) на обработку персональных данных и соглашаюсь<nuxt-link class="contents" to="/privacy">с политикой конфиденциальности</nuxt-link>
-      </label>
+        <input v-model="checkbox" class="ml-4 font-croc custom-checkbox" type="checkbox" id="privacy" name="privacy">
+        <label for="privacy">Я согласен(а) на обработку персональных данных и соглашаюсь<nuxt-link class="contents" to="/privacy">с политикой конфиденциальности</nuxt-link>
+        </label>
     </div>
 
     <v-btn
-      :disabled="!valid"
+      :disabled="isDisabledButton"
       color="primary"
       class="rounded-lg flex-initial m-auto w-8/12"
       max-width="225px"

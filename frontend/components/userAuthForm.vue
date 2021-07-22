@@ -4,8 +4,10 @@
 
       props: [
         "submitForm",
-        "buttonText"
+        "buttonText",
+        "loading"
       ],
+
 
       data: () => ({
         showPassword: false,
@@ -41,7 +43,6 @@
     ref="form"
     class="flex flex-col"
     v-model="valid"
-    lazy-validation
   >
 
     <v-text-field
@@ -80,15 +81,10 @@
         <img src="../assets/images/icon/icon-arrow-right-primary.svg" alt="">
       </nuxt-link>
     </p>
-    <div v-if="$auth.loggedIn">
-      <p>You loggin</p>
-    </div>
-    <div v-else>
-      <p>You not loggin</p>
-    </div>
 
     <v-btn
       :disabled="!valid"
+      :loading="loading"
       color="primary"
       height="48"
       max-width="136"
