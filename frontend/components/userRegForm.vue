@@ -4,7 +4,8 @@
 
       props: [
         "regForm",
-        "buttonText"
+        "buttonText",
+        "errorMessages"
       ],
 
       data: () => ({
@@ -47,6 +48,12 @@
         isDisabledButton () {
           return (!this.valid || !this.checkbox);
         }
+      },
+
+      methods: {
+        resetError () {
+          this.$emit('resetError'); // TODO надо бы сделать через vuex actions
+        }
       }
     }
 </script>
@@ -62,6 +69,8 @@
       v-model="userInfo.email"
       :rules="emailRules"
       label="Email"
+      :error-messages="errorMessages"
+      v-on:keyup="resetError()"
       required
       outlined
       placeholder="Ваш email"
@@ -109,7 +118,7 @@
     </v-text-field>
     <div class="flex flex-row ml-4 mb-6">
         <input v-model="checkbox" class="ml-4 font-croc custom-checkbox" type="checkbox" id="privacy" name="privacy">
-        <label for="privacy">Я согласен(а) на обработку персональных данных и соглашаюсь<nuxt-link class="contents" to="/privacy">с политикой конфиденциальности</nuxt-link>
+        <label for="privacy">Я согласен(а) на обработку персональных данных и соглашаюсь<nuxt-link class="contents" to="/privacy"> с политикой конфиденциальности</nuxt-link>
         </label>
     </div>
 

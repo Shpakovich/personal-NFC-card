@@ -8,6 +8,10 @@
       userRegForm
     },
 
+    data: () => ({
+      errorMessage: ''
+    }),
+
     methods: {
       async regUser (regInfo) {
         let data = {
@@ -18,8 +22,22 @@
         this.$store.commit('setUserInfo', regInfo);
 
         await this.$api.auth.registrationUser(data)
-          .then(() => this.$router.push('/confirmEmail'))
-          .catch((err) => console.log(err)); // пока console.log, потом придумает что то другое
+          .then((res) => {
+              if (res.code === 400) {
+                console.log('work error');
+                this.errorMessage = 'error';
+              }
+              this.$router.push('/confirmEmail')
+            }
+          )
+          .catch((err) => {
+            if ( err.response && err.response.status === 400) { // TODO глянуть список возможных ответов
+              this.errorMessage = 'Пользователь с таким email уже существует';
+            }
+          }); // пока так потом придумает что то другое
+      },
+      setError() {
+        this.errorMessage = '';
       }
     }
   }
@@ -44,7 +62,7 @@
       <img src="../assets/images/icon/icon-arrow-left.svg" alt="">
       Назад
     </v-btn>
-    <userRegForm buttonText="Регистрация" :regForm="regUser" />
+    <userRegForm buttonText="Регистрация" @resetError="setError()" :errorMessages="errorMessage" :regForm="regUser" />
   </v-container>
 </template>
 
