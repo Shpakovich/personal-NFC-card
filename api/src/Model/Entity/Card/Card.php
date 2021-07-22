@@ -33,7 +33,7 @@ class Card
     private \DateTimeImmutable $createdAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Model\Entity\UserCard\UserCard", mappedBy="card")
+     * @ORM\OneToOne(targetEntity="App\Model\Entity\User\UserCard", mappedBy="card")
      */
     private ?UserCard $owner = null;
 

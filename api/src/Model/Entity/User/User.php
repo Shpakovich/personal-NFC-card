@@ -73,11 +73,19 @@ class User
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="App\Model\Entity\UserCard\UserCard",
+     *     targetEntity="App\Model\Entity\User\UserCard",
      *     mappedBy="user", orphanRemoval=true, cascade={"all"}
      * )
      */
     private ArrayCollection|PersistentCollection $cards;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Model\Entity\User\Profile",
+     *     mappedBy="user", cascade={"all"}
+     * )
+     */
+    private ArrayCollection|PersistentCollection $profiles;
 
     public function __construct(
         Id $id,

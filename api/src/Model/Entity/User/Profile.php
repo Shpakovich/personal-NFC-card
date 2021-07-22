@@ -5,25 +5,86 @@ declare(strict_types=1);
 namespace App\Model\Entity\User;
 
 use App\Model\Entity\Common\Id;
+use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="profiles", uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="profile_user_id_user_card_id_uidx", columns={"user_id", "user_card_id"})
+ *     })
+ */
 class Profile
 {
-    private const DEFAULT_NAME = 'name';
-    private const DEFAULT_NICKNAME = 'nickname';
+    public const DEFAULT_NAME = 1;
+    public const DEFAULT_NICKNAME = 2;
 
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="entity_id")
+     */
     private Id $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Model\Entity\User\User", inversedBy="profiles")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
+     */
     private User $user;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Model\Entity\User\UserCard")
+     * @ORM\JoinColumn(name="user_card_id", referencedColumnName="id", onDelete="RESTRICT", nullable=true)
+     */
     private ?UserCard $card = null;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
     private string $title;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $photoPath = null;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
     private string $name;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
     private ?string $nickname = null;
-    private string $defaultName;
+
+    /**
+     * @ORM\Column(type="smallint",  options={"default": Profile::DEFAULT_NAME})
+     */
+    private int $defaultName;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
     private ?string $post = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
     private ?string $description = null;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
     private bool $isPublished;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
     private \DateTimeImmutable $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
     private \DateTimeImmutable $updatedAt;
 
     public function __construct(
@@ -31,7 +92,7 @@ class Profile
         User $user,
         string $title,
         string $name,
-        string $defaultName,
+        int $defaultName,
         \DateTimeImmutable $createdAt
     ) {
         $title = trim($title);
@@ -119,12 +180,12 @@ class Profile
         return $this;
     }
 
-    public function getDefaultName(): string
+    public function getDefaultName(): int
     {
         return $this->defaultName;
     }
 
-    public function setDefaultName(string $defaultName): self
+    public function setDefaultName(int $defaultName): self
     {
         $this->defaultName = $defaultName;
         return $this;
