@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -39,11 +40,11 @@ class SignupController extends AbstractController
         /** @var string $content */
         $content = $request->getContent();
         /** @var \App\Model\UseCase\User\Signup\Request\Command $command */
-        $command = $this->serializer->deserialize($content, Signup\Request\Command::class, 'json');
+        $command = $this->serializer->deserialize($content, Signup\Request\Command::class, JsonEncoder::FORMAT);
 
         $violations = $this->validator->validate($command);
         if (\count($violations)) {
-            $json = $this->serializer->serialize($violations, 'json');
+            $json = $this->serializer->serialize($violations, JsonEncoder::FORMAT);
             return new JsonResponse($json, 422, [], true);
         }
 
@@ -64,11 +65,11 @@ class SignupController extends AbstractController
         /** @var string $content */
         $content = $request->getContent();
         /** @var \App\Model\UseCase\User\Signup\Confirm\Command $command */
-        $command = $this->serializer->deserialize($content, Signup\Confirm\Command::class, 'json');
+        $command = $this->serializer->deserialize($content, Signup\Confirm\Command::class, JsonEncoder::FORMAT);
 
         $violations = $this->validator->validate($command);
         if (\count($violations)) {
-            $json = $this->serializer->serialize($violations, 'json');
+            $json = $this->serializer->serialize($violations, JsonEncoder::FORMAT);
             return new JsonResponse($json, 422, [], true);
         }
 

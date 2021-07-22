@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -105,7 +106,7 @@ class CardController extends AbstractController
         $command = $this->serializer->deserialize(
             $content,
             Card\Create\Command::class,
-            'json',
+            JsonEncoder::FORMAT,
             [
                 'object_to_populate' => new Card\Create\Command($user->getId()),
                 'ignored_attributes' => ['userId'],
@@ -114,7 +115,7 @@ class CardController extends AbstractController
 
         $violations = $this->validator->validate($command);
         if (\count($violations)) {
-            $json = $this->serializer->serialize($violations, 'json');
+            $json = $this->serializer->serialize($violations, JsonEncoder::FORMAT);
             return new JsonResponse($json, 422, [], true);
         }
 
@@ -152,7 +153,7 @@ class CardController extends AbstractController
         $command = $this->serializer->deserialize(
             $content,
             Register\Command::class,
-            'json',
+            JsonEncoder::FORMAT,
             [
                 'object_to_populate' => new Register\Command($user->getId()),
                 'ignored_attributes' => ['userId'],
@@ -161,7 +162,7 @@ class CardController extends AbstractController
 
         $violations = $this->validator->validate($command);
         if (\count($violations)) {
-            $json = $this->serializer->serialize($violations, 'json');
+            $json = $this->serializer->serialize($violations, JsonEncoder::FORMAT);
             return new JsonResponse($json, 422, [], true);
         }
 
