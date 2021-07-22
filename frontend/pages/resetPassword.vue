@@ -4,22 +4,21 @@
 
 
     data: () => ({
-      showPassword: false,
-      showConfirm: false,
       valid: false,
-      userInfo: {
-        user: '',
-        password: ''
-      },
+      email: '',
       emailRules: [
         v => !!v || 'E-mail обязательное поле',
         v => /.+@.+\..+/.test(v) || 'E-mail не по формату',
-      ],
-      passwordRules: [
-        v => !!v || 'Пароль обязательное поле',
-        v => v.length >= 5 || 'Минимальная длинна 5'
       ]
-    })
+    }),
+
+    methods: {
+      async submitForm(email) {
+        this.$api.auth.resetPassword(email).then(
+          this.$router.push('/authorization')
+        );
+      }
+    }
   }
 </script>
 
@@ -54,7 +53,7 @@
     >
       <v-text-field
         class="font-croc"
-        v-model="userInfo.user"
+        v-model="email"
         :rules="emailRules"
         label="Email"
         required
@@ -68,7 +67,7 @@
         height="48"
         max-width="136"
         class="m-auto w-2/5"
-        @click=""
+        @click="submitForm(email)"
       >
         Далее
       </v-btn>

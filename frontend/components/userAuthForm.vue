@@ -4,15 +4,17 @@
 
       props: [
         "submitForm",
-        "buttonText"
+        "buttonText",
+        "loading"
       ],
+
 
       data: () => ({
         showPassword: false,
         showConfirm: false,
         valid: false,
         userInfo: {
-          user: '',
+          username: '',
           password: ''
         },
         emailRules: [
@@ -41,12 +43,11 @@
     ref="form"
     class="flex flex-col"
     v-model="valid"
-    lazy-validation
   >
 
     <v-text-field
       class="font-croc"
-      v-model="userInfo.user"
+      v-model="userInfo.username"
       :rules="emailRules"
       label="Email"
       required
@@ -83,6 +84,7 @@
 
     <v-btn
       :disabled="!valid"
+      :loading="loading"
       color="primary"
       height="48"
       max-width="136"

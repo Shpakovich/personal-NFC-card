@@ -33,7 +33,7 @@
               color="white"
               icon
             >
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-icon @click="$auth.logout()">mdi-exit-to-app</v-icon>
             </v-btn>
           </v-app-bar>
 

@@ -8,22 +8,27 @@
       userAuthForm
     },
 
-    mounted() {
-      if(this.$auth.loggedIn) {
-        // const cookieRes = this.$cookies.get('auth.redirect');
-        // window.location.href = cookieRes; // router не работает
-      }
-    },
+    data: () => ({
+      loading: false
+    }),
 
     methods: {
-      async loginUser (loginInfo) {
+      async loginUser(loginInfo) {
+        this.loading = true;
+        const params = new URLSearchParams();
+        params.append('grant_type', 'password');
+        params.append('username', loginInfo.username);
+        params.append('password', loginInfo.password);
+        params.append('client_id', 'frontend');
+
         try {
           await this.$auth.loginWith('local',{
-            data: loginInfo
+            data: params
           });
         } catch (err) {
           console.log(err)
         }
+        this.loading = false;
       }
     }
   }
@@ -48,7 +53,11 @@
       <img src="../assets/images/icon/icon-arrow-left.svg" alt="">
       Назад
     </v-btn>
-    <userAuthForm buttonText="Войти" :submitForm="loginUser" />
+    <userAuthForm
+      buttonText="Войти"
+      :loading="loading"
+      :submitForm="loginUser"
+    />
   </v-container>
 </template>
 

@@ -26,6 +26,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: "@/plugins/api.js" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -48,34 +49,30 @@ export default {
     rewriteRedirects: true, // работает только с cookie-universal-nuxt
     plugins: ['~/plugins/auth.js'], //почему то работает с обратным редиректом
     redirect: {
-      login: '/authorization',
+      login: '/profile/card',
       logout: '/authorization',
       home: '/'
     },
     strategies: {
       local: {
         token: {
-          property: 'token',
+          property: 'access_token',
           global: true
         },
         user: {
-          property: 'user'
+          property: 'profile'
         },
         endpoints: {
-          login: { url: '/api/auth/login', method: 'post' },
-          logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/api/auth/user', method: 'get', propertyName: false }
+          login: { url: '/auth/token', method: 'post' },
+          logout: { url: '', method: '' },
+          user: { url: '/profile/create', method: 'post' }
         }
       }
     }
   },
 
-  serverMiddleware: {
-    '/api': '~/api'
-  },
-
   axios: {
-    baseURL: 'http://localhost:8080'
+    baseURL: 'http://localhost:8081'
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
