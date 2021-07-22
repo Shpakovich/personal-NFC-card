@@ -15,6 +15,8 @@
           'password': regInfo.password
         };
 
+        this.$store.commit('setUserInfo', regInfo);
+
         await this.$api.auth.registrationUser(data)
           .then(() => this.$router.push('/confirmEmail'))
           .catch((err) => console.log(err)); // пока console.log, потом придумает что то другое

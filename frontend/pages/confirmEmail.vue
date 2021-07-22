@@ -12,10 +12,24 @@
 
       methods: {
         async submitForm(token) {
-          this.$api.auth.confirmEmail(token).then(
-            // await this.$auth.loginWith('local',{}), TODO после добавления store берём данные для логина от туда
-            this.$router.push('/creatingProfile')
-          );
+          this.$api.auth.confirmEmail(token).then(() => {
+            if (this.$store.state.user) {
+              const params = new URLSearchParams();
+              const user = this.$store.state.user;
+              params.append('grant_type', 'password');
+              params.append('username', user.email);
+              params.append('password', user.password);
+              params.append('client_id', 'frontend');
+
+              this.$auth.loginWith('local', {
+                data: params
+              }).then(() =>
+                this.$router.push('/creatingProfile')
+              );
+            } else {
+              this.$router.push('/authorization')
+            }
+          })
         }
       }
     }
