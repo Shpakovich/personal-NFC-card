@@ -75,7 +75,7 @@ class CardController extends AbstractController
      * @param \App\Model\Entity\Card\Card $card
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function card(\App\Model\Entity\Card\Card $card): JsonResponse
+    public function show(\App\Model\Entity\Card\Card $card): JsonResponse
     {
         return $this->json(
             [

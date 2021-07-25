@@ -100,7 +100,7 @@ class Profile
 
         Assert::notEmpty($title);
         Assert::notEmpty($name);
-        Assert::isAnyOf($defaultName, [
+        Assert::oneOf($defaultName, [
             self::DEFAULT_NAME,
             self::DEFAULT_NICKNAME,
         ]);
