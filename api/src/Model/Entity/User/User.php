@@ -103,6 +103,7 @@ class User
         $this->status = Status::wait();
 
         $this->cards = new ArrayCollection();
+        $this->profiles = new ArrayCollection();
     }
 
     public function confirm(\DateTimeImmutable $data): void
@@ -210,5 +211,10 @@ class User
     public function getCards(): Collection
     {
         return $this->cards;
+    }
+
+    public function getProfiles(): Collection
+    {
+        return $this->profiles;
     }
 }

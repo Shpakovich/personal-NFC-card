@@ -10,58 +10,65 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Command implements CommandInterface
 {
     /**
+     * @var string
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank(),
      *     @Assert\Uuid()
      * })
      */
-    public mixed $cardId = null;
+    public mixed $cardId = '';
 
     /**
+     * @var string
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank(),
      *     @Assert\Length(max=100)
      * })
      */
-    public mixed $title = null;
+    public mixed $title = '';
 
     /**
+     * @var string
      * @Assert\NotBlank()
      * @Assert\Length(max=100)
      */
     public mixed $name = '';
 
     /**
+     * @var string
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank(),
      *     @Assert\Length(max=100)
      * })
      */
-    public mixed $nickname = null;
+    public mixed $nickname = '';
 
     /**
+     * @var int
      * @Assert\Type(type="int")
      * @Assert\Choice({1, 2}, message="Right values: 1 - name, 2 - nickname")
      */
-    public mixed $defaultName = null;
+    public mixed $defaultName = 1;
 
     /**
+     * @var string
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank(),
      *     @Assert\Length(max=100)
      * })
      */
-    public mixed $post = null;
+    public mixed $post = '';
 
     /**
+     * @var string
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank(),
      *     @Assert\Length(max=2000)
      * })
      */
-    public mixed $description = null;
+    public mixed $description = '';
 
     // Setting in controller
-    public string $id;
-    public string $userId;
+    public string $id = '';
+    public string $userId = '';
 }

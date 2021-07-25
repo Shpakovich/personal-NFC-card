@@ -37,13 +37,13 @@ class Handler
         $profile = new Profile(
             new Id($command->id),
             $user,
-            $command->title ?? $command->name,
+            !empty($command->title) ? $command->title : $command->name,
             $command->name,
             !empty($command->defaultName) ? $command->defaultName : Profile::DEFAULT_NAME,
             new \DateTimeImmutable()
         );
 
-        if ($command->cardId !== null) {
+        if (!empty($command->cardId)) {
             $card = $this->userCards->getByCardId(new Id($command->cardId));
             if ($this->profiles->hasByCard($card)) {
                 throw new \DomainException("Card {$command->cardId} already attach to profile.");

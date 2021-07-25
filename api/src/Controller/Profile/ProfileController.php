@@ -35,12 +35,13 @@ class ProfileController extends AbstractController
         $handler->handle($command);
 
         $profile = $profiles->getById(new Id($command->id));
+        $card = $profile->getCard();
 
         return $this->json(
             [
                 'id' => $profile->getId()->getValue(),
                 'user' => $profile->getUser()->getId()->getValue(),
-                'card' => $profile->getCard() ? $profile->getCard()->getId()->getValue() : null,
+                'card' => $card !== null ? $card->getId()->getValue() : null,
                 'title' => $profile->getTitle(),
                 'name' => $profile->getName(),
                 'nickname' => $profile->getNickname(),

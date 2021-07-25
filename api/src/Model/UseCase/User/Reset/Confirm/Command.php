@@ -10,12 +10,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Command implements CommandInterface
 {
     /**
+     * @var string
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
      */
     public mixed $token = '';
 
     /**
+     * @var string
      * @Assert\NotBlank()
      * @Assert\Length(min=5)
      */

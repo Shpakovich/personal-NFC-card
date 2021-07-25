@@ -26,18 +26,28 @@ class CommandResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return is_subclass_of($argument->getType(), CommandInterface::class);
+        $type = $argument->getType();
+        if ($type === null) {
+            return false;
+        }
+
+        return is_subclass_of($type, CommandInterface::class);
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
+        $type = $argument->getType();
+        if ($type === null) {
+            throw new \RuntimeException('Could not resolve command.');
+        }
+
         /** @var string $content */
         $content = $request->getContent();
 
         /** @var \App\Model\UseCase\User\Profile\Create\Command $command */
         $command = $this->serializer->deserialize(
             $content,
-            $argument->getType(),
+            $type,
             JsonEncoder::FORMAT
         );
 
