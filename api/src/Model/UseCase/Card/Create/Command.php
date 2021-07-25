@@ -4,24 +4,17 @@ declare(strict_types=1);
 
 namespace App\Model\UseCase\Card\Create;
 
+use App\Model\UseCase\CommandInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Command
+class Command implements CommandInterface
 {
     /**
      * @Assert\NotBlank()
      * @Assert\Uuid()
      */
-    public string $id = '';
+    public mixed $id = '';
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Uuid()
-     */
+    // Setting in controller
     public string $userId;
-
-    public function __construct(string $userId)
-    {
-        $this->userId = $userId;
-    }
 }

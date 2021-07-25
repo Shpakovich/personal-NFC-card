@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Model\UseCase\User\Card\Register;
 
+use App\Model\UseCase\CommandInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Command
+class Command implements CommandInterface
 {
     /**
      * @Assert\NotBlank()
      * @Assert\Uuid()
      */
-    public string $id = '';
+    public mixed $id = '';
 
     /**
      * @Assert\AtLeastOneOf({
@@ -20,15 +21,8 @@ class Command
      *     @Assert\Length(min=3, max=100)
      * })
      */
-    public string $alias = '';
+    public mixed $alias = '';
 
-    /**
-     * @Assert\NotBlank()
-     */
+    // Setting in controller
     public string $userId;
-
-    public function __construct(string $userId)
-    {
-        $this->userId = $userId;
-    }
 }

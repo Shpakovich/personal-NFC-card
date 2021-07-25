@@ -32,7 +32,6 @@ class ProfileController extends AbstractController
 
         $command->id = Id::next()->getValue();
         $command->userId = $user->getId();
-
         $handler->handle($command);
 
         $profile = $profiles->getById(new Id($command->id));

@@ -17,24 +17,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/card", name="card")
  */
 class CardController extends AbstractController
 {
-    private SerializerInterface $serializer;
-    private ValidatorInterface $validator;
-
-    public function __construct(SerializerInterface $serializer, ValidatorInterface $validator)
-    {
-        $this->serializer = $serializer;
-        $this->validator = $validator;
-    }
-
     /**
      * @Route("s", methods={"GET"}, name=".index")
      *
@@ -56,8 +44,10 @@ class CardController extends AbstractController
                         return [
                             'id' => $item['id'],
                             'created_at' => $item['created_at'],
-                            'user_id' => $item['user_id'],
-                            'user_email' => $item['user_email'],
+                            'creator' => [
+                                'id' => $item['creator_id'],
+                                'email' => $item['creator_email'],
+                            ]
                         ];
                     },
                     (array)$pagination->getItems()
@@ -89,36 +79,20 @@ class CardController extends AbstractController
     /**
      * @Route("/create", methods={"POST"}, name=".create")
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Model\UseCase\Card\Create\Command $command
      * @param \App\Model\UseCase\Card\Create\Handler $handler
      * @param \App\Model\Repository\CardRepository $cards
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function create(Request $request, Card\Create\Handler $handler, CardRepository $cards): JsonResponse
-    {
+    public function create(
+        Card\Create\Command $command,
+        Card\Create\Handler $handler,
+        CardRepository $cards
+    ): JsonResponse {
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
-        /** @var string $content */
-        $content = $request->getContent();
-
-        /** @var \App\Model\UseCase\Card\Create\Command $command */
-        $command = $this->serializer->deserialize(
-            $content,
-            Card\Create\Command::class,
-            JsonEncoder::FORMAT,
-            [
-                'object_to_populate' => new Card\Create\Command($user->getId()),
-                'ignored_attributes' => ['userId'],
-            ]
-        );
-
-        $violations = $this->validator->validate($command);
-        if (\count($violations)) {
-            $json = $this->serializer->serialize($violations, JsonEncoder::FORMAT);
-            return new JsonResponse($json, 422, [], true);
-        }
-
+        $command->userId = $user->getId();
         $handler->handle($command);
 
         $card = $cards->getById(new Id($command->id));
@@ -127,7 +101,10 @@ class CardController extends AbstractController
             [
                 'id' => $card->getId()->getValue(),
                 'created_at' => $card->getCreatedAt()->format(DateTimeInterface::RFC3339),
-                'creator_id' => $card->getCreator()->getId()->getValue()
+                'creator' => [
+                    'id' => $card->getCreator()->getId()->getValue(),
+                    'email' => $card->getCreator()->getEmail()->getValue(),
+                ]
             ],
             201
         );
@@ -136,36 +113,20 @@ class CardController extends AbstractController
     /**
      * @Route("/register", methods={"POST"}, name=".register")
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Model\UseCase\User\Card\Register\Command $command
      * @param \App\Model\UseCase\User\Card\Register\Handler $handler
      * @param \App\Model\Repository\UserCardRepository $cards
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function register(Request $request, Register\Handler $handler, UserCardRepository $cards): JsonResponse
-    {
+    public function register(
+        Register\Command $command,
+        Register\Handler $handler,
+        UserCardRepository $cards
+    ): JsonResponse {
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
-        /** @var string $content */
-        $content = $request->getContent();
-
-        /** @var \App\Model\UseCase\User\Card\Register\Command $command */
-        $command = $this->serializer->deserialize(
-            $content,
-            Register\Command::class,
-            JsonEncoder::FORMAT,
-            [
-                'object_to_populate' => new Register\Command($user->getId()),
-                'ignored_attributes' => ['userId'],
-            ]
-        );
-
-        $violations = $this->validator->validate($command);
-        if (\count($violations)) {
-            $json = $this->serializer->serialize($violations, JsonEncoder::FORMAT);
-            return new JsonResponse($json, 422, [], true);
-        }
-
+        $command->userId = $user->getId();
         $handler->handle($command);
 
         $card = $cards->getByCardId(new Id($command->id));

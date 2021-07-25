@@ -26,8 +26,8 @@ class CardFetcher
                 [
                     'c.id',
                     'c.created_at',
-                    'u.id as user_id',
-                    'u.email as user_email',
+                    'u.id as creator_id',
+                    'u.email as creator_email',
                 ]
             )
             ->from('cards', 'c')
