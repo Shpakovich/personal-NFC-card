@@ -39,7 +39,7 @@ class Handler
             $user,
             $command->title ?? $command->name,
             $command->name,
-            $command->defaultName,
+            !empty($command->defaultName) ? $command->defaultName : Profile::DEFAULT_NAME,
             new \DateTimeImmutable()
         );
 
