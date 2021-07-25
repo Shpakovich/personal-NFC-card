@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Formatter;
 
-use App\Exception\InvalidRequestData;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class NotNormalizableValueExceptionFormatter implements EventSubscriberInterface
 {

@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Formatter;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
-class NotEncodableValueExceptionFormatter implements EventSubscriberInterface
+class DomainExceptionFormatter implements EventSubscriberInterface
 {
     public static function getSubscribedEvents(): array
     {
@@ -23,17 +22,27 @@ class NotEncodableValueExceptionFormatter implements EventSubscriberInterface
     {
         $error = $event->getThrowable();
 
-        if (!$error instanceof NotEncodableValueException) {
+        if (!$error instanceof \DomainException) {
             return;
+        }
+
+        $code = $error->getCode();
+        if (!$this->isCodeValid($code)) {
+            $code = 400;
         }
 
         $event->setResponse(
             new JsonResponse([
                 'error' => [
-                    'code' => 400,
-                    'message' => 'Invalid query.',
+                    'code' => $code,
+                    'message' => $error->getMessage(),
                 ]
-            ], 400)
+            ], (int)$code)
         );
+    }
+
+    public function isCodeValid(int|string $code): bool
+    {
+        return is_int($code) && $code > 399 && $code < 500;
     }
 }
