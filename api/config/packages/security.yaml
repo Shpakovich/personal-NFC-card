@@ -33,5 +33,7 @@ security:
     access_control:
          - { path: ^/auth/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/show/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/doc$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/doc.json$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
