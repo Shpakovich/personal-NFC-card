@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
 
 class InvalidRequestData extends \Exception
 {
-    private ConstraintViolationListInterface $errors;
+    private ConstraintViolationList $violations;
 
-    public function __construct(ConstraintViolationListInterface $errors)
+    public function __construct(ConstraintViolationList $violations)
     {
         parent::__construct();
 
-        $this->errors = $errors;
+        $this->violations = $violations;
     }
 
-    public function getErrors(): ConstraintViolationListInterface
+    public function getViolations(): ConstraintViolationList
     {
-        return $this->errors;
+        return $this->violations;
     }
 }

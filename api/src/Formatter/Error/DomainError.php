@@ -8,15 +8,19 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     @OA\Property(property="error", type="object",
- *         @OA\Property(property="code", type="integer"),
- *         @OA\Property(property="message", type="string"),
- *     )
+ *     description="Ошибка бизнес логики"
  * )
  */
 class DomainError
 {
+    /**
+     * @OA\Property(property="code", type="integer", description="Код ошибки")
+     */
     private int $code;
+
+    /**
+     * @OA\Property(property="message", type="string", description="Описание ошибки")
+     */
     private string $message;
 
     public function __construct(\DomainException $e)
@@ -43,10 +47,8 @@ class DomainError
     public function toArray(): array
     {
         return [
-            'error' => [
-                'code' => $this->code,
-                'message' => $this->message,
-            ]
+            'code' => $this->code,
+            'message' => $this->message,
         ];
     }
 

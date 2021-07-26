@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Auth;
 
-use App\Formatter\Error\DomainError;
+use App\Formatter\Error;
 use App\Model\UseCase\User\Signup;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
@@ -40,22 +40,13 @@ class SignupController extends AbstractController
      * @OA\Response(
      *     response=400,
      *     description="Ошибки бизнес логики, например, такой пользователь уже существует.",
-     *     @OA\JsonContent(ref=@Model(type=DomainError::class))
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
      * )
      *
      * @OA\Response(
      *     response=422,
      *     description="Ошибка валидации входных данных.",
-     *     @OA\JsonContent(
-     *          @OA\Property(property="title", type="string"),
-     *          @OA\Property(property="detail", type="string"),
-     *          @OA\Property(property="violations", type="array", description="Ошибки валидации",
-     *              @OA\Items(
-     *                  @OA\Property(property="propertyPath", type="string", description="Название параметра"),
-     *                  @OA\Property(property="title", type="string", description="Описание ошибки"),
-     *              )
-     *          ),
-     *     )
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
      * )
      *
      * @OA\Tag(name="Auth")
