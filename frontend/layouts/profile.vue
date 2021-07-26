@@ -2,7 +2,7 @@
     export default {
       name: "profile",
 
-      mounted() {
+      beforeCreate() {
         if (!this.$auth.loggedIn){
           this.$router.push('/authorization');
         }

@@ -29,7 +29,7 @@
 <template>
   <v-app>
     <v-main>
-        <nuxt />
+        <nuxt keep-alive :keep-alive-props="{include: ['registration']}" />
     </v-main>
   </v-app>
 </template>
