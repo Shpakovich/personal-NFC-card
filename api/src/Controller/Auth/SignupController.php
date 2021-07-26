@@ -68,7 +68,7 @@ class SignupController extends AbstractController
      * )
      *
      * @OA\Response(
-     *     response=201,
+     *     response=200,
      *     description="Запрос на подтверждение пользователя выполнен успешно."
      * )
      *

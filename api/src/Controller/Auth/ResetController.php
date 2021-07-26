@@ -68,7 +68,7 @@ class ResetController extends AbstractController
      * )
      *
      * @OA\Response(
-     *     response=201,
+     *     response=200,
      *     description="Пароль изменен успешно."
      * )
      *
