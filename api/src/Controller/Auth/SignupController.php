@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Auth;
 
+use App\Formatter\Error\DomainError;
 use App\Model\UseCase\User\Signup;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,18 +34,13 @@ class SignupController extends AbstractController
      *
      * @OA\Response(
      *     response=201,
-     *     description="Запрос выполнен успешно."
+     *     description="Запрос на регистрацию выполнен успешно."
      * )
      *
      * @OA\Response(
      *     response=400,
-     *     description="Ошибки бизнес логики, например, такой пользователь уже существует, карта с указанным ID не найдена.",
-     *     @OA\JsonContent(
-     *          @OA\Property(property="error", type="object",
-     *              @OA\Property(property="code", type="integer"),
-     *              @OA\Property(property="message", type="string"),
-     *          )
-     *     )
+     *     description="Ошибки бизнес логики, например, такой пользователь уже существует.",
+     *     @OA\JsonContent(ref=@Model(type=DomainError::class))
      * )
      *
      * @OA\Response(

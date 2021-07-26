@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Formatter;
 
+use App\Formatter\Error\DomainError;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -20,29 +21,12 @@ class DomainExceptionFormatter implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $error = $event->getThrowable();
-
-        if (!$error instanceof \DomainException) {
+        $exception = $event->getThrowable();
+        if (!$exception instanceof \DomainException) {
             return;
         }
 
-        $code = $error->getCode();
-        if (!$this->isCodeValid($code)) {
-            $code = 400;
-        }
-
-        $event->setResponse(
-            new JsonResponse([
-                'error' => [
-                    'code' => $code,
-                    'message' => $error->getMessage(),
-                ]
-            ], (int)$code)
-        );
-    }
-
-    public function isCodeValid(int|string $code): bool
-    {
-        return is_int($code) && $code > 399 && $code < 500;
+        $error = new DomainError($exception);
+        $event->setResponse(new JsonResponse($error->toArray(), $error->getCode()));
     }
 }
