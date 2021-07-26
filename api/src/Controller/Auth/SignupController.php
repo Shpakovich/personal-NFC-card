@@ -20,37 +20,45 @@ class SignupController extends AbstractController
      * @Route("/request", name=".request", methods={"POST"})
      *
      * @OA\Post(
-     *     summary="Запрос на регистрацию нового пользователя",
+     *     summary="Запрос на регистрацию нового пользователя.",
      *     @OA\RequestBody(
      *          @OA\JsonContent(
      *              required={"email", "password"},
-     *              @OA\Property (
-     *                  property="email",
-     *                  type="string",
-     *                  description="Email пользователя",
-     *              ),
-     *              @OA\Property (
-     *                  property="password",
-     *                  type="string",
-     *                  description="Пароль",
-     *              )
+     *              @OA\Property(property="email", type="string", description="Email пользователя"),
+     *              @OA\Property(property="password", type="string", description="Пароль")
      *          )
      *      )
      * )
      *
      * @OA\Response(
      *     response=201,
-     *     description="Запрос выполнен успешно"
+     *     description="Запрос выполнен успешно."
      * )
      *
      * @OA\Response(
      *     response=400,
-     *     description="Ошибки бизнес логики, например, такой пользователь уже существует, карта с указанным ID не найдена",
+     *     description="Ошибки бизнес логики, например, такой пользователь уже существует, карта с указанным ID не найдена.",
+     *     @OA\JsonContent(
+     *          @OA\Property(property="error", type="object",
+     *              @OA\Property(property="code", type="integer"),
+     *              @OA\Property(property="message", type="string"),
+     *          )
+     *     )
      * )
      *
      * @OA\Response(
      *     response=422,
-     *     description="Ошибка валидации входных данных",
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(
+     *          @OA\Property(property="title", type="string"),
+     *          @OA\Property(property="detail", type="string"),
+     *          @OA\Property(property="violations", type="array", description="Ошибки валидации",
+     *              @OA\Items(
+     *                  @OA\Property(property="propertyPath", type="string", description="Название параметра"),
+     *                  @OA\Property(property="title", type="string", description="Описание ошибки"),
+     *              )
+     *          ),
+     *     )
      * )
      *
      * @OA\Tag(name="Auth")
