@@ -46,7 +46,6 @@ class SignupController extends AbstractController
      * )
      *
      * @OA\Tag(name="Auth")
-     * @OA\Tag(name="Sign Up")
      *
      * @param \App\Model\UseCase\User\Signup\Request\Command $command
      * @param \App\Model\UseCase\User\Signup\Request\Handler $handler
@@ -86,7 +85,6 @@ class SignupController extends AbstractController
      * )
      *
      * @OA\Tag(name="Auth")
-     * @OA\Tag(name="Sign Up")
      *
      * @param \App\Model\UseCase\User\Signup\Confirm\Command $command
      * @param \App\Model\UseCase\User\Signup\Confirm\Handler $handler
