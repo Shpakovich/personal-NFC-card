@@ -5,7 +5,8 @@
       props: [
         "regForm",
         "buttonText",
-        "errorMessages"
+        "errorMessages",
+        "loading"
       ],
 
       data: () => ({
@@ -36,8 +37,9 @@
 
       computed: {
         passwordConfirmationRule() {
-          return () =>
-            this.userInfo.password === this.userInfo.confirmPassword || "Пароли не совпадают";
+          if (this.userInfo.confirmPassword) { // TODO добавить debounce на 500
+            return this.userInfo.password === this.userInfo.confirmPassword ? true : "Пароли не совпадают";
+          }
         },
         colorPasswordIcon () {
           return this.showPassword ? '#68676C' : '#FFA436';
@@ -79,7 +81,7 @@
     <v-text-field
       class="font-croc"
       v-model="userInfo.password"
-      :rules="passwordRules"
+      :rules="confirmPasswordRules.concat(passwordConfirmationRule)"
       :type="showPassword ? 'text' : 'password'"
       name="password"
       label="Пароль"
@@ -124,6 +126,7 @@
 
     <v-btn
       :disabled="isDisabledButton"
+      :loading="loading"
       color="primary"
       class="rounded-lg flex-initial m-auto w-8/12"
       max-width="225px"

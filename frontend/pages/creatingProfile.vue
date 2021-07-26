@@ -1,7 +1,7 @@
 <script>
   export default {
     name: "creatingProfile",
-    layout: "profile"
+    layout: "createProfile"
   }
 </script>
 

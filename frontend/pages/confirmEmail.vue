@@ -3,8 +3,10 @@
         name: "confirmEmail",
 
       data: () => ({
+        loading: false,
         token: '',
         valid: false,
+        errorMessages: '',
         tokenRules: [
           v => !!v || 'Введите ваш токен'
         ]
@@ -12,6 +14,7 @@
 
       methods: {
         async submitForm(token) {
+          this.loading = true;
           this.$api.auth.confirmEmail(token).then(() => {
             if (this.$store.state.user) {
               const params = new URLSearchParams();
@@ -29,7 +32,15 @@
             } else {
               this.$router.push('/authorization')
             }
-          })
+          }).catch((err) => {
+            if (err.response && err.response.status === 400) {
+              this.errorMessages = 'Токен неправильный или устарел';
+            }
+          });
+          this.loading = false;
+        },
+        resetError () {
+          this.errorMessages = '';
         }
       }
     }
@@ -68,8 +79,11 @@
       <v-text-field
         class="font-croc"
         v-model="token"
+        :error-messages="errorMessages"
+        v-on:keyup="resetError()"
         :rules="tokenRules"
         label="Код"
+        name="token"
         required
         outlined
         placeholder="123456"
@@ -77,6 +91,7 @@
 
       <v-btn
       :disabled="!valid"
+      :loading="loading"
       color="primary"
       height="48"
       max-width="136"

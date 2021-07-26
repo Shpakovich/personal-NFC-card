@@ -5,6 +5,8 @@
       props: [
         "submitForm",
         "buttonText",
+        "errorMessages",
+        "errorPasswordMessages",
         "loading"
       ],
 
@@ -34,8 +36,13 @@
         typeInput () {
           return this.showPassword ? 'text' : 'password'
         }
+    },
+    methods: {
+      resetError () {
+        this.$emit('resetError'); // TODO надо бы сделать через vuex actions
+      }
     }
-    }
+  }
 </script>
 
 <template>
@@ -48,6 +55,8 @@
     <v-text-field
       class="font-croc"
       v-model="userInfo.username"
+      :error-messages="errorMessages"
+      v-on:keyup="resetError()"
       :rules="emailRules"
       label="Email"
       required
@@ -59,6 +68,8 @@
       id="password"
       class="font-croc"
       v-model="userInfo.password"
+      v-on:keyup="resetError()"
+      :error-messages="errorPasswordMessages"
       :rules="passwordRules"
       :type="typeInput"
       name="password"

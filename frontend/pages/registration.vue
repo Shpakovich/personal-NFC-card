@@ -9,11 +9,13 @@
     },
 
     data: () => ({
+      loading: false,
       errorMessage: ''
     }),
 
     methods: {
       async regUser (regInfo) {
+        this.loading = true;
         let data = {
           'email': regInfo.email,
           'password': regInfo.password
@@ -23,10 +25,6 @@
 
         await this.$api.auth.registrationUser(data)
           .then((res) => {
-              if (res.code === 400) {
-                console.log('work error');
-                this.errorMessage = 'error';
-              }
               this.$router.push('/confirmEmail')
             }
           )
@@ -35,6 +33,7 @@
               this.errorMessage = 'Пользователь с таким email уже существует';
             }
           }); // пока так потом придумает что то другое
+        this.loading = false;
       },
       setError() {
         this.errorMessage = '';
@@ -62,7 +61,14 @@
       <img src="../assets/images/icon/icon-arrow-left.svg" alt="">
       Назад
     </v-btn>
-    <userRegForm buttonText="Регистрация" @resetError="setError()" :errorMessages="errorMessage" :regForm="regUser" />
+    <userRegForm
+      keep-alive
+      buttonText="Регистрация"
+      :loading="loading"
+      @resetError="setError()"
+      :errorMessages="errorMessage"
+      :regForm="regUser"
+    />
   </v-container>
 </template>
 
