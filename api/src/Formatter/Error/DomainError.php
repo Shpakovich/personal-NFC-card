@@ -30,7 +30,7 @@ class DomainError
             $code = 400;
         }
 
-        $this->code = $code;
+        $this->code = (int)$code;
         $this->message = $e->getMessage();
     }
 

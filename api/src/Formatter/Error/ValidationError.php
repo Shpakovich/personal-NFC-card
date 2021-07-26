@@ -31,9 +31,11 @@ class ValidationError
 
     public function toArray(): array
     {
-        $result = [];
+        $errors = [];
+
+        /** @var \Symfony\Component\Validator\ConstraintViolation $error */
         foreach ($this->errors as $error) {
-            $result[] = [
+            $errors[] = [
                 'property' => $error->getPropertyPath(),
                 'message' => $error->getMessage(),
                 'value' => $error->getInvalidValue(),
@@ -41,7 +43,7 @@ class ValidationError
         }
 
         return [
-            'errors' => $result,
+            'errors' => $errors,
         ];
     }
 }

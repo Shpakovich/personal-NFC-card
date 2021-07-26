@@ -51,6 +51,7 @@ class CommandResolver implements ArgumentValueResolverInterface
             JsonEncoder::FORMAT
         );
 
+        /** @var \Symfony\Component\Validator\ConstraintViolationList $errors */
         $errors = $this->validator->validate($command);
         if (\count($errors)) {
             throw new InvalidRequestData($errors);
