@@ -24,11 +24,7 @@ class SignupController extends AbstractController
      * @OA\Post(
      *     summary="Запрос на регистрацию нового пользователя.",
      *     @OA\RequestBody(
-     *          @OA\JsonContent(
-     *              required={"email", "password"},
-     *              @OA\Property(property="email", type="string", description="Email пользователя"),
-     *              @OA\Property(property="password", type="string", description="Пароль")
-     *          )
+     *          @OA\JsonContent(ref=@Model(type=Signup\Request\Command::class))
      *      )
      * )
      *
@@ -68,10 +64,7 @@ class SignupController extends AbstractController
      * @OA\Post(
      *     summary="Подтвердить регистрацию пользователя.",
      *     @OA\RequestBody(
-     *          @OA\JsonContent(
-     *              required={"token"},
-     *              @OA\Property(property="token", type="string", description="Токен на подтвержение регистрации")
-     *          )
+     *          @OA\JsonContent(ref=@Model(type=Signup\Confirm\Command::class))
      *      )
      * )
      *
