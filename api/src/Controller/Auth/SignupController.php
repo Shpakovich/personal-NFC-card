@@ -65,6 +65,36 @@ class SignupController extends AbstractController
     /**
      * @Route("/confirm", name=".confirm", methods={"POST"})
      *
+     * @OA\Post(
+     *     summary="Подтвердить регистрацию пользователя.",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"token"},
+     *              @OA\Property(property="token", type="string", description="Токен на подтвержение регистрации")
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=201,
+     *     description="Запрос на подтверждение пользователя выполнен успешно."
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики, например, токен не найден.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Tag(name="Auth")
+     * @OA\Tag(name="Sign Up")
+     *
      * @param \App\Model\UseCase\User\Signup\Confirm\Command $command
      * @param \App\Model\UseCase\User\Signup\Confirm\Handler $handler
      * @return \Symfony\Component\HttpFoundation\JsonResponse
