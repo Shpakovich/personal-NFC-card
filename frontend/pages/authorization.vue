@@ -9,7 +9,9 @@
     },
 
     data: () => ({
-      loading: false
+      loading: false,
+      errorMessage: '',
+      errorPassword: ''
     }),
 
     methods: {
@@ -26,9 +28,16 @@
             data: params
           });
         } catch (err) {
-          console.log(err)
+          if ( err.response && err.response.status === 400) { // TODO глянуть список возможных ответов
+            this.errorMessage = 'Неверный логин или пароль';
+            this.errorPassword = ' ';
+          }
         }
         this.loading = false;
+      },
+      setError() {
+        this.errorMessage = '';
+        this.errorPassword = '';
       }
     }
   }
@@ -56,6 +65,9 @@
     <userAuthForm
       buttonText="Войти"
       :loading="loading"
+      @resetError="setError()"
+      :errorMessages="errorMessage"
+      :errorPasswordMessages="errorPassword"
       :submitForm="loginUser"
     />
   </v-container>

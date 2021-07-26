@@ -4,7 +4,9 @@
 
       props: [
         "regForm",
-        "buttonText"
+        "buttonText",
+        "errorMessages",
+        "loading"
       ],
 
       data: () => ({
@@ -35,8 +37,9 @@
 
       computed: {
         passwordConfirmationRule() {
-          return () =>
-            this.userInfo.password === this.userInfo.confirmPassword || "Пароли не совпадают";
+          if (this.userInfo.confirmPassword) { // TODO добавить debounce на 500
+            return this.userInfo.password === this.userInfo.confirmPassword ? true : "Пароли не совпадают";
+          }
         },
         colorPasswordIcon () {
           return this.showPassword ? '#68676C' : '#FFA436';
@@ -46,6 +49,12 @@
         },
         isDisabledButton () {
           return (!this.valid || !this.checkbox);
+        }
+      },
+
+      methods: {
+        resetError () {
+          this.$emit('resetError'); // TODO надо бы сделать через vuex actions
         }
       }
     }
@@ -62,6 +71,8 @@
       v-model="userInfo.email"
       :rules="emailRules"
       label="Email"
+      :error-messages="errorMessages"
+      v-on:keyup="resetError()"
       required
       outlined
       placeholder="Ваш email"
@@ -70,7 +81,7 @@
     <v-text-field
       class="font-croc"
       v-model="userInfo.password"
-      :rules="passwordRules"
+      :rules="confirmPasswordRules.concat(passwordConfirmationRule)"
       :type="showPassword ? 'text' : 'password'"
       name="password"
       label="Пароль"
@@ -109,12 +120,13 @@
     </v-text-field>
     <div class="flex flex-row ml-4 mb-6">
         <input v-model="checkbox" class="ml-4 font-croc custom-checkbox" type="checkbox" id="privacy" name="privacy">
-        <label for="privacy">Я согласен(а) на обработку персональных данных и соглашаюсь<nuxt-link class="contents" to="/privacy">с политикой конфиденциальности</nuxt-link>
+        <label for="privacy">Я согласен(а) на обработку персональных данных и соглашаюсь<nuxt-link class="contents" to="/privacy"> с политикой конфиденциальности</nuxt-link>
         </label>
     </div>
 
     <v-btn
       :disabled="isDisabledButton"
+      :loading="loading"
       color="primary"
       class="rounded-lg flex-initial m-auto w-8/12"
       max-width="225px"
