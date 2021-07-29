@@ -1,8 +1,19 @@
 nelmio_api_doc:
+    areas:
+        path_patterns:
+            - ^\/(?!/doc$)
+
     documentation:
         info:
             title: Personal NFS cards API
             version: 1.0.0
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+
         paths:
             /auth/token:
                 post:
@@ -85,7 +96,3 @@ nelmio_api_doc:
                                                 type: string
                                             message:
                                                 type: string
-
-    areas:
-        path_patterns:
-            - ^\/(?!/doc$)
