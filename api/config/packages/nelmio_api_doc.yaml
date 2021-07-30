@@ -1,7 +1,9 @@
 nelmio_api_doc:
     areas:
         path_patterns:
-            - ^\/(?!/doc$)
+            - ^/(?!doc$)
+        name_patterns:
+            - "[^(?!_preview_error$)|^(?!home$)]"
 
     documentation:
         info:

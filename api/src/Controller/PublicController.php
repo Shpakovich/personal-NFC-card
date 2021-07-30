@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublicController extends AbstractController
 {
     /**
-     * @Route("/", name="api")
+     * @Route("/", methods={"GET"}, name="home")
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
