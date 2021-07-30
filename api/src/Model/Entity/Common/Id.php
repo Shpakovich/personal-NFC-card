@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Entity\User;
+namespace App\Model\Entity\Common;
 
 use Ramsey\Uuid\Uuid;
 use Webmozart\Assert\Assert;

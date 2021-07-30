@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Formatter;
 
+use App\Formatter\Error\DomainError;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
-class NotEncodableValueExceptionFormatter implements EventSubscriberInterface
+class DomainExceptionFormatter implements EventSubscriberInterface
 {
     public static function getSubscribedEvents(): array
     {
@@ -21,19 +21,12 @@ class NotEncodableValueExceptionFormatter implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $error = $event->getThrowable();
-
-        if (!$error instanceof NotEncodableValueException) {
+        $exception = $event->getThrowable();
+        if (!$exception instanceof \DomainException) {
             return;
         }
 
-        $event->setResponse(
-            new JsonResponse([
-                'error' => [
-                    'code' => 400,
-                    'message' => 'Invalid query.',
-                ]
-            ], 400)
-        );
+        $error = new DomainError($exception);
+        $event->setResponse(new JsonResponse($error->toArray(), $error->getCode()));
     }
 }

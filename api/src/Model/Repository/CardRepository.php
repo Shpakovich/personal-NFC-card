@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Repository;
 
 use App\Model\Entity\Card\Card;
-use App\Model\Entity\Card\Id;
+use App\Model\Entity\Common\Id;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 

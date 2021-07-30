@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model\Repository;
 
+use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\Email;
-use App\Model\Entity\User\Id;
 use App\Model\Entity\User\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;

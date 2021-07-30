@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Entity\User\Type;
+namespace App\Model\Entity\Common\Type;
 
-use App\Model\Entity\User\Id;
+use App\Model\Entity\Common\Id;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\GuidType;
 
 class IdType extends GuidType
 {
-    private const NAME = 'user_id';
+    private const NAME = 'entity_id';
 
     /**
      * @return string
@@ -33,7 +33,7 @@ class IdType extends GuidType
     /**
      * @param mixed $value
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
-     * @return null|\App\Model\Entity\User\Id
+     * @return null|\App\Model\Entity\Common\Id
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Id
     {

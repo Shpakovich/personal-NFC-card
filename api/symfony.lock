@@ -157,6 +157,19 @@
     "n98/junit-xml": {
         "version": "1.1.0"
     },
+    "nelmio/api-doc-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "config/packages/nelmio_api_doc.yaml",
+            "config/routes/nelmio_api_doc.yaml"
+        ]
+    },
     "netresearch/jsonmapper": {
         "version": "v4.0.0"
     },
@@ -249,6 +262,9 @@
         "files": [
             "phpcs.xml.dist"
         ]
+    },
+    "symfony/asset": {
+        "version": "v5.3.2"
     },
     "symfony/cache": {
         "version": "v5.3.0"
@@ -352,6 +368,9 @@
     },
     "symfony/mime": {
         "version": "v5.3.2"
+    },
+    "symfony/options-resolver": {
+        "version": "v5.3.0"
     },
     "symfony/orm-pack": {
         "version": "v2.1.0"
@@ -466,6 +485,25 @@
     "symfony/translation-contracts": {
         "version": "v2.4.0"
     },
+    "symfony/twig-bridge": {
+        "version": "v5.3.3"
+    },
+    "symfony/twig-bundle": {
+        "version": "5.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.3",
+            "ref": "3dd530739a4284e3272274c128dbb7a8140a66f1"
+        },
+        "files": [
+            "config/packages/twig.yaml",
+            "templates/base.html.twig"
+        ]
+    },
+    "symfony/twig-pack": {
+        "version": "v1.0.1"
+    },
     "symfony/validator": {
         "version": "4.3",
         "recipe": {
@@ -501,6 +539,9 @@
             "config/routes/trikoder_oauth2.yaml"
         ]
     },
+    "twig/extra-bundle": {
+        "version": "v3.3.1"
+    },
     "twig/twig": {
         "version": "v3.3.2"
     },
@@ -512,5 +553,8 @@
     },
     "webmozart/path-util": {
         "version": "2.3.0"
+    },
+    "zircote/swagger-php": {
+        "version": "3.2.3"
     }
 }
