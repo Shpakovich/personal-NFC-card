@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +23,22 @@ class PublicController extends AbstractController
 
     /**
      * @Route("/show/{identity}", methods={"GET"}, name="show")
+     *
+     * @OA\Get(
+     *     summary="Вывести информацию по профилю, который привязан к карте"
+     * )
+     *
+     * @OA\Parameter(
+     *     name="identity",
+     *     in="path",
+     *     required=true,
+     *     description="Идентификатор карты (ID или псевдоним)",
+     *     @OA\Schema(type="string")
+     * )
+     *
+     * @OA\Response(response=404, description="Карта не найдена")
+     *
+     * @OA\Tag(name="Public")
      *
      * @param string $identity
      * @return \Symfony\Component\HttpFoundation\JsonResponse
