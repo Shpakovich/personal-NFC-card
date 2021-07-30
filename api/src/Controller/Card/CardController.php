@@ -218,7 +218,9 @@ class CardController extends AbstractController
      *     @OA\JsonContent(
      *         @OA\Property(property="id", type="string", description="ID регистрации"),
      *         @OA\Property(property="card_id", type="string", description="ID зарегистированной карты"),
-     *         @OA\Property(property="alias", type="string", nullable=true, description="Псевдоним зарегистированной карты"),
+     *         @OA\Property(
+     *             property="alias", type="string", nullable=true, description="Псевдоним зарегистированной карты"
+     *         ),
      *         @OA\Property(property="added_at", type="string", description="Дата регистрации карты"),
      *     )
      * )

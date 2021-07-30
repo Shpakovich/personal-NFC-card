@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
-
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
 use App\Model\Repository\ProfileRepository;
@@ -33,10 +32,16 @@ class ProfileController extends AbstractController
      *              @OA\Property(property="title", type="string", description="Заголовок профиля"),
      *              @OA\Property(property="name", type="string", description="Имя"),
      *              @OA\Property(property="nickname", type="string", description="Никнейм"),
-     *              @OA\Property(property="default_name", type="integer", description="Имя по умолчанию: 1 - имя (по умолчанию), 2 - никнейм"),
+     *              @OA\Property(
+     *                  property="default_name",
+     *                  type="integer",
+     *                  description="Имя по умолчанию: 1 - имя (по умолчанию), 2 - никнейм"
+     *              ),
      *              @OA\Property(property="post", type="string", description="Должность"),
      *              @OA\Property(property="description", type="string", description="Описание"),
-     *              @OA\Property(property="card_id ", type="string", description="ID зарегистрированной карты пользователя"),
+     *              @OA\Property(
+     *                  property="card_id ", type="string", description="ID зарегистрированной карты пользователя"
+     *              ),
      *          )
      *      )
      * )
