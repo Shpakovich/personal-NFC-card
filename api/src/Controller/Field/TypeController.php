@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Field;
 
+use App\Controller\Guid;
 use App\Controller\PaginationSerializer;
-use App\Fetcher\CardFetcher;
 use App\Fetcher\Field\TypeFetcher;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
@@ -97,6 +97,54 @@ class TypeController extends AbstractController
                     (array)$pagination->getItems()
                 ),
                 'pagination' => PaginationSerializer::serialize($pagination),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/{id}", methods={"GET"}, name=".show", requirements={
+     *     "id"=Guid::PATTERN
+     * })
+     *
+     * @OA\Get(
+     *     summary="Получить информацию по типу по его ID"
+     * )
+     *
+     * @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID типа",
+     *     required=true,
+     *     @OA\Schema(type="string")
+     * )
+     *
+     * @OA\Response(response=200, description="OK")
+     * @OA\Response(response=404, description="Не найден")
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Field types")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\Entity\Field\Type $card
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function show(\App\Model\Entity\Field\Type $card): JsonResponse
+    {
+        return $this->json(
+            [
+                'id' => $card->getId()->getValue(),
+                'name' => $card->getName(),
+                'sort' => $card->getSort(),
+                'created_at' => $card->getCreatedAt()->format(\DateTimeInterface::RFC3339),
+                'updated_at' => $card->getUpdatedAt()->format(\DateTimeInterface::RFC3339),
+                'creator' => [
+                    'id' => $card->getCreator()->getId()->getValue(),
+                    'email' => $card->getCreator()->getEmail()->getValue(),
+                ],
+                'editor' => [
+                    'id' => $card->getEditor()->getId()->getValue(),
+                    'email' => $card->getEditor()->getEmail()->getValue(),
+                ]
             ]
         );
     }
