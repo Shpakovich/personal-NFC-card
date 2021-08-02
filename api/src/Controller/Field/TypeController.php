@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/field", name="field")
+ * @Route("/field/type", name="field.type")
  */
 class TypeController extends AbstractController
 {
