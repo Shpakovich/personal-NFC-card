@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Field;
 
+use App\Controller\PaginationSerializer;
+use App\Fetcher\CardFetcher;
+use App\Fetcher\Field\TypeFetcher;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
 use App\Model\Repository\Field\TypeRepository;
@@ -13,6 +16,7 @@ use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,6 +25,82 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TypeController extends AbstractController
 {
+    /**
+     * @Route("s", methods={"GET"}, name=".index")
+     *
+     * @OA\Get(
+     *     summary="Получить список всех типов полей"
+     * )
+     *
+     * @OA\Parameter(
+     *     name="page",
+     *     in="query",
+     *     description="Номер страницы в пагинации.",
+     *     @OA\Schema(type="integer")
+     * )
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="OK",
+     *     @OA\JsonContent(
+     *         @OA\Property(property="items", type="array", description="Список карт",
+     *             @OA\Items(
+     *                 @OA\Property(property="id", type="string", description="ID карты"),
+     *                 @OA\Property(property="name", type="string", description="Название типа"),
+     *                 @OA\Property(property="sort", type="integer", description="Порядок вывода на фронте"),
+     *                 @OA\Property(property="created_at", type="string", description="Дата создания"),
+     *                 @OA\Property(property="updated_at", type="string", description="Дата измения"),
+     *                 @OA\Property(property="creator", type="object", description="Кто создал"),
+     *                 @OA\Property(property="editor", type="object", description="Кто обновил")
+     *             )
+     *         ),
+     *         @OA\Property(property="pagination", ref=@Model(type=\App\Controller\PaginationSerializer::class))
+     *     )
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Field types")
+     * @Security(name="Bearer")
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Fetcher\Field\TypeFetcher $fetcher
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function index(Request $request, TypeFetcher $fetcher): JsonResponse
+    {
+        $page = $request->query->getInt('page', 1);
+        /** @var int $perPage */
+        $perPage = $this->getParameter('app.items_per_page');
+        $pagination = $fetcher->all($page, $perPage);
+
+        return $this->json(
+            [
+                'items' => array_map(
+                    static function (array $item) {
+                        return [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'sort' => $item['sort'],
+                            'created_at' => $item['created_at'],
+                            'updated_at' => $item['updated_at'],
+                            'creator' => [
+                                'id' => $item['creator_id'],
+                                'email' => $item['creator_email'],
+                            ],
+                            'editor' => [
+                                'id' => $item['editor_id'],
+                                'email' => $item['editor_email'],
+                            ]
+                        ];
+                    },
+                    (array)$pagination->getItems()
+                ),
+                'pagination' => PaginationSerializer::serialize($pagination),
+            ]
+        );
+    }
+
     /**
      * @Route("/create", methods={"POST"}, name=".create")
      *
