@@ -13,6 +13,7 @@ use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -86,7 +87,55 @@ class TypeController extends AbstractController
                 'name' => $type->getName(),
                 'sort' => $type->getSort(),
             ],
-            201
+            Response::HTTP_CREATED
         );
+    }
+
+    /**
+     * @Route("/delete", methods={"POST"}, name=".delete")
+     *
+     * @OA\Post(
+     *     summary="Удалить тип",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"id"},
+     *              @OA\Property(property="id", type="string", description="ID удаляемого типа")
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=204,
+     *     description="Карта удалена"
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Field types")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\UseCase\Field\Type\Delete\Command $command
+     * @param \App\Model\UseCase\Field\Type\Delete\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function delete(
+        Type\Delete\Command $command,
+        Type\Delete\Handler $handler
+    ): JsonResponse {
+        $handler->handle($command);
+
+        return $this->json([], Response::HTTP_NO_CONTENT);
     }
 }
