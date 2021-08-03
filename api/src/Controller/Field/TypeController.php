@@ -43,9 +43,9 @@ class TypeController extends AbstractController
      *     response=200,
      *     description="OK",
      *     @OA\JsonContent(
-     *         @OA\Property(property="items", type="array", description="Список карт",
+     *         @OA\Property(property="items", type="array", description="Список типов",
      *             @OA\Items(
-     *                 @OA\Property(property="id", type="string", description="ID карты"),
+     *                 @OA\Property(property="id", type="string", description="ID"),
      *                 @OA\Property(property="name", type="string", description="Название типа"),
      *                 @OA\Property(property="sort", type="integer", description="Порядок вывода на фронте"),
      *                 @OA\Property(property="created_at", type="string", description="Дата создания"),
@@ -125,25 +125,25 @@ class TypeController extends AbstractController
      * @OA\Tag(name="Field types")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\Entity\Field\Type $card
+     * @param \App\Model\Entity\Field\Type $type
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function show(\App\Model\Entity\Field\Type $card): JsonResponse
+    public function show(\App\Model\Entity\Field\Type $type): JsonResponse
     {
         return $this->json(
             [
-                'id' => $card->getId()->getValue(),
-                'name' => $card->getName(),
-                'sort' => $card->getSort(),
-                'created_at' => $card->getCreatedAt()->format(\DateTimeInterface::RFC3339),
-                'updated_at' => $card->getUpdatedAt()->format(\DateTimeInterface::RFC3339),
+                'id' => $type->getId()->getValue(),
+                'name' => $type->getName(),
+                'sort' => $type->getSort(),
+                'created_at' => $type->getCreatedAt()->format(\DateTimeInterface::RFC3339),
+                'updated_at' => $type->getUpdatedAt()->format(\DateTimeInterface::RFC3339),
                 'creator' => [
-                    'id' => $card->getCreator()->getId()->getValue(),
-                    'email' => $card->getCreator()->getEmail()->getValue(),
+                    'id' => $type->getCreator()->getId()->getValue(),
+                    'email' => $type->getCreator()->getEmail()->getValue(),
                 ],
                 'editor' => [
-                    'id' => $card->getEditor()->getId()->getValue(),
-                    'email' => $card->getEditor()->getEmail()->getValue(),
+                    'id' => $type->getEditor()->getId()->getValue(),
+                    'email' => $type->getEditor()->getEmail()->getValue(),
                 ]
             ]
         );
@@ -283,8 +283,8 @@ class TypeController extends AbstractController
      * )
      *
      * @OA\Response(
-     *     response=201,
-     *     description="Тип создан",
+     *     response=200,
+     *     description="Тип изменен",
      *     @OA\JsonContent(
      *         @OA\Property(property="id", type="string"),
      *         @OA\Property(property="name", type="string"),

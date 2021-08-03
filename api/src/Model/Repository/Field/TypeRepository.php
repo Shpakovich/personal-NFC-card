@@ -13,7 +13,7 @@ class TypeRepository
 {
     private EntityManagerInterface $em;
 
-    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\Card\Card> */
+    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\Field\Type> */
     private EntityRepository $repo;
 
     public function __construct(EntityManagerInterface $em)
@@ -23,14 +23,14 @@ class TypeRepository
         $this->repo = $em->getRepository(Type::class);
     }
 
-    public function add(Type $card): void
+    public function add(Type $type): void
     {
-        $this->em->persist($card);
+        $this->em->persist($type);
     }
 
-    public function delete(Type $card): void
+    public function delete(Type $type): void
     {
-        $this->em->remove($card);
+        $this->em->remove($type);
     }
 
     public function hasById(Id $id): bool
@@ -59,11 +59,11 @@ class TypeRepository
 
     public function getById(Id $id): Type
     {
-        $card = $this->repo->find($id);
-        if ($card !== null) {
-            return $card;
+        $type = $this->repo->find($id);
+        if ($type !== null) {
+            return $type;
         }
 
-        throw new \DomainException("Type {$id->getValue()} not found.");
+        throw new \DomainException("Type '{$id->getValue()}' not found.");
     }
 }
