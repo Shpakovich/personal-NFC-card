@@ -168,6 +168,8 @@ class Field
 
     public function setHelp(?string $help): self
     {
+        Assert::notEmpty($help);
+
         $this->help = $help;
         return $this;
     }
