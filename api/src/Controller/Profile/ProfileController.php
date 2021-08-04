@@ -35,7 +35,8 @@ class ProfileController extends AbstractController
      *              @OA\Property(
      *                  property="default_name",
      *                  type="integer",
-     *                  description="Имя по умолчанию: 1 - имя (по умолчанию), 2 - никнейм"
+     *                  description="Имя по умолчанию: 1 - имя (по умолчанию), 2 - никнейм",
+     *                  default=1
      *              ),
      *              @OA\Property(property="post", type="string", description="Должность"),
      *              @OA\Property(property="description", type="string", description="Описание"),
