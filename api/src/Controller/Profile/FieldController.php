@@ -134,4 +134,57 @@ class FieldController extends AbstractController
 
         return $this->json([], 204);
     }
+
+    /**
+     * @Route("/edit", methods={"POST"}, name=".edit")
+     *
+     * @OA\Post(
+     *     summary="Изменить поле профиля",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"id", "value", "sort"},
+     *              @OA\Property(property="id", type="string", description="ID поля профиля"),
+     *              @OA\Property(property="field_id", type="string", description="ID поля"),
+     *              @OA\Property(property="value", type="string", description="Значение поля"),
+     *              @OA\Property(property="sort", type="integer", description="Порядок вывода")
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Поле изменено."
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\UseCase\User\Profile\Field\Edit\Command $command
+     * @param \App\Model\UseCase\User\Profile\Field\Edit\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function edit(Field\Edit\Command $command, Field\Edit\Handler $handler): JsonResponse
+    {
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        $command->userId = $user->getId();
+        $handler->handle($command);
+
+        return $this->json([]);
+    }
 }
