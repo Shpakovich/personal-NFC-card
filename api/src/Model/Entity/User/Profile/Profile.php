@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Entity\User;
+namespace App\Model\Entity\User\Profile;
 
 use App\Model\Entity\Common\Id;
+use App\Model\Entity\User\User;
+use App\Model\Entity\User\UserCard;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
