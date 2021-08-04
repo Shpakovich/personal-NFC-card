@@ -8,7 +8,7 @@ use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\Profile\Field;
 use App\Model\Flusher;
 use App\Model\Repository\Field\FieldRepository;
-use App\Model\Repository\ProfileRepository;
+use App\Model\Repository\Profile\ProfileRepository;
 use App\Model\Repository\UserRepository;
 
 class Handler

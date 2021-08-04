@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Repository;
+namespace App\Model\Repository\Profile;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\Profile\Profile;
