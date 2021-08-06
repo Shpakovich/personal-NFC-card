@@ -9,7 +9,6 @@ use App\Fetcher\User;
 use App\Model\Entity\Common\Id;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,8 +55,39 @@ class PublicController extends AbstractController
      *             ),
      *             @OA\Property(property="post", type="string", description="Должность"),
      *             @OA\Property(property="description", type="string", description="Описание"),
-     *             @OA\Property(property="fields", type="array", description="Поля"),
-     *             @OA\Property(property="custom", type="array", description="Пользовательские поля"),
+     *             @OA\Property(property="fields", type="object", description="Поля",
+     *                 @OA\Property(property="type_name", type="array", description="Поля типа",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="string", description="ID"),
+     *                         @OA\Property(property="title", type="string", description="Заголовок"),
+     *                         @OA\Property(property="volue", type="string", description="Значение"),
+     *                         @OA\Property(property="sort", type="integer", description="Порядок вывода"),
+     *                         @OA\Property(property="type", type="object", description="Тип",
+     *                             @OA\Property(property="id", type="string", description="ID"),
+     *                             @OA\Property(property="name", type="string", description="Название"),
+     *                             @OA\Property(property="sort", type="integer", description="Порядок вывода"),
+     *                         ),
+     *                         @OA\Property(property="icon", type="string", description="Путь до иконки"),
+     *                         @OA\Property(property="colors", type="object", description="Цвета",
+     *                             @OA\Property(property="bg", type="string", description="Цвет фона"),
+     *                             @OA\Property(property="text", type="string", description="Цвет текста"),
+     *                         ),
+     *                     )
+     *                 ),
+     *             ),
+     *             @OA\Property(property="custom", type="array", description="Пользовательские поля",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="string", description="ID"),
+     *                     @OA\Property(property="title", type="string", description="Заголовок"),
+     *                     @OA\Property(property="volue", type="string", description="Значение"),
+     *                     @OA\Property(property="sort", type="integer", description="Порядок вывода"),
+     *                     @OA\Property(property="icon", type="string", description="Путь до иконки"),
+     *                     @OA\Property(property="colors", type="object", description="Цвета",
+     *                         @OA\Property(property="bg", type="string", description="Цвет фона"),
+     *                         @OA\Property(property="text", type="string", description="Цвет текста"),
+     *                     ),
+     *                 )
+     *             ),
      *         )
      *     )
      * )
