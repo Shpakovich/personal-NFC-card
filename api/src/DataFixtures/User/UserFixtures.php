@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\DataFixtures\User;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\Email;
@@ -12,7 +12,8 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    public const ADMIN_REF = 'admin';
+    public const ADMIN_REF = 'user_admin';
+    public const ACTIVE_REF = 'user_active';
 
     private PasswordHasherInterface $hasher;
 
@@ -66,5 +67,6 @@ class UserFixtures extends Fixture
         $manager->flush();
 
         $this->addReference(self::ADMIN_REF, $admin);
+        $this->addReference(self::ACTIVE_REF, $active);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures\Field;
 
-use App\DataFixtures\UserFixtures;
+use App\DataFixtures\User\UserFixtures;
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\Field\Type;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -11,6 +11,10 @@ use Doctrine\Persistence\ObjectManager;
 
 class TypeFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const PHONE_REF = 'type_phone';
+    public const NETWORK_REF = 'type_network';
+    public const EMAIL_REF = 'type_email';
+
     public function load(ObjectManager $manager): void
     {
         /** @var \App\Model\Entity\User\User $admin */
@@ -39,6 +43,10 @@ class TypeFixtures extends Fixture implements DependentFixtureInterface
             $admin,
             (new \DateTimeImmutable())->modify('-7 hours')
         );
+
+        $this->addReference(self::PHONE_REF, $phone);
+        $this->addReference(self::NETWORK_REF, $network);
+        $this->addReference(self::EMAIL_REF, $email);
 
         $manager->persist($phone);
         $manager->persist($network);
