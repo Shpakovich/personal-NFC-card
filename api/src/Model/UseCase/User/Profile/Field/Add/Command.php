@@ -39,6 +39,6 @@ class Command implements CommandInterface
     public mixed $sort = 10;
 
     // Setting in controller
-    public mixed $id = '';
+    public string $id = '';
     public string $userId = '';
 }

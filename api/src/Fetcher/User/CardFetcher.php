@@ -34,10 +34,12 @@ class CardFetcher
             $qb->where('uc.alias = :identity');
         }
 
-        $result = $qb
+        /** @var \Doctrine\DBAL\ForwardCompatibility\DriverStatement $stmt */
+        $stmt = $qb
             ->setParameter(':identity', $identity)
-            ->execute()
-            ->fetchAssociative();
+            ->execute();
+
+        $result = $stmt->fetchAssociative();
 
         return $result !== false ? $result : null;
     }

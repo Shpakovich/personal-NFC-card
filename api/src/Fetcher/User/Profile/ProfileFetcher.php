@@ -2,20 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\Fetcher\User;
+namespace App\Fetcher\User\Profile;
 
+use App\Fetcher\User\Filter;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class ProfileFetcher
 {
     private Connection $connection;
+    private DenormalizerInterface $denormalizer;
 
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, DenormalizerInterface $denormalizer)
     {
         $this->connection = $connection;
+        $this->denormalizer = $denormalizer;
     }
 
-    public function getOneByFilter(Filter $filter): ?array
+    /**
+     * @param \App\Fetcher\User\Filter $filter
+     * @return \App\Fetcher\User\Profile\ProfileDto
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function getOneByFilter(Filter $filter): ProfileDto
     {
         $qb = $this->connection->createQueryBuilder()
             ->select(
@@ -53,12 +64,13 @@ class ProfileFetcher
             $qb->andWhere('p.is_published = true');
         }
 
-        $result = $qb
-            ->execute()
-            ->fetchAssociative();
+        /** @var \Doctrine\DBAL\ForwardCompatibility\DriverStatement $stmt */
+        $stmt = $qb->execute();
+        $result = $stmt->fetchAssociative();
 
         if ($result !== false) {
-            return $result;
+            /** @var \App\Fetcher\User\Profile\ProfileDto */
+            return $this->denormalizer->denormalize($result, ProfileDto::class);
         }
 
         throw new \DomainException('Card not found');

@@ -97,12 +97,15 @@ class PublicController extends AbstractController
      * @OA\Tag(name="Public")
      *
      * @param string $identity
-     * @param \App\Fetcher\User\ProfileFetcher $profiles
-     * @param \App\Fetcher\Profile\FieldFetcher $fields
+     * @param \App\Fetcher\User\Profile\ProfileFetcher $profiles
+     * @param \App\Fetcher\Profile\Field\FieldFetcher $fields
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function show(string $identity, User\ProfileFetcher $profiles, Profile\FieldFetcher $fields): JsonResponse
-    {
+    public function show(
+        string $identity,
+        User\Profile\ProfileFetcher $profiles,
+        Profile\Field\FieldFetcher $fields
+    ): JsonResponse {
         $filter = (new User\Filter())
             ->withIdentity($identity)
             ->withIsOnlyPublished(true);
@@ -113,27 +116,27 @@ class PublicController extends AbstractController
             throw new NotFoundHttpException($e->getMessage());
         }
 
-        $profileFields = $fields->getAllByProfileId(new Id($profile['id']));
+        $profileFields = $fields->getAllByProfileId(new Id($profile->id));
 
         $photo = null;
-        if (!empty($profile['photo_path'])) {
+        if (!empty($profile->photoPath)) {
             $photo = [
-                'path' => $profile['photo_path'],
+                'path' => $profile->photoPath,
             ];
         }
 
         return $this->json(
             [
                 'card' => [
-                    'id' => $profile['card_id'],
-                    'alias' => $profile['card_alias'],
+                    'id' => $profile->cardId,
+                    'alias' => $profile->cardAlias,
                 ],
                 'profile' => [
-                    'id' => $profile['id'],
-                    'name' => $profile['name'],
+                    'id' => $profile->id,
+                    'name' => $profile->name,
                     'photo' => $photo,
-                    'post' => $profile['post'],
-                    'description' => $profile['description'],
+                    'post' => $profile->post,
+                    'description' => $profile->description,
                     'fields' => $this->groupFields($profileFields),
                     'custom' => [
                         [
@@ -152,26 +155,30 @@ class PublicController extends AbstractController
         );
     }
 
+    /**
+     * @param \App\Fetcher\Profile\Field\FieldDto[] $fields
+     * @return array
+     */
     private function groupFields(array $fields): array
     {
         $result = [];
 
         foreach ($fields as $field) {
-            $group = $field['field_type_name'];
+            $group = $field->typeName;
             $result[$group][] = [
-                'id' => $field['field_id'],
-                'title' => $field['field_title'],
-                'value' => $field['field_value'],
-                'sort' => $field['field_sort'],
+                'id' => $field->id,
+                'title' => $field->title,
+                'value' => $field->value,
+                'sort' => $field->sort,
                 'type' => [
-                    'id' => $field['field_type_id'],
-                    'name' => $field['field_type_name'],
-                    'sort' => $field['field_type_sort'],
+                    'id' => $field->typeId,
+                    'name' => $field->typeName,
+                    'sort' => $field->typeSort,
                 ],
-                'icon' => $field['field_icon_path'],
+                'icon' => $field->iconPath,
                 'colors' => [
-                    'bg' => $field['field_bg_color'],
-                    'text' => $field['field_text_color'],
+                    'bg' => $field->bgColor,
+                    'text' => $field->textColor,
                 ],
             ];
         }
