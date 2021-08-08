@@ -22,7 +22,7 @@ class Field
     private Id $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entity\User\Profile\Profile")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entity\User\Profile\Profile", inversedBy="fields")
      * @ORM\JoinColumn(name="profile_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
      */
     private Profile $profile;
