@@ -30,7 +30,7 @@ class ProfileFixtures extends Fixture implements DependentFixtureInterface
         /** @var \App\Model\Entity\Field\Field $emailField */
         $emailField = $this->getReference(FieldFixtures::EMAIL_REF);
 
-        $published = new \App\Model\Entity\Profile\Profile(
+        $published = new Profile(
             Id::next(),
             $user,
             'Director profile',
@@ -52,7 +52,17 @@ class ProfileFixtures extends Fixture implements DependentFixtureInterface
             ->addField(new Field(Id::next(), $published, $workPhoneField, '+79991112233', 20))
             ->addField(new Field(Id::next(), $published, $emailField, 'work@email.ru', 10));
 
+        $hidden = new Profile(
+            Id::next(),
+            $user,
+            'Hidden profile',
+            'Hidden',
+            Profile::DEFAULT_NICKNAME,
+            new \DateTimeImmutable()
+        );
+
         $manager->persist($published);
+        $manager->persist($hidden);
         $manager->flush();
 
         $this->addReference(self::PUBLISHED_REF, $published);

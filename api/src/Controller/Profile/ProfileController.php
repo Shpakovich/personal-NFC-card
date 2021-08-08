@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
+use App\Controller\PaginationSerializer;
+use App\Fetcher\Profile\Profile\ProfileFetcher;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
 use App\Model\Repository\Profile\ProfileRepository;
@@ -14,6 +16,7 @@ use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -21,6 +24,109 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProfileController extends AbstractController
 {
+    /**
+     * @Route("s", methods={"GET"}, name=".index")
+     *
+     * @OA\Get(
+     *     summary="Получить список профилей"
+     * )
+     *
+     * @OA\Parameter(
+     *     name="page",
+     *     in="query",
+     *     description="Номер страницы в пагинации.",
+     *     @OA\Schema(type="integer")
+     * )
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="OK",
+     *     @OA\JsonContent(
+     *         @OA\Property(property="items", type="array", description="Список профилей",
+     *             @OA\Items(
+     *                 @OA\Property(property="id", type="string", description="ID"),
+     *                 @OA\Property(property="title", type="string", description="Заголовок"),
+     *                 @OA\Property(property="name", type="string", description="Имя"),
+     *                 @OA\Property(property="nickname", type="string", description="Никнейм"),
+     *                 @OA\Property(property="default_name", type="integer", description="Имя по умолчанию"),
+     *                 @OA\Property(property="post", type="string", description="Должность"),
+     *                 @OA\Property(property="description", type="string", description="Описание"),
+     *                 @OA\Property(property="is_published", type="boolean", description="Опубликован или нет"),
+     *                 @OA\Property(property="photo", type="object", description="Цвета",
+     *                     @OA\Property(property="path", type="string", description="Путь до фотографии")
+     *                 ),
+     *                 @OA\Property(property="card", type="object", description="Карта",
+     *                     @OA\Property(property="id", type="string", description="ID"),
+     *                     @OA\Property(property="alias", type="string", description="Псевдоним"),
+     *                 ),
+     *                 @OA\Property(property="user", type="object", description="Пользователь",
+     *                     @OA\Property(property="id", type="string", description="ID"),
+     *                     @OA\Property(property="email", type="string", description="Email")
+     *                 ),
+     *                 @OA\Property(property="created_at", type="string", description="Дата создания"),
+     *                 @OA\Property(property="updated_at", type="string", description="Дата измения")
+     *             )
+     *         ),
+     *         @OA\Property(property="pagination", ref=@Model(type=\App\Controller\PaginationSerializer::class))
+     *     )
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Fetcher\Profile\Profile\ProfileFetcher $fetcher
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function index(Request $request, ProfileFetcher $fetcher): JsonResponse
+    {
+        $page = $request->query->getInt('page', 1);
+        /** @var int $perPage */
+        $perPage = $this->getParameter('app.items_per_page');
+        $pagination = $fetcher->all($page, $perPage);
+
+        return $this->json(
+            [
+                'items' => array_map(
+                    static function (array $item) {
+                        $card = null;
+                        if (!empty($item['card_id'])) {
+                            $card = [
+                                'id' => $item['card_id'],
+                                'alias' => $item['card_alias'],
+                            ];
+                        }
+
+                        return [
+                            'id' => $item['id'],
+                            'title' => $item['title'],
+                            'name' => $item['name'],
+                            'nickname' => $item['nickname'],
+                            'default_name' => $item['default_name'],
+                            'post' => $item['post'],
+                            'description' => $item['description'],
+                            'is_published' => $item['is_published'],
+                            'photo' => [
+                                'path' => $item['photo_path']
+                            ],
+                            'card' => $card,
+                            'user' => [
+                                'id' => $item['user_id'],
+                                'email' => $item['user_email'],
+                            ],
+                            'created_at' => $item['created_at'],
+                            'updated_at' => $item['updated_at'],
+                        ];
+                    },
+                    (array)$pagination->getItems()
+                ),
+                'pagination' => PaginationSerializer::serialize($pagination),
+            ]
+        );
+    }
+
     /**
      * @Route("/create", methods={"POST"}, name=".create")
      *
