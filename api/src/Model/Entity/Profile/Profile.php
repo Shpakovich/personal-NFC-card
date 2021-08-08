@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Entity\User\Profile;
+namespace App\Model\Entity\Profile;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\User;
@@ -93,7 +93,7 @@ class Profile
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="App\Model\Entity\User\Profile\Field",
+     *     targetEntity="App\Model\Entity\Profile\Field",
      *     mappedBy="profile", cascade={"all"}
      * )
      */
@@ -144,9 +144,20 @@ class Profile
         return $this->card;
     }
 
+    public function hasCard(): bool
+    {
+        return $this->card !== null;
+    }
+
     public function setCard(?UserCard $card): self
     {
         $this->card = $card;
+        return $this;
+    }
+
+    public function detachCard(): self
+    {
+        $this->card = null;
         return $this;
     }
 
@@ -168,7 +179,7 @@ class Profile
 
     public function setPhotoPath(?string $photoPath): self
     {
-        $this->photoPath = $photoPath;
+        $this->photoPath = !empty($photoPath) ? $photoPath : null;
         return $this;
     }
 
@@ -190,7 +201,7 @@ class Profile
 
     public function setNickname(?string $nickname): self
     {
-        $this->nickname = $nickname;
+        $this->nickname = !empty($nickname) ? $nickname : null;
         return $this;
     }
 
@@ -212,7 +223,7 @@ class Profile
 
     public function setPost(?string $post): self
     {
-        $this->post = $post;
+        $this->post = !empty($post) ? $post : null;
         return $this;
     }
 
@@ -223,18 +234,29 @@ class Profile
 
     public function setDescription(?string $description): self
     {
-        $this->description = $description;
+        $this->description = !empty($description) ? $description : null;
         return $this;
     }
 
     public function isPublished(): bool
     {
-        return $this->isPublished;
+        return $this->isPublished === true;
     }
 
-    public function setIsPublished(bool $isPublished): self
+    public function isHidden(): bool
     {
-        $this->isPublished = $isPublished;
+        return $this->isPublished === false;
+    }
+
+    public function publish(): self
+    {
+        $this->isPublished = true;
+        return $this;
+    }
+
+    public function hide(): self
+    {
+        $this->isPublished = false;
         return $this;
     }
 

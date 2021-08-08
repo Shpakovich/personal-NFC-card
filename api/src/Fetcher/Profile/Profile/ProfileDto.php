@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Fetcher\User\Profile;
+namespace App\Fetcher\Profile\Profile;
 
 class ProfileDto
 {

@@ -97,13 +97,13 @@ class PublicController extends AbstractController
      * @OA\Tag(name="Public")
      *
      * @param string $identity
-     * @param \App\Fetcher\User\Profile\ProfileFetcher $profiles
+     * @param \App\Fetcher\Profile\Profile\ProfileFetcher $profiles
      * @param \App\Fetcher\Profile\Field\FieldFetcher $fields
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function show(
         string $identity,
-        User\Profile\ProfileFetcher $profiles,
+        Profile\Profile\ProfileFetcher $profiles,
         Profile\Field\FieldFetcher $fields
     ): JsonResponse {
         $filter = (new User\Filter())

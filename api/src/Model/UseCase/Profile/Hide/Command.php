@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\UseCase\User\Profile\Field\Delete;
+namespace App\Model\UseCase\Profile\Hide;
 
 use App\Model\UseCase\CommandInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,6 +16,6 @@ class Command implements CommandInterface
      */
     public mixed $id = '';
 
-    /** Setting in controller */
+    // Setting in controller
     public string $userId = '';
 }

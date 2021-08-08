@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Entity\User\Profile;
+namespace App\Model\Entity\Profile;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\Field\Field as FieldEntity;
@@ -22,7 +22,7 @@ class Field
     private Id $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entity\User\Profile\Profile", inversedBy="fields")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entity\Profile\Profile", inversedBy="fields")
      * @ORM\JoinColumn(name="profile_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
      */
     private Profile $profile;

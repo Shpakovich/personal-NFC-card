@@ -6,8 +6,8 @@ use App\DataFixtures\Field\FieldFixtures;
 use App\DataFixtures\User\CardFixtures;
 use App\DataFixtures\User\UserFixtures;
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\User\Profile\Field;
-use App\Model\Entity\User\Profile\Profile;
+use App\Model\Entity\Profile\Field;
+use App\Model\Entity\Profile\Profile;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -45,14 +45,24 @@ class ProfileFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('Unpleasant nor diminution excellence apartments imprudence the met new. Draw part them'
                 . 'he an to he roof only. Music leave say doors him. Tore bred form if sigh case as do. Staying he no'
                 . 'looking if do opinion. Sentiments way understood end partiality and his.')
-            ->setIsPublished(true);
+            ->publish();
 
         $published
             ->addField(new Field(Id::next(), $published, $workPhoneField, '+79997776644', 10))
             ->addField(new Field(Id::next(), $published, $workPhoneField, '+79991112233', 20))
             ->addField(new Field(Id::next(), $published, $emailField, 'work@email.ru', 10));
 
+        $hidden = new Profile(
+            Id::next(),
+            $user,
+            'Hidden profile',
+            'Hidden',
+            Profile::DEFAULT_NICKNAME,
+            new \DateTimeImmutable()
+        );
+
         $manager->persist($published);
+        $manager->persist($hidden);
         $manager->flush();
 
         $this->addReference(self::PUBLISHED_REF, $published);

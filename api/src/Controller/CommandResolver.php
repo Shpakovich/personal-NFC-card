@@ -44,7 +44,7 @@ class CommandResolver implements ArgumentValueResolverInterface
         /** @var string $content */
         $content = $request->getContent();
 
-        /** @var \App\Model\UseCase\User\Profile\Create\Command $command */
+        /** @var \App\Model\UseCase\Profile\Create\Command $command */
         $command = $this->serializer->deserialize(
             $content,
             $type,
