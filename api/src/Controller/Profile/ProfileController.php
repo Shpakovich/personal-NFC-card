@@ -329,4 +329,62 @@ class ProfileController extends AbstractController
 
         return $this->json([]);
     }
+
+    /**
+     * @Route("/edit", methods={"POST"}, name=".edit")
+     *
+     * @OA\Post(
+     *     summary="Изменить профиль",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"id", "title", "name"},
+     *              @OA\Property(property="id", type="string", description="ID"),
+     *              @OA\Property(property="title", type="string", description="Заголовок"),
+     *              @OA\Property(property="name", type="string", description="Имя"),
+     *              @OA\Property(property="nickname", type="string", description="Никнейм"),
+     *              @OA\Property(property="default_name", type="string", description="Имя по умолчанию"),
+     *              @OA\Property(property="post", type="string", description="Должность"),
+     *              @OA\Property(property="description", type="string", description="Описание")
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Профиль изменен"
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\UseCase\Profile\Edit\Command $command
+     * @param \App\Model\UseCase\Profile\Edit\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function edit(
+        Profile\Edit\Command $command,
+        Profile\Edit\Handler $handler
+    ): JsonResponse {
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        $command->userId = $user->getId();
+        $handler->handle($command);
+
+        return $this->json([]);
+    }
 }

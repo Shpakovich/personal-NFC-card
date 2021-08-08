@@ -168,7 +168,7 @@ class Profile
 
     public function setPhotoPath(?string $photoPath): self
     {
-        $this->photoPath = $photoPath;
+        $this->photoPath = !empty($photoPath) ? $photoPath : null;
         return $this;
     }
 
@@ -190,7 +190,7 @@ class Profile
 
     public function setNickname(?string $nickname): self
     {
-        $this->nickname = $nickname;
+        $this->nickname = !empty($nickname) ? $nickname : null;
         return $this;
     }
 
@@ -212,7 +212,7 @@ class Profile
 
     public function setPost(?string $post): self
     {
-        $this->post = $post;
+        $this->post = !empty($post) ? $post : null;
         return $this;
     }
 
@@ -223,7 +223,7 @@ class Profile
 
     public function setDescription(?string $description): self
     {
-        $this->description = $description;
+        $this->description = !empty($description) ? $description : null;
         return $this;
     }
 

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/profile/field", name="profile")
+ * @Route("/profile/field", name="profile.field")
  */
 class FieldController extends AbstractController
 {
