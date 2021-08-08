@@ -144,9 +144,20 @@ class Profile
         return $this->card;
     }
 
+    public function hasCard(): bool
+    {
+        return $this->card !== null;
+    }
+
     public function setCard(?UserCard $card): self
     {
         $this->card = $card;
+        return $this;
+    }
+
+    public function detachCard(): self
+    {
+        $this->card = null;
         return $this;
     }
 
