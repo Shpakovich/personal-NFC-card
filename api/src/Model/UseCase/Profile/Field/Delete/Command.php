@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\UseCase\User\Profile\Field\Delete;
+namespace App\Model\UseCase\Profile\Field\Delete;
 
 use App\Model\UseCase\CommandInterface;
 use Symfony\Component\Validator\Constraints as Assert;

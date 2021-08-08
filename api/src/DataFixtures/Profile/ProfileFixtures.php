@@ -6,8 +6,8 @@ use App\DataFixtures\Field\FieldFixtures;
 use App\DataFixtures\User\CardFixtures;
 use App\DataFixtures\User\UserFixtures;
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\User\Profile\Field;
-use App\Model\Entity\User\Profile\Profile;
+use App\Model\Entity\Profile\Field;
+use App\Model\Entity\Profile\Profile;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -30,7 +30,7 @@ class ProfileFixtures extends Fixture implements DependentFixtureInterface
         /** @var \App\Model\Entity\Field\Field $emailField */
         $emailField = $this->getReference(FieldFixtures::EMAIL_REF);
 
-        $published = new Profile(
+        $published = new \App\Model\Entity\Profile\Profile(
             Id::next(),
             $user,
             'Director profile',

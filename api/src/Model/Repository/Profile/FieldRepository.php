@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Repository\Profile;
 
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\User\Profile\Field;
+use App\Model\Entity\Profile\Field;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -13,7 +13,7 @@ class FieldRepository
 {
     private EntityManagerInterface $em;
 
-    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\User\Profile\Field> */
+    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\Profile\Field> */
     private EntityRepository $repo;
 
     public function __construct(EntityManagerInterface $em)

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Entity\User\Profile;
+namespace App\Model\Entity\Profile;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\User;
@@ -93,7 +93,7 @@ class Profile
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="App\Model\Entity\User\Profile\Field",
+     *     targetEntity="App\Model\Entity\Profile\Field",
      *     mappedBy="profile", cascade={"all"}
      * )
      */

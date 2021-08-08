@@ -81,7 +81,7 @@ class User
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="App\Model\Entity\User\Profile\Profile",
+     *     targetEntity="App\Model\Entity\Profile\Profile",
      *     mappedBy="user", cascade={"all"}
      * )
      */

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\UseCase\User\Profile\Field\Edit;
+namespace App\Model\UseCase\Profile\Field\Edit;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Flusher;

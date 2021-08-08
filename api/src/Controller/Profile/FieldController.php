@@ -6,7 +6,7 @@ namespace App\Controller\Profile;
 
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
-use App\Model\UseCase\User\Profile\Field;
+use App\Model\UseCase\Profile\Field;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
@@ -62,8 +62,8 @@ class FieldController extends AbstractController
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\User\Profile\Field\Add\Command $command
-     * @param \App\Model\UseCase\User\Profile\Field\Add\Handler $handler
+     * @param \App\Model\UseCase\Profile\Field\Add\Command $command
+     * @param \App\Model\UseCase\Profile\Field\Add\Handler $handler
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function add(Field\Add\Command $command, Field\Add\Handler $handler): JsonResponse
@@ -120,8 +120,8 @@ class FieldController extends AbstractController
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\User\Profile\Field\Delete\Command $command
-     * @param \App\Model\UseCase\User\Profile\Field\Delete\Handler $handler
+     * @param \App\Model\UseCase\Profile\Field\Delete\Command $command
+     * @param \App\Model\UseCase\Profile\Field\Delete\Handler $handler
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function delete(Field\Delete\Command $command, Field\Delete\Handler $handler): JsonResponse
@@ -173,8 +173,8 @@ class FieldController extends AbstractController
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\User\Profile\Field\Edit\Command $command
-     * @param \App\Model\UseCase\User\Profile\Field\Edit\Handler $handler
+     * @param \App\Model\UseCase\Profile\Field\Edit\Command $command
+     * @param \App\Model\UseCase\Profile\Field\Edit\Handler $handler
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function edit(Field\Edit\Command $command, Field\Edit\Handler $handler): JsonResponse

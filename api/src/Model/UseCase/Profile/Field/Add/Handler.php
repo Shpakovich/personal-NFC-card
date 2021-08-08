@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Model\UseCase\User\Profile\Field\Add;
+namespace App\Model\UseCase\Profile\Field\Add;
 
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\User\Profile\Field;
+use App\Model\Entity\Profile\Field;
 use App\Model\Flusher;
 use App\Model\Repository\Field\FieldRepository;
 use App\Model\Repository\Profile\ProfileRepository;

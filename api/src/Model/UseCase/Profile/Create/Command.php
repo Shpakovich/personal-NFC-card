@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\UseCase\User\Profile\Create;
+namespace App\Model\UseCase\Profile\Create;
 
 use App\Model\UseCase\CommandInterface;
 use Symfony\Component\Validator\Constraints as Assert;

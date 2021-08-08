@@ -7,7 +7,7 @@ namespace App\Controller\Profile;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
 use App\Model\Repository\Profile\ProfileRepository;
-use App\Model\UseCase\User\Profile\Create;
+use App\Model\UseCase\Profile\Create;
 use DateTimeInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -82,8 +82,8 @@ class ProfileController extends AbstractController
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\User\Profile\Create\Command $command
-     * @param \App\Model\UseCase\User\Profile\Create\Handler $handler
+     * @param \App\Model\UseCase\Profile\Create\Command $command
+     * @param \App\Model\UseCase\Profile\Create\Handler $handler
      * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
