@@ -41,7 +41,7 @@ class ProfileController extends AbstractController
      *              @OA\Property(property="post", type="string", description="Должность"),
      *              @OA\Property(property="description", type="string", description="Описание"),
      *              @OA\Property(
-     *                  property="card_id ", type="string", description="ID зарегистрированной карты пользователя"
+     *                  property="card_id", type="string", description="ID зарегистрированной карты пользователя"
      *              ),
      *          )
      *      )
