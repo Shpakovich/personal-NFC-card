@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Fetcher\User\Profile;
+namespace App\Fetcher\Profile\Profile;
 
 use App\Fetcher\User\Filter;
 use Doctrine\DBAL\Connection;
@@ -21,7 +21,7 @@ class ProfileFetcher
 
     /**
      * @param \App\Fetcher\User\Filter $filter
-     * @return \App\Fetcher\User\Profile\ProfileDto
+     * @return \App\Fetcher\Profile\Profile\ProfileDto
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
@@ -69,7 +69,7 @@ class ProfileFetcher
         $result = $stmt->fetchAssociative();
 
         if ($result !== false) {
-            /** @var \App\Fetcher\User\Profile\ProfileDto */
+            /** @var \App\Fetcher\Profile\Profile\ProfileDto */
             return $this->denormalizer->denormalize($result, ProfileDto::class);
         }
 
