@@ -45,7 +45,7 @@ class ProfileFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription('Unpleasant nor diminution excellence apartments imprudence the met new. Draw part them'
                 . 'he an to he roof only. Music leave say doors him. Tore bred form if sigh case as do. Staying he no'
                 . 'looking if do opinion. Sentiments way understood end partiality and his.')
-            ->setIsPublished(true);
+            ->publish();
 
         $published
             ->addField(new Field(Id::next(), $published, $workPhoneField, '+79997776644', 10))

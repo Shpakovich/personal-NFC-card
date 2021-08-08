@@ -229,12 +229,23 @@ class Profile
 
     public function isPublished(): bool
     {
-        return $this->isPublished;
+        return $this->isPublished === true;
     }
 
-    public function setIsPublished(bool $isPublished): self
+    public function isHidden(): bool
     {
-        $this->isPublished = $isPublished;
+        return $this->isPublished === false;
+    }
+
+    public function publish(): self
+    {
+        $this->isPublished = true;
+        return $this;
+    }
+
+    public function hide(): self
+    {
+        $this->isPublished = false;
         return $this;
     }
 

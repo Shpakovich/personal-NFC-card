@@ -7,7 +7,7 @@ namespace App\Controller\Profile;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
 use App\Model\Repository\Profile\ProfileRepository;
-use App\Model\UseCase\Profile\Create;
+use App\Model\UseCase\Profile;
 use DateTimeInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -87,8 +87,11 @@ class ProfileController extends AbstractController
      * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function create(Create\Command $command, Create\Handler $handler, ProfileRepository $profiles): JsonResponse
-    {
+    public function create(
+        Profile\Create\Command $command,
+        Profile\Create\Handler $handler,
+        ProfileRepository $profiles
+    ): JsonResponse {
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -115,5 +118,109 @@ class ProfileController extends AbstractController
             ],
             201
         );
+    }
+
+    /**
+     * @Route("/publish", methods={"POST"}, name=".publish")
+     *
+     * @OA\Post(
+     *     summary="Опубликовать профиль",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"id"},
+     *              @OA\Property(property="id", type="string", description="ID профиля")
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Профиль опубликован"
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\UseCase\Profile\Publish\Command $command
+     * @param \App\Model\UseCase\Profile\Publish\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function publish(
+        Profile\Publish\Command $command,
+        Profile\Publish\Handler $handler
+    ): JsonResponse {
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        $command->userId = $user->getId();
+        $handler->handle($command);
+
+        return $this->json([]);
+    }
+
+    /**
+     * @Route("/hide", methods={"POST"}, name=".hide")
+     *
+     * @OA\Post(
+     *     summary="Скрыть профиль",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"id"},
+     *              @OA\Property(property="id", type="string", description="ID профиля")
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Профиль снят с публикации"
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\UseCase\Profile\Hide\Command $command
+     * @param \App\Model\UseCase\Profile\Hide\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function hide(
+        Profile\Hide\Command $command,
+        Profile\Hide\Handler $handler
+    ): JsonResponse {
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        $command->userId = $user->getId();
+        $handler->handle($command);
+
+        return $this->json([]);
     }
 }
