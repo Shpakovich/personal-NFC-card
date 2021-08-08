@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
+use App\Controller\Guid;
 use App\Controller\PaginationSerializer;
 use App\Fetcher\Profile\Profile\ProfileFetcher;
 use App\Formatter\Error;
@@ -123,6 +124,73 @@ class ProfileController extends AbstractController
                     (array)$pagination->getItems()
                 ),
                 'pagination' => PaginationSerializer::serialize($pagination),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/{id}", methods={"GET"}, name=".show", requirements={
+     *     "id"=Guid::PATTERN
+     * })
+     *
+     * @OA\Get(
+     *     summary="Получить информацию по профилю по его ID"
+     * )
+     *
+     * @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID профиля",
+     *     required=true,
+     *     @OA\Schema(type="string")
+     * )
+     *
+     * @OA\Response(response=200, description="OK")
+     * @OA\Response(response=404, description="Не найдена")
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\Entity\Profile\Profile $profile
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function show(\App\Model\Entity\Profile\Profile $profile): JsonResponse
+    {
+        $photo = null;
+        if (!empty($profile->getPhotoPath())) {
+            $photo = [
+                'path' => $profile->getPhotoPath()
+            ];
+        }
+
+        $card = null;
+        if ($profile->getCard() !== null) {
+            $card = [
+                'id' => $profile->getCard()->getCard()->getId()->getValue(),
+                'alias' => $profile->getCard()->getAlias(),
+                'added_at' => $profile->getCard()->getAddedAt()->format(DateTimeInterface::RFC3339),
+            ];
+        }
+
+        return $this->json(
+            [
+                'id' => $profile->getId()->getValue(),
+                'title' => $profile->getTitle(),
+                'photo' => $photo,
+                'name' => $profile->getName(),
+                'nickname' => $profile->getNickname(),
+                'default_name' => $profile->getDefaultName(),
+                'post' => $profile->getDescription(),
+                'description' => $profile->getPost(),
+                'is_published' => $profile->isPublished(),
+                'card' => $card,
+                'user' => [
+                    'id' => $profile->getUser()->getId()->getValue(),
+                    'email' => $profile->getUser()->getEmail()->getValue(),
+                ],
+                'created_at' => $profile->getCreatedAt()->format(DateTimeInterface::RFC3339),
+                'updated_at' => $profile->getUpdatedAt()->format(DateTimeInterface::RFC3339),
             ]
         );
     }
