@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\DataFixtures\User\UserFixtures;
 use App\Model\Entity\Card\Card;
 use App\Model\Entity\Common\Id;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -10,6 +11,8 @@ use Doctrine\Persistence\ObjectManager;
 
 class CardFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const CARD_REF = 'card';
+
     public function load(ObjectManager $manager): void
     {
         /** @var \App\Model\Entity\User\User $admin */
@@ -23,6 +26,9 @@ class CardFixtures extends Fixture implements DependentFixtureInterface
             );
             $manager->persist($card);
         }
+
+        /** @noinspection PhpUndefinedVariableInspection */
+        $this->addReference(self::CARD_REF, $card);
 
         $manager->flush();
     }

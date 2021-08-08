@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Model\UseCase\User\Profile\Create;
 
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\User\Profile;
+use App\Model\Entity\User\Profile\Profile;
 use App\Model\Flusher;
-use App\Model\Repository\ProfileRepository;
+use App\Model\Repository\Profile\ProfileRepository;
 use App\Model\Repository\UserCardRepository;
 use App\Model\Repository\UserRepository;
 

@@ -2,10 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Entity\User;
+namespace App\Model\Entity\User\Profile;
 
 use App\Model\Entity\Common\Id;
+use App\Model\Entity\User\User;
+use App\Model\Entity\User\UserCard;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Webmozart\Assert\Assert;
 
 /**
@@ -87,6 +91,14 @@ class Profile
      */
     private \DateTimeImmutable $updatedAt;
 
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Model\Entity\User\Profile\Field",
+     *     mappedBy="profile", cascade={"all"}
+     * )
+     */
+    private ArrayCollection|PersistentCollection $fields;
+
     public function __construct(
         Id $id,
         User $user,
@@ -113,6 +125,8 @@ class Profile
         $this->createdAt = $createdAt;
         $this->updatedAt = $createdAt;
         $this->isPublished = false;
+
+        $this->fields = new ArrayCollection();
     }
 
     public function getId(): Id
@@ -243,6 +257,12 @@ class Profile
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function addField(Field $field): self
+    {
+        $this->fields->add($field);
         return $this;
     }
 }

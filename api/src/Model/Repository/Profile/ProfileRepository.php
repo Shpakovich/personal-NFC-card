@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Repository;
+namespace App\Model\Repository\Profile;
 
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\User\Profile;
+use App\Model\Entity\User\Profile\Profile;
 use App\Model\Entity\User\UserCard;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -14,7 +14,7 @@ class ProfileRepository
 {
     private EntityManagerInterface $em;
 
-    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\User\Profile> */
+    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\User\Profile\Profile> */
     private EntityRepository $repo;
 
     public function __construct(EntityManagerInterface $em)
