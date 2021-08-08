@@ -387,4 +387,53 @@ class ProfileController extends AbstractController
 
         return $this->json([]);
     }
+
+    /**
+     * @Route("/delete", methods={"POST"}, name=".delete")
+     *
+     * @OA\Post(
+     *     summary="Удалить профиль",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"id"},
+     *              @OA\Property(property="id", type="string", description="ID профиля"),
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=204,
+     *     description="Профиль удален."
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\UseCase\Profile\Delete\Command $command
+     * @param \App\Model\UseCase\Profile\Delete\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function delete(Profile\Delete\Command $command, Profile\Delete\Handler $handler): JsonResponse
+    {
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        $command->userId = $user->getId();
+        $handler->handle($command);
+        return $this->json([], 204);
+    }
 }

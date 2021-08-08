@@ -29,6 +29,11 @@ class ProfileRepository
         $this->em->persist($profile);
     }
 
+    public function delete(Profile $profile): void
+    {
+        $this->em->remove($profile);
+    }
+
     public function getById(Id $id): Profile
     {
         $profile = $this->repo->find($id);
