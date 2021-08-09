@@ -14,7 +14,8 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 class UserFixtures extends Fixture
 {
     public const ADMIN_REF = 'user_admin';
-    public const ACTIVE_REF = 'user_active';
+    public const ACTIVE_1_REF = 'user_active_1';
+    public const ACTIVE_2_REF = 'user_active_2';
 
     private PasswordHasherInterface $hasher;
 
@@ -54,7 +55,7 @@ class UserFixtures extends Fixture
         );
         $block->block((new \DateTimeImmutable())->modify('-1 days'));
 
-        $active = new User(
+        $activeOne = new User(
             Id::next(),
             new Email('aaa@ddd.ru'),
             $this->hasher->hash('11111'),
@@ -62,16 +63,28 @@ class UserFixtures extends Fixture
             Role::user(),
             (new \DateTimeImmutable())->modify('-3 days')
         );
-        $active->confirm((new \DateTimeImmutable())->modify('-9 hours'));
+        $activeOne->confirm((new \DateTimeImmutable())->modify('-9 hours'));
+
+        $activeTwo = new User(
+            Id::next(),
+            new Email('aaa@eee.ru'),
+            $this->hasher->hash('11111'),
+            new Token(Id::next()->getValue(), new \DateTimeImmutable()),
+            Role::user(),
+            (new \DateTimeImmutable())->modify('-3 days')
+        );
+        $activeTwo->confirm((new \DateTimeImmutable())->modify('-9 hours'));
 
         $manager->persist($admin);
         $manager->persist($wait);
         $manager->persist($block);
-        $manager->persist($active);
+        $manager->persist($activeOne);
+        $manager->persist($activeTwo);
 
         $manager->flush();
 
         $this->addReference(self::ADMIN_REF, $admin);
-        $this->addReference(self::ACTIVE_REF, $active);
+        $this->addReference(self::ACTIVE_1_REF, $activeOne);
+        $this->addReference(self::ACTIVE_2_REF, $activeTwo);
     }
 }

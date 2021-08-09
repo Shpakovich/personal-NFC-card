@@ -11,12 +11,28 @@ use Doctrine\Persistence\ObjectManager;
 
 class CardFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const CARD_REF = 'card';
+    public const CARD_1_REF = 'card_1';
+    public const CARD_2_REF = 'card_2';
 
     public function load(ObjectManager $manager): void
     {
         /** @var \App\Model\Entity\User\User $admin */
         $admin = $this->getReference(UserFixtures::ADMIN_REF);
+
+        $cardOne = new Card(
+            Id::next(),
+            $admin,
+            (new \DateTimeImmutable())->modify(sprintf('-%d hours', random_int(1, 40)))
+        );
+
+        $manager->persist($cardOne);
+
+        $cardTwo = new Card(
+            Id::next(),
+            $admin,
+            (new \DateTimeImmutable())->modify(sprintf('-%d hours', random_int(1, 40)))
+        );
+        $manager->persist($cardTwo);
 
         for ($i = 0; $i < 100; ++$i) {
             $card = new Card(
@@ -27,8 +43,8 @@ class CardFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($card);
         }
 
-        /** @noinspection PhpUndefinedVariableInspection */
-        $this->addReference(self::CARD_REF, $card);
+        $this->addReference(self::CARD_1_REF, $cardOne);
+        $this->addReference(self::CARD_2_REF, $cardTwo);
 
         $manager->flush();
     }
