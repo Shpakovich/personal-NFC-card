@@ -59,6 +59,7 @@ class TypeController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Field types")
      * @Security(name="Bearer")
@@ -121,6 +122,7 @@ class TypeController extends AbstractController
      * @OA\Response(response=200, description="OK")
      * @OA\Response(response=404, description="Не найден")
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Field types")
      * @Security(name="Bearer")
@@ -186,6 +188,7 @@ class TypeController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Field types")
      * @Security(name="Bearer")
@@ -250,6 +253,7 @@ class TypeController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Field types")
      * @Security(name="Bearer")
@@ -305,6 +309,7 @@ class TypeController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Field types")
      * @Security(name="Bearer")
