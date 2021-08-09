@@ -9,6 +9,7 @@ use App\Controller\PaginationSerializer;
 use App\Fetcher\Profile\Profile\ProfileFetcher;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
+use App\Model\Entity\User\Role;
 use App\Model\Repository\Profile\ProfileRepository;
 use App\Model\UseCase\Profile;
 use DateTimeInterface;
@@ -86,7 +87,14 @@ class ProfileController extends AbstractController
         $page = $request->query->getInt('page', 1);
         /** @var int $perPage */
         $perPage = $this->getParameter('app.items_per_page');
-        $pagination = $fetcher->all($page, $perPage);
+
+        if ($this->isGranted(Role::ADMIN)) {
+            $pagination = $fetcher->all($page, $perPage);
+        } else {
+            /** @var \App\Security\UserIdentity $user */
+            $user = $this->getUser();
+            $pagination = $fetcher->all($page, $perPage, $user->getId());
+        }
 
         return $this->json(
             [
