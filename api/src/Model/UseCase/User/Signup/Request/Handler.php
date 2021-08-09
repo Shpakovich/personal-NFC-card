@@ -6,6 +6,7 @@ namespace App\Model\UseCase\User\Signup\Request;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\Email;
+use App\Model\Entity\User\Role;
 use App\Model\Entity\User\User;
 use App\Model\Flusher;
 use App\Model\Repository\UserRepository;
@@ -51,6 +52,7 @@ class Handler
             $email,
             $this->hasher->hash($command->password),
             $confirmToken,
+            Role::user(),
             $now
         );
 

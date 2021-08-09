@@ -6,6 +6,7 @@ doctrine:
             entity_id: '\App\Model\Entity\Common\Type\IdType'
             user_email: '\App\Model\Entity\User\Type\EmailType'
             user_status: '\App\Model\Entity\User\Type\StatusType'
+            user_role: '\App\Model\Entity\User\Type\RoleType'
             field_color: 'App\Model\Entity\Field\Type\ColorType'
 
     orm:
