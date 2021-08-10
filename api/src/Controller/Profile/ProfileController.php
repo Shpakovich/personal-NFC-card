@@ -337,18 +337,24 @@ class ProfileController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Publish\Command $command
      * @param \App\Model\UseCase\Profile\Publish\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function publish(
         Profile\Publish\Command $command,
-        Profile\Publish\Handler $handler
+        Profile\Publish\Handler $handler,
+        ProfileRepository $profiles
     ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -389,18 +395,24 @@ class ProfileController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Hide\Command $command
      * @param \App\Model\UseCase\Profile\Hide\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function hide(
         Profile\Hide\Command $command,
-        Profile\Hide\Handler $handler
+        Profile\Hide\Handler $handler,
+        ProfileRepository $profiles
     ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -447,18 +459,24 @@ class ProfileController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Edit\Command $command
      * @param \App\Model\UseCase\Profile\Edit\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function edit(
         Profile\Edit\Command $command,
-        Profile\Edit\Handler $handler
+        Profile\Edit\Handler $handler,
+        ProfileRepository $profiles
     ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -499,16 +517,24 @@ class ProfileController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Delete\Command $command
      * @param \App\Model\UseCase\Profile\Delete\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function delete(Profile\Delete\Command $command, Profile\Delete\Handler $handler): JsonResponse
-    {
+    public function delete(
+        Profile\Delete\Command $command,
+        Profile\Delete\Handler $handler,
+        ProfileRepository $profiles
+    ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 

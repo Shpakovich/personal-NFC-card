@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class ProfileAccess extends Voter
 {
     public const VIEW = 'view';
+    public const EDIT = 'edit';
 
     private AuthorizationCheckerInterface $security;
 
@@ -25,7 +26,7 @@ class ProfileAccess extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof Profile && in_array($attribute, [self::VIEW]);
+        return $subject instanceof Profile && in_array($attribute, [self::VIEW, self::EDIT]);
     }
 
     /**
@@ -45,7 +46,22 @@ class ProfileAccess extends Voter
             return false;
         }
 
+        return match ($attribute) {
+            self::VIEW => $this->canView($subject, $user),
+            self::EDIT => $this->canEdit($subject, $user),
+            default => false,
+        };
+    }
+
+    private function canView(Profile $profile, UserIdentity $user): bool
+    {
         return $this->security->isGranted(Role::ADMIN)
-            || $subject->getUser()->getId()->isEqual(new Id($user->getId()));
+            || $profile->getUser()->getId()->isEqual(new Id($user->getId()));
+    }
+
+    private function canEdit(Profile $profile, UserIdentity $user): bool
+    {
+        return $this->security->isGranted(Role::ADMIN)
+            || $profile->getUser()->getId()->isEqual(new Id($user->getId()));
     }
 }
