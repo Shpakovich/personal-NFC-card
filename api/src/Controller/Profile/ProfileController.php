@@ -12,6 +12,7 @@ use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\Role;
 use App\Model\Repository\Profile\ProfileRepository;
 use App\Model\UseCase\Profile;
+use App\Security\Voter\Profile\ProfileAccess;
 use DateTimeInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -156,6 +157,7 @@ class ProfileController extends AbstractController
      * @OA\Response(response=200, description="OK")
      * @OA\Response(response=404, description="Не найдена")
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
@@ -165,6 +167,8 @@ class ProfileController extends AbstractController
      */
     public function show(\App\Model\Entity\Profile\Profile $profile): JsonResponse
     {
+        $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profile);
+
         $photo = null;
         if (!empty($profile->getPhotoPath())) {
             $photo = [
