@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Profile;
 
 use App\Formatter\Error;
+use App\Model\Entity\Common\Id;
+use App\Model\Repository\Profile\ProfileRepository;
+use App\Model\Repository\UserCardRepository;
 use App\Model\UseCase\Profile\Card;
+use App\Security\Voter\Profile\ProfileAccess;
+use App\Security\Voter\User\UserCardAccess;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
@@ -50,16 +55,29 @@ class CardController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Card\Attach\Command $command
      * @param \App\Model\UseCase\Profile\Card\Attach\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
+     * @param \App\Model\Repository\UserCardRepository $userCards
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function attach(Card\Attach\Command $command, Card\Attach\Handler $handler): JsonResponse
-    {
+    public function attach(
+        Card\Attach\Command $command,
+        Card\Attach\Handler $handler,
+        ProfileRepository $profiles,
+        UserCardRepository $userCards
+    ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->profileId));
+        $userCard = $userCards->getByCardId(new Id($command->cardId));
+
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+        $this->denyAccessUnlessGranted(UserCardAccess::EDIT, $userCard);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -100,16 +118,24 @@ class CardController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Card\Detach\Command $command
      * @param \App\Model\UseCase\Profile\Card\Detach\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function detach(Card\Detach\Command $command, Card\Detach\Handler $handler): JsonResponse
-    {
+    public function detach(
+        Card\Detach\Command $command,
+        Card\Detach\Handler $handler,
+        ProfileRepository $profiles
+    ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->profileId));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
