@@ -6,7 +6,10 @@ namespace App\Controller\Profile;
 
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
+use App\Model\Repository\Profile\FieldRepository;
+use App\Model\Repository\Profile\ProfileRepository;
 use App\Model\UseCase\Profile\Field;
+use App\Security\Voter\Profile\ProfileAccess;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
@@ -58,16 +61,24 @@ class FieldController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Field\Add\Command $command
      * @param \App\Model\UseCase\Profile\Field\Add\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function add(Field\Add\Command $command, Field\Add\Handler $handler): JsonResponse
-    {
+    public function add(
+        Field\Add\Command $command,
+        Field\Add\Handler $handler,
+        ProfileRepository $profiles
+    ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -116,16 +127,24 @@ class FieldController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Field\Delete\Command $command
      * @param \App\Model\UseCase\Profile\Field\Delete\Handler $handler
+     * @param \App\Model\Repository\Profile\FieldRepository $fields
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function delete(Field\Delete\Command $command, Field\Delete\Handler $handler): JsonResponse
-    {
+    public function delete(
+        Field\Delete\Command $command,
+        Field\Delete\Handler $handler,
+        FieldRepository $fields
+    ): JsonResponse {
+        $field = $fields->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $field->getProfile());
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -169,16 +188,24 @@ class FieldController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Field\Edit\Command $command
      * @param \App\Model\UseCase\Profile\Field\Edit\Handler $handler
+     * @param \App\Model\Repository\Profile\FieldRepository $fields
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function edit(Field\Edit\Command $command, Field\Edit\Handler $handler): JsonResponse
-    {
+    public function edit(
+        Field\Edit\Command $command,
+        Field\Edit\Handler $handler,
+        FieldRepository $fields
+    ): JsonResponse {
+        $field = $fields->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $field->getProfile());
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
