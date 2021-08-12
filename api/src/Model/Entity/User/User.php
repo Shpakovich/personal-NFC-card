@@ -57,6 +57,11 @@ class User
     private Status $status;
 
     /**
+     * @ORM\Column(type="user_role", length=16)
+     */
+    private Role $role;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
@@ -92,12 +97,14 @@ class User
         Email $email,
         string $passwordHash,
         Token $confirmToken,
+        Role $role,
         \DateTimeImmutable $createdAt
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
         $this->confirmToken = $confirmToken;
+        $this->role = $role;
         $this->createdAt = $createdAt;
         $this->updatedAt = $createdAt;
         $this->status = Status::wait();
@@ -178,6 +185,17 @@ class User
     public function setStatus(Status $status): User
     {
         $this->status = $status;
+        return $this;
+    }
+
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(Role $role): User
+    {
+        $this->role = $role;
         return $this;
     }
 

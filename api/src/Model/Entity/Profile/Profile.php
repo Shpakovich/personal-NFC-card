@@ -8,6 +8,7 @@ use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\User;
 use App\Model\Entity\User\UserCard;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Webmozart\Assert\Assert;
@@ -92,12 +93,14 @@ class Profile
     private \DateTimeImmutable $updatedAt;
 
     /**
+     * @var Collection<array-key, \App\Model\Entity\Profile\Field>
      * @ORM\OneToMany(
      *     targetEntity="App\Model\Entity\Profile\Field",
      *     mappedBy="profile", cascade={"all"}
      * )
+     *  @ORM\OrderBy({"sort" = "ASC"})
      */
-    private ArrayCollection|PersistentCollection $fields;
+    private Collection $fields;
 
     public function __construct(
         Id $id,
@@ -286,5 +289,13 @@ class Profile
     {
         $this->fields->add($field);
         return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection<array-key, \App\Model\Entity\Profile\Field>
+     */
+    public function getFields(): Collection
+    {
+        return $this->fields;
     }
 }

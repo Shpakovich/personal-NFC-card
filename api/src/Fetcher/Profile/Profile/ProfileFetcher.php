@@ -83,7 +83,7 @@ class ProfileFetcher
         throw new \DomainException('Card not found');
     }
 
-    public function all(int $page, int $limit): PaginationInterface
+    public function all(int $page, int $limit, ?string $userId = null): PaginationInterface
     {
         $qb = $this->connection->createQueryBuilder()
             ->select(
@@ -108,6 +108,11 @@ class ProfileFetcher
             ->from('profiles', 'p')
             ->leftJoin('p', 'user_cards', 'uc', 'uc.id = p.user_card_id')
             ->innerJoin('p', 'users', 'u', 'p.user_id = u.id');
+
+        if ($userId !== null) {
+            $qb->andWhere('p.user_id = :user_id')
+                ->setParameter(':user_id', $userId);
+        }
 
         return $this->paginator->paginate($qb, $page, $limit);
     }

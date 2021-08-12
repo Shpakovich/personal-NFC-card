@@ -9,8 +9,10 @@ use App\Controller\PaginationSerializer;
 use App\Fetcher\Profile\Profile\ProfileFetcher;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
+use App\Model\Entity\User\Role;
 use App\Model\Repository\Profile\ProfileRepository;
 use App\Model\UseCase\Profile;
+use App\Security\Voter\Profile\ProfileAccess;
 use DateTimeInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -86,7 +88,14 @@ class ProfileController extends AbstractController
         $page = $request->query->getInt('page', 1);
         /** @var int $perPage */
         $perPage = $this->getParameter('app.items_per_page');
-        $pagination = $fetcher->all($page, $perPage);
+
+        if ($this->isGranted(Role::ADMIN)) {
+            $pagination = $fetcher->all($page, $perPage);
+        } else {
+            /** @var \App\Security\UserIdentity $user */
+            $user = $this->getUser();
+            $pagination = $fetcher->all($page, $perPage, $user->getId());
+        }
 
         return $this->json(
             [
@@ -148,6 +157,7 @@ class ProfileController extends AbstractController
      * @OA\Response(response=200, description="OK")
      * @OA\Response(response=404, description="Не найдена")
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
@@ -157,6 +167,8 @@ class ProfileController extends AbstractController
      */
     public function show(\App\Model\Entity\Profile\Profile $profile): JsonResponse
     {
+        $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profile);
+
         $photo = null;
         if (!empty($profile->getPhotoPath())) {
             $photo = [
@@ -164,12 +176,37 @@ class ProfileController extends AbstractController
             ];
         }
 
-        $card = null;
-        if ($profile->getCard() !== null) {
-            $card = [
-                'id' => $profile->getCard()->getCard()->getId()->getValue(),
-                'alias' => $profile->getCard()->getAlias(),
-                'added_at' => $profile->getCard()->getAddedAt()->format(DateTimeInterface::RFC3339),
+        $fields = [];
+        $profileFields = $profile->getFields();
+        foreach ($profileFields as $profileField) {
+            $field = $profileField->getField();
+            $type = $field->getType();
+
+            $fields[] = [
+                'id' => $profileField->getId()->getValue(),
+                'title' => $field->getTitle(),
+                'value' => $profileField->getValue(),
+                'sort' => $profileField->getSort(),
+                'type' => [
+                    'id' => $type->getId()->getValue(),
+                    'name' => $type->getName(),
+                    'sort' => $type->getSort(),
+                ],
+                'icon' => $field->getIconPath(),
+                'colors' => [
+                    'bg' => $field->getBgColor()->getValue(),
+                    'text' => $field->getTextColor()->getValue(),
+                ]
+            ];
+        }
+
+        $cardResponse = null;
+        $card = $profile->getCard();
+        if ($card !== null) {
+            $cardResponse = [
+                'id' => $card->getCard()->getId()->getValue(),
+                'alias' => $card->getAlias(),
+                'added_at' => $card->getAddedAt()->format(DateTimeInterface::RFC3339),
             ];
         }
 
@@ -184,11 +221,12 @@ class ProfileController extends AbstractController
                 'post' => $profile->getDescription(),
                 'description' => $profile->getPost(),
                 'is_published' => $profile->isPublished(),
-                'card' => $card,
+                'card' => $cardResponse,
                 'user' => [
                     'id' => $profile->getUser()->getId()->getValue(),
                     'email' => $profile->getUser()->getEmail()->getValue(),
                 ],
+                'fields' => $fields,
                 'created_at' => $profile->getCreatedAt()->format(DateTimeInterface::RFC3339),
                 'updated_at' => $profile->getUpdatedAt()->format(DateTimeInterface::RFC3339),
             ]
@@ -325,18 +363,24 @@ class ProfileController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Publish\Command $command
      * @param \App\Model\UseCase\Profile\Publish\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function publish(
         Profile\Publish\Command $command,
-        Profile\Publish\Handler $handler
+        Profile\Publish\Handler $handler,
+        ProfileRepository $profiles
     ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -377,18 +421,24 @@ class ProfileController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Hide\Command $command
      * @param \App\Model\UseCase\Profile\Hide\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function hide(
         Profile\Hide\Command $command,
-        Profile\Hide\Handler $handler
+        Profile\Hide\Handler $handler,
+        ProfileRepository $profiles
     ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -435,18 +485,24 @@ class ProfileController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Edit\Command $command
      * @param \App\Model\UseCase\Profile\Edit\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function edit(
         Profile\Edit\Command $command,
-        Profile\Edit\Handler $handler
+        Profile\Edit\Handler $handler,
+        ProfileRepository $profiles
     ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
@@ -487,16 +543,24 @@ class ProfileController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
      * @param \App\Model\UseCase\Profile\Delete\Command $command
      * @param \App\Model\UseCase\Profile\Delete\Handler $handler
+     * @param \App\Model\Repository\Profile\ProfileRepository $profiles
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function delete(Profile\Delete\Command $command, Profile\Delete\Handler $handler): JsonResponse
-    {
+    public function delete(
+        Profile\Delete\Command $command,
+        Profile\Delete\Handler $handler,
+        ProfileRepository $profiles
+    ): JsonResponse {
+        $profile = $profiles->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 

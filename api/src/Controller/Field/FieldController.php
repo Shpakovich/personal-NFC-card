@@ -242,6 +242,7 @@ class FieldController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Fields")
      * @Security(name="Bearer")
@@ -319,6 +320,7 @@ class FieldController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Fields")
      * @Security(name="Bearer")
@@ -389,6 +391,7 @@ class FieldController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Fields")
      * @Security(name="Bearer")

@@ -57,6 +57,7 @@ class CardController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Card")
      * @Security(name="Bearer")
@@ -112,6 +113,7 @@ class CardController extends AbstractController
      * @OA\Response(response=200, description="OK")
      * @OA\Response(response=404, description="Не найдена")
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Card")
      * @Security(name="Bearer")
@@ -164,6 +166,7 @@ class CardController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Card")
      * @Security(name="Bearer")
@@ -239,6 +242,7 @@ class CardController extends AbstractController
      * )
      *
      * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
      *
      * @OA\Tag(name="Card")
      * @Security(name="Bearer")

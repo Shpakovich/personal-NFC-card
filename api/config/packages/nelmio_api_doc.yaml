@@ -7,7 +7,7 @@ nelmio_api_doc:
 
     documentation:
         info:
-            title: Personal NFS cards API
+            title: Personal NFС cards API
             version: 1.0.0
         components:
             securitySchemes:
