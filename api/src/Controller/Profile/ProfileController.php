@@ -179,7 +179,6 @@ class ProfileController extends AbstractController
         $fields = [];
         $profileFields = $profile->getFields();
         foreach ($profileFields as $profileField) {
-            /** @var \App\Model\Entity\Field\Field $field */
             $field = $profileField->getField();
             $type = $field->getType();
 
@@ -201,12 +200,13 @@ class ProfileController extends AbstractController
             ];
         }
 
-        $card = null;
-        if ($profile->getCard() !== null) {
-            $card = [
-                'id' => $profile->getCard()->getCard()->getId()->getValue(),
-                'alias' => $profile->getCard()->getAlias(),
-                'added_at' => $profile->getCard()->getAddedAt()->format(DateTimeInterface::RFC3339),
+        $cardResponse = null;
+        $card = $profile->getCard();
+        if ($card !== null) {
+            $cardResponse = [
+                'id' => $card->getCard()->getId()->getValue(),
+                'alias' => $card->getAlias(),
+                'added_at' => $card->getAddedAt()->format(DateTimeInterface::RFC3339),
             ];
         }
 
@@ -221,7 +221,7 @@ class ProfileController extends AbstractController
                 'post' => $profile->getDescription(),
                 'description' => $profile->getPost(),
                 'is_published' => $profile->isPublished(),
-                'card' => $card,
+                'card' => $cardResponse,
                 'user' => [
                     'id' => $profile->getUser()->getId()->getValue(),
                     'email' => $profile->getUser()->getEmail()->getValue(),

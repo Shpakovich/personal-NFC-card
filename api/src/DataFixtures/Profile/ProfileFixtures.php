@@ -80,8 +80,8 @@ class ProfileFixtures extends Fixture implements DependentFixtureInterface
             ->setCard($cardTwo)
             ->setPost('CEO')
             ->setDescription('Unpleasant nor diminution excellence apartments imprudence the met new. Draw part them'
-                             . 'he an to he roof only. Music leave say doors him. Tore bred form if sigh case as do. Staying he no'
-                             . 'looking if do opinion. Sentiments way understood end partiality and his.')
+                . 'he an to he roof only. Music leave say doors him. Tore bred form if sigh case as do. Staying he no'
+                . 'looking if do opinion. Sentiments way understood end partiality and his.')
             ->publish();
 
         $manager->persist($publishedOne);
