@@ -176,6 +176,31 @@ class ProfileController extends AbstractController
             ];
         }
 
+        $fields = [];
+        $profileFields = $profile->getFields();
+        foreach ($profileFields as $profileField) {
+            /** @var \App\Model\Entity\Field\Field $field */
+            $field = $profileField->getField();
+            $type = $field->getType();
+
+            $fields[] = [
+                'id' => $profileField->getId()->getValue(),
+                'title' => $field->getTitle(),
+                'value' => $profileField->getValue(),
+                'sort' => $profileField->getSort(),
+                'type' => [
+                    'id' => $type->getId()->getValue(),
+                    'name' => $type->getName(),
+                    'sort' => $type->getSort(),
+                ],
+                'icon' => $field->getIconPath(),
+                'colors' => [
+                    'bg' => $field->getBgColor()->getValue(),
+                    'text' => $field->getTextColor()->getValue(),
+                ]
+            ];
+        }
+
         $card = null;
         if ($profile->getCard() !== null) {
             $card = [
@@ -201,6 +226,7 @@ class ProfileController extends AbstractController
                     'id' => $profile->getUser()->getId()->getValue(),
                     'email' => $profile->getUser()->getEmail()->getValue(),
                 ],
+                'fields' => $fields,
                 'created_at' => $profile->getCreatedAt()->format(DateTimeInterface::RFC3339),
                 'updated_at' => $profile->getUpdatedAt()->format(DateTimeInterface::RFC3339),
             ]
