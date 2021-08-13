@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model\UseCase\Card\Create;
 
 use App\Model\Entity\Card\Card;
-use App\Model\Entity\Card\Id;
+use App\Model\Entity\Common\Id;
 use App\Model\Flusher;
 use App\Model\Repository\CardRepository;
 use App\Model\Repository\UserRepository;
@@ -30,7 +30,7 @@ class Handler
             throw new \DomainException("Card {$id->getValue()} already exists.");
         }
 
-        $userId = new \App\Model\Entity\User\Id($command->userId);
+        $userId = new Id($command->userId);
         $user = $this->users->getById($userId);
         $card = new Card($id, $user, new \DateTimeImmutable());
 

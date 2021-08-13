@@ -1,0 +1,100 @@
+nelmio_api_doc:
+    areas:
+        path_patterns:
+            - ^/(?!doc$)
+        name_patterns:
+            - "[^(?!_preview_error$)|^(?!home$)]"
+
+    documentation:
+        info:
+            title: Personal NFС cards API
+            version: 1.0.0
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+
+        paths:
+            /auth/token:
+                post:
+                    summary: Получить авторизационный токен
+                    tags: [ Auth ]
+                    requestBody:
+                        required: true
+                        content:
+                            application/x-www-form-urlencoded:
+                                schema:
+                                    type: object
+                                    required: [ grant_type, client_id ]
+                                    properties:
+                                        grant_type:
+                                            description: Тип доступа (password или refresh_token)
+                                            type: string
+                                            default: password
+                                        username:
+                                            description: Имя пользователя (в случае grant_type=password)
+                                            type: string
+                                            default: aaa@aaa.ru
+                                        password:
+                                            description: Пароль (в случае grant_type=password)
+                                            type: string
+                                            default: 11111
+                                        refresh_token:
+                                            description: Токен для обновления токена доступа (в случае grant_type=refresh_token)
+                                            type: string
+                                        client_id:
+                                            description: Клиент ID (всегда frontend)
+                                            type: string
+                                            default: frontend
+                                examples:
+                                    password:
+                                        value:
+                                            grant_type: password
+                                            username: user@email.com
+                                            password: xxx
+                                            client_id: frontend
+                                        summary: Получение авторизацоинного токена
+                                    refresh_token:
+                                        value:
+                                            grant_type: refresh_token
+                                            refresh_token: yyy
+                                            client_id: frontend
+                                        summary: Обновление авторизационного токена с помощью refresh_token
+
+
+                    responses:
+                        200:
+                            description: OK
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            token_type:
+                                                type: string
+                                                example: Bearer
+                                            expires_in:
+                                                type: integer
+                                                format: int64
+                                                example: 3600
+                                            access_token:
+                                                type: string
+                                            refresh_token:
+                                                type: string
+                        400:
+                            description: Ошибка
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            error:
+                                                type: string
+                                            error_description:
+                                                type: string
+                                            hint:
+                                                type: string
+                                            message:
+                                                type: string

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\UseCase\Card\Delete;
 
-use App\Model\Entity\Card\Id;
+use App\Model\Entity\Common\Id;
 use App\Model\Flusher;
 use App\Model\Repository\CardRepository;
 

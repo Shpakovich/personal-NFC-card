@@ -21,6 +21,7 @@ services:
             - '../src/Model/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+            - '../src/Exception/'
 
     App\Controller\:
         resource: '../src/Controller/'

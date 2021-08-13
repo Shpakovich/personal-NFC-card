@@ -15,13 +15,15 @@ class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface,
     private string $username;
     private string $password;
     private int $status;
+    private string $role;
 
-    public function __construct(string $id, string $username, string $password, int $status)
+    public function __construct(string $id, string $username, string $password, int $status, string $role)
     {
         $this->id = $id;
         $this->username = $username;
         $this->password = $password;
         $this->status = $status;
+        $this->role = $role;
     }
 
     /**
@@ -59,7 +61,7 @@ class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface,
 
     public function getRoles(): array
     {
-        return [];
+        return [$this->role];
     }
 
     public function getSalt(): ?string
@@ -79,6 +81,7 @@ class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface,
 
         return $this->id === $user->id
             && $this->username === $user->username
-            && $this->password === $user->password;
+            && $this->password === $user->password
+            && $this->role === $user->role;
     }
 }

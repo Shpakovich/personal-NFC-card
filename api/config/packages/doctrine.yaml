@@ -3,10 +3,11 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
         server_version: '13'
         types:
-            user_id: '\App\Model\Entity\User\Type\IdType'
+            entity_id: '\App\Model\Entity\Common\Type\IdType'
             user_email: '\App\Model\Entity\User\Type\EmailType'
             user_status: '\App\Model\Entity\User\Type\StatusType'
-            card_id: '\App\Model\Entity\Card\Type\IdType'
+            user_role: '\App\Model\Entity\User\Type\RoleType'
+            field_color: 'App\Model\Entity\Field\Type\ColorType'
 
     orm:
         auto_generate_proxy_classes: true

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Model\Entity\User;
 
+use App\Model\Entity\Common\Id;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
@@ -23,7 +27,7 @@ class User
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="user_id")
+     * @ORM\Column(type="entity_id")
      */
     private Id $id;
 
@@ -53,6 +57,11 @@ class User
     private Status $status;
 
     /**
+     * @ORM\Column(type="user_role", length=16)
+     */
+    private Role $role;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
@@ -67,20 +76,41 @@ class User
      */
     private ?\DateTimeImmutable $lastAuthAt = null;
 
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Model\Entity\User\UserCard",
+     *     mappedBy="user", orphanRemoval=true, cascade={"all"}
+     * )
+     */
+    private ArrayCollection|PersistentCollection $cards;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Model\Entity\Profile\Profile",
+     *     mappedBy="user", cascade={"all"}
+     * )
+     */
+    private ArrayCollection|PersistentCollection $profiles;
+
     public function __construct(
         Id $id,
         Email $email,
         string $passwordHash,
         Token $confirmToken,
+        Role $role,
         \DateTimeImmutable $createdAt
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
         $this->confirmToken = $confirmToken;
+        $this->role = $role;
         $this->createdAt = $createdAt;
         $this->updatedAt = $createdAt;
         $this->status = Status::wait();
+
+        $this->cards = new ArrayCollection();
+        $this->profiles = new ArrayCollection();
     }
 
     public function confirm(\DateTimeImmutable $data): void
@@ -104,9 +134,6 @@ class User
         $this->updatedAt = $data;
     }
 
-    /**
-     * @return \App\Model\Entity\User\Id
-     */
     public function getId(): Id
     {
         return $this->id;
@@ -161,6 +188,17 @@ class User
         return $this;
     }
 
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(Role $role): User
+    {
+        $this->role = $role;
+        return $this;
+    }
+
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
@@ -186,5 +224,15 @@ class User
     {
         $this->lastAuthAt = $lastAuthAt;
         return $this;
+    }
+
+    public function getCards(): Collection
+    {
+        return $this->cards;
+    }
+
+    public function getProfiles(): Collection
+    {
+        return $this->profiles;
     }
 }
