@@ -1,5 +1,13 @@
 <script>
   export default {
+    mounted () {
+      if (this.$route.query?.hash) {
+        let name = "hash";
+        let value = this.$route.query.hash;
+
+        document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+      }
+    }
   }
 </script>
 

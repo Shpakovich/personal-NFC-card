@@ -26,9 +26,9 @@
 
               this.$auth.loginWith('local', {
                 data: params
-              }).then(() =>
-                this.$router.push('/creatingProfile')
-              );
+              }).then((res) => {
+                this.$router.push('/card/register')
+                })
             } else {
               this.$router.push('/authorization')
             }

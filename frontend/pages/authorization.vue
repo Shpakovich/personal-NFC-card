@@ -24,6 +24,9 @@
         params.append('client_id', 'frontend');
 
         try {
+          const data = {
+            id: this.getCookie('hash')
+          };
           await this.$auth.loginWith('local',{
             data: params
           });

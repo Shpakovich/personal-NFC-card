@@ -60,12 +60,12 @@ export default {
           global: true
         },
         user: {
-          property: 'profile'
+          property: 'items'
         },
         endpoints: {
           login: { url: '/auth/token', method: 'post' },
           logout: { url: '', method: '' },
-          user: { url: '/profile/create', method: 'post' }
+          user: { url: '/profiles', method: 'get' }
         }
       }
     }
