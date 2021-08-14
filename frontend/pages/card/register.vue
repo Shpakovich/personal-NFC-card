@@ -9,14 +9,16 @@
 
       data: () => ({
         nick: '',
+        mask: 'https://myid-card/NNNNNNNNNNNNN',
         valid: false
       }),
 
       methods: {
         async registerCard(nick) {
+          const alias = nick.substr(nick.indexOf("myid-card/") + 10);
           const data = {
             id: this.getCookie('hash'),
-            alias: nick
+            alias
           };
           await this.$api.card.registrationCard(data)
         },
@@ -60,7 +62,7 @@
     >
       <v-text-field
         v-model="nick"
-        v-mask="'####-##'"
+        v-mask="mask"
         class="font-croc"
         label="Адрес страницы"
         required
