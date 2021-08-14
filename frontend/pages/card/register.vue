@@ -1,10 +1,14 @@
 <script>
+  import Vue from 'vue'
+  import VueMask from 'v-mask'
+  Vue.use(VueMask);
+
     export default {
       name: "register",
       layout: "createProfile",
 
       data: () => ({
-        nick: 'https://myid-card/',
+        nick: '',
         valid: false
       }),
 
@@ -20,7 +24,7 @@
           const value = `; ${document.cookie}`;
           const parts = value.split(`; ${name}=`);
           if (parts.length === 2) return parts.pop().split(';').shift();
-        },
+        }
       }
     }
 </script>
@@ -56,7 +60,7 @@
     >
       <v-text-field
         v-model="nick"
-        mask="###.###.###-##"
+        v-mask="'####-##'"
         class="font-croc"
         label="Адрес страницы"
         required
