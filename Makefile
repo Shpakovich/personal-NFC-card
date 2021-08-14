@@ -75,3 +75,8 @@ frontend-install:
 
 frontend-ready:
 	docker run --rm -v ${PWD}/frontend:/app -w /app alpine sh -c 'touch .ready'
+
+### Prod
+
+build:
+	docker-compose -f docker-compose-prod.yml build
