@@ -30,9 +30,9 @@ services:
 
     api:
         build:
-            context: ./api/docker/prod/nginx
+            context: ./api
+            dockerfile: docker/prod/nginx/Dockerfile
         volumes:
-            - ./api:/app
             - socket_php:/var/run/php
         restart: always
         depends_on:
