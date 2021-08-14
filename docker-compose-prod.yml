@@ -54,11 +54,14 @@ services:
 
     api-php-cli:
         build:
-            context: ./api/docker
-            dockerfile: prod/php-cli/Dockerfile
-#        environment:
-        volumes:
-            - ./api:/app
+            context: ./api
+            dockerfile: docker/prod/php-cli/Dockerfile
+        environment:
+            APP_SECRET: a7e49f7332381b2a994cb863683d046c
+            DATABASE_URL: "postgresql://dev:dev@db:5432/dev?serverVersion=13&charset=utf8"
+            MAILER_DSN: smtp://mailer:1025
+            MAILER_FROM_EMAIL: mail@app.test
+            OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
         restart: always
 
     db:
