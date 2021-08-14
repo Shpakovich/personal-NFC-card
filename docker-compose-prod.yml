@@ -40,11 +40,15 @@ services:
 
     api-php-fpm:
         build:
-            context: ./api/docker
-            dockerfile: prod/php-fpm/Dockerfile
-#        environment:
+            context: ./api
+            dockerfile: docker/prod/php-fpm/Dockerfile
+        environment:
+            APP_SECRET: a7e49f7332381b2a994cb863683d046c
+            DATABASE_URL: "postgresql://dev:dev@db:5432/dev?serverVersion=13&charset=utf8"
+            MAILER_DSN: smtp://mailer:1025
+            MAILER_FROM_EMAIL: mail@app.test
+            OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
         volumes:
-            - ./api:/app
             - socket_php:/var/run/php
         restart: always
 
