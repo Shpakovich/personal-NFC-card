@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
     gateway:
-        build:
-            context: ./gateway/docker/prod/nginx
+        image: ${REGISTRY}/gateway:${IMAGE_TAG}
         ports:
             - "80:80"
             - "443:443"
@@ -13,17 +12,13 @@ services:
             - api
 
     frontend:
-        build:
-            context: ./frontend
-            dockerfile: docker/prod/node/Dockerfile
+        image: ${REGISTRY}/frontend:${IMAGE_TAG}
         command: yarn start
         tty: true
         restart: always
 
     api:
-        build:
-            context: ./api
-            dockerfile: docker/prod/nginx/Dockerfile
+        image: ${REGISTRY}/api-nginx:${IMAGE_TAG}
         volumes:
             - socket_php:/var/run/php
         restart: always
@@ -31,9 +26,7 @@ services:
             - api-php-fpm
 
     api-php-fpm:
-        build:
-            context: ./api
-            dockerfile: docker/prod/php-fpm/Dockerfile
+        image: ${REGISTRY}/api-php-fpm:${IMAGE_TAG}
         environment:
             APP_SECRET: a7e49f7332381b2a994cb863683d046c
             DATABASE_URL: "postgresql://dev:dev@db:5432/dev?serverVersion=13&charset=utf8"
@@ -45,16 +38,13 @@ services:
         restart: always
 
     api-php-cli:
-        build:
-            context: ./api
-            dockerfile: docker/prod/php-cli/Dockerfile
+        image: ${REGISTRY}/api-php-cli:${IMAGE_TAG}
         environment:
             APP_SECRET: a7e49f7332381b2a994cb863683d046c
             DATABASE_URL: "postgresql://dev:dev@db:5432/dev?serverVersion=13&charset=utf8"
             MAILER_DSN: smtp://mailer:1025
             MAILER_FROM_EMAIL: mail@app.test
             OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
-        restart: always
 
     db:
         image: postgres:13.3-alpine
