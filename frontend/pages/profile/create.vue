@@ -1,6 +1,7 @@
 <script>
   export default {
     name: "create",
+    layout: "createProfile",
 
     data: () => ({
       nickname: '',
@@ -19,8 +20,8 @@
           card_id: this.getCookie('hash')
         };
         await this.$api.profile.createProfile(data).then((res)=> {
-            // отправляем на заполнение инфо профиля
-            console.log(res)
+            // TODO сохраняем id нового профиля
+            this.$router.push('/profile/addInfo');
           }
         )
       },
