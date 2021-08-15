@@ -9,7 +9,7 @@
 
       data: () => ({
         nick: '',
-        mask: 'https://myid-card/NNNNNNNNNNNNN',
+        mask: 'https://myid-card/NNNNNNNNNNNN',
         valid: false
       }),
 
@@ -20,7 +20,11 @@
             id: this.getCookie('hash'),
             alias
           };
-          await this.$api.card.registrationCard(data)
+          await this.$api.card.registrationCard(data).then((res)=> {
+              // TODO записать res.card_id и id в vuex
+              this.$router.push('/profile/create')
+            }
+          )
         },
         getCookie(name) { // TODO Вынести в хелпер
           const value = `; ${document.cookie}`;
@@ -52,7 +56,7 @@
     </v-btn>
 
     <h3 class="text-center px-5 mb-6">
-      Ура, вы подтвердили почту. Давайте активируем метку. Выберете ваш ник.
+      Ура, вы подтвердили почту. Давайте активируем метку, выберете ваш ник.
     </h3>
     <v-form
       ref="form"
@@ -74,6 +78,7 @@
         :disabled="!valid"
         color="secondary"
         height="48"
+        width="155"
         max-width="186"
         class="m-auto w-2/5"
         @click="registerCard(nick)"
