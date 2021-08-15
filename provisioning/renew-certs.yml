@@ -1,0 +1,8 @@
+---
+-   name: Renew certificates
+    hosts: main
+    remote_user: root
+
+    tasks:
+        - name: Renew certificates
+          shell: "certbot renew --quiet --allow-subset-of-names"
