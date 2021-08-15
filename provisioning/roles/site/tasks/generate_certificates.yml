@@ -12,6 +12,12 @@
     register: port_check
     ignore_errors: yes
 
+-   name: Create '/var/www/html' directory
+    file:
+        path: /var/www/html
+        state: directory
+        mode: '0755'
+
 -   name: Up Certbot standalone Apache
     shell: "docker run -d --name apache -v /var/www/html:/usr/local/apache2/htdocs/ -p 80:80 httpd:2.4"
     when: port_check.failed == true
