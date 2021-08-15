@@ -48,7 +48,7 @@
             Регистрация
           </v-btn>
           <v-btn
-            class="rounded-lg flex-initial flex font-bold ml-6"
+            class="rounded-lg flex font-bold ml-6"
             max-width="81px"
             min-width="45px"
             height="48"
