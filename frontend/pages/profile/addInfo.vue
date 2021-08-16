@@ -23,6 +23,9 @@
                     }
                 )
             },
+            nextStep() {
+                this.$router.push('/profile/choosePhoto');
+            },
             getCookie(name) { // TODO Вынести в хелпер
                 const value = `; ${document.cookie}`;
                 const parts = value.split(`; ${name}=`);
