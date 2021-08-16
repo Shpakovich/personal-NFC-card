@@ -1,0 +1,12 @@
+/.idea
+
+/vendor
+#/var/*
+/public/bundles
+
+/.env.local
+/.env.local.php
+/.env.*.local
+
+/bin/.phpunit
+/phpunit.xml

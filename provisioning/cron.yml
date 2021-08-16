@@ -1,0 +1,12 @@
+---
+-   name: Add cron job
+    hosts: main
+    remote_user: root
+
+    tasks:
+        -   name:
+            cron:
+                name: Sending expenses for yesterday
+                job: '/usr/local/bin/docker-compose --env-file=/home/deploy/site/.env -f /home/deploy/site/docker-compose-prod.yml run -T php-cli /app/bin/app budget:expenses-yesterday'
+                minute: '0'
+                hour: '9'

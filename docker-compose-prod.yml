@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+    gateway:
+        image: ${REGISTRY}/gateway:${IMAGE_TAG}
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - /etc/letsencrypt:/etc/letsencrypt
+            - /var/www/html:/var/www/html
+        restart: always
+        depends_on:
+            - frontend
+            - api
+
+    frontend:
+        image: ${REGISTRY}/frontend:${IMAGE_TAG}
+        command: yarn start
+        tty: true
+        restart: always
+
+    api:
+        image: ${REGISTRY}/api-nginx:${IMAGE_TAG}
+        volumes:
+            - socket_php:/var/run/php
+        restart: always
+        depends_on:
+            - api-php-fpm
+
+    api-php-fpm:
+        image: ${REGISTRY}/api-php-fpm:${IMAGE_TAG}
+        environment:
+            APP_SECRET: a7e49f7332381b2a994cb863683d046c
+            DATABASE_URL: "postgresql://dev:dev@db:5432/dev?serverVersion=13&charset=utf8"
+            MAILER_DSN: smtp://mailer:1025
+            MAILER_FROM_EMAIL: mail@app.test
+            OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
+        volumes:
+            - socket_php:/var/run/php
+        restart: always
+
+    api-php-cli:
+        image: ${REGISTRY}/api-php-cli:${IMAGE_TAG}
+        environment:
+            APP_SECRET: a7e49f7332381b2a994cb863683d046c
+            DATABASE_URL: "postgresql://dev:dev@db:5432/dev?serverVersion=13&charset=utf8"
+            MAILER_DSN: smtp://mailer:1025
+            MAILER_FROM_EMAIL: mail@app.test
+            OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
+
+    db:
+        image: postgres:13.3-alpine
+        volumes:
+            - db:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: dev
+            POSTGRES_USER: dev
+            POSTGRES_PASSWORD: dev
+        restart: always
+
+volumes:
+    socket_php:
+    db:
