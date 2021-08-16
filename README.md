@@ -113,3 +113,10 @@ Response
     "refresh_token": "yyy_2"
 }
 ```
+
+## Консольные команды
+
+Создание администратора
+```bash
+$ bin/console app:create:admin <email> <password>
+```
