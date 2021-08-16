@@ -96,7 +96,7 @@ class User
         Id $id,
         Email $email,
         string $passwordHash,
-        Token $confirmToken,
+        ?Token $confirmToken,
         Role $role,
         \DateTimeImmutable $createdAt
     ) {
