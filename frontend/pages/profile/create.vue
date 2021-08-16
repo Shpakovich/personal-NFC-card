@@ -19,11 +19,9 @@
           default_name: this.checkbox+1,
           card_id: this.getCookie('hash')
         };
-        await this.$api.profile.createProfile(data).then((res)=> {
-            // TODO сохраняем id нового профиля
-            this.$router.push('/profile/addInfo');
-          }
-        )
+        await this.$store.dispatch('profile/createNewProfile', data)
+                .then((data) => this.$router.push('/profile/addInfo'))
+                .catch((e) => console.log('profile/setProfile error' + e));
       },
       setDefaultName() {
         this.checkbox = !this.checkbox

@@ -14,5 +14,9 @@ export default {
         ).catch((e) => console.log('card/setCard error' + e));
 
         return res;
+    },
+
+    setCardInfo ({ commit }, card) {
+        commit('SET_CARD_INFO', card);
     }
 };

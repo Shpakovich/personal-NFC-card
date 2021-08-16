@@ -1,4 +1,7 @@
 <script>
+    import { createNamespacedHelpers } from 'vuex';
+    const { mapState } = createNamespacedHelpers('profile');
+
     export default {
         name: "addInfo",
         layout: "createProfile",
@@ -9,27 +12,27 @@
             valid: false
         }),
 
+        computed: {
+            ...mapState({
+                profile: (state) => state
+            })
+        },
+
         methods: {
             async addInfoInProfile() {
                 const data = {
-                    name: 'someName',
-                    title: 'someTitle',
-                    id: '36cacca1-65cd-43b1-bf18-d59efe4f87b3', // брать из vuex
+                    name: this.profile?.name,
+                    title: this.profile?.title, // TODO сказать Владу сделать не обязательными
+                    id: this.profile?.id, // id профиля который меняем
                     post: this.post,
                     description: this.description
                 };
-                await this.$api.profile.editProfile(data).then((res) => {
-                        this.$router.push('/profile/choosePhoto');
-                    }
-                )
+                await this.$store.dispatch('profile/editProfile', data)
+                    .then((data) => this.$router.push('/profile/choosePhoto'))
+                    .catch((e) => console.log('profile/editProfile error' + e));
             },
             nextStep() {
                 this.$router.push('/profile/choosePhoto');
-            },
-            getCookie(name) { // TODO Вынести в хелпер
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
             }
         }
     }

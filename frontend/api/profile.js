@@ -5,5 +5,11 @@ export default axios => ({
     },
     editProfile (data) {
         return axios.post('/profile/edit', data);
+    },
+    getProfiles () {
+        return axios.get('/profiles');
+    },
+    getProfile (id) {
+        return axios.get(`/profile/${id}`);
     }
 });
