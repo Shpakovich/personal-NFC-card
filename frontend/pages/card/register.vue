@@ -15,21 +15,9 @@
 
       methods: {
         async registerCard(nick) {
-          const alias = nick.substr(nick.indexOf("myid-card/") + 10);
-          const data = {
-            id: this.getCookie('hash'),
-            alias
-          };
-          await this.$api.card.registrationCard(data).then((res)=> {
-              // TODO записать res.card_id и id в vuex
-              this.$router.push('/profile/create')
-            }
-          )
-        },
-        getCookie(name) { // TODO Вынести в хелпер
-          const value = `; ${document.cookie}`;
-          const parts = value.split(`; ${name}=`);
-          if (parts.length === 2) return parts.pop().split(';').shift();
+          await this.$store.dispatch('card/setCard', nick)
+            .then((data) => this.$router.push('/profile/create'))
+                  .catch((e) => console.log('card/setCard error' + e));
         }
       }
     }
