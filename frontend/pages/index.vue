@@ -1,5 +1,13 @@
 <script>
   export default {
+    mounted () {
+      if (this.$route.query?.hash) {
+        let name = "hash";
+        let value = this.$route.query.hash;
+
+        document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+      }
+    }
   }
 </script>
 
@@ -40,7 +48,7 @@
             Регистрация
           </v-btn>
           <v-btn
-            class="rounded-lg flex-initial flex font-bold ml-6"
+            class="rounded-lg flex font-bold ml-6"
             max-width="81px"
             min-width="45px"
             height="48"

@@ -1,11 +1,23 @@
 <script>
   import socialIconsBlock from '~/components/socialIconsBlock'
     export default {
-      name: "businessСard",
+      name: "page",
       layout: "profile",
 
       components: {
         socialIconsBlock
+      },
+
+      async mounted() {
+        let profile;
+
+        await this.$store.dispatch('profile/getAllProfilesInfo')
+                .then((profiles) => { console.log(profiles) })
+                .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
+        // Получем id профиля по пользвоателю
+
+
+        return profile;
       }
     }
 </script>
