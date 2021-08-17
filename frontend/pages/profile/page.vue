@@ -45,7 +45,7 @@
     <v-row class="flex flex-row justify-space-between my-4">
       <p class="mb-0">Общее</p>
       <img
-              src="../../assets/images/icon/Settings.svg"
+              src="../../assets/images/icon/line-settings.svg"
               alt=""
       />
     </v-row>
