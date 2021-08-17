@@ -61,7 +61,6 @@ class ProfileAccess extends Voter
 
     private function canEdit(Profile $profile, UserIdentity $user): bool
     {
-        return $this->security->isGranted(Role::ADMIN)
-            || $profile->getUser()->getId()->isEqual(new Id($user->getId()));
+        return $profile->getUser()->getId()->isEqual(new Id($user->getId()));
     }
 }

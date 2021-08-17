@@ -38,3 +38,6 @@ services:
     App\Security\OAuth\UserResolveListener:
         tags:
             - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }
+
+    App\Model\Service\Storage\Storage:
+        arguments: [ '@local.storage', '%env(resolve:STORAGE_BASE_URL)%' ]

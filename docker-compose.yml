@@ -46,6 +46,7 @@ services:
             IDE_PROJECT_HOME: ${IDE_PROJECT_HOME:-}
         volumes:
             - ./api:/app
+            - ./storage:/var/storage
             - socket_php:/var/run/php
 
     api-php-cli:
@@ -80,4 +81,3 @@ services:
 volumes:
     socket_php:
     db:
-    storage:
