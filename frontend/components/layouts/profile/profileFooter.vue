@@ -13,7 +13,7 @@
                     icon: 'user.svg'
                 }, {
                     name: 'Просмотры',
-                    url: 'witches',
+                    url: 'watches',
                     icon: 'eyes.svg'
                 }, {
                     name: 'Настройки',
@@ -22,7 +22,14 @@
                 }],
         }),
 
+        computed:{
+
+        },
+
         methods: {
+            isActiveRoute(path) {
+                return  this.$route?.path?.includes(path);
+            },
             getLogoSrc (index) {
                 return require("../../../assets/images/icon/" + this.links[index].icon);
             }
@@ -44,10 +51,13 @@
                     v-for="(link, index) in links"
                     :key="link.url"
                     color="primary"
-                    height="54"
+                    height="78"
+                    min-height="78"
                     max-width="136"
-                    class="m-auto font-gilroy w-1/4 mb-9"
-                    style="font-size: 13px!important; line-height: 15.3px!important;"
+                    active-class="test-active"
+                    class="m-auto font-gilroy w-1/4 mb-9 "
+                    :style="isActiveRoute(link.url) ? 'border-top: 2px solid #FFA436;' : 'border-top: 2px solid rgba(104, 103, 108, 0.3);'"
+                    style="font-size: 13px!important; line-height: 15.3px!important; border-radius: 0px !important;"
                     :to="link.url"
                     text
             >
@@ -58,13 +68,34 @@
                             :src="getLogoSrc(index)"
                         alt=""
                     >
-                    {{ link.name }}
+                    <p
+                            style="padding: 0; margin: 0"
+                       :class="{'item_active': true}"
+                    >
+                        {{ link.name }}
+                    </p>
                 </div>
             </v-btn>
         </v-row>
     </v-footer>
 </template>
 
-<style scoped>
+<style lang="scss">
+    .v-btn:before {
+        background: none;
+    }
 
+    .test-active {
+        p {
+            color: #FFA436;
+        }
+        svg {
+            fill: #FFA436;
+        }
+    }
+
+    .v-btn__content__bottom {
+        position: absolute;
+        bottom: 0;
+    }
 </style>
