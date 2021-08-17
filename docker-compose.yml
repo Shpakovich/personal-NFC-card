@@ -5,13 +5,15 @@ services:
         build:
             context: ./gateway/docker/dev/nginx
         ports:
-            - 8080:8080
-            - 8081:8081
-            - 8082:8082
+            - "8080:8080"
+            - "8081:8081"
+            - "8082:8082"
+            - "8083:8083"
         depends_on:
             - frontend
             - api
             - mailer
+            - storage
 
     frontend:
         image: node:16-alpine
@@ -58,7 +60,7 @@ services:
     db:
         image: postgres:13.3-alpine
         ports:
-            - 54321:5432
+            - "54321:5432"
         volumes:
             - db:/var/lib/postgresql/data
         environment:
@@ -66,9 +68,16 @@ services:
             POSTGRES_USER: dev
             POSTGRES_PASSWORD: dev
 
+    storage:
+        build:
+            context: ./storage/docker/dev/nginx
+        volumes:
+            - ./storage:/app
+
     mailer:
         image: mailhog/mailhog
 
 volumes:
     socket_php:
     db:
+    storage:
