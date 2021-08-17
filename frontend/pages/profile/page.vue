@@ -18,7 +18,7 @@
         addTEG
       },
 
-      async mounted() {
+      async fetch() {
         let profile;
 
         await this.$store.dispatch('profile/getAllProfilesInfo')

@@ -49,7 +49,7 @@ export default {
     rewriteRedirects: true, // работает только с cookie-universal-nuxt
     plugins: ['~/plugins/auth.js'], //почему то работает с обратным редиректом
     redirect: {
-      login: '/profile/edit',
+      login: '/profile/page',
       logout: '/authorization',
       home: '/'
     },

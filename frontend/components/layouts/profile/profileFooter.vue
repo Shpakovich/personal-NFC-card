@@ -6,32 +6,35 @@
             links: [{
                     name: 'Избранное',
                     url: 'favorite',
-                    icon: 'favorits.svg'
+                    icon: 'favorite.svg',
+                    iconActive: 'favorite-active.svg'
                 }, {
                     name: 'Профиль',
                     url: 'page',
-                    icon: 'user.svg'
+                    icon: 'user.svg',
+                    iconActive: 'user-active.svg'
                 }, {
                     name: 'Просмотры',
                     url: 'watches',
-                    icon: 'eyes.svg'
+                    icon: 'eye.svg',
+                    iconActive: 'eye-active.svg'
                 }, {
                     name: 'Настройки',
                     url: 'settings',
-                    icon: 'settings.svg'
+                    icon: 'settings.svg',
+                    iconActive: 'settings-active.svg'
                 }],
         }),
 
-        computed:{
-
-        },
-
         methods: {
             isActiveRoute(path) {
-                return  this.$route?.path?.includes(path);
+                return this.$route?.path?.includes(path);
             },
             getLogoSrc (index) {
                 return require("../../../assets/images/icon/" + this.links[index].icon);
+            },
+            getActiveLogoSrc (index) {
+                return require("../../../assets/images/icon/" + this.links[index].iconActive);
             }
         }
     }
@@ -63,10 +66,18 @@
             >
                 <div class="flex flex-col">
                     <img
+                            v-if="isActiveRoute(link.url)"
+                            class="m-auto mb-2"
+                            style="max-width: 28px; width: 28px; max-height: 28px; height: 28px;"
+                            :src="getActiveLogoSrc(index)"
+                            alt=""
+                    >
+                    <img
+                            v-else
                             class="m-auto mb-2"
                             style="max-width: 28px; width: 28px; max-height: 28px; height: 28px;"
                             :src="getLogoSrc(index)"
-                        alt=""
+                            alt=""
                     >
                     <p
                             style="padding: 0; margin: 0"
