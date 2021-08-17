@@ -8,7 +8,7 @@
                 // TODO когда будет инструмент добавления фото
             },
             nextStep() {
-                this.$router.push('/profile/edit');
+                this.$router.push('/profile/page');
             }
         }
     }

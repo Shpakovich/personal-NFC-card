@@ -11,7 +11,7 @@ export default {
             .then((res)=> {
                 commit('SET_CARD_INFO', res.data);
             }
-        ).catch((e) => console.log('card/setCard error' + e));
+        ).catch((err) => err);
 
         return res;
     },

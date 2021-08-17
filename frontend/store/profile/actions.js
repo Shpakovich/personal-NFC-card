@@ -11,10 +11,10 @@ export default {
             }
         )
     },
-    async getAllProfilesInfo ({ commit, dispatch }, id) {
+    async getAllProfilesInfo ({ commit, dispatch }) {
         await this.$api.profile.getProfiles().then((res)=> {
                 commit('SET_PROFILE_INFO', res.data.items[0]);
-                dispatch('card/setCardInfo', res.data.items[0].card);
+                return res.data.items[0]
             }
         )
     }

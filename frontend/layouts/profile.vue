@@ -1,6 +1,12 @@
 <script>
+  import profileHeader from "../components/layouts/profile/profileHeader";
+
     export default {
       name: "profile",
+
+      components: {
+        profileHeader
+      },
 
       beforeCreate() {
         if (!this.$auth.loggedIn){
@@ -23,6 +29,7 @@
 
 <template>
   <v-app>
+    <profileHeader />
     <v-main>
       <nuxt />
     </v-main>

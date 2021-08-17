@@ -10,14 +10,23 @@
       data: () => ({
         nick: '',
         mask: 'https://myid-card/NNNNNNNNNNNN',
-        valid: false
+        valid: false,
+        errorMessages: ''
       }),
 
       methods: {
         async registerCard(nick) {
           await this.$store.dispatch('card/setCard', nick)
-            .then((data) => this.$router.push('/profile/create'))
-                  .catch((e) => console.log('card/setCard error' + e));
+            .then((res) => {
+              if (res?.response?.status === 400) {
+                this.errorMessages = 'Карта уже зарегестрированна в системе';
+              } else {
+                this.$router.push('/profile/create')
+              }
+            }).catch((err) => console.log(err));
+        },
+        resetError () {
+          this.errorMessages = '';
         }
       }
     }
@@ -55,6 +64,8 @@
       <v-text-field
         v-model="nick"
         v-mask="mask"
+        :error-messages="errorMessages"
+        v-on:keyup="resetError()"
         class="font-croc"
         label="Адрес страницы"
         required
