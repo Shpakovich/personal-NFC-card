@@ -5,13 +5,13 @@ export default {
             }
         )
     },
-    async editProfile ({ commit }, data) {
-        await this.$api.profile.createProfile(data).then((res)=> {
+    async editProfileInfo ({ commit }, data) {
+        await this.$api.profile.editProfile(data).then((res)=> {
                 commit('SET_PROFILE_INFO', res.data);
             }
         )
     },
-    async getAllProfilesInfo ({ commit, dispatch }) {
+    async getAllProfilesInfo ({ commit }) {
         await this.$api.profile.getProfiles().then((res)=> {
                 commit('SET_PROFILE_INFO', res.data.items[0]);
                 return res.data.items[0]

@@ -27,9 +27,9 @@
                     post: this.post,
                     description: this.description
                 };
-                await this.$store.dispatch('profile/editProfile', data)
+                await this.$store.dispatch('profile/editProfileInfo', data)
                     .then((data) => this.$router.push('/profile/choosePhoto'))
-                    .catch((e) => console.log('profile/editProfile error' + e));
+                    .catch((e) => console.log('profile/editProfileInfo error' + e));
             },
             nextStep() {
                 this.$router.push('/profile/choosePhoto');

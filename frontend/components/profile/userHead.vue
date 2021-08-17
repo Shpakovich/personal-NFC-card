@@ -4,7 +4,13 @@
 
         props: [
             "user"
-        ]
+        ],
+
+        computed: {
+            getUserName() {
+                return this.default_name ? this.user.nickname : this.user.name
+            }
+        }
     }
 </script>
 
@@ -23,7 +29,7 @@
                     alt=""
             >
             <v-card-subtitle class="text-center">
-                {{ user.name }}
+                {{ getUserName }}
             </v-card-subtitle>
             <v-card-subtitle class="text-center">
                 {{ user.post }}
