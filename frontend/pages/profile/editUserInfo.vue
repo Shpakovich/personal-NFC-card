@@ -1,5 +1,9 @@
 <script>
+    import Vue from 'vue'
+    import VueMask from 'v-mask'
+    Vue.use(VueMask);
     import userHead from "../../components/profile/userHead";
+    import profileEditHeader from "../../components/layouts/profile/profileEditHeader";
 
     import { createNamespacedHelpers } from 'vuex';
     const { mapState } = createNamespacedHelpers('profile');
@@ -9,7 +13,8 @@
         layout: "profileEdit",
 
         components: {
-            userHead
+            userHead,
+            profileEditHeader
         },
 
         data: () => ({
@@ -17,20 +22,12 @@
             name: '',
             post: '',
             nick: '',
+            default_name: 0,
+            description: '',
+            errorMessages: '',
+            mask: 'https://myid-card/NNNNNNNNNNNN',
             valid: false
         }),
-
-        async mounted() { // TODO передалать на asyncData когда пойму почему не приходят данные из api
-            let profile;
-
-            await this.$store.dispatch('profile/getAllProfilesInfo')
-                .then((profiles) => { console.log(profiles) })
-                .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
-            // Получем id профиля по пользвоателю
-
-
-            return profile;
-        },
 
         computed:{
             ...mapState({
@@ -38,80 +35,125 @@
             })
         },
 
+        async mounted() { // TODO передалать на asyncData когда пойму почему не приходят данные из api
+            let profile;
+
+            await this.$store.dispatch('profile/getAllProfilesInfo')
+                .then((profiles) => {
+
+                    this.nickname = this.profile.nickname;
+                    this.name = this.profile.name;
+                    this.default_name = this.profile.default_name;
+                    this.post = this.profile.post;
+                    this.nick = 'https://myid-card/' + this.profile.card?.alias;
+                    this.description = this.profile.description;
+                })
+                .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
+            // Получем id профиля по пользвоателю
+
+
+            return profile;
+        },
+
         methods: {
             setDefaultName() {
-                this.checkbox = !this.checkbox
+                if(this.default_name === 2) {
+                    this.default_name = 1
+                } else {
+                    this.default_name = 2
+                }
+            },
+            resetError () {
+                this.errorMessages = '';
+            },
+            async editInfoInProfile() {
+                const data = {
+                    name: this.name,
+                    title: this.name,
+                    nickname: this.nickname,
+                    default_name: this.default_name,
+                    id: this.profile?.id, // id профиля который меняем
+                    post: this.post,
+                    nick: this.nick,
+                    description: this.description
+                };
+                await this.$store.dispatch('profile/editProfileInfo', data)
+                    .then((data) => this.$router.push('/profile/page'))
+                    .catch((e) => console.log('profile/editProfileInfo error' + e));
             }
         }
     }
 </script>
 
 <template>
-    <v-container class="px-11">
-        <userHead :user="profile" :edit="true" />
+    <div>
+        <profileEditHeader @editUser="editInfoInProfile" />
+        <v-container class="px-11">
+            <userHead :user="profile" :edit="true" />
 
-        <v-form
-                ref="form"
-                class="flex flex-col mt-6"
-                v-model="valid"
-                lazy-validation
-        >
-            <v-text-field
-                    v-model="name"
-                    class="font-croc"
-                    label="Имя"
-                    required
-                    outlined
-                    placeholder="Ваше имя"
-            ></v-text-field>
+            <v-form
+                    ref="form"
+                    class="flex flex-col mt-6"
+                    v-model="valid"
+                    lazy-validation
+            >
+                <v-text-field
+                        v-model="name"
+                        class="font-croc"
+                        label="Имя"
+                        required
+                        outlined
+                        placeholder="Ваше имя"
+                ></v-text-field>
 
-            <v-text-field
-                    v-model="nickname"
-                    class="font-croc"
-                    label="Никнейм"
-                    outlined
-                    hint="Можно использовать вместо имени"
-                    placeholder="my-Nick"
-            ></v-text-field>
+                <v-text-field
+                        v-model="nickname"
+                        class="font-croc"
+                        label="Никнейм"
+                        outlined
+                        hint="Можно использовать вместо имени"
+                        placeholder="my-Nick"
+                ></v-text-field>
 
-            <div class="flex flex-row justify-around ml-4 mb-6">
-                <input @click="setDefaultName()" class="ml-4 font-croc custom-checkbox" type="radio" id="name" name="privacy">
-                <label for="name">Имя</label>
-                <input @click="setDefaultName()" class="ml-4 font-croc custom-checkbox" type="radio" id="nickname" name="privacy">
-                <label for="nickname">Никнейм</label>
-            </div>
+                <div class="flex flex-row justify-around ml-4 mb-6">
+                    <input @click="setDefaultName()" :checked="default_name === 1" class="ml-4 font-croc custom-checkbox" type="radio" id="name" name="privacy">
+                    <label for="name">Имя</label>
+                    <input @click="setDefaultName()" :checked="default_name === 2" class="ml-4 font-croc custom-checkbox" type="radio" id="nickname" name="privacy">
+                    <label for="nickname">Никнейм</label>
+                </div>
 
-            <v-text-field
-                    v-model="post"
-                    class="font-croc"
-                    label="Должность"
-                    required
-                    outlined
-                    placeholder="Напишите вашу должность"
-            ></v-text-field>
+                <v-text-field
+                        v-model="post"
+                        class="font-croc"
+                        label="Должность"
+                        required
+                        outlined
+                        placeholder="Напишите вашу должность"
+                ></v-text-field>
 
-            <v-text-field
-                    v-model="nick"
-                    v-mask="mask"
-                    :error-messages="errorMessages"
-                    v-on:keyup="resetError()"
-                    class="font-croc"
-                    label="Адрес страницы"
-                    required
-                    outlined
-                    placeholder="https://myid-card/myNick"
-            ></v-text-field>
+                <v-text-field
+                        v-model="nick"
+                        v-mask="mask"
+                        :error-messages="errorMessages"
+                        v-on:keyup="resetError()"
+                        class="font-croc"
+                        label="Адрес страницы"
+                        required
+                        outlined
+                        placeholder="https://myid-card/myNick"
+                ></v-text-field>
 
-            <v-text-field
-                    v-model="description"
-                    class="font-croc"
-                    label="Описание"
-                    outlined
-                    placeholder="Напишите пару слов о себе"
-            ></v-text-field>
-        </v-form>
-
-    </v-container>
+                <v-text-field
+                        v-model="description"
+                        class="font-croc"
+                        label="Описание"
+                        height="78"
+                        outlined
+                        placeholder="Напишите пару слов о себе"
+                ></v-text-field>
+            </v-form>
+        </v-container>
+    </div>
 </template>
 
 <style lang="scss">

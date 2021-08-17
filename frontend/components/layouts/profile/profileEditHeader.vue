@@ -3,8 +3,8 @@
         name: "profileEditHeader",
 
         methods: {
-            editUser(){
-
+            submitEditUser(){
+                this.$emit('editUser');
             }
         }
     }
@@ -31,8 +31,7 @@
                     max-width="30px"
                     height="48"
                     color="secondary"
-                    to="/profile/page"
-                    @click="editUser()"
+                    @click="submitEditUser()"
             >
                 <img src="../../../assets/images/icon/done.svg" alt="">
             </v-btn>

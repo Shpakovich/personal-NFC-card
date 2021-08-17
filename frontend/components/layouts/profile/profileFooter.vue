@@ -44,6 +44,7 @@
     <v-footer
             class="mx-4"
             color="white"
+            style="position: fixed; bottom: 0"
             padless
     >
         <v-row

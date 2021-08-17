@@ -9,7 +9,7 @@
 
         computed: {
             getUserName() {
-                return +this.default_name ? this.user.name : this.user.nickname
+                return this.user.default_name === 1 ? this.user.name : this.user.nickname
             }
         }
     }
@@ -30,8 +30,8 @@
                     alt=""
             >
             <div class="flex flex-row inline-flex m-auto">
-                <v-card-subtitle class="white--text text-white">
-                    {{ this.user.name }}
+                <v-card-subtitle class="font-bold white--text text-white">
+                    {{ getUserName }}
                 </v-card-subtitle>
                 <v-btn
                         v-if="!edit"
@@ -50,6 +50,17 @@
                     >
                 </v-btn>
             </div>
+            <v-row style="display: flex; margin: auto!important;" v-if="edit">
+                <v-card-subtitle style="padding: 0" class="white--text text-center">
+                    Добавить профиль
+                </v-card-subtitle>
+                <img
+                        class="m-0 ml-2 flex-none"
+                        style="max-height: 24px; max-width: 24px"
+                        src="../../assets/images/icon/add.svg"
+                        alt=""
+                >
+            </v-row>
             <v-card-subtitle v-if="!edit" class="white--text text-center">
                 {{ user.post }}
             </v-card-subtitle>

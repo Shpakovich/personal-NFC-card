@@ -21,7 +21,7 @@
 <template>
   <v-app>
     <profileHeader />
-    <v-main>
+    <v-main class="main-container">
       <nuxt />
     </v-main>
     <profileFooter />
