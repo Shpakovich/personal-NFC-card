@@ -180,9 +180,18 @@ class Profile
         return $this->photoPath;
     }
 
-    public function setPhotoPath(?string $photoPath): self
+    public function setPhotoPath(string $photoPath): self
     {
-        $this->photoPath = !empty($photoPath) ? $photoPath : null;
+        $photoPath = trim($photoPath, '/ ');
+        Assert::notEmpty($photoPath);
+
+        $this->photoPath = $photoPath;
+        return $this;
+    }
+
+    public function removePhotoPath(): self
+    {
+        $this->photoPath = null;
         return $this;
     }
 

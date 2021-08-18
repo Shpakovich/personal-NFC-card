@@ -11,6 +11,7 @@ use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\User\Role;
 use App\Model\Repository\Profile\ProfileRepository;
+use App\Model\Service\Storage\Storage;
 use App\Model\UseCase\Profile;
 use App\Security\Voter\Profile\ProfileAccess;
 use DateTimeInterface;
@@ -81,9 +82,10 @@ class ProfileController extends AbstractController
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \App\Fetcher\Profile\Profile\ProfileFetcher $fetcher
+     * @param \App\Model\Service\Storage\Storage $storage
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function index(Request $request, ProfileFetcher $fetcher): JsonResponse
+    public function index(Request $request, ProfileFetcher $fetcher, Storage $storage): JsonResponse
     {
         $page = $request->query->getInt('page', 1);
         /** @var int $perPage */
@@ -100,12 +102,21 @@ class ProfileController extends AbstractController
         return $this->json(
             [
                 'items' => array_map(
-                    static function (array $item) {
+                    static function (array $item) use ($storage) {
                         $card = null;
                         if (!empty($item['card_id'])) {
                             $card = [
                                 'id' => $item['card_id'],
                                 'alias' => $item['card_alias'],
+                            ];
+                        }
+
+                        $photo = null;
+                        /** @var null|string $path */
+                        $path = $item['photo_path'];
+                        if (!empty($path)) {
+                            $photo = [
+                                'path' => $storage->url($path),
                             ];
                         }
 
@@ -118,9 +129,7 @@ class ProfileController extends AbstractController
                             'post' => $item['post'],
                             'description' => $item['description'],
                             'is_published' => $item['is_published'],
-                            'photo' => [
-                                'path' => $item['photo_path']
-                            ],
+                            'photo' => $photo,
                             'card' => $card,
                             'user' => [
                                 'id' => $item['user_id'],
@@ -163,16 +172,18 @@ class ProfileController extends AbstractController
      * @Security(name="Bearer")
      *
      * @param \App\Model\Entity\Profile\Profile $profile
+     * @param \App\Model\Service\Storage\Storage $storage
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function show(\App\Model\Entity\Profile\Profile $profile): JsonResponse
+    public function show(\App\Model\Entity\Profile\Profile $profile, Storage $storage): JsonResponse
     {
         $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profile);
 
         $photo = null;
-        if (!empty($profile->getPhotoPath())) {
+        $path = $profile->getPhotoPath();
+        if (!empty($path)) {
             $photo = [
-                'path' => $profile->getPhotoPath()
+                'path' => $storage->url($path),
             ];
         }
 
