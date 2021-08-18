@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Model\Repository\Field;
 
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\Field\Field;
+use App\Model\Entity\Field\CustomField;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
-class FieldRepository
+class CustomFieldRepository
 {
     private EntityManagerInterface $em;
 
@@ -19,20 +19,20 @@ class FieldRepository
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->repo = $em->getRepository(Field::class);
+        $this->repo = $em->getRepository(CustomField::class);
     }
 
-    public function add(Field $field): void
+    public function add(CustomField $field): void
     {
         $this->em->persist($field);
     }
 
-    public function delete(Field $field): void
+    public function delete(CustomField $field): void
     {
         $this->em->remove($field);
     }
 
-    public function getById(Id $id): Field
+    public function getById(Id $id): CustomField
     {
         $field = $this->repo->find($id);
         if ($field !== null) {

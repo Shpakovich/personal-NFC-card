@@ -59,6 +59,7 @@ class CustomField
 
     public function __construct(
         Id $id,
+        User $user,
         string $title,
         Color $bgColor,
         Color $textColor,
@@ -69,6 +70,7 @@ class CustomField
         Assert::notEmpty($title);
 
         $this->id = $id;
+        $this->user = $user;
         $this->title = $title;
         $this->bgColor = $bgColor;
         $this->textColor = $textColor;
@@ -79,6 +81,11 @@ class CustomField
     public function getId(): Id
     {
         return $this->id;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
     }
 
     /**
