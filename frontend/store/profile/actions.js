@@ -17,6 +17,20 @@ export default {
                 return res.data.items[0]
             }
         )
+    },
+    async publishProfile ({ commit }, data) {
+        await this.$api.profile.publishProfile(data).then((res)=> {
+                this.$router.push('/profile/page'); // TODO Добавить уведомлялку что мы опубликовали профиль
+                return res?.data?.items[0]
+            }
+        )
+    },
+    async hideProfile ({ commit }, data) {
+        await this.$api.profile.hideProfile(data).then((res)=> {
+                this.$router.push('/profile/page'); // TODO Добавить уведомлялку что мы скрыли профиль
+                return res?.data?.items[0]
+            }
+        )
     }
     /* async getProfileInfo ({ commit }, id) {
         await this.$api.profile.getProfile(id).then((res)=> {
