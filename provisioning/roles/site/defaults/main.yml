@@ -2,3 +2,4 @@ certbot_email: shmakovbx@gmail.com
 certbot_hosts:
     - myid-card.ru
     - api.myid-card.ru
+    - media.myid-card.ru

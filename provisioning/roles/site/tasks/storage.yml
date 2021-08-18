@@ -1,0 +1,6 @@
+---
+-   name: Create storage directory
+    file:
+        path: /media/storage/myid-card
+        state: directory
+        mode: '0755'
