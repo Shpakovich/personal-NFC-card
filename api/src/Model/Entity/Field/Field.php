@@ -155,9 +155,15 @@ class Field
         return $this->iconPath;
     }
 
-    public function setIconPath(?string $iconPath): self
+    public function setIconPath(string $iconPath): self
     {
         $this->iconPath = $iconPath;
+        return $this;
+    }
+
+    public function removeIconPath(): self
+    {
+        $this->iconPath = null;
         return $this;
     }
 

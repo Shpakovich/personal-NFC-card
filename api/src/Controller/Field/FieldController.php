@@ -11,6 +11,7 @@ use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\Field\Field as FiledEntity;
 use App\Model\Repository\Field\FieldRepository;
+use App\Model\Service\Storage\Storage;
 use App\Model\UseCase\Field\Field;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -78,9 +79,10 @@ class FieldController extends AbstractController
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \App\Fetcher\Field\FieldFetcher $fetcher
+     * @param \App\Model\Service\Storage\Storage $storage
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function index(Request $request, FieldFetcher $fetcher): JsonResponse
+    public function index(Request $request, FieldFetcher $fetcher, Storage $storage): JsonResponse
     {
         $page = $request->query->getInt('page', 1);
         /** @var int $perPage */
@@ -90,7 +92,14 @@ class FieldController extends AbstractController
         return $this->json(
             [
                 'items' => array_map(
-                    static function (array $item) {
+                    static function (array $item) use ($storage) {
+                        $icon = null;
+                        if (!empty($item['icon_path'])) {
+                            $icon = [
+                                'path' => $storage->url($item['icon_path']),
+                            ];
+                        }
+
                         return [
                             'id' => $item['id'],
                             'title' => $item['title'],
@@ -98,9 +107,7 @@ class FieldController extends AbstractController
                                 'bg' => $item['bg_color'],
                                 'text' => $item['text_color'],
                             ],
-                            'icon' => [
-                                'path' => $item['icon_path']
-                            ],
+                            'icon' => $icon,
                             'help' => $item['help'],
                             'type' => [
                                 'id' => $item['type_id'],
@@ -151,13 +158,21 @@ class FieldController extends AbstractController
      * @Security(name="Bearer")
      *
      * @param \App\Model\Entity\Field\Field $field
+     * @param \App\Model\Service\Storage\Storage $storage
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function show(FiledEntity $field): JsonResponse
+    public function show(FiledEntity $field, Storage $storage): JsonResponse
     {
         $type = $field->getType();
         $creator = $field->getCreator();
         $editor = $field->getEditor();
+
+        $icon = null;
+        if (!empty($field->getIconPath())) {
+            $icon = [
+                'path' => $storage->url($field->getIconPath()),
+            ];
+        }
 
         return $this->json(
             [
@@ -167,9 +182,7 @@ class FieldController extends AbstractController
                     'bg' => $field->getBgColor()->getValue(),
                     'text' => $field->getTextColor()->getValue(),
                 ],
-                'icon' => [
-                    'path' => $field->getIconPath()
-                ],
+                'icon' => $icon,
                 'help' => $field->getHelp(),
                 'type' => [
                     'id' => $type->getId()->getValue(),
