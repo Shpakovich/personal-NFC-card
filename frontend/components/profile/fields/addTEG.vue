@@ -11,6 +11,7 @@
             max-width="115px"
             min-width="100px"
             height="115"
+            to="/profile/fields/addFields"
     >
         <div class="flex flex-col">
             <img

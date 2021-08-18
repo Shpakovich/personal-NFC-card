@@ -6,6 +6,7 @@
 
 <template>
     <v-card
+            outlined
             class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5"
             style="display: flex!important; border-radius: 20px!important;"
             height="80"
