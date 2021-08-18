@@ -120,3 +120,12 @@ Response
 ```bash
 $ bin/console app:create:admin <email> <password>
 ```
+
+## Media store
+
+На сервере медиа файлы (фото профиля, иконки) грузятся в папку:
+```
+/media/storage/myid-card
+```
+
+Она пробрасывается внутрь контейнеров.
