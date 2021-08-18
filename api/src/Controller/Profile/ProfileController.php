@@ -112,9 +112,11 @@ class ProfileController extends AbstractController
                         }
 
                         $photo = null;
-                        if (!empty($item['photo_path'])) {
+                        /** @var null|string $path */
+                        $path = $item['photo_path'];
+                        if (!empty($path)) {
                             $photo = [
-                                'path' => $storage->url($item['photo_path']),
+                                'path' => $storage->url($path),
                             ];
                         }
 
@@ -178,9 +180,10 @@ class ProfileController extends AbstractController
         $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profile);
 
         $photo = null;
-        if (!empty($profile->getPhotoPath())) {
+        $path = $profile->getPhotoPath();
+        if (!empty($path)) {
             $photo = [
-                'path' => $storage->url($profile->getPhotoPath()),
+                'path' => $storage->url($path),
             ];
         }
 

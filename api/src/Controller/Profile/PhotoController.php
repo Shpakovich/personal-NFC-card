@@ -83,16 +83,16 @@ class PhotoController extends AbstractController
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
+        /** @var null|\Symfony\Component\HttpFoundation\File\UploadedFile $uploadedFile */
         $uploadedFile = $request->files->get('file');
-        $profileId = $request->get('profile_id');
-
         if ($uploadedFile === null) {
             throw new \DomainException('The \'file\' field is empty.');
         }
 
         $command = new Photo\Add\Command();
         $command->userId = $user->getId();
-        $command->profileId = $profileId;
+        /** @var string profileId */
+        $command->profileId = $request->get('profile_id');
 
         /** @var \Symfony\Component\Validator\ConstraintViolationList $errors */
         $errors = $validator->validate($command);
@@ -100,7 +100,7 @@ class PhotoController extends AbstractController
             throw new InvalidRequestData($errors);
         }
 
-        $profile = $profiles->getById(new Id($profileId));
+        $profile = $profiles->getById(new Id($command->profileId));
         $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
 
         $file = $storage->upload($uploadedFile);

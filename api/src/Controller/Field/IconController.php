@@ -13,6 +13,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,6 +79,7 @@ class IconController extends AbstractController
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
 
+        /** @var null|\Symfony\Component\HttpFoundation\File\UploadedFile $uploadedFile */
         $uploadedFile = $request->files->get('file');
         if ($uploadedFile === null) {
             throw new \DomainException('The \'file\' field is empty.');
@@ -85,6 +87,7 @@ class IconController extends AbstractController
 
         $command = new Icon\Add\Command();
         $command->userId = $user->getId();
+        /** @var string fieldId */
         $command->fieldId = $request->get('field_id');
 
         /** @var \Symfony\Component\Validator\ConstraintViolationList $errors */

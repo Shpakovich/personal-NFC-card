@@ -7,6 +7,9 @@ namespace App\Model\UseCase\Field\Field\Icon\Add;
 use App\Model\UseCase\CommandInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 class Command implements CommandInterface
 {
     /**

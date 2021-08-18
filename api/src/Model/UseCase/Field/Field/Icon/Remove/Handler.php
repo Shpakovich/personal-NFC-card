@@ -35,6 +35,9 @@ class Handler
         $field = $this->fields->getById(new Id($command->fieldId));
 
         $path = $field->getIconPath();
+        if (empty($path)) {
+            throw new \DomainException('Icon not set.');
+        }
 
         $field
             ->removeIconPath()

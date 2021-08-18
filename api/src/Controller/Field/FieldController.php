@@ -94,9 +94,11 @@ class FieldController extends AbstractController
                 'items' => array_map(
                     static function (array $item) use ($storage) {
                         $icon = null;
-                        if (!empty($item['icon_path'])) {
+                        /** @var null|string $path */
+                        $path = $item['icon_path'];
+                        if (!empty($path)) {
                             $icon = [
-                                'path' => $storage->url($item['icon_path']),
+                                'path' => $storage->url($path),
                             ];
                         }
 
@@ -168,9 +170,10 @@ class FieldController extends AbstractController
         $editor = $field->getEditor();
 
         $icon = null;
-        if (!empty($field->getIconPath())) {
+        $path = $field->getIconPath();
+        if (!empty($path)) {
             $icon = [
-                'path' => $storage->url($field->getIconPath()),
+                'path' => $storage->url($path),
             ];
         }
 

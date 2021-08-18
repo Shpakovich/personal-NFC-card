@@ -39,6 +39,9 @@ class Handler
         }
 
         $path = $profile->getPhotoPath();
+        if (empty($path)) {
+            throw new \DomainException('Photo not set.');
+        }
 
         $profile
             ->removePhotoPath()
