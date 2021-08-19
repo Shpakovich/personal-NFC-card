@@ -37,6 +37,7 @@ services:
             MAILER_FROM_EMAIL: mail@app.test
             OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
         volumes:
+            - /media/storage/myid-card:/var/storage
             - socket_php:/var/run/php
         restart: always
 
@@ -58,6 +59,11 @@ services:
             POSTGRES_USER: dev
             POSTGRES_PASSWORD: dev
         restart: always
+
+    storage:
+        image: ${REGISTRY}/storage:${IMAGE_TAG}
+        volumes:
+            - /media/storage/myid-card:/app
 
 volumes:
     socket_php:

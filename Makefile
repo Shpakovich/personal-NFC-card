@@ -78,7 +78,7 @@ frontend-ready:
 
 ### Prod build
 
-build: build-gateway build-api-nginx build-api-php-fpm build-api-php-cli build-frontend
+build: build-gateway build-api-nginx build-api-php-fpm build-api-php-cli build-frontend build-storage
 
 build-gateway:
 	docker --log-level=debug build --pull \
@@ -105,9 +105,14 @@ build-frontend:
 	--tag=${REGISTRY}/frontend:${IMAGE_TAG} \
 	--file=frontend/docker/prod/node/Dockerfile ./frontend
 
+build-storage:
+	docker --log-level=debug build --pull \
+	--tag=${REGISTRY}/storage:${IMAGE_TAG} \
+	--file=storage/docker/prod/nginx/Dockerfile ./storage
+
 ### Prod push
 
-push: push-gateway push-api-nginx push-api-php-fpm push-api-php-cli push-frontend
+push: push-gateway push-api-nginx push-api-php-fpm push-api-php-cli push-frontend push-storage
 
 push-gateway:
 	docker push ${REGISTRY}/gateway:${IMAGE_TAG}
@@ -124,6 +129,9 @@ push-api-php-cli:
 push-frontend:
 	docker push ${REGISTRY}/frontend:${IMAGE_TAG}
 
+push-storage:
+	docker push ${REGISTRY}/storage:${IMAGE_TAG}
+
 ### Prod deploy
 
 deploy:
@@ -135,6 +143,8 @@ deploy:
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && echo "COMPOSE_PROJECT_NAME=myid_card" >> .env'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && echo "REGISTRY=${REGISTRY}" >> .env'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && echo "IMAGE_TAG=${IMAGE_TAG}" >> .env'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && echo "STORAGE_BASE_URL=${STORAGE_BASE_URL}" >> .env'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && echo "STORAGE_DIR=${STORAGE_DIR}" >> .env'
 
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && docker-compose -f docker-compose-prod.yml pull'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && docker-compose -f docker-compose-prod.yml up --build -d db'

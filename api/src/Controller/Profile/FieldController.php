@@ -76,7 +76,7 @@ class FieldController extends AbstractController
         Field\Add\Handler $handler,
         ProfileRepository $profiles
     ): JsonResponse {
-        $profile = $profiles->getById(new Id($command->id));
+        $profile = $profiles->getById(new Id($command->profileId));
         $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
 
         /** @var \App\Security\UserIdentity $user */
