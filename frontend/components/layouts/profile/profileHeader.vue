@@ -1,6 +1,29 @@
 <script>
     export default {
-        name: "profileHeader"
+        name: "profileHeader",
+
+        computed: {
+            headerTitle () {
+                let header = '';
+
+                switch (this.$route.name) {
+                    case 'profile-favorite': {
+                        return header = 'Избранное';
+                    }
+                    case 'profile-page': {
+                        return header = 'Профиль';
+                    }
+                    case 'profile-watches': {
+                        return header = 'Просмотры';
+                    }
+                    case 'profile-settings': {
+                        return header = 'Настройки';
+                    }
+                }
+
+                return header;
+            }
+        }
     }
 </script>
 
@@ -18,7 +41,7 @@
         >
             Выйти
         </v-btn>
-        <h2 class="m-auto mt-1.5 font-gilroy text-lg ">Профиль</h2>
+        <h2 class="m-auto mt-1.5 font-gilroy text-lg ">{{ headerTitle }}</h2>
         <v-btn
                 icon
                 class="rounded-lg font-bold w-4/12"
