@@ -54,7 +54,7 @@
                 await this.$store.dispatch('profile/addFieldInProfile', data)
                     .then((fieldInfo) => {
                     })
-                    .catch((e) => console.log('profile/addProfile' + e));
+                    .catch((e) => console.log('profile/addProfile ' + e));
             },
             getIconSrc (fieldInfo) {
                 return fieldInfo?.icon?.path;
