@@ -30,14 +30,16 @@
             }
         },
 
-        async mounted() {
-            const fieldID = this.$route.query?.id;
+        async asyncData ({ route, store }) {
+            const fieldID = route.query?.id;
             if (fieldID) {
-                await this.$store.dispatch('fields/getFieldInfo', fieldID)
-                    .then(() => {})
+                await store.dispatch('fields/getFieldInfo', fieldID)
+                    .then(() => {
+                    })
                     .catch((e) => console.log('fields/getFieldInfo error' + e));
             }
         },
+
 
         methods: {
             async setFieldValue(fieldValue) {

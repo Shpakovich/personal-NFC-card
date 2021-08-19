@@ -18,6 +18,10 @@
         addTEG
       },
 
+      data: () => ({
+        showAlert: ''
+      }),
+
       async asyncData ({ route, store }) {
         let profiles= {},
                 profile = {};
@@ -42,6 +46,10 @@
         ...mapState({
           profile: (state) => state
         })
+      },
+
+      mounted() {
+        // this.showAlert = 'test'; TODO таймер на показ
       }
     }
 </script>
@@ -67,6 +75,17 @@
       />
       <addTEG class="mt-11" />
     </v-row>
+    <v-alert
+            v-if="showAlert"
+            text
+            prominent
+            border="right"
+            color="green"
+            type="success"
+            style="position: absolute; right: 15px; bottom: 0px;"
+    >
+      {{ showAlert }}
+    </v-alert>
   </v-container>
 </template>
 

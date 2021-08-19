@@ -35,24 +35,19 @@
             })
         },
 
-        async mounted() { // TODO передалать на asyncData когда пойму почему не приходят данные из api
-            let profile;
-
-            await this.$store.dispatch('profile/getAllProfilesInfo')
-                .then((profiles) => {
-
-                    this.nickname = this.profile.nickname;
-                    this.name = this.profile.name;
-                    this.default_name = this.profile.default_name;
-                    this.post = this.profile.post;
-                    this.nick = 'https://myid-card/' + this.profile.card?.alias;
-                    this.description = this.profile.description;
-                })
+        async asyncData ({ route, store }) {
+            await store.dispatch('profile/getAllProfilesInfo')
                 .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
-            // Получем id профиля по пользвоателю
 
+        },
 
-            return profile;
+        async mounted() {
+            this.nickname = this.profile.nickname; // добавляем в инпуты значения профиля
+            this.name = this.profile.name;
+            this.default_name = this.profile.default_name;
+            this.post = this.profile.post;
+            this.nick = 'https://myid-card/' + this.profile.card?.alias;
+            this.description = this.profile.description;
         },
 
         methods: {

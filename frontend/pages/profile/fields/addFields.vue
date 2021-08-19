@@ -12,8 +12,8 @@
             simpleField
         },
 
-        async mounted() {
-            await this.$store.dispatch('fields/getAllFieldsInfo')
+        async asyncData ({ route, store }) {
+            await store.dispatch('fields/getAllFieldsInfo')
                 .then(() => {})
                 .catch((e) => console.log('fields/getAllFieldsInfo error' + e));
         },

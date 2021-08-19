@@ -18,7 +18,7 @@
                 return this.user.default_name === 1 ? this.user.name : this.user.nickname
             },
             getUserPhoto() {
-                return this.user?.photo?.path ? this.user.photo.path : 'https://i.pinimg.com/originals/b9/a8/e1/b9a8e1da698d290b043851a2ddfb05f7.png'
+                return this.user?.photo?.path ? this.user.photo.path : ''
             },
             isPublished() {
                 return this.user.is_published
