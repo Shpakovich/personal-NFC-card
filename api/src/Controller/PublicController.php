@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Fetcher\Profile;
 use App\Fetcher\User;
 use App\Model\Entity\Common\Id;
+use App\Model\Service\Storage\Storage;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,6 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PublicController extends AbstractController
 {
+    private Storage $storage;
+
+    public function __construct(Storage $storage)
+    {
+        $this->storage = $storage;
+    }
+
     /**
      * @Route("/", methods={"GET"}, name="home")
      *
@@ -99,12 +107,17 @@ class PublicController extends AbstractController
      * @param string $identity
      * @param \App\Fetcher\Profile\Profile\ProfileFetcher $profiles
      * @param \App\Fetcher\Profile\Field\FieldFetcher $fields
+     * @param \App\Fetcher\Profile\FieldCustom\FieldFetcher $customFields
      * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function show(
         string $identity,
         Profile\Profile\ProfileFetcher $profiles,
-        Profile\Field\FieldFetcher $fields
+        Profile\Field\FieldFetcher $fields,
+        Profile\FieldCustom\FieldFetcher $customFields
     ): JsonResponse {
         $filter = (new User\Filter())
             ->withIdentity($identity)
@@ -117,6 +130,7 @@ class PublicController extends AbstractController
         }
 
         $profileFields = $fields->getAllByProfileId(new Id($profile->id));
+        $profileCustomFields = $customFields->getAllByProfileId(new Id($profile->id));
 
         $photo = null;
         if (!empty($profile->photoPath)) {
@@ -138,18 +152,7 @@ class PublicController extends AbstractController
                     'post' => $profile->post,
                     'description' => $profile->description,
                     'fields' => $this->groupFields($profileFields),
-                    'custom' => [
-                        [
-                            'id' => 'b38285f0-e0eb-4ef9-9a70-ff9b20d44a66',
-                            'title' => 'facebook',
-                            'value' => 'https://facebook.com/...',
-                            'icon' => 'path/to/icon.png',
-                            'colors' => [
-                                'bg' => '#000000',
-                                'text' => '#444333'
-                            ]
-                        ]
-                    ]
+                    'custom' => $this->customFields($profileCustomFields)
                 ]
             ]
         );
@@ -165,6 +168,14 @@ class PublicController extends AbstractController
 
         foreach ($fields as $field) {
             $group = $field->typeName;
+
+            $icon = null;
+            if (!empty($field->iconPath)) {
+                $icon = [
+                    'path' => $this->storage->url($field->iconPath)
+                ];
+            }
+
             $result[$group][] = [
                 'id' => $field->id,
                 'title' => $field->title,
@@ -175,7 +186,7 @@ class PublicController extends AbstractController
                     'name' => $field->typeName,
                     'sort' => $field->typeSort,
                 ],
-                'icon' => $field->iconPath,
+                'icon' => $icon,
                 'colors' => [
                     'bg' => $field->bgColor,
                     'text' => $field->textColor,
@@ -184,5 +195,36 @@ class PublicController extends AbstractController
         }
 
         return $result;
+    }
+
+    /**
+     * @param \App\Fetcher\Profile\FieldCustom\FieldDto[] $fields
+     * @return array
+     */
+    private function customFields(array $fields): array
+    {
+        return array_map(
+            function (Profile\FieldCustom\FieldDto $field) {
+                $icon = null;
+                if (!empty($field->iconPath)) {
+                    $icon = [
+                        'path' => $this->storage->url($field->iconPath)
+                    ];
+                }
+
+                return [
+                    'id' => $field->id,
+                    'title' => $field->title,
+                    'value' => $field->value,
+                    'sort' => $field->sort,
+                    'icon' => $icon,
+                    'colors' => [
+                        'bg' => $field->bgColor,
+                        'text' => $field->textColor
+                    ]
+                ];
+            },
+            $fields
+        );
     }
 }
