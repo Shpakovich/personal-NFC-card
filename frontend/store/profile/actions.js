@@ -35,7 +35,6 @@ export default {
     async addFieldInProfile ({ commit }, data) {
         await this.$api.profile.addFieldInProfile(data).then((res)=> {
                 this.$router.push('/profile/page');
-                return res?.data?.items[0]
             }
         )
     },
