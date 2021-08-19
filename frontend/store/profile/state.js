@@ -5,6 +5,9 @@ export default () => ({
         title: "",
         name: "",
         nickname: "",
+        photo: {
+                path: ''
+        },
         default_name: 0,
         post: "",
         description: "",

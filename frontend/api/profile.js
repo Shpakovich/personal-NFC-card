@@ -20,5 +20,8 @@ export default axios => ({
     },
     addFieldInProfile (data) {
         return axios.post('/profile/field/add', data);
+    },
+    addPhotoInProfile (data) {
+        return axios.post('/profile/photo/add', data);
     }
 });

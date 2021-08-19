@@ -33,9 +33,23 @@ export default {
         )
     },
 
-    async addProfile ({ commit }, data) {
+    async addFieldInProfile ({ commit }, data) {
         await this.$api.profile.addFieldInProfile(data).then((res)=> {
                 this.$router.push('/profile/page');
+                return res?.data?.items[0]
+            }
+        )
+    },
+
+    async addPhotoProfile ({ commit }, data) {
+        await this.$api.profile.addPhotoInProfile(data).then((res)=> {
+                this.$router.push('/profile/page');
+                return res?.data?.items[0]
+            }
+        )
+    },
+    async getProfilesFields ({ commit }, cardID) {
+        await this.$api.show.getShowProfile(cardID).then((res)=> {
                 return res?.data?.items[0]
             }
         )

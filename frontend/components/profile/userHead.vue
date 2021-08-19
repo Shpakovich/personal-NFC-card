@@ -17,6 +17,10 @@
             getUserName() {
                 return this.user.default_name === 1 ? this.user.name : this.user.nickname
             },
+            getUserPhoto() {
+                console.log(this.user)
+                return this.user?.photo?.path ? this.user.photo.path : 'https://i.pinimg.com/originals/b9/a8/e1/b9a8e1da698d290b043851a2ddfb05f7.png'
+            },
             isPublished() {
                 return this.user.is_published
             }
@@ -36,6 +40,11 @@
                         .then(() => this.$router.push('/profile/page'))
                         .catch((e) => console.log('profile/hideProfile error' + e));
                 }
+            },
+            routerToChoosePhoto() {
+                if (this.edit) {
+                    this.$router.push('/profile/choosePhoto')
+                }
             }
         }
     }
@@ -52,8 +61,9 @@
             <img
                     class="m-auto bg-white"
                     style="max-height: 120px; max-width: 120px; border-radius: 120px;"
-                    src="https://i.pinimg.com/originals/b9/a8/e1/b9a8e1da698d290b043851a2ddfb05f7.png"
+                    :src="getUserPhoto"
                     alt=""
+                    @click="routerToChoosePhoto()"
             >
             <div v-if="!isPublished">
                 <v-tooltip

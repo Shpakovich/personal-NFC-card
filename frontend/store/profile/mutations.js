@@ -6,6 +6,7 @@ export default {
         state.title = profile?.title;
         state.name = profile?.name;
         state.nickname = profile?.nickname;
+        state.photo.path = profile?.photo?.path;
         state.default_name = profile?.default_name;
         state.post = profile?.post;
         state.description = profile?.description;
