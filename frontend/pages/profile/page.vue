@@ -19,15 +19,16 @@
       },
 
       async mounted() { // TODO передалать на asyncData когда пойму почему не приходят данные из api
-        let profile;
 
         await this.$store.dispatch('profile/getAllProfilesInfo')
                 .then((profiles) => { console.log(profiles) })
                 .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
         // Получем id профиля по пользвоателю
 
+        await this.$store.dispatch('profile/getAllProfilesInfo')
+                .then((profiles) => { console.log(profiles) })
+                .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
 
-        return profile;
       },
 
       computed:{

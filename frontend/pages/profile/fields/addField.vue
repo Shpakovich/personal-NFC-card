@@ -50,7 +50,7 @@
                     value: fieldValue,
                     sort: 1 // TODO добавить сортировку?
                 };
-                await this.$store.dispatch('profile/addProfile', data)
+                await this.$store.dispatch('profile/addFieldInProfile', data)
                     .then((fieldInfo) => {
                     })
                     .catch((e) => console.log('profile/addProfile' + e));

@@ -24,11 +24,11 @@
 
 <template>
     <v-app>
-        <v-main class="main-container">
-            <nuxt />
-        </v-main>
-        <profileFooter />
-    </v-app>
+    <v-main class="main-container">
+        <nuxt />
+    </v-main>
+    <profileFooter />
+</v-app>
 </template>
 
 <style lang="scss">
