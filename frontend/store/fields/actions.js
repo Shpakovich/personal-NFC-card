@@ -4,5 +4,12 @@ export default {
                 commit('SET_ALL_FIELD_INFO', res.data);
             }
         )
+    },
+    async getFieldInfo({commit}, id) {
+        await this.$api.fields.getField(id).then((res) => {
+            console.log(res);
+                commit('SET_CURRENT_FIEL_INFO', res.data);
+            }
+        )
     }
 }

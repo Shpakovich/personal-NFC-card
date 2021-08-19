@@ -31,6 +31,14 @@ export default {
                 return res?.data?.items[0]
             }
         )
+    },
+
+    async addProfile ({ commit }, data) {
+        await this.$api.profile.addFieldInProfile(data).then((res)=> {
+                this.$router.push('/profile/page');
+                return res?.data?.items[0]
+            }
+        )
     }
     /* async getProfileInfo ({ commit }, id) {
         await this.$api.profile.getProfile(id).then((res)=> {

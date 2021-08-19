@@ -17,5 +17,8 @@ export default axios => ({
     },
     hideProfile (id) {
         return axios.post('/profile/hide', id);
+    },
+    addFieldInProfile (data) {
+        return axios.post('/profile/field/add', data);
     }
 });
