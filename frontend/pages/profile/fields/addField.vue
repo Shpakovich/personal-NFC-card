@@ -43,7 +43,6 @@
             async setFieldValue(fieldValue) {
                 const fieldID = this.$route.query?.id;
 
-                console.log(this.profile)
                 const data = {
                     profile_id: this.profile.id,
                     field_id: fieldID,
@@ -54,6 +53,9 @@
                     .then((fieldInfo) => {
                     })
                     .catch((e) => console.log('profile/addProfile' + e));
+            },
+            getIconSrc (fieldInfo) {
+                return fieldInfo?.icon?.path;
             }
         }
     }
@@ -79,7 +81,7 @@
                 <img
                         class="m-auto flex-none"
                         style="max-height: 50px; height: 50px; width: 50px; max-width: 50px"
-                        src="../../../assets/images/icon/fi_phone.svg"
+                        :src="getIconSrc(filedInfo)"
                         alt=""
                 >
             </div>

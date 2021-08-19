@@ -14,7 +14,7 @@
 
         async mounted() {
             await this.$store.dispatch('fields/getAllFieldsInfo')
-                .then(() => console.log(''))
+                .then(() => {})
                 .catch((e) => console.log('fields/getAllFieldsInfo error' + e));
         },
 

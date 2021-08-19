@@ -12,5 +12,9 @@ export default {
         state.description = profile?.description;
         state.is_published = profile?.is_published;
         state.created_at = profile?.card_id;
+    },
+
+    SET_PROFILE_FIELDS (state, fields) {
+        state.fields = fields;
     }
 };

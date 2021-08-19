@@ -29,7 +29,6 @@
                 formData.append('profile_id', 'a12524df-e7ad-45ae-810e-6e4cdb62d427');
 
                 await this.$store.dispatch('profile/addPhotoProfile', formData)
-                    .then(() => console.log(''))
                     .catch((e) => console.log('profile/addPhotoProfile error' + e));
             },
             nextStep() {

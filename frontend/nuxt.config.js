@@ -1,4 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
+let development = process.env.NODE_ENV !== 'production';
+
+export const apiServerEndpoint = process.env.API_ENDPOINT_SERVER;
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -72,7 +75,8 @@ export default {
   },
 
   axios: {
-    baseURL: 'http://localhost:8081'
+    baseURL: 'http://api',
+    browserBaseURL: development ? 'http://localhost:8081' : 'http://api.myid-card.ru/'
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

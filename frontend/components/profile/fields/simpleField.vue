@@ -9,6 +9,9 @@
         methods: {
             routeAddTag() {
                 this.$router.push(`/profile/fields/addField?id=${this.filed.id}`);
+            },
+            getIconSrc (fieldInfo) {
+                    return fieldInfo?.icon?.path;
             }
         }
     }
@@ -29,7 +32,7 @@
                 <img
                         class="m-auto flex-none"
                         style="max-height: 24px; max-width: 24px"
-                        src="../../../assets/images/icon/fi_phone.svg"
+                        :src="getIconSrc(filed)"
                         alt=""
                 >
             </div>

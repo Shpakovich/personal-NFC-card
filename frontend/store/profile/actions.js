@@ -53,12 +53,11 @@ export default {
                 return res?.data?.items[0]
             }
         )
-    }
-    /* async getProfileInfo ({ commit }, id) {
+    },
+    async getProfileInfo ({ commit }, id) {
         await this.$api.profile.getProfile(id).then((res)=> {
-                console.log(res);
-                commit('SET_PROFILE_INFO', res.data);
+                commit('SET_PROFILE_FIELDS', res.data?.fields);
             }
         )
-    } */
+    }
 };

@@ -8,6 +8,7 @@ export default () => ({
         photo: {
                 path: ''
         },
+        fields: [],
         default_name: 0,
         post: "",
         description: "",
