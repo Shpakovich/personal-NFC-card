@@ -18,31 +18,25 @@
         addTEG
       },
 
-      async asyncData ({ error, route, store, $logger }) {
+      async asyncData ({ route, store }) {
+        let profiles= {},
+                profile = {};
+
         await store.dispatch('profile/getAllProfilesInfo')
-                .then((profiles) => { console.log('test SSR') })
+                .then((res) => { profiles = res })
                 .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
-        await store.dispatch('profile/getProfileInfo', '')
-                .then((profiles) => { console.log('test SSR') })
-                .catch((e) => console.log(e));
+
+        const profileID = store.state?.profile?.id;
+
+        await store.dispatch('profile/getProfileInfo', profileID)
+                .then((res) => { profile = res })
+                .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
+
+        return [
+          profiles,
+          profile
+        ];
       },
-
-      /* async mounted() { // TODO передалать на asyncData когда пойму почему не приходят данные из api
-
-        if (this.profile) {
-          await this.$store.dispatch('profile/getAllProfilesInfo')
-                  .then((profiles) => { console.log(profiles) })
-                  .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
-        }
-        // Получем id профиля по пользвоателю
-        if (this.profile.fields) {
-          await this.$store.dispatch('profile/getProfileInfo', this.profile?.id)
-                  .then((profile) => {
-                  })
-                  .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
-        }
-
-      },*/
 
       computed:{
         ...mapState({
@@ -66,7 +60,7 @@
 
     <v-row class="flex flex-column justify-center">
       <field
-        v-for="(field) in profile.fields"
+        v-for="(field, index) in profile.fields"
         :field-info="field"
         class="mb-6"
         :key="index"

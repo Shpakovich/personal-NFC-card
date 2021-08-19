@@ -14,7 +14,6 @@ export default {
     async getAllProfilesInfo ({ commit }) {
         await this.$api.profile.getProfiles().then((res)=> {
                 commit('SET_PROFILE_INFO', res.data.items[0]);
-                return res.data.items[0]
             }
         )
     },
