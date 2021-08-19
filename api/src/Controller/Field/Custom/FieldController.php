@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Field;
+namespace App\Controller\Field\Custom;
 
 use App\Controller\Guid;
 use App\Controller\PaginationSerializer;
@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/field/custom", name="field.custom")
  */
-class CustomFieldController extends AbstractController
+class FieldController extends AbstractController
 {
     /**
      * @Route("s", methods={"GET"}, name=".index")
