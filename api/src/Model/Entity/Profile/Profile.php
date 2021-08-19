@@ -102,6 +102,16 @@ class Profile
      */
     private Collection $fields;
 
+    /**
+     * @var Collection<array-key, \App\Model\Entity\Profile\CustomField>
+     * @ORM\OneToMany(
+     *     targetEntity="App\Model\Entity\Profile\CustomField",
+     *     mappedBy="profile", cascade={"all"}
+     * )
+     *  @ORM\OrderBy({"sort" = "ASC"})
+     */
+    private Collection $customFields;
+
     public function __construct(
         Id $id,
         User $user,
@@ -130,6 +140,7 @@ class Profile
         $this->isPublished = false;
 
         $this->fields = new ArrayCollection();
+        $this->customFields = new ArrayCollection();
     }
 
     public function getId(): Id
@@ -306,5 +317,19 @@ class Profile
     public function getFields(): Collection
     {
         return $this->fields;
+    }
+
+    public function addCustomFields(CustomField $customFields): self
+    {
+        $this->customFields->add($customFields);
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection<array-key, \App\Model\Entity\Profile\CustomField>
+     */
+    public function getCustomFields(): Collection
+    {
+        return $this->customFields;
     }
 }
