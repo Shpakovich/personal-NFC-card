@@ -189,9 +189,18 @@ class ProfileController extends AbstractController
 
         $fields = [];
         $profileFields = $profile->getFields();
+        /** @var \App\Model\Entity\Profile\Field $profileField */
         foreach ($profileFields as $profileField) {
             $field = $profileField->getField();
             $type = $field->getType();
+
+            $icon = null;
+            $path = $field->getIconPath();
+            if ($path !== null) {
+                $icon = [
+                    'path' => $storage->url($path)
+                ];
+            }
 
             $fields[] = [
                 'id' => $profileField->getId()->getValue(),
@@ -203,10 +212,37 @@ class ProfileController extends AbstractController
                     'name' => $type->getName(),
                     'sort' => $type->getSort(),
                 ],
-                'icon' => $field->getIconPath(),
+                'icon' => $icon,
                 'colors' => [
                     'bg' => $field->getBgColor()->getValue(),
                     'text' => $field->getTextColor()->getValue(),
+                ]
+            ];
+        }
+
+        $customFields = [];
+        $profileCustomFields = $profile->getCustomFields();
+        /** @var \App\Model\Entity\Profile\CustomField $profileCustomField */
+        foreach ($profileCustomFields as $profileCustomField) {
+            $customField = $profileCustomField->getField();
+
+            $icon = null;
+            $path = $customField->getIconPath();
+            if ($path !== null) {
+                $icon = [
+                    'path' => $storage->url($path)
+                ];
+            }
+
+            $customFields[] = [
+                'id' => $profileCustomField->getId()->getValue(),
+                'title' => $customField->getTitle(),
+                'value' => $profileCustomField->getValue(),
+                'sort' => $profileCustomField->getSort(),
+                'icon' => $icon,
+                'colors' => [
+                    'bg' => $customField->getBgColor()->getValue(),
+                    'text' => $customField->getTextColor()->getValue(),
                 ]
             ];
         }
@@ -238,6 +274,7 @@ class ProfileController extends AbstractController
                     'email' => $profile->getUser()->getEmail()->getValue(),
                 ],
                 'fields' => $fields,
+                'custom' => $customFields,
                 'created_at' => $profile->getCreatedAt()->format(DateTimeInterface::RFC3339),
                 'updated_at' => $profile->getUpdatedAt()->format(DateTimeInterface::RFC3339),
             ]
