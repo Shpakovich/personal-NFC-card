@@ -21,7 +21,7 @@ class CustomField
     private Id $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entity\Profile\Profile", inversedBy="fields")
+     * @ORM\ManyToOne(targetEntity="App\Model\Entity\Profile\Profile", inversedBy="customFields")
      * @ORM\JoinColumn(name="profile_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
      */
     private Profile $profile;

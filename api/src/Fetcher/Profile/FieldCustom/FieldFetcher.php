@@ -49,7 +49,7 @@ class FieldFetcher
 
         $result = [];
         foreach ($stmt->iterateAssociative() as $row) {
-            /** @var \App\Fetcher\Profile\Field\FieldDto */
+            /** @var \App\Fetcher\Profile\FieldCustom\FieldDto */
             $result[] = $this->denormalizer->denormalize($row, FieldDto::class);
         }
 

@@ -189,7 +189,6 @@ class ProfileController extends AbstractController
 
         $fields = [];
         $profileFields = $profile->getFields();
-        /** @var \App\Model\Entity\Profile\Field $profileField */
         foreach ($profileFields as $profileField) {
             $field = $profileField->getField();
             $type = $field->getType();
@@ -222,7 +221,6 @@ class ProfileController extends AbstractController
 
         $customFields = [];
         $profileCustomFields = $profile->getCustomFields();
-        /** @var \App\Model\Entity\Profile\CustomField $profileCustomField */
         foreach ($profileCustomFields as $profileCustomField) {
             $customField = $profileCustomField->getField();
 

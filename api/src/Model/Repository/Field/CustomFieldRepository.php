@@ -13,7 +13,7 @@ class CustomFieldRepository
 {
     private EntityManagerInterface $em;
 
-    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\Field\Field> */
+    /** @var \Doctrine\ORM\EntityRepository<\App\Model\Entity\Field\CustomField> */
     private EntityRepository $repo;
 
     public function __construct(EntityManagerInterface $em)
