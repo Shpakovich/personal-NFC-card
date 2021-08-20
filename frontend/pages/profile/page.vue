@@ -57,6 +57,15 @@
 
       mounted() {
         // this.showAlert = 'test'; TODO таймер на показ
+      },
+
+      methods: {
+        async getProfileFields() {
+          await this.$store.dispatch('profile/getProfileInfo', this.profile?.id)
+                  .then((data) => {
+                  })
+                  .catch((e) => console.log('profile/editProfileInfo error' + e));
+        }
       }
     }
 </script>
@@ -79,6 +88,7 @@
         :field-info="field"
         class="mb-6"
         :key="index"
+        @updateFields="getProfileFields()"
       />
       <addTEG class="mt-11" />
     </v-row>
@@ -89,7 +99,7 @@
             border="right"
             color="green"
             type="success"
-            style="position: absolute; right: 15px; bottom: 0px;"
+            style="position: absolute; right: 15px; bottom: 0;"
     >
       {{ showAlert }}
     </v-alert>

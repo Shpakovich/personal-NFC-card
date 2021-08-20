@@ -23,5 +23,8 @@ export default axios => ({
     },
     addPhotoInProfile (data) {
         return axios.post('/profile/photo/add', data);
+    },
+    deleteProfileField (data) {
+        return axios.post('/profile/field/delete', data);
     }
 });

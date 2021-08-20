@@ -7,6 +7,7 @@ export default {
     },
     async editProfileInfo ({ commit }, data) {
         await this.$api.profile.editProfile(data).then((res)=> {
+                this.$router.push('/profile/page');
                 commit('SET_PROFILE_INFO', res.data);
             }
         )
@@ -55,6 +56,12 @@ export default {
     async getProfileInfo ({ commit }, id) {
         await this.$api.profile.getProfile(id).then((res)=> {
                 commit('SET_PROFILE_FIELDS', res.data?.fields);
+            }
+        )
+    },
+    async deleteFieldInProfile ({ commit }, fieldInfo) {
+        await this.$api.profile.deleteProfileField(fieldInfo).then((res)=> {
+                // commit('SET_PROFILE_FIELDS', res.data?.fields);
             }
         )
     }

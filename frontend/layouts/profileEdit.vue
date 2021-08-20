@@ -23,16 +23,22 @@
 </script>
 
 <template>
-    <v-app>
-    <v-main class="main-container">
-        <nuxt />
-    </v-main>
-    <profileFooter />
-</v-app>
+    <v-app class="fixMainContainer">
+        <v-main class="main-container__without-header">
+            <nuxt />
+        </v-main>
+        <profileFooter />
+    </v-app>
 </template>
 
 <style lang="scss">
     .main-container {
-        height: calc(100% - 114px - 92px);max-height: calc(100% - 114px - 92px); overflow: scroll;
+        height: calc(100% - 114px - 92px);max-height: calc(100% - 114px - 92px);
+        overflow: scroll;
+    }
+    .main-container__without-header {
+        height: calc(100% - 114px);
+        max-height: calc(100% - 114px);
+        overflow: scroll;
     }
 </style>

@@ -73,7 +73,7 @@
                     description: this.description ?? ''
                 };
                 await this.$store.dispatch('profile/editProfileInfo', data)
-                    .then((data) => this.$router.push('/profile/page'))
+                    .then((data) => {})
                     .catch((e) => console.log('profile/editProfileInfo error' + e));
             }
         }
