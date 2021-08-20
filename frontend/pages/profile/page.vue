@@ -4,6 +4,8 @@
   import field from '../../components/profile/fields/field'
   import addTEG from '../../components/profile/fields/addTEG'
 
+  import draggable from 'vuedraggable'
+
   import { createNamespacedHelpers } from 'vuex';
   const { mapState } = createNamespacedHelpers('profile');
 
@@ -15,12 +17,15 @@
         socialIconsBlock,
         userHead,
         field,
-        addTEG
+        addTEG,
+        draggable
       },
 
       data: () => ({
-        showAlert: ''
+        showAlert: '',
+        enabled: true
       }),
+
 
       async asyncData ({ redirect, store }) {
         let profiles= {},
@@ -52,7 +57,17 @@
       computed:{
         ...mapState({
           profile: (state) => state
-        })
+        }),
+        field: {
+          get() {
+            //return this.$store.state.nested.elements;
+            console.log('get fields')
+          },
+          set(value) {
+            console.log('set fields')
+            //this.$store.dispatch("nested/updateElements", value);
+          }
+        }
       },
 
       mounted() {
@@ -65,6 +80,12 @@
                   .then((data) => {
                   })
                   .catch((e) => console.log('profile/editProfileInfo error' + e));
+        },
+        checkMove() {
+          console.log('test move')
+        },
+        checkMoveEnd(e) {
+          console.log(e)
         }
       }
     }
@@ -76,20 +97,44 @@
 
     <v-row class="flex flex-row justify-space-between my-4">
       <p class="mb-0">Общее</p>
-      <img
-              src="../../assets/images/icon/line-settings.svg"
-              alt=""
-      />
+      <div class="flex flex-row m-auto" style="max-width: 50px; margin: 0;">
+        <input
+                id="disabled"
+                type="checkbox"
+                v-model="enabled"
+                class="form-check-input mr-4"
+        />
+        <img
+                src="../../assets/images/icon/line-settings.svg"
+                alt=""
+        />
+      </div>
     </v-row>
 
     <v-row class="flex flex-column justify-center">
-      <field
+      <draggable
+              :disabled="!enabled"
+              style="width: 100%;"
+              v-model="profile.fields"
+              @end="checkMoveEnd"
+      >
+        <div v-for="(field, index) in profile.fields" :key="index" class="item">
+          <field
+                  :id="field.id"
+                  :field-info="field"
+                  class="mb-6"
+                  @updateFields="getProfileFields()"
+          />
+        </div>
+      </draggable>
+
+      <!-- <field
         v-for="(field, index) in profile.fields"
         :field-info="field"
         class="mb-6"
         :key="index"
         @updateFields="getProfileFields()"
-      />
+      /> -->
       <addTEG class="mt-11" />
     </v-row>
     <v-alert
@@ -109,5 +154,8 @@
 <style lang="scss">
     .v-card__subtitle, .v-card__text, .v-card__title {
         padding: 5px;
+    }
+    .flip-list-move {
+      transition: transform 0.5s;
     }
 </style>
