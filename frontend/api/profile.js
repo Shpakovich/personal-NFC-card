@@ -26,5 +26,8 @@ export default axios => ({
     },
     deleteProfileField (data) {
         return axios.post('/profile/field/delete', data);
+    },
+    editProfileField (data) {
+        return axios.post('/profile/field/edit', data);
     }
 });

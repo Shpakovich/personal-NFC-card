@@ -81,11 +81,19 @@
                   })
                   .catch((e) => console.log('profile/editProfileInfo error' + e));
         },
-        checkMove() {
-          console.log('test move')
-        },
-        checkMoveEnd(e) {
-          console.log(e)
+        async checkMoveEnd(e) {
+
+            const data = {
+                id: this.profile?.id,
+                field_id: e?.item.id + '',
+                value: value, // TODO Влад сделает отдельный эндпоинт для сортировки
+                sort: e?.oldIndex
+            };
+
+            await this.$store.dispatch('profile/editFieldInProfile', data)
+                    .then((data) => {
+                    })
+                    .catch((e) => console.log('profile/editFieldInProfile error ' + e));
         }
       }
     }
@@ -118,9 +126,8 @@
               v-model="profile.fields"
               @end="checkMoveEnd"
       >
-        <div v-for="(field, index) in profile.fields" :key="index" class="item">
+        <div v-for="(field, index) in profile.fields" :id="field.id" :key="index" class="item">
           <field
-                  :id="field.id"
                   :field-info="field"
                   class="mb-6"
                   @updateFields="getProfileFields()"

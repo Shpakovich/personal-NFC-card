@@ -64,5 +64,11 @@ export default {
                 // commit('SET_PROFILE_FIELDS', res.data?.fields);
             }
         )
+    },
+    async editFieldInProfile ({ commit }, fieldInfo) {
+        await this.$api.profile.editProfileField(fieldInfo).then((res)=> {
+                // commit('SET_PROFILE_FIELDS', res.data?.fields);
+            }
+        )
     }
 };
