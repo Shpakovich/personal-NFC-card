@@ -7,7 +7,7 @@ export default {
     },
     async getFieldInfo({commit}, id) {
         await this.$api.fields.getField(id).then((res) => {
-                commit('SET_CURRENT_FIEL_INFO', res.data);
+                commit('SET_CURRENT_FIELD_INFO', res.data);
             }
         )
     }

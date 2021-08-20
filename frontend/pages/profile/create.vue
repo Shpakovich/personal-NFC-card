@@ -7,7 +7,10 @@
       nickname: '',
       name: '',
       checkbox: true,
-      valid: false
+      valid: false,
+      nameRules: [
+        v => !!v || 'Заполните это поле',
+      ]
     }),
 
     methods: {
@@ -59,10 +62,10 @@
       ref="form"
       class="flex flex-col"
       v-model="valid"
-      lazy-validation
     >
       <v-text-field
         v-model="name"
+        :rules="nameRules"
         class="font-croc"
         label="Имя"
         required

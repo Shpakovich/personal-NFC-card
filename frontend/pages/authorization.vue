@@ -17,6 +17,7 @@
     methods: {
       async loginUser(loginInfo) {
         this.loading = true;
+        this.logOut();
         const params = new URLSearchParams();
         params.append('grant_type', 'password');
         params.append('username', loginInfo.username);
@@ -26,7 +27,7 @@
         try {
           await this.$auth.loginWith('local',{
             data: params
-          });
+          }).then(()=> { this.$router.push('/profile/page'); });
         } catch (err) {
           if ( err.response && err.response.status === 400) { // TODO глянуть список возможных ответов
             this.errorMessage = 'Неверный логин или пароль';
@@ -38,6 +39,15 @@
       setError() {
         this.errorMessage = '';
         this.errorPassword = '';
+      },
+      logOut () {
+        this.$auth.logout().then(
+                this.resetProfile()
+        )
+      },
+      resetProfile () {
+        this.$store.commit('profile/SET_PROFILE_INFO', {});
+        this.$store.commit('profile/SET_PROFILE_FIELDS', {});
       }
     }
   }

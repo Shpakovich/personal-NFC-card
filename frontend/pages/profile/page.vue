@@ -22,19 +22,26 @@
         showAlert: ''
       }),
 
-      async asyncData ({ route, store }) {
+      async asyncData ({ redirect, store }) {
         let profiles= {},
                 profile = {};
 
         await store.dispatch('profile/getAllProfilesInfo')
-                .then((res) => { profiles = res })
+                .then(() => {
+                  if (!store.state?.profile?.id) {
+                    console.log('profile not found'); // TODO роут на создание профиля
+                    redirect( '/profile/create' )
+                  }
+                })
                 .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
 
         const profileID = store.state?.profile?.id;
 
-        await store.dispatch('profile/getProfileInfo', profileID)
-                .then((res) => { profile = res })
-                .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
+        if (profileID) {
+          await store.dispatch('profile/getProfileInfo', profileID)
+                  .then((res) => { profile = res })
+                  .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
+        }
 
         return [
           profiles,

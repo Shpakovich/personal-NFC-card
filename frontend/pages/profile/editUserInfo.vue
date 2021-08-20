@@ -46,7 +46,7 @@
             this.name = this.profile.name;
             this.default_name = this.profile.default_name;
             this.post = this.profile.post;
-            this.nick = 'https://myid-card/' + this.profile.card?.alias;
+            this.nick = this.profile.card?.alias ? 'https://myid-card/' + this.profile.card?.alias : 'https://myid-card/';
             this.description = this.profile.description;
         },
 
@@ -65,12 +65,12 @@
                 const data = {
                     name: this.name,
                     title: this.name,
-                    nickname: this.nickname,
+                    nickname: this.nickname ?? '',
                     default_name: this.default_name,
                     id: this.profile?.id, // id профиля который меняем
-                    post: this.post,
-                    nick: this.nick,
-                    description: this.description
+                    post: this.post ?? '',
+                    nick: this.nick ?? '',
+                    description: this.description ?? ''
                 };
                 await this.$store.dispatch('profile/editProfileInfo', data)
                     .then((data) => this.$router.push('/profile/page'))

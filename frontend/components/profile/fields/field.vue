@@ -8,8 +8,8 @@
 
         computed: {
             getFieldLink() {
-                // TODO сделать сборщик ссылки, если тип телефон + tel: если почта mailto:
-                return this.fieldInfo.value
+                // TODO сделать сборщик ссылки, если тип телефон + tel: если почта mailto: ! в просмотре а не ыв ЛК
+                return `/profile/fields/editField?id=${this.fieldInfo.id}`
             }
         },
 
@@ -30,7 +30,7 @@
             width="100%"
             color="#EEF7FE"
     >
-        <a class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5" :href="getFieldLink" target="_blank">
+        <a class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5" :href="getFieldLink">
             <div class="flex justify-center" style=" width: 36px; max-width: 36px; height: 36px;">
                 <img
                         class="m-auto flex-none"

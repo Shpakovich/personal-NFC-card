@@ -23,6 +23,18 @@
 
                 return header;
             }
+        },
+
+        methods: {
+            logOut () {
+                this.$auth.logout().then(
+                    this.resetProfile()
+                )
+            },
+            resetProfile () {
+                this.$store.commit('profile/SET_PROFILE_INFO', {});
+                this.$store.commit('profile/SET_PROFILE_FIELDS', {});
+            }
         }
     }
 </script>
@@ -37,7 +49,7 @@
                 min-width="80px"
                 height="48"
                 color="#FF645A"
-                @click="$auth.logout()"
+                @click="logOut()"
         >
             Выйти
         </v-btn>

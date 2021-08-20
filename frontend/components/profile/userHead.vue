@@ -14,6 +14,11 @@
         },
 
         computed: {
+            getUserMock() {
+              if ( !this.user.name && !this.user.nickname && !this.user?.description && !this.user?.post )  {
+                  return 'Ваш профиль не заполнен'
+              }
+            },
             getUserName() {
                 return this.user.default_name === 1 ? this.user.name : this.user.nickname
             },
@@ -83,7 +88,10 @@
                 </v-tooltip>
             </div>
             <div class="flex flex-row inline-flex m-auto">
-                <v-card-subtitle class="font-bold white--text text-white">
+                <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4">
+                    {{ getUserMock }}
+                </v-card-subtitle>
+                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white">
                     {{ getUserName }}
                 </v-card-subtitle>
                 <v-btn
@@ -114,10 +122,10 @@
                         alt=""
                 >
             </v-row>
-            <v-card-subtitle v-if="!edit" class="white--text text-center">
+            <v-card-subtitle v-if="!edit && user.post" class="white--text text-center">
                 {{ user.post }}
             </v-card-subtitle>
-            <v-card-text v-if="!edit" class="white--text text-center">
+            <v-card-text v-if="!edit && user.description" class="white--text text-center">
                 {{ user.description }}
             </v-card-text>
         </v-card>
