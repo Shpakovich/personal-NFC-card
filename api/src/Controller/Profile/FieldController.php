@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
+use App\Controller\Guid;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
+use App\Model\Entity\Profile\Field as ProfileFieldEntity;
 use App\Model\Repository\Profile\FieldRepository;
 use App\Model\Repository\Profile\ProfileRepository;
+use App\Model\Service\Storage\Storage;
 use App\Model\UseCase\Profile\Field;
 use App\Security\Voter\Profile\ProfileAccess;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -213,5 +216,69 @@ class FieldController extends AbstractController
         $handler->handle($command);
 
         return $this->json([]);
+    }
+
+    /**
+     * @Route("/{id}", methods={"GET"}, name=".show", requirements={
+     *     "id"=Guid::PATTERN
+     * })
+     *
+     * @OA\Get(
+     *     summary="Получить поле профиля по его ID"
+     * )
+     *
+     * @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID поля профиля",
+     *     required=true,
+     *     @OA\Schema(type="string")
+     * )
+     *
+     * @OA\Response(response=200, description="OK")
+     * @OA\Response(response=404, description="Не найдена")
+     * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\Entity\Profile\Field $profileField
+     * @param \App\Model\Service\Storage\Storage $storage
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function fieldsList(ProfileFieldEntity $profileField, Storage $storage): JsonResponse
+    {
+        $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profileField->getProfile());
+
+        $field = $profileField->getField();
+        $type = $profileField->getField()->getType();
+
+        $icon = null;
+        $path = $field->getIconPath();
+        if ($path !== null) {
+            $icon = [
+                'path' => $storage->url($path)
+            ];
+        }
+
+        return $this->json(
+            [
+                'id' => $profileField->getId()->getValue(),
+                'title' => $field->getTitle(),
+                'value' => $profileField->getValue(),
+                'sort' => $profileField->getSort(),
+                'type' => [
+                    'id' => $type->getId()->getValue(),
+                    'name' => $type->getName(),
+                    'sort' => $type->getSort(),
+                ],
+                'icon' => $icon,
+                'colors' => [
+                    'bg' => $field->getBgColor()->getValue(),
+                    'text' => $field->getTextColor()->getValue(),
+                ]
+            ]
+        );
     }
 }
