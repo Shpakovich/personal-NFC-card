@@ -17,6 +17,7 @@
 
         computed: {
             ...profile.mapState({
+                profile: (state) => state,
                 profileField: (state) => state.fieldToEdit,
             }),
             getPlaceholder () {
@@ -27,21 +28,39 @@
         async asyncData ({ route, store }) {
             const fieldID = route.query?.id;
 
-            await store.dispatch('profile/editFieldInProfile', fieldID)
+            await store.dispatch('profile/getFieldInProfile', fieldID)
                 .then(() => {
                 })
-                .catch((e) => console.log('profile/edfiledInfoitFieldInProfile error ' + e));
+                .catch((e) => console.log('profile/getFieldInProfile error ' + e));
 
         },
 
         mounted() {
-            // TODO Сделать на инпуте сброс 
+            // TODO Сделать на инпуте сброс
             this.fieldValue = this.profileField.value;
         },
 
         methods: {
             getIconSrc (profileField) {
                 return profileField?.icon?.path;
+            },
+            async editProfilesField () {
+                this.loading = true;
+                const data = {
+                    id: this.profileField.id,
+                    field_id: 'f7963742-c127-452b-913c-50bf92a910f4', // TODO id самого филда, как при создании
+                    value: this.fieldValue,
+                    sort: this.profileField.sort
+                };
+
+                await this.$store.dispatch('profile/editFieldInProfile', data)
+                    .then(() => {
+                        this.$router.push('/profile/page')
+                    })
+                    .catch((e) => console.log('profile/editFieldInProfile error ' + e))
+                .finally(() =>
+                    this.loading = false
+                );
             }
         }
     }
@@ -57,7 +76,7 @@
                 min-width="80px"
                 height="48"
                 color="secondary"
-                to="/profile/fields/addFields"
+                to="/profile/page"
         >
             <img src="../../../assets/images/icon/icon-arrow-left.svg" alt="">
             Назад
@@ -99,7 +118,7 @@
                     max-width="225px"
                     min-width="150px"
                     height="48"
-                    @click="setFieldValue(fieldValue)"
+                    @click="editProfilesField()"
             >
                 Сохранить
             </v-btn>
