@@ -6,7 +6,7 @@
     data: () => ({
       nickname: '',
       name: '',
-      checkbox: true,
+      default_name: 1,
       valid: false,
       nameRules: [
         v => !!v || 'Заполните это поле',
@@ -27,7 +27,11 @@
                 .catch((e) => console.log('profile/setProfile error' + e));
       },
       setDefaultName() {
-        this.checkbox = !this.checkbox
+        if(this.default_name === 2) {
+          this.default_name = 1
+        } else {
+          this.default_name = 2
+        }
       },
       getCookie(name) { // TODO Вынести в хелпер
         const value = `; ${document.cookie}`;
@@ -83,9 +87,9 @@
       ></v-text-field>
 
       <div class="flex flex-row justify-around ml-4 mb-6">
-        <input @click="setDefaultName()" class="ml-4 font-croc custom-checkbox" type="radio" id="name" name="privacy">
+        <input @click="setDefaultName()" :checked="default_name === 1" class="ml-4 font-croc custom-checkbox" type="radio" id="name" name="privacy">
         <label for="name">Имя</label>
-        <input @click="setDefaultName()" class="ml-4 font-croc custom-checkbox" type="radio" id="nickname" name="privacy">
+        <input @click="setDefaultName()" :checked="default_name === 2" class="ml-4 font-croc custom-checkbox" type="radio" id="nickname" name="privacy">
         <label for="nickname">Никнейм</label>
       </div>
 

@@ -22,7 +22,7 @@
             name: '',
             post: '',
             nick: '',
-            default_name: 0,
+            default_name: 1,
             description: '',
             errorMessages: '',
             mask: 'https://myid-card/NNNNNNNNNNNN',

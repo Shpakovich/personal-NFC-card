@@ -86,7 +86,6 @@
       name="password"
       label="Пароль"
       placeholder="Ваш пароль"
-      hint="Пароль недёжный, наверное"
       outlined
       counter
     >

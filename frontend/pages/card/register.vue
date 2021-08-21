@@ -68,6 +68,7 @@
         v-on:keyup="resetError()"
         class="font-croc"
         label="Адрес страницы"
+        hint="Поддерживает только латинские буквы и цифры"
         required
         outlined
         placeholder="https://myid-card/myNick"
