@@ -26,10 +26,9 @@
         },
 
         methods: {
-            logOut () {
-                this.$auth.logout().then(
-                    this.resetProfile()
-                )
+            async logOut () {
+                await this.$auth.logout();
+                this.resetProfile()
             },
             resetProfile () {
                 this.$store.commit('profile/SET_PROFILE_INFO', {});

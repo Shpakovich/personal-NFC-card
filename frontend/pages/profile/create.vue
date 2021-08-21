@@ -26,7 +26,7 @@
         await this.$store.dispatch('profile/createNewProfile', data)
                 .then((data) => this.$router.push('/profile/addInfo'))
                 .catch((err) => {
-                  if ( err.response && err.response.status === 400) { // TODO глянуть список возможных ответов
+                  if ( err.response && err.response.status === 400) {
                     this.errorMessage = err?.response?.data?.message;
                     console.log('profile/setProfile error: ' + err)
                   }
