@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Event\Profile\ShowEvent;
 use App\Fetcher\Profile;
 use App\Fetcher\User;
 use App\Model\Entity\Common\Id;
 use App\Model\Service\Storage\Storage;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublicController extends AbstractController
 {
     private Storage $storage;
+    private EventDispatcherInterface $dispatcher;
 
-    public function __construct(Storage $storage)
+    public function __construct(Storage $storage, EventDispatcherInterface $dispatcher)
     {
         $this->storage = $storage;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -135,9 +139,11 @@ class PublicController extends AbstractController
         $photo = null;
         if (!empty($profile->photoPath)) {
             $photo = [
-                'path' => $profile->photoPath,
+                'path' => $this->storage->url($profile->photoPath),
             ];
         }
+
+        $this->dispatcher->dispatch(new ShowEvent($profile->userCardId, $profile->id));
 
         return $this->json(
             [

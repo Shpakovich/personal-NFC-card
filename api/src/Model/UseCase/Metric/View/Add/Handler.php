@@ -32,7 +32,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $card = $this->cards->getByCardId(new Id($command->userCardId));
+        $card = $this->cards->getById(new Id($command->userCardId));
         $profile = $this->profiles->getById(new Id($command->profileId));
 
         if ($profile->getCard() === null || !$profile->getCard()->getId()->isEqual($card->getId())) {

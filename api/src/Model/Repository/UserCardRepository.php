@@ -56,4 +56,14 @@ class UserCardRepository
 
         throw new \DomainException('User card not found.');
     }
+
+    public function getById(Id $id): UserCard
+    {
+        $card = $this->repo->find($id);
+        if ($card !== null) {
+            return $card;
+        }
+
+        throw new \DomainException('User card not found.');
+    }
 }

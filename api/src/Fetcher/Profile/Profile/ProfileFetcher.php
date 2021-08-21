@@ -48,6 +48,7 @@ class ProfileFetcher
                     'p.description',
                     'p.is_published',
                     'p.user_id',
+                    'uc.id as user_card_id',
                     'uc.card_id',
                     'uc.alias as card_alias',
                 ]
