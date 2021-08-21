@@ -327,6 +327,7 @@ class FieldController extends AbstractController
                 'title' => $field->getTitle(),
                 'value' => $profileField->getValue(),
                 'sort' => $profileField->getSort(),
+                'field_id' => $field->getId()->getValue(),
                 'type' => [
                     'id' => $type->getId()->getValue(),
                     'name' => $type->getName(),
