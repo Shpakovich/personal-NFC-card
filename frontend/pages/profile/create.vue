@@ -8,6 +8,7 @@
       name: '',
       default_name: 1,
       valid: false,
+      errorMessage: '',
       nameRules: [
         v => !!v || 'Заполните это поле',
       ]
@@ -19,12 +20,17 @@
           title: this.name,
           name: this.name,
           nickname: this.nickname,
-          default_name: this.checkbox+1,
+          default_name: 1,
           card_id: this.getCookie('hash')
         };
         await this.$store.dispatch('profile/createNewProfile', data)
                 .then((data) => this.$router.push('/profile/addInfo'))
-                .catch((e) => console.log('profile/setProfile error' + e));
+                .catch((err) => {
+                  if ( err.response && err.response.status === 400) { // TODO глянуть список возможных ответов
+                    this.errorMessage = err?.response?.data?.message;
+                    console.log('profile/setProfile error: ' + err)
+                  }
+                });
       },
       setDefaultName() {
         if(this.default_name === 2) {
@@ -52,8 +58,8 @@
     <v-btn
       icon
       class="rounded-lg flex-initial font-bold w-4/12 mb-6 ml-1.5 btn-back"
-      max-width="90px"
-      min-width="80px"
+      max-width="110px"
+      min-width="100px"
       height="48"
       color="secondary"
       to="/"
@@ -61,6 +67,10 @@
       <img src="../../assets/images/icon/icon-arrow-left.svg" alt="">
       Назад
     </v-btn>
+
+    <p class="font-gilroy mb-6" style="color: #FF645A;" v-if="errorMessage">
+      {{ errorMessage }}
+    </p>
 
     <v-form
       ref="form"

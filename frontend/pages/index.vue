@@ -103,7 +103,7 @@
           <img src="../assets/images/icon/icon-arrow-right.svg" alt="">
         </v-btn>
       </v-row>
-      <p class="font-croc font-bold text-center text-sm pb-4">
+      <!-- <p class="font-croc font-bold text-center text-sm pb-4">
         Войти с помощью
       </p>
       <v-row class="flex-row justify-center pb-11" style="gap: 50px;" >
@@ -112,7 +112,7 @@
         <img src="../assets/images/icon/google-logo.svg" alt="">
 
         <img src="../assets/images/icon/facebook-logo.svg" alt="">
-      </v-row>
+      </v-row> -->
     </div>
     <div v-else>
       <userIndexProfile class="mb-10" :user="profile" />
@@ -142,13 +142,13 @@
     </div>
 
     <v-row class="flex-col leading-6 justify-center">
-      <a class="text-sm text-center font-gilroy">
-        URL на поддерживаемые устройства
-      </a><br>
-      <a class="text-sm text-center font-gilroy">
-        URL на обратную связь
-      </a>
-      <p v-if="!this.$auth.loggedIn" class="mt-4 text-sm text-center font-gilroy">
+      <nuxt-link class="text-sm text-center font-gilroy" to="/info/supportedDevice">
+        Поддерживаемые устройства
+      </nuxt-link><br>
+      <nuxt-link to="/test" href="" class="text-sm text-center font-gilroy">
+        Обратная связь
+      </nuxt-link>
+      <p v-if="!this.$auth.loggedIn" class="mt-8 text-sm text-center font-gilroy">
         2021 myID - будущее нетворкинга
       </p>
     </v-row>
