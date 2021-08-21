@@ -18,16 +18,18 @@
       }
     },
 
-    async asyncData ({ route, store }) {
-      if (route.query?.hash) {
-        let name = "hash";
-        let value = route.query.hash;
-
-        document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
-      }
-
+    async asyncData ({ store }) {
       await store.dispatch('profile/getAllProfilesInfo')
               .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
+    },
+
+    mounted() {
+      if (this.$route.query?.hash) {
+        let name = "hash";
+        let hashValue = this.$route.query.hash;
+
+        document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(hashValue);
+      }
     },
 
     methods: {
