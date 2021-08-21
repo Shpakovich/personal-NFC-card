@@ -16,6 +16,7 @@ class ProfileDto
     public ?string $description = null;
     public bool $is_published = false;
     public string $userId = '';
+    public ?string $userCardId = null;
     public ?string $cardId = null;
     public ?string $cardAlias = null;
 }
