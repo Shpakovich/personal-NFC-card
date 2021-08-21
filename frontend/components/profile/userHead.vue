@@ -112,15 +112,15 @@
                 </v-btn>
             </div>
             <v-row style="display: flex; margin: auto!important;" v-if="edit">
-                <v-card-subtitle style="padding: 0" class="white--text text-center">
-                    Добавить профиль
-                </v-card-subtitle>
-                <img
-                        class="m-0 ml-2 flex-none"
-                        style="max-height: 24px; max-width: 24px"
-                        src="../../assets/images/icon/add.svg"
-                        alt=""
-                >
+                <nuxt-link to="/profile/choosePhoto" style="padding: 0" class="flex white--text text-center">
+                    Добавить фото
+                    <img
+                            class="m-0 ml-2 flex-none"
+                            style="max-height: 24px; max-width: 24px"
+                            src="../../assets/images/icon/add.svg"
+                            alt=""
+                    >
+                </nuxt-link>
             </v-row>
             <v-card-subtitle v-if="!edit && user.post" class="white--text text-center">
                 {{ user.post }}

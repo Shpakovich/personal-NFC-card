@@ -1,6 +1,6 @@
 <script>
     import { createNamespacedHelpers } from 'vuex';
-    const fieldsStore = createNamespacedHelpers('fields');
+    const profile = createNamespacedHelpers('profile');
 
     export default {
         name: "editField",
@@ -12,27 +12,44 @@
             valid: false,
             valueRules: [
                 v => !!v || 'Поле не должно быть пустым'
-            ],
+            ]
         }),
 
         computed: {
-            ...fieldsStore.mapState({
-                filedInfo: (state) => state.currentEditField,
-            })
+            ...profile.mapState({
+                profileField: (state) => state.fieldToEdit,
+            }),
+            getPlaceholder () {
+                return 'Ввведите ' + this.profileField.title;
+            }
         },
 
         async asyncData ({ route, store }) {
             const fieldID = route.query?.id;
 
+            await store.dispatch('profile/editFieldInProfile', fieldID)
+                .then(() => {
+                })
+                .catch((e) => console.log('profile/edfiledInfoitFieldInProfile error ' + e));
 
-            console.log( store.state.profile );
+        },
+
+        mounted() {
+            // TODO Сделать на инпуте сброс 
+            this.fieldValue = this.profileField.value;
+        },
+
+        methods: {
+            getIconSrc (profileField) {
+                return profileField?.icon?.path;
+            }
         }
     }
 </script>
 
 <template>
-    <v-container v-if="filedInfo" class="py-11 px-11">
-        <h3 style="font-size: 24px; line-height: 35px;" class="text-center font-bold font-croc mb-2">{{ filedInfo.title }}</h3>
+    <v-container v-if="profileField" class="py-11 px-11">
+        <h3 style="font-size: 24px; line-height: 35px;" class="text-center font-bold font-croc mb-2">{{ profileField.title }}</h3>
         <v-btn
                 icon
                 class="rounded-lg flex-initial font-bold w-4/12 mb-3 ml-1.5 btn-back"
@@ -50,7 +67,7 @@
                 <img
                         class="m-auto flex-none"
                         style="max-height: 50px; height: 50px; width: 50px; max-width: 50px"
-                        :src="getIconSrc(filedInfo)"
+                        :src="getIconSrc(profileField)"
                         alt=""
                 >
             </div>
@@ -67,7 +84,7 @@
             <v-text-field
                     v-model="fieldValue"
                     class="font-croc"
-                    :label="filedInfo.title"
+                    :label="profileField.title"
                     :rules="valueRules"
                     required
                     outlined

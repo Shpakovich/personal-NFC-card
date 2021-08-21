@@ -7,16 +7,15 @@
         ],
 
         computed: {
-            getFieldLink() {
-                // TODO сделать сборщик ссылки, если тип телефон + tel: если почта mailto: ! в просмотре а не ыв ЛК
-                return `/profile/fields/editField?id=${this.fieldInfo.id}`
-            },
             getRedirectField() {
                 return this.fieldInfo.value;
             }
         },
 
         methods: {
+            getFieldLink() {
+                this.$router.push(`/profile/fields/editField?id=${this.fieldInfo.id}`);
+            },
             getIconSrc (fieldInfo) {
                 const src = "http://localhost:8083/" + fieldInfo?.icon;
                 return new URL(src);
@@ -52,7 +51,7 @@
                         alt=""
                 >
             </div>
-            <div style="max-width: 70%;" class="flex flex-col flex-grow my-auto ml-4">
+            <div @click="getFieldLink()" style="max-width: 70%;" class="flex flex-col flex-grow my-auto ml-4">
                 <v-card-subtitle class="font-gilroy" style="color: #415EB6;font-size: 15px;line-height: 18px; padding: 0">
                     {{ fieldInfo.title }}
                 </v-card-subtitle>

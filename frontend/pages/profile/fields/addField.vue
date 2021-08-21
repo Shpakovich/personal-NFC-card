@@ -13,7 +13,7 @@
             valid: false,
             valueRules: [
                 v => !!v || 'Поле не должно быть пустым'
-            ],
+            ]
         }),
 
         computed:{

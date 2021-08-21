@@ -29,5 +29,8 @@ export default axios => ({
     },
     editProfileField (data) {
         return axios.post('/profile/field/edit', data);
+    },
+    getProfileField(id) {
+        return axios.get(`/profile/field/${id}`);
     }
 });

@@ -26,7 +26,7 @@
                 let formData = new FormData();
 
                 formData.append('file', chosenFile);
-                formData.append('profile_id', 'a12524df-e7ad-45ae-810e-6e4cdb62d427');
+                formData.append('profile_id', this.profile?.id);
 
                 await this.$store.dispatch('profile/addPhotoProfile', formData)
                     .catch((e) => console.log('profile/addPhotoProfile error' + e));

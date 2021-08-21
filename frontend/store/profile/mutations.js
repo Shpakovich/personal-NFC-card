@@ -16,5 +16,8 @@ export default {
 
     SET_PROFILE_FIELDS (state, fields) {
         state.fields = fields;
+    },
+    SET_FIELD_TO_EDIT (state, field) {
+        state.fieldToEdit = field;
     }
 };
