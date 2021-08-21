@@ -48,7 +48,7 @@
                 this.loading = true;
                 const data = {
                     id: this.profileField.id,
-                    field_id: 'f7963742-c127-452b-913c-50bf92a910f4', // TODO id самого филда, как при создании
+                    field_id: this.profileField.field_id,
                     value: this.fieldValue,
                     sort: this.profileField.sort
                 };
