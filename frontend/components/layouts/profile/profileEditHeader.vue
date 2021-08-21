@@ -16,8 +16,8 @@
             <v-btn
                     icon
                     class="rounded-lg font-bold w-4/12"
-                    max-width="90px"
-                    min-width="80px"
+                    max-width="110px"
+                    min-width="100px"
                     height="48"
                     color="secondary"
                     to="/profile/page"
