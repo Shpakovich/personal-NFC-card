@@ -59,7 +59,7 @@
           profile: (state) => state
         }),
         getDashboardIcon() {
-          return this.enabled ? require("../../assets/images/icon/u_create-dashboard.svg") :  require("../../assets/images/icon/u_create-dashboard__black.svg")
+          return this.enabled ? require("../../assets/images/icon/swap__active.svg") :  require("../../assets/images/icon/swap-black.svg")
         }
       },
 
@@ -70,24 +70,21 @@
       methods: {
         async getProfileFields() {
           await this.$store.dispatch('profile/getProfileInfo', this.profile?.id)
-                  .then((data) => {
-                  })
                   .catch((e) => console.log('profile/editProfileInfo error' + e));
         },
         async checkMoveEnd(e) {
 
-            /* const data = {
-                id: this.profile?.id,
-                field_id: e?.item.id + '',
-                value: value, // TODO Влад сделает отдельный эндпоинт для сортировки
-                sort: e?.oldIndex
+          console.log(e.clone?.id);
+          console.log(e.newIndex+1);
+
+            const data = {
+                id: e?.clone.id,
+                sort: e?.newIndex+1
             };
 
-            await this.$store.dispatch('profile/editFieldInProfile', data)
-                    .then((data) => {
-                    })
-                    .catch((e) => console.log('profile/editFieldInProfile error ' + e)); */
-        }
+            await this.$store.dispatch('profile/editSortFieldInProfile', data)
+                    .catch((e) => console.log('profile/editFieldInProfile error ' + e));
+        },
       }
     }
 </script>

@@ -30,6 +30,9 @@ export default axios => ({
     editProfileField (data) {
         return axios.post('/profile/field/edit', data);
     },
+    editSortProfileField (data) {
+        return axios.post('/profile/field/sort', data);
+    },
     getProfileField(id) {
         return axios.get(`/profile/field/${id}`);
     }

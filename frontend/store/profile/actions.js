@@ -76,5 +76,11 @@ export default {
                 //commit('SET_FIELD_TO_EDIT', res.data);
             }
         )
+    },
+    async editSortFieldInProfile ({ commit }, sortedField) {
+        await this.$api.profile.editSortProfileField(sortedField).then((res)=> {
+                //commit('SET_FIELD_TO_EDIT', res.data);
+            }
+        )
     }
 };
