@@ -32,7 +32,10 @@ class ViewFetcher
                 ->setParameter(':to', $to->format('Y-m-d H:i:s'));
         }
 
-        $result = $qb->execute()->fetchNumeric();
+        /** @var \Doctrine\DBAL\ForwardCompatibility\DriverResultStatement $stmt */
+        $stmt = $qb->execute();
+        /** @var int[]|false $result */
+        $result = $stmt->fetchNumeric();
 
         return is_array($result) && count($result) > 0 ? reset($result) : 0;
     }

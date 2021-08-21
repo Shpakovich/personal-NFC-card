@@ -43,8 +43,7 @@ class View
         \DateTimeImmutable $createdAt,
         UserCard $card,
         Profile $profile
-    )
-    {
+    ) {
         $this->id = $id;
         $this->createdAt = $createdAt;
         $this->card = $card;

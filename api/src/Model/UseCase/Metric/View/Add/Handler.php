@@ -35,7 +35,8 @@ class Handler
         $card = $this->cards->getById(new Id($command->userCardId));
         $profile = $this->profiles->getById(new Id($command->profileId));
 
-        if ($profile->getCard() === null || !$profile->getCard()->getId()->isEqual($card->getId())) {
+        $profileCard = $profile->getCard();
+        if ($profileCard === null || !$profileCard->getId()->isEqual($card->getId())) {
             throw new \DomainException('Wrong card or profile.');
         }
 

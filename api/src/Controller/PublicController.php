@@ -143,6 +143,7 @@ class PublicController extends AbstractController
             ];
         }
 
+        /** @var string $profile->userCardId */
         $this->dispatcher->dispatch(new ShowEvent($profile->userCardId, $profile->id));
 
         return $this->json(
