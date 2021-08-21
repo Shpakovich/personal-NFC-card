@@ -278,7 +278,7 @@ class TypeController extends AbstractController
      *     summary="Изменить тип поля",
      *     @OA\RequestBody(
      *          @OA\JsonContent(
-     *              required={"name", "order"},
+     *              required={"name", "sort"},
      *              @OA\Property(property="id", type="string", description="ID типа"),
      *              @OA\Property(property="name", type="string", description="Название типа"),
      *              @OA\Property(property="sort", type="integer", description="Порядок вывода в профиле пользователя")
@@ -322,6 +322,76 @@ class TypeController extends AbstractController
     public function edit(
         Type\Edit\Command $command,
         Type\Edit\Handler $handler,
+        TypeRepository $types
+    ): JsonResponse {
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        $command->userId = $user->getId();
+        $handler->handle($command);
+
+        $type = $types->getById(new Id($command->id));
+
+        return $this->json(
+            [
+                'id' => $type->getId()->getValue(),
+                'name' => $type->getName(),
+                'sort' => $type->getSort(),
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Route("/sort", methods={"POST"}, name=".sort")
+     *
+     * @OA\Post(
+     *     summary="Изменить сортировку типа поля",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"name", "sort"},
+     *              @OA\Property(property="id", type="string", description="ID типа"),
+     *              @OA\Property(property="sort", type="integer", description="Порядок вывода в профиле пользователя")
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Сортировка изменена",
+     *     @OA\JsonContent(
+     *         @OA\Property(property="id", type="string"),
+     *         @OA\Property(property="name", type="string"),
+     *         @OA\Property(property="sort", type="integer"),
+     *     )
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
+     *
+     * @OA\Tag(name="Field types")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\UseCase\Field\Type\Sort\Command $command
+     * @param \App\Model\UseCase\Field\Type\Sort\Handler $handler
+     * @param \App\Model\Repository\Field\TypeRepository $types
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function sort(
+        Type\Sort\Command $command,
+        Type\Sort\Handler $handler,
         TypeRepository $types
     ): JsonResponse {
         /** @var \App\Security\UserIdentity $user */

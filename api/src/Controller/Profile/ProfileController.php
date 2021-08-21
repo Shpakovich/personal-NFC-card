@@ -9,6 +9,7 @@ use App\Controller\PaginationSerializer;
 use App\Fetcher\Profile\Profile\ProfileFetcher;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
+use App\Model\Entity\Profile\CustomField;
 use App\Model\Entity\Profile\Field;
 use App\Model\Entity\User\Role;
 use App\Model\Repository\Profile\ProfileRepository;
@@ -681,6 +682,69 @@ class ProfileController extends AbstractController
                     ];
                 },
                 $profile->getFields()->toArray()
+            )
+        );
+    }
+
+    /**
+     * @Route("/{id}/fields/custom", methods={"GET"}, name=".custom.index", requirements={
+     *     "id"=Guid::PATTERN
+     * })
+     *
+     * @OA\Get(
+     *     summary="Получить споисок пользовательских полей профиля"
+     * )
+     *
+     * @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID профиля",
+     *     required=true,
+     *     @OA\Schema(type="string")
+     * )
+     *
+     * @OA\Response(response=200, description="OK")
+     * @OA\Response(response=404, description="Не найдена")
+     * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\Entity\Profile\Profile $profile
+     * @param \App\Model\Service\Storage\Storage $storage
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function fieldsCustomList(\App\Model\Entity\Profile\Profile $profile, Storage $storage): JsonResponse
+    {
+        $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profile);
+
+        return $this->json(
+            array_map(
+                static function (CustomField $profileField) use ($storage) {
+                    $field = $profileField->getField();
+
+                    $icon = null;
+                    $path = $field->getIconPath();
+                    if ($path !== null) {
+                        $icon = [
+                            'path' => $storage->url($path)
+                        ];
+                    }
+
+                    return [
+                        'id' => $profileField->getId()->getValue(),
+                        'title' => $field->getTitle(),
+                        'value' => $profileField->getValue(),
+                        'sort' => $profileField->getSort(),
+                        'icon' => $icon,
+                        'colors' => [
+                            'bg' => $field->getBgColor()->getValue(),
+                            'text' => $field->getTextColor()->getValue(),
+                        ]
+                    ];
+                },
+                $profile->getCustomFields()->toArray()
             )
         );
     }
