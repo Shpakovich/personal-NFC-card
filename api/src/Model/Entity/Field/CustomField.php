@@ -11,9 +11,9 @@ use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fields")
+ * @ORM\Table(name="fields_custom")
  */
-class Field
+class CustomField
 {
     /**
      * @ORM\Id
@@ -22,15 +22,15 @@ class Field
     private Id $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Model\Entity\User\User", inversedBy="fields")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
+     */
+    private User $user;
+
+    /**
      * @ORM\Column(type="string", length=50)
      */
     private string $title;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entity\Field\Type")
-     * @ORM\JoinColumn(name="type_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
-     */
-    private Type $type;
 
     /**
      * @ORM\Column(type="field_color", length=7)
@@ -48,26 +48,9 @@ class Field
     private ?string $iconPath = null;
 
     /**
-     * @ORM\Column(type="string", length=500, nullable=true)
-     */
-    private ?string $help = null;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entity\User\User")
-     * @ORM\JoinColumn(name="created_by", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
-     */
-    private User $creator;
-
-    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Model\Entity\User\User")
-     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
-     */
-    private User $editor;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -76,11 +59,10 @@ class Field
 
     public function __construct(
         Id $id,
+        User $user,
         string $title,
-        Type $type,
         Color $bgColor,
         Color $textColor,
-        User $creator,
         \DateTimeImmutable $createdAt
     ) {
         $title = trim($title);
@@ -88,12 +70,10 @@ class Field
         Assert::notEmpty($title);
 
         $this->id = $id;
+        $this->user = $user;
         $this->title = $title;
-        $this->type = $type;
         $this->bgColor = $bgColor;
         $this->textColor = $textColor;
-        $this->creator = $creator;
-        $this->editor = $creator;
         $this->createdAt = $createdAt;
         $this->updatedAt = $createdAt;
     }
@@ -101,6 +81,11 @@ class Field
     public function getId(): Id
     {
         return $this->id;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
     }
 
     /**
@@ -114,17 +99,6 @@ class Field
     public function setTitle(string $title): self
     {
         $this->title = $title;
-        return $this;
-    }
-
-    public function getType(): Type
-    {
-        return $this->type;
-    }
-
-    public function setType(Type $type): self
-    {
-        $this->type = $type;
         return $this;
     }
 
@@ -167,36 +141,9 @@ class Field
         return $this;
     }
 
-    public function getHelp(): ?string
-    {
-        return $this->help;
-    }
-
-    public function setHelp(?string $help): self
-    {
-        $this->help = $help;
-        return $this;
-    }
-
-    public function getCreator(): User
-    {
-        return $this->creator;
-    }
-
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
-    }
-
-    public function getEditor(): User
-    {
-        return $this->editor;
-    }
-
-    public function setEditor(User $editor): self
-    {
-        $this->editor = $editor;
-        return $this;
     }
 
     public function getUpdatedAt(): \DateTimeImmutable

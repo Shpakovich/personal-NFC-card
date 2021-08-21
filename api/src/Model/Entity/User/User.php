@@ -92,6 +92,14 @@ class User
      */
     private ArrayCollection|PersistentCollection $profiles;
 
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Model\Entity\Field\CustomField",
+     *     mappedBy="user", cascade={"all"}
+     * )
+     */
+    private ArrayCollection|PersistentCollection $fields;
+
     public function __construct(
         Id $id,
         Email $email,
@@ -111,6 +119,7 @@ class User
 
         $this->cards = new ArrayCollection();
         $this->profiles = new ArrayCollection();
+        $this->fields = new ArrayCollection();
     }
 
     public function confirm(\DateTimeImmutable $data): void

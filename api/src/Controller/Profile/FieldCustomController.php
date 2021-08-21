@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
-use App\Controller\Guid;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
-use App\Model\Entity\Profile\Field as ProfileFieldEntity;
-use App\Model\Repository\Profile\FieldRepository;
+use App\Model\Repository\Field\CustomFieldRepository;
+use App\Model\Repository\Profile\CustomFieldRepository as ProfileCustomFieldRepository;
 use App\Model\Repository\Profile\ProfileRepository;
-use App\Model\Service\Storage\Storage;
-use App\Model\UseCase\Profile\Field;
+use App\Model\UseCase\Profile\FieldCustom;
+use App\Security\Voter\Field\CustomFieldAccess;
 use App\Security\Voter\Profile\ProfileAccess;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -21,15 +20,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/profile/field", name="profile.field")
+ * @Route("/profile/field/custom", name="profile.field.custom")
  */
-class FieldController extends AbstractController
+class FieldCustomController extends AbstractController
 {
     /**
      * @Route("/add", methods={"POST"}, name=".add")
      *
      * @OA\Post(
-     *     summary="Добавить поле в профиль",
+     *     summary="Добавить пользовательское поле в профиль",
      *     @OA\RequestBody(
      *          @OA\JsonContent(
      *              required={"profile_id", "field_id", "value", "sort"},
@@ -69,18 +68,23 @@ class FieldController extends AbstractController
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\Profile\Field\Add\Command $command
-     * @param \App\Model\UseCase\Profile\Field\Add\Handler $handler
+     * @param \App\Model\UseCase\Profile\FieldCustom\Add\Command $command
+     * @param \App\Model\UseCase\Profile\FieldCustom\Add\Handler $handler
      * @param \App\Model\Repository\Profile\ProfileRepository $profiles
+     * @param \App\Model\Repository\Field\CustomFieldRepository $fields
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function add(
-        Field\Add\Command $command,
-        Field\Add\Handler $handler,
-        ProfileRepository $profiles
+        FieldCustom\Add\Command $command,
+        FieldCustom\Add\Handler $handler,
+        ProfileRepository $profiles,
+        CustomFieldRepository $fields
     ): JsonResponse {
         $profile = $profiles->getById(new Id($command->profileId));
         $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $profile);
+
+        $field = $fields->getById(new Id($command->fieldId));
+        $this->denyAccessUnlessGranted(CustomFieldAccess::EDIT, $field);
 
         /** @var \App\Security\UserIdentity $user */
         $user = $this->getUser();
@@ -103,7 +107,7 @@ class FieldController extends AbstractController
      * @Route("/delete", methods={"POST"}, name=".delete")
      *
      * @OA\Post(
-     *     summary="Удалить поле профиля",
+     *     summary="Удалить пользовательское поле профиля",
      *     @OA\RequestBody(
      *          @OA\JsonContent(
      *              required={"id"},
@@ -135,15 +139,15 @@ class FieldController extends AbstractController
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\Profile\Field\Delete\Command $command
-     * @param \App\Model\UseCase\Profile\Field\Delete\Handler $handler
-     * @param \App\Model\Repository\Profile\FieldRepository $fields
+     * @param \App\Model\UseCase\Profile\FieldCustom\Delete\Command $command
+     * @param \App\Model\UseCase\Profile\FieldCustom\Delete\Handler $handler
+     * @param \App\Model\Repository\Profile\CustomFieldRepository $fields
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function delete(
-        Field\Delete\Command $command,
-        Field\Delete\Handler $handler,
-        FieldRepository $fields
+        FieldCustom\Delete\Command $command,
+        FieldCustom\Delete\Handler $handler,
+        ProfileCustomFieldRepository $fields
     ): JsonResponse {
         $field = $fields->getById(new Id($command->id));
         $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $field->getProfile());
@@ -161,7 +165,7 @@ class FieldController extends AbstractController
      * @Route("/edit", methods={"POST"}, name=".edit")
      *
      * @OA\Post(
-     *     summary="Изменить поле профиля",
+     *     summary="Изменить пользовательское поле профиля",
      *     @OA\RequestBody(
      *          @OA\JsonContent(
      *              required={"id", "value", "sort"},
@@ -196,15 +200,15 @@ class FieldController extends AbstractController
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\Profile\Field\Edit\Command $command
-     * @param \App\Model\UseCase\Profile\Field\Edit\Handler $handler
-     * @param \App\Model\Repository\Profile\FieldRepository $fields
+     * @param \App\Model\UseCase\Profile\FieldCustom\Edit\Command $command
+     * @param \App\Model\UseCase\Profile\FieldCustom\Edit\Handler $handler
+     * @param \App\Model\Repository\Profile\CustomFieldRepository $fields
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function edit(
-        Field\Edit\Command $command,
-        Field\Edit\Handler $handler,
-        FieldRepository $fields
+        FieldCustom\Edit\Command $command,
+        FieldCustom\Edit\Handler $handler,
+        ProfileCustomFieldRepository $fields
     ): JsonResponse {
         $field = $fields->getById(new Id($command->id));
         $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $field->getProfile());
@@ -216,69 +220,5 @@ class FieldController extends AbstractController
         $handler->handle($command);
 
         return $this->json([]);
-    }
-
-    /**
-     * @Route("/{id}", methods={"GET"}, name=".show", requirements={
-     *     "id"=Guid::PATTERN
-     * })
-     *
-     * @OA\Get(
-     *     summary="Получить поле профиля по его ID"
-     * )
-     *
-     * @OA\Parameter(
-     *     name="id",
-     *     in="path",
-     *     description="ID поля профиля",
-     *     required=true,
-     *     @OA\Schema(type="string")
-     * )
-     *
-     * @OA\Response(response=200, description="OK")
-     * @OA\Response(response=404, description="Не найдена")
-     * @OA\Response(response=401, description="Требуется авторизация")
-     * @OA\Response(response=403, description="Доступ запрещен")
-     *
-     * @OA\Tag(name="Profile")
-     * @Security(name="Bearer")
-     *
-     * @param \App\Model\Entity\Profile\Field $profileField
-     * @param \App\Model\Service\Storage\Storage $storage
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
-    public function fieldsList(ProfileFieldEntity $profileField, Storage $storage): JsonResponse
-    {
-        $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profileField->getProfile());
-
-        $field = $profileField->getField();
-        $type = $profileField->getField()->getType();
-
-        $icon = null;
-        $path = $field->getIconPath();
-        if ($path !== null) {
-            $icon = [
-                'path' => $storage->url($path)
-            ];
-        }
-
-        return $this->json(
-            [
-                'id' => $profileField->getId()->getValue(),
-                'title' => $field->getTitle(),
-                'value' => $profileField->getValue(),
-                'sort' => $profileField->getSort(),
-                'type' => [
-                    'id' => $type->getId()->getValue(),
-                    'name' => $type->getName(),
-                    'sort' => $type->getSort(),
-                ],
-                'icon' => $icon,
-                'colors' => [
-                    'bg' => $field->getBgColor()->getValue(),
-                    'text' => $field->getTextColor()->getValue(),
-                ]
-            ]
-        );
     }
 }

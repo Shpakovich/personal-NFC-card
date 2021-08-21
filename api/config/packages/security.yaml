@@ -45,6 +45,7 @@ security:
 
          - { path: ^/user, roles: ROLE_USER }
          - { path: ^/fields$, roles: ROLE_USER }
+         - { path: ^/field/custom, roles: ROLE_USER }
          - { path: ^/field/types$, roles: ROLE_USER }
          - { path: ^/profile, roles: ROLE_USER }
 

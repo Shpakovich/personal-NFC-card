@@ -9,6 +9,7 @@ use App\Controller\PaginationSerializer;
 use App\Fetcher\Profile\Profile\ProfileFetcher;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
+use App\Model\Entity\Profile\Field;
 use App\Model\Entity\User\Role;
 use App\Model\Repository\Profile\ProfileRepository;
 use App\Model\Service\Storage\Storage;
@@ -193,6 +194,14 @@ class ProfileController extends AbstractController
             $field = $profileField->getField();
             $type = $field->getType();
 
+            $icon = null;
+            $path = $field->getIconPath();
+            if ($path !== null) {
+                $icon = [
+                    'path' => $storage->url($path)
+                ];
+            }
+
             $fields[] = [
                 'id' => $profileField->getId()->getValue(),
                 'title' => $field->getTitle(),
@@ -203,10 +212,36 @@ class ProfileController extends AbstractController
                     'name' => $type->getName(),
                     'sort' => $type->getSort(),
                 ],
-                'icon' => $field->getIconPath(),
+                'icon' => $icon,
                 'colors' => [
                     'bg' => $field->getBgColor()->getValue(),
                     'text' => $field->getTextColor()->getValue(),
+                ]
+            ];
+        }
+
+        $customFields = [];
+        $profileCustomFields = $profile->getCustomFields();
+        foreach ($profileCustomFields as $profileCustomField) {
+            $customField = $profileCustomField->getField();
+
+            $icon = null;
+            $path = $customField->getIconPath();
+            if ($path !== null) {
+                $icon = [
+                    'path' => $storage->url($path)
+                ];
+            }
+
+            $customFields[] = [
+                'id' => $profileCustomField->getId()->getValue(),
+                'title' => $customField->getTitle(),
+                'value' => $profileCustomField->getValue(),
+                'sort' => $profileCustomField->getSort(),
+                'icon' => $icon,
+                'colors' => [
+                    'bg' => $customField->getBgColor()->getValue(),
+                    'text' => $customField->getTextColor()->getValue(),
                 ]
             ];
         }
@@ -238,6 +273,7 @@ class ProfileController extends AbstractController
                     'email' => $profile->getUser()->getEmail()->getValue(),
                 ],
                 'fields' => $fields,
+                'custom' => $customFields,
                 'created_at' => $profile->getCreatedAt()->format(DateTimeInterface::RFC3339),
                 'updated_at' => $profile->getUpdatedAt()->format(DateTimeInterface::RFC3339),
             ]
@@ -578,5 +614,74 @@ class ProfileController extends AbstractController
         $command->userId = $user->getId();
         $handler->handle($command);
         return $this->json([], 204);
+    }
+
+    /**
+     * @Route("/{id}/fields", methods={"GET"}, name=".fields.index", requirements={
+     *     "id"=Guid::PATTERN
+     * })
+     *
+     * @OA\Get(
+     *     summary="Получить споисок полей профиля"
+     * )
+     *
+     * @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID профиля",
+     *     required=true,
+     *     @OA\Schema(type="string")
+     * )
+     *
+     * @OA\Response(response=200, description="OK")
+     * @OA\Response(response=404, description="Не найдена")
+     * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\Entity\Profile\Profile $profile
+     * @param \App\Model\Service\Storage\Storage $storage
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function fieldsList(\App\Model\Entity\Profile\Profile $profile, Storage $storage): JsonResponse
+    {
+        $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profile);
+
+        return $this->json(
+            array_map(
+                static function (Field $profileField) use ($storage) {
+                    $field = $profileField->getField();
+                    $type = $field->getType();
+
+                    $icon = null;
+                    $path = $field->getIconPath();
+                    if ($path !== null) {
+                        $icon = [
+                            'path' => $storage->url($path)
+                        ];
+                    }
+
+                    return [
+                        'id' => $profileField->getId()->getValue(),
+                        'title' => $field->getTitle(),
+                        'value' => $profileField->getValue(),
+                        'sort' => $profileField->getSort(),
+                        'type' => [
+                            'id' => $type->getId()->getValue(),
+                            'name' => $type->getName(),
+                            'sort' => $type->getSort(),
+                        ],
+                        'icon' => $icon,
+                        'colors' => [
+                            'bg' => $field->getBgColor()->getValue(),
+                            'text' => $field->getTextColor()->getValue(),
+                        ]
+                    ];
+                },
+                $profile->getFields()->toArray()
+            )
+        );
     }
 }
