@@ -23,7 +23,7 @@
 
       data: () => ({
         showAlert: '',
-        enabled: true
+        enabled: false
       }),
 
 
@@ -58,15 +58,8 @@
         ...mapState({
           profile: (state) => state
         }),
-        field: {
-          get() {
-            //return this.$store.state.nested.elements;
-            console.log('get fields')
-          },
-          set(value) {
-            console.log('set fields')
-            //this.$store.dispatch("nested/updateElements", value);
-          }
+        getDashboardIcon() {
+          return this.enabled ? require("../../assets/images/icon/u_create-dashboard.svg") :  require("../../assets/images/icon/u_create-dashboard__black.svg")
         }
       },
 
@@ -83,7 +76,7 @@
         },
         async checkMoveEnd(e) {
 
-            const data = {
+            /* const data = {
                 id: this.profile?.id,
                 field_id: e?.item.id + '',
                 value: value, // TODO Влад сделает отдельный эндпоинт для сортировки
@@ -93,7 +86,7 @@
             await this.$store.dispatch('profile/editFieldInProfile', data)
                     .then((data) => {
                     })
-                    .catch((e) => console.log('profile/editFieldInProfile error ' + e));
+                    .catch((e) => console.log('profile/editFieldInProfile error ' + e)); */
         }
       }
     }
@@ -105,14 +98,23 @@
 
     <v-row class="flex flex-row justify-space-between my-4">
       <p class="mb-0">Общее</p>
-      <div class="flex flex-row m-auto" style="max-width: 50px; margin: 0;">
+      <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
+        <label for="disabled">
+          <img
+                  style="width: 24px; height: 24px;"
+                  :src="getDashboardIcon"
+                  alt=""
+          >
+        </label>
         <input
+                style="position: absolute; display: contents;"
                 id="disabled"
                 type="checkbox"
                 v-model="enabled"
-                class="form-check-input mr-4"
         />
         <img
+                class="ml-4"
+                style="width: 24px; height: 24px;"
                 src="../../assets/images/icon/line-settings.svg"
                 alt=""
         />
