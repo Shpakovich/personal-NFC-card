@@ -221,4 +221,63 @@ class FieldCustomController extends AbstractController
 
         return $this->json([]);
     }
+
+    /**
+     * @Route("/sort", methods={"POST"}, name=".sort")
+     *
+     * @OA\Post(
+     *     summary="Изменить сортировку пользовательского поля профиля",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"id", "sort"},
+     *              @OA\Property(property="id", type="string", description="ID поля профиля"),
+     *              @OA\Property(property="sort", type="integer", description="Порядок вывода")
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Поле изменено."
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
+     *
+     * @OA\Tag(name="Profile")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\UseCase\Profile\FieldCustom\Sort\Command $command
+     * @param \App\Model\UseCase\Profile\FieldCustom\Sort\Handler $handler
+     * @param \App\Model\Repository\Profile\CustomFieldRepository $fields
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function sort(
+        FieldCustom\Sort\Command $command,
+        FieldCustom\Sort\Handler $handler,
+        ProfileCustomFieldRepository $fields
+    ): JsonResponse {
+        $field = $fields->getById(new Id($command->id));
+        $this->denyAccessUnlessGranted(ProfileAccess::EDIT, $field->getProfile());
+
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        $command->userId = $user->getId();
+        $handler->handle($command);
+
+        return $this->json([]);
+    }
 }
