@@ -388,4 +388,60 @@ class Profile
     {
         return $this->customFields;
     }
+
+    public function moveCustomField(CustomField $moveField, int $newSort): void
+    {
+        if ($moveField->getSort() > $newSort) {
+            $this->customFieldUp($moveField, $newSort);
+        }
+
+        if ($moveField->getSort() < $newSort) {
+            $this->customFieldDown($moveField, $newSort);
+        }
+    }
+
+    public function customFieldUp(CustomField $moveField, int $newSort): void
+    {
+        if ($newSort < 1) {
+            $newSort = 1;
+        }
+
+        /** @var \App\Model\Entity\Profile\CustomField $field */
+        foreach ($this->getCustomFields() as $field) {
+            if ($field->getId()->isEqual($moveField->getId())) {
+                break;
+            }
+
+            if ($field->getSort() < $newSort) {
+                continue;
+            }
+
+            $field->sortUp();
+        }
+
+        $moveField->setSort($newSort);
+    }
+
+    public function customFieldDown(CustomField $moveField, int $newSort): void
+    {
+        $count = $this->getCustomFields()->count();
+        if ($newSort > $count) {
+            $newSort = $count;
+        }
+
+        /** @var \App\Model\Entity\Profile\CustomField $field */
+        foreach ($this->getCustomFields() as $field) {
+            if ($field->getSort() <= $moveField->getSort()) {
+                continue;
+            }
+
+            if ($field->getSort() > $newSort) {
+                break;
+            }
+
+            $field->sortDown();
+        }
+
+        $moveField->setSort($newSort);
+    }
 }

@@ -33,6 +33,7 @@ class Handler
 
         $field
             ->getProfile()
+            ->setUpdatedAt(new \DateTimeImmutable())
             ->moveField($field, $command->sort);
 
         $this->flusher->flush();
