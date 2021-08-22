@@ -27,10 +27,43 @@ class Handler
             throw new \DomainException('It is not your profile.');
         }
 
-        $profileField
-            ->setSort($command->sort)
-            ->getProfile()->setUpdatedAt(new \DateTimeImmutable());
+        if ($profileField->getSort() === $command->sort) {
+            return;
+        }
 
+        // UP
+        if ($profileField->getSort() > $command->sort) {
+            /** @var \App\Model\Entity\Profile\Field $field */
+            foreach ($profileField->getProfile()->getFields() as $field) {
+                if ($field->getId()->isEqual(new Id($command->id))) {
+                    break;
+                }
+
+                if ($field->getSort() < $command->sort) {
+                    continue;
+                }
+
+                $field->setSort($field->getSort() + 1);
+            }
+        }
+
+        // DOWN
+        if ($profileField->getSort() < $command->sort) {
+            /** @var \App\Model\Entity\Profile\Field $field */
+            foreach ($profileField->getProfile()->getFields() as $field) {
+                if ($field->getSort() <= $profileField->getSort()) {
+                    continue;
+                }
+
+                if ($field->getSort() > $command->sort) {
+                    break;
+                }
+
+                $field->setSort($field->getSort() - 1);
+            }
+        }
+
+        $profileField->setSort($command->sort);
         $this->flusher->flush();
     }
 }
