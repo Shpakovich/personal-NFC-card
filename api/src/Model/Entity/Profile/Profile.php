@@ -336,7 +336,6 @@ class Profile
             $newSort = 1;
         }
 
-        /** @var \App\Model\Entity\Profile\Field $field */
         foreach ($this->getFields() as $field) {
             if ($field->getId()->isEqual($moveField->getId())) {
                 break;
@@ -359,7 +358,6 @@ class Profile
             $newSort = $count;
         }
 
-        /** @var \App\Model\Entity\Profile\Field $field */
         foreach ($this->getFields() as $field) {
             if ($field->getSort() <= $moveField->getSort()) {
                 continue;
@@ -406,7 +404,6 @@ class Profile
             $newSort = 1;
         }
 
-        /** @var \App\Model\Entity\Profile\CustomField $field */
         foreach ($this->getCustomFields() as $field) {
             if ($field->getId()->isEqual($moveField->getId())) {
                 break;
@@ -429,7 +426,6 @@ class Profile
             $newSort = $count;
         }
 
-        /** @var \App\Model\Entity\Profile\CustomField $field */
         foreach ($this->getCustomFields() as $field) {
             if ($field->getSort() <= $moveField->getSort()) {
                 continue;

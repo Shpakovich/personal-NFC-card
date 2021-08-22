@@ -96,7 +96,6 @@ class FieldCustomController extends AbstractController
             [
                 'id' => $command->id,
                 'value' => $command->value,
-                'sort' => $command->sort,
             ],
             201
         );
