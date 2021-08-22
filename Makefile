@@ -145,6 +145,7 @@ deploy:
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && echo "IMAGE_TAG=${IMAGE_TAG}" >> .env'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && echo "STORAGE_BASE_URL=${STORAGE_BASE_URL}" >> .env'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && echo "STORAGE_DIR=${STORAGE_DIR}" >> .env'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && echo "MAILER_DSN=${MAILER_DSN}" >> .env'
 
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && docker-compose -f docker-compose-prod.yml pull'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd myid_card_${BUILD_NUMBER} && docker-compose -f docker-compose-prod.yml up --build -d db'
