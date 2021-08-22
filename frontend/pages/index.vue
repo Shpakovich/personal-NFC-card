@@ -1,11 +1,46 @@
 <script>
+  import userIndexProfile from '../components/profile/userIndexProfile';
+
+  import { createNamespacedHelpers } from 'vuex';
+  const { mapState } = createNamespacedHelpers('profile');
+
   export default {
-    mounted () {
+    components: {
+      userIndexProfile
+    },
+
+    computed:{
+      ...mapState({
+        profile: (state) => state
+      }),
+      getUserName() {
+        return this.profile?.name;
+      }
+    },
+
+    async asyncData ({ store }) {
+      await store.dispatch('profile/getAllProfilesInfo')
+              .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
+    },
+
+    mounted() {
       if (this.$route.query?.hash) {
         let name = "hash";
-        let value = this.$route.query.hash;
+        let hashValue = this.$route.query.hash;
 
-        document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+        document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(hashValue);
+      }
+    },
+
+    methods: {
+      logOut () {
+        this.$auth.logout().then(
+                this.resetProfile()
+        )
+      },
+      resetProfile () {
+        this.$store.commit('profile/SET_PROFILE_INFO', {});
+        this.$store.commit('profile/SET_PROFILE_FIELDS', {});
       }
     }
   }
@@ -18,36 +53,44 @@
       class="mx-auto pb-4"
       alt=""
     />
-    <p class="text-xl font-croc mb-3">Привет!</p>
-    <h1 class="text-5xl pb-4 font-croc">
-      Это myID
-    </h1>
-    <h2 class="text-md leading-6 pb-4 font-gilroy text-color-secondary">
-      Мы электронная визитка в которой можно указать ссылки на все свои соцсети и контакты.
-    </h2>
-    <h2 class="text-md leading-6 pb-6 font-gilroy text-color-secondary">
-      Она позволит любому, кто прислонит телефон перейти в соц. сеть, позвонить, начать чат, открыть сайт,
-      поделиться плейлистом или портфолио и так далее.
-    </h2>
-    <h2 class="text-md leading-6 pb-8 font-gilroy text-color-secondary">
-      Так же можно просто сохранить
-      контакт в записную книгу
-      телефона, нажав всего одну кнопку.
-    </h2>
-    <client-only>
-      <div v-if="!this.$auth.loggedIn">
-        <v-row class="flex-row pb-10" >
-          <v-btn
+    <v-row v-if="!this.$auth.loggedIn" style="display: flex;flex-direction: column!important;">
+      <p class="text-xl font-croc mb-3">Привет!</p>
+      <h1 class="text-5xl pb-4 font-croc">
+        Это myID
+      </h1>
+      <h2 class="text-md leading-6 pb-4 font-gilroy text-color-secondary">
+        Мы электронная визитка в которой можно указать ссылки на все свои соцсети и контакты.
+      </h2>
+      <h2 class="text-md leading-6 pb-6 font-gilroy text-color-secondary">
+        Она позволит любому, кто прислонит телефон перейти в соц. сеть, позвонить, начать чат, открыть сайт,
+        поделиться плейлистом или портфолио и так далее.
+      </h2>
+      <h2 class="text-md leading-6 pb-8 font-gilroy text-color-secondary">
+        Так же можно просто сохранить
+        контакт в записную книгу
+        телефона, нажав всего одну кнопку.
+      </h2>
+    </v-row>
+    <v-row class="mb-4" style="justify-content: center;" v-else>
+      <p class="font-croc text-center">
+        Привет, {{ getUserName }}!<br/>
+        Мы рады снова видеть тебя.
+      </p>
+    </v-row>
+
+    <div v-if="!this.$auth.loggedIn">
+      <v-row class="flex-row pb-10" >
+        <v-btn
             class="rounded-lg flex-initial w-8/12"
             max-width="225px"
             min-width="150px"
             height="48"
             color="primary"
             to="/registration"
-          >
-            Регистрация
-          </v-btn>
-          <v-btn
+        >
+          Регистрация
+        </v-btn>
+        <v-btn
             class="rounded-lg flex font-bold ml-6"
             max-width="81px"
             min-width="45px"
@@ -55,43 +98,57 @@
             color="secondary"
             to="/authorization"
             icon
-          >
-            Войти
-            <img src="../assets/images/icon/icon-arrow-right.svg" alt="">
-          </v-btn>
-        </v-row>
-        <p class="font-croc font-bold text-center text-sm pb-4">
-          Войти с помощью
-        </p>
-        <v-row class="flex-row justify-center pb-11" style="gap: 50px;" >
-          <img src="../assets/images/icon/instagram-logo.svg" alt="">
+        >
+          Войти
+          <img src="../assets/images/icon/icon-arrow-right.svg" alt="">
+        </v-btn>
+      </v-row>
+      <!-- <p class="font-croc font-bold text-center text-sm pb-4">
+        Войти с помощью
+      </p>
+      <v-row class="flex-row justify-center pb-11" style="gap: 50px;" >
+        <img src="../assets/images/icon/instagram-logo.svg" alt="">
 
-          <img src="../assets/images/icon/google-logo.svg" alt="">
+        <img src="../assets/images/icon/google-logo.svg" alt="">
 
-          <img src="../assets/images/icon/facebook-logo.svg" alt="">
-        </v-row>
+        <img src="../assets/images/icon/facebook-logo.svg" alt="">
+      </v-row> -->
+    </div>
+    <div v-else>
+      <userIndexProfile class="mb-10" :user="profile" />
+      <div class="flex flex-col justify-center mb-10" >
+        <v-btn
+                class="rounded-lg m-auto white--text mb-4"
+                max-width="225px"
+                min-width="150px"
+                height="48"
+                color="#FF645A"
+                @click="logOut()"
+        >
+           Выйти
+        </v-btn>
+        <v-btn
+                icon
+                style="font-size: 15px!important; line-height: 21px!important;"
+                block
+                height="48"
+                color="secondary"
+                to="/authorization"
+        >
+          Войти как другой пользователь
+          <img src="../assets/images/icon/icon-arrow-right.svg" alt="">
+        </v-btn>
       </div>
-      <div v-else>
-        <v-row>
-          <p>Вы авторизованны</p>
-          <v-btn
-            color="primary"
-            icon
-          >
-            <v-icon @click="$auth.logout()">mdi-exit-to-app</v-icon>
-          </v-btn>
-        </v-row>
-      </div>
-    </client-only>
+    </div>
+
     <v-row class="flex-col leading-6 justify-center">
-      <a class="text-sm text-center font-gilroy">
-        URL на поддерживаемые устройства
-      </a><br>
-      <a class="text-sm text-center font-gilroy">
-        URL на обратную связь
-      </a>
-      <br><br>
-      <p class="text-sm text-center font-gilroy">
+      <nuxt-link class="text-sm text-center font-gilroy" to="/info/supportedDevice">
+        Поддерживаемые устройства
+      </nuxt-link><br>
+      <nuxt-link to="/test" href="" class="text-sm text-center font-gilroy">
+        Обратная связь
+      </nuxt-link>
+      <p v-if="!this.$auth.loggedIn" class="mt-8 text-sm text-center font-gilroy">
         2021 myID - будущее нетворкинга
       </p>
     </v-row>

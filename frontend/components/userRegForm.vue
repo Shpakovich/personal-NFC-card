@@ -86,7 +86,6 @@
       name="password"
       label="Пароль"
       placeholder="Ваш пароль"
-      hint="Пароль недёжный, наверное"
       outlined
       counter
     >
@@ -120,7 +119,7 @@
     </v-text-field>
     <div class="flex flex-row ml-4 mb-6">
         <input v-model="checkbox" class="ml-4 font-croc custom-checkbox" type="checkbox" id="privacy" name="privacy">
-        <label for="privacy">Я согласен(а) на обработку персональных данных и соглашаюсь<nuxt-link class="contents" to="/privacy"> с политикой конфиденциальности</nuxt-link>
+        <label for="privacy">Я согласен(а) на использование <nuxt-link class="contents" to="/info/privacy">файлов cookie</nuxt-link> в соответствии с настоящим уведомлением
         </label>
     </div>
 

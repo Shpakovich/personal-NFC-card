@@ -10,14 +10,31 @@
       data: () => ({
         nick: '',
         mask: 'https://myid-card/NNNNNNNNNNNN',
-        valid: false
+        valid: false,
+        errorMessage: '',
+        errorMessageToField: ''
       }),
 
       methods: {
         async registerCard(nick) {
           await this.$store.dispatch('card/setCard', nick)
-            .then((data) => this.$router.push('/profile/create'))
-                  .catch((e) => console.log('card/setCard error' + e));
+            .then((res) => {
+              if (res?.response?.status === 400) {
+                const errorMessage = res?.response?.data?.message;
+                console.log(errorMessage.includes('not found'));
+                if( errorMessage.includes('not found') ) {
+                  this.errorMessageToField = 'Метка myID с таким hash не найдена';
+                } else if (errorMessage.includes('already registered')) {
+                  this.errorMessageToField = 'Метка myID с таким hash уже зарегестрировнна';
+                }
+                this.errorMessage = res?.response?.data?.message;
+              } else {
+                this.$router.push('/profile/create')
+              }
+            }).catch((err) => console.log(err));
+        },
+        resetError () {
+          this.errorMessageToField = '';
         }
       }
     }
@@ -44,8 +61,13 @@
     </v-btn>
 
     <h3 class="text-center px-5 mb-6">
-      Ура, вы подтвердили почту. Давайте активируем метку, выберете ваш ник.
+      Вы подтвердили почту.<br />
+      Давайте активируем метку, выберете ваш ник.
     </h3>
+    <p class="font-gilroy mb-6" style="color: #FF645A;" v-if="errorMessage">
+      {{ errorMessage }}
+    </p>
+
     <v-form
       ref="form"
       class="flex flex-col"
@@ -55,8 +77,11 @@
       <v-text-field
         v-model="nick"
         v-mask="mask"
+        :error-messages="errorMessageToField"
+        v-on:keyup="resetError()"
         class="font-croc"
         label="Адрес страницы"
+        hint="Поддерживает только латинские буквы и цифры"
         required
         outlined
         placeholder="https://myid-card/myNick"

@@ -17,6 +17,7 @@
     methods: {
       async loginUser(loginInfo) {
         this.loading = true;
+        this.logOut();
         const params = new URLSearchParams();
         params.append('grant_type', 'password');
         params.append('username', loginInfo.username);
@@ -26,10 +27,13 @@
         try {
           await this.$auth.loginWith('local',{
             data: params
-          });
+          }).then(()=> { this.$router.push('/profile/page'); });
         } catch (err) {
           if ( err.response && err.response.status === 400) { // TODO глянуть список возможных ответов
             this.errorMessage = 'Неверный логин или пароль';
+            this.errorPassword = ' ';
+          } else if ( err.response && err.response.status === 500) { // TODO глянуть список возможных ответов
+            this.errorMessage = 'Серверная ошибка';
             this.errorPassword = ' ';
           }
         }
@@ -38,6 +42,15 @@
       setError() {
         this.errorMessage = '';
         this.errorPassword = '';
+      },
+      logOut () {
+        this.$auth.logout().then(
+                this.resetProfile()
+        )
+      },
+      resetProfile () {
+        this.$store.commit('profile/SET_PROFILE_INFO', {});
+        this.$store.commit('profile/SET_PROFILE_FIELDS', {});
       }
     }
   }
@@ -53,8 +66,8 @@
     <v-btn
       icon
       class="rounded-lg flex-initial font-bold w-4/12 mb-6 ml-1.5 btn-back"
-      max-width="90px"
-      min-width="80px"
+      max-width="110px"
+      min-width="100px"
       height="48"
       color="secondary"
       to="/"

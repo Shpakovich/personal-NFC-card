@@ -6,8 +6,12 @@
     data: () => ({
       nickname: '',
       name: '',
-      checkbox: true,
-      valid: false
+      default_name: 1,
+      valid: false,
+      errorMessage: '',
+      nameRules: [
+        v => !!v || 'Заполните это поле',
+      ]
     }),
 
     methods: {
@@ -16,15 +20,24 @@
           title: this.name,
           name: this.name,
           nickname: this.nickname,
-          default_name: this.checkbox+1,
+          default_name: 1,
           card_id: this.getCookie('hash')
         };
         await this.$store.dispatch('profile/createNewProfile', data)
                 .then((data) => this.$router.push('/profile/addInfo'))
-                .catch((e) => console.log('profile/setProfile error' + e));
+                .catch((err) => {
+                  if ( err.response && err.response.status === 400) {
+                    this.errorMessage = err?.response?.data?.message;
+                    console.log('profile/setProfile error: ' + err)
+                  }
+                });
       },
       setDefaultName() {
-        this.checkbox = !this.checkbox
+        if(this.default_name === 2) {
+          this.default_name = 1
+        } else {
+          this.default_name = 2
+        }
       },
       getCookie(name) { // TODO Вынести в хелпер
         const value = `; ${document.cookie}`;
@@ -45,8 +58,8 @@
     <v-btn
       icon
       class="rounded-lg flex-initial font-bold w-4/12 mb-6 ml-1.5 btn-back"
-      max-width="90px"
-      min-width="80px"
+      max-width="110px"
+      min-width="100px"
       height="48"
       color="secondary"
       to="/"
@@ -55,14 +68,18 @@
       Назад
     </v-btn>
 
+    <p class="font-gilroy mb-6" style="color: #FF645A;" v-if="errorMessage">
+      {{ errorMessage }}
+    </p>
+
     <v-form
       ref="form"
       class="flex flex-col"
       v-model="valid"
-      lazy-validation
     >
       <v-text-field
         v-model="name"
+        :rules="nameRules"
         class="font-croc"
         label="Имя"
         required
@@ -80,9 +97,9 @@
       ></v-text-field>
 
       <div class="flex flex-row justify-around ml-4 mb-6">
-        <input @click="setDefaultName()" class="ml-4 font-croc custom-checkbox" type="radio" id="name" name="privacy">
+        <input @click="setDefaultName()" :checked="default_name === 1" class="ml-4 font-croc custom-checkbox" type="radio" id="name" name="privacy">
         <label for="name">Имя</label>
-        <input @click="setDefaultName()" class="ml-4 font-croc custom-checkbox" type="radio" id="nickname" name="privacy">
+        <input @click="setDefaultName()" :checked="default_name === 2" class="ml-4 font-croc custom-checkbox" type="radio" id="nickname" name="privacy">
         <label for="nickname">Никнейм</label>
       </div>
 

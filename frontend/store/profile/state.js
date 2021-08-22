@@ -5,6 +5,11 @@ export default () => ({
         title: "",
         name: "",
         nickname: "",
+        photo: {
+                path: ''
+        },
+        fieldToEdit: {},
+        fields: [],
         default_name: 0,
         post: "",
         description: "",

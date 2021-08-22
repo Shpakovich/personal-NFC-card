@@ -6,10 +6,18 @@ export default {
         state.title = profile?.title;
         state.name = profile?.name;
         state.nickname = profile?.nickname;
+        state.photo.path = profile?.photo?.path;
         state.default_name = profile?.default_name;
         state.post = profile?.post;
         state.description = profile?.description;
         state.is_published = profile?.is_published;
         state.created_at = profile?.card_id;
+    },
+
+    SET_PROFILE_FIELDS (state, fields) {
+        state.fields = fields;
+    },
+    SET_FIELD_TO_EDIT (state, field) {
+        state.fieldToEdit = field;
     }
 };
