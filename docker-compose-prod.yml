@@ -33,8 +33,8 @@ services:
         environment:
             APP_SECRET: a7e49f7332381b2a994cb863683d046c
             DATABASE_URL: "postgresql://dev:dev@db:5432/dev?serverVersion=13&charset=utf8"
-            MAILER_DSN: smtp://mailer:1025
-            MAILER_FROM_EMAIL: mail@app.test
+            MAILER_DSN: ${MAILER_DSN}
+            MAILER_FROM_EMAIL: "myidcard.ru@gmail.com"
             OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
             STORAGE_BASE_URL: ${STORAGE_BASE_URL}
             STORAGE_DIR: ${STORAGE_DIR}
@@ -48,8 +48,8 @@ services:
         environment:
             APP_SECRET: a7e49f7332381b2a994cb863683d046c
             DATABASE_URL: "postgresql://dev:dev@db:5432/dev?serverVersion=13&charset=utf8"
-            MAILER_DSN: smtp://mailer:1025
-            MAILER_FROM_EMAIL: mail@app.test
+            MAILER_DSN: ${MAILER_DSN}
+            MAILER_FROM_EMAIL: "myidcard.ru@gmail.com"
             OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
             STORAGE_BASE_URL: ${STORAGE_BASE_URL}
             STORAGE_DIR: ${STORAGE_DIR}
