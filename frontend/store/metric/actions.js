@@ -4,5 +4,8 @@ export default {
                 commit('SET_METRIC_VALUE', res.data);
             }
         )
+    },
+    async setMetricPeriod({commit}, data) {
+        commit('SET_METRIC_PERIOD', data);
     }
 }
