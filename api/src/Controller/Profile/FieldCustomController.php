@@ -168,11 +168,10 @@ class FieldCustomController extends AbstractController
      *     summary="Изменить пользовательское поле профиля",
      *     @OA\RequestBody(
      *          @OA\JsonContent(
-     *              required={"id", "value", "sort"},
+     *              required={"id", "value"},
      *              @OA\Property(property="id", type="string", description="ID поля профиля"),
      *              @OA\Property(property="field_id", type="string", description="ID поля"),
-     *              @OA\Property(property="value", type="string", description="Значение поля"),
-     *              @OA\Property(property="sort", type="integer", description="Порядок вывода")
+     *              @OA\Property(property="value", type="string", description="Значение поля")
      *          )
      *      )
      * )
