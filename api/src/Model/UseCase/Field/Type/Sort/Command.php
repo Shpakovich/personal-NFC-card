@@ -19,9 +19,10 @@ class Command implements CommandInterface
     /**
      * @var int
      * @Assert\NotBlank()
-     * @Assert\PositiveOrZero()
+     * @Assert\Type(type="int")
+     * @Assert\Positive()
      */
-    public mixed $sort = 100;
+    public mixed $sort = 1;
 
     // Setting in controller
     public string $userId = '';
