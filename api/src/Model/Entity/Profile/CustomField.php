@@ -46,19 +46,16 @@ class CustomField
         Id $id,
         Profile $profile,
         \App\Model\Entity\Field\CustomField $field,
-        string $value,
-        int $sort
+        string $value
     ) {
         $value = trim($value);
-
         Assert::notEmpty($value);
-        Assert::positiveInteger($sort);
 
         $this->id = $id;
         $this->profile = $profile;
         $this->field = $field;
         $this->value = $value;
-        $this->sort = $sort;
+        $this->sort = $profile->getCustomFields()->count() + 1;
     }
 
     public function getId(): Id
@@ -101,6 +98,18 @@ class CustomField
     public function setSort(int $sort): self
     {
         $this->sort = $sort;
+        return $this;
+    }
+
+    public function sortIncrease(): self
+    {
+        ++$this->sort;
+        return $this;
+    }
+
+    public function sortDecrease(): self
+    {
+        --$this->sort;
         return $this;
     }
 }

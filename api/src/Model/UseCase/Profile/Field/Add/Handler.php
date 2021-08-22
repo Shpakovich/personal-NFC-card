@@ -41,7 +41,7 @@ class Handler
         }
 
         $profile
-            ->addField(new Field(new Id($command->id), $profile, $field, $command->value, $command->sort))
+            ->addField(new Field(new Id($command->id), $profile, $field, $command->value))
             ->setUpdatedAt(new \DateTimeImmutable());
 
         $this->profiles->add($profile);

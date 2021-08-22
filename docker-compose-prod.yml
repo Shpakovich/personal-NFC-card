@@ -36,6 +36,8 @@ services:
             MAILER_DSN: smtp://mailer:1025
             MAILER_FROM_EMAIL: mail@app.test
             OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
+            STORAGE_BASE_URL: ${STORAGE_BASE_URL}
+            STORAGE_DIR: ${STORAGE_DIR}
         volumes:
             - /media/storage/myid-card:/var/storage
             - socket_php:/var/run/php
@@ -49,6 +51,8 @@ services:
             MAILER_DSN: smtp://mailer:1025
             MAILER_FROM_EMAIL: mail@app.test
             OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
+            STORAGE_BASE_URL: ${STORAGE_BASE_URL}
+            STORAGE_DIR: ${STORAGE_DIR}
 
     db:
         image: postgres:13.3-alpine

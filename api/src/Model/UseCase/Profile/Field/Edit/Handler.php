@@ -32,7 +32,6 @@ class Handler
 
         $profileField
             ->setValue($command->value)
-            ->setSort($command->sort)
             ->getProfile()->setUpdatedAt(new \DateTimeImmutable());
 
         if (!empty($command->fieldId)) {

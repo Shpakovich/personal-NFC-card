@@ -21,15 +21,20 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $profileField = $this->profileFields->getById(new Id($command->id));
+        $field = $this->profileFields->getById(new Id($command->id));
 
-        if (!$profileField->getProfile()->getUser()->getId()->isEqual(new Id($command->userId))) {
+        if (!$field->getProfile()->getUser()->getId()->isEqual(new Id($command->userId))) {
             throw new \DomainException('It is not your profile.');
         }
 
-        $profileField
-            ->setSort($command->sort)
-            ->getProfile()->setUpdatedAt(new \DateTimeImmutable());
+        if ($field->getSort() === $command->sort) {
+            return;
+        }
+
+        $field
+            ->getProfile()
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->moveField($field, $command->sort);
 
         $this->flusher->flush();
     }

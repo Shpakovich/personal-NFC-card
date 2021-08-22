@@ -319,6 +319,60 @@ class Profile
         return $this->fields;
     }
 
+    public function moveField(Field $moveField, int $newSort): void
+    {
+        if ($moveField->getSort() > $newSort) {
+            $this->fieldUp($moveField, $newSort);
+        }
+
+        if ($moveField->getSort() < $newSort) {
+            $this->fieldDown($moveField, $newSort);
+        }
+    }
+
+    public function fieldUp(Field $moveField, int $newSort): void
+    {
+        if ($newSort < 1) {
+            $newSort = 1;
+        }
+
+        foreach ($this->getFields() as $field) {
+            if ($field->getId()->isEqual($moveField->getId())) {
+                break;
+            }
+
+            if ($field->getSort() < $newSort) {
+                continue;
+            }
+
+            $field->sortIncrease();
+        }
+
+        $moveField->setSort($newSort);
+    }
+
+    public function fieldDown(Field $moveField, int $newSort): void
+    {
+        $count = $this->getFields()->count();
+        if ($newSort > $count) {
+            $newSort = $count;
+        }
+
+        foreach ($this->getFields() as $field) {
+            if ($field->getSort() <= $moveField->getSort()) {
+                continue;
+            }
+
+            if ($field->getSort() > $newSort) {
+                break;
+            }
+
+            $field->sortDecrease();
+        }
+
+        $moveField->setSort($newSort);
+    }
+
     public function addCustomFields(CustomField $customFields): self
     {
         $this->customFields->add($customFields);
@@ -331,5 +385,59 @@ class Profile
     public function getCustomFields(): Collection
     {
         return $this->customFields;
+    }
+
+    public function moveCustomField(CustomField $moveField, int $newSort): void
+    {
+        if ($moveField->getSort() > $newSort) {
+            $this->customFieldUp($moveField, $newSort);
+        }
+
+        if ($moveField->getSort() < $newSort) {
+            $this->customFieldDown($moveField, $newSort);
+        }
+    }
+
+    public function customFieldUp(CustomField $moveField, int $newSort): void
+    {
+        if ($newSort < 1) {
+            $newSort = 1;
+        }
+
+        foreach ($this->getCustomFields() as $field) {
+            if ($field->getId()->isEqual($moveField->getId())) {
+                break;
+            }
+
+            if ($field->getSort() < $newSort) {
+                continue;
+            }
+
+            $field->sortIncrease();
+        }
+
+        $moveField->setSort($newSort);
+    }
+
+    public function customFieldDown(CustomField $moveField, int $newSort): void
+    {
+        $count = $this->getCustomFields()->count();
+        if ($newSort > $count) {
+            $newSort = $count;
+        }
+
+        foreach ($this->getCustomFields() as $field) {
+            if ($field->getSort() <= $moveField->getSort()) {
+                continue;
+            }
+
+            if ($field->getSort() > $newSort) {
+                break;
+            }
+
+            $field->sortDecrease();
+        }
+
+        $moveField->setSort($newSort);
     }
 }
