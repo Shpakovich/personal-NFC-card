@@ -76,7 +76,7 @@ export default {
 
   axios: {
     baseURL: 'http://api',
-    browserBaseURL: development ? 'http://localhost:8081' : 'http://api.myid-card.ru/'
+    browserBaseURL: development ? 'http://localhost:8081' : 'https://api.myid-card.ru/'
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
