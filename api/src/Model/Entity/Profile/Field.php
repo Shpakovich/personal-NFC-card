@@ -105,13 +105,13 @@ class Field
         return $this;
     }
 
-    public function sortUp(): self
+    public function sortIncrease(): self
     {
         ++$this->sort;
         return $this;
     }
 
-    public function sortDown(): self
+    public function sortDecrease(): self
     {
         --$this->sort;
         return $this;

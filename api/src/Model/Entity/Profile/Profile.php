@@ -346,7 +346,7 @@ class Profile
                 continue;
             }
 
-            $field->sortUp();
+            $field->sortIncrease();
         }
 
         $moveField->setSort($newSort);
@@ -369,7 +369,7 @@ class Profile
                 break;
             }
 
-            $field->sortDown();
+            $field->sortDecrease();
         }
 
         $moveField->setSort($newSort);
@@ -416,7 +416,7 @@ class Profile
                 continue;
             }
 
-            $field->sortUp();
+            $field->sortIncrease();
         }
 
         $moveField->setSort($newSort);
@@ -439,7 +439,7 @@ class Profile
                 break;
             }
 
-            $field->sortDown();
+            $field->sortDecrease();
         }
 
         $moveField->setSort($newSort);
