@@ -20,7 +20,7 @@
           title: this.name,
           name: this.name,
           nickname: this.nickname,
-          default_name: 1,
+          default_name: this.default_name,
           card_id: this.getCookie('hash')
         };
         await this.$store.dispatch('profile/createNewProfile', data)
