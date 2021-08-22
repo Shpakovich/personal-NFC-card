@@ -173,6 +173,9 @@
     "league/oauth2-server": {
         "version": "8.3.1"
     },
+    "monolog/monolog": {
+        "version": "2.3.2"
+    },
     "n98/junit-xml": {
         "version": "1.1.0"
     },
@@ -387,6 +390,24 @@
     },
     "symfony/mime": {
         "version": "v5.3.2"
+    },
+    "symfony/monolog-bridge": {
+        "version": "v5.3.4"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.7",
+            "ref": "a7bace7dbc5a7ed5608dbe2165e0774c87175fe6"
+        },
+        "files": [
+            "config/packages/dev/monolog.yaml",
+            "config/packages/prod/deprecations.yaml",
+            "config/packages/prod/monolog.yaml",
+            "config/packages/test/monolog.yaml"
+        ]
     },
     "symfony/options-resolver": {
         "version": "v5.3.0"
