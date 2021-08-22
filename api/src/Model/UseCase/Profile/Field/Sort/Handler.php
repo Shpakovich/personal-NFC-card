@@ -21,49 +21,20 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $profileField = $this->profileFields->getById(new Id($command->id));
+        $field = $this->profileFields->getById(new Id($command->id));
 
-        if (!$profileField->getProfile()->getUser()->getId()->isEqual(new Id($command->userId))) {
+        if (!$field->getProfile()->getUser()->getId()->isEqual(new Id($command->userId))) {
             throw new \DomainException('It is not your profile.');
         }
 
-        if ($profileField->getSort() === $command->sort) {
+        if ($field->getSort() === $command->sort) {
             return;
         }
 
-        // UP
-        if ($profileField->getSort() > $command->sort) {
-            /** @var \App\Model\Entity\Profile\Field $field */
-            foreach ($profileField->getProfile()->getFields() as $field) {
-                if ($field->getId()->isEqual(new Id($command->id))) {
-                    break;
-                }
+        $field
+            ->getProfile()
+            ->moveField($field, $command->sort);
 
-                if ($field->getSort() < $command->sort) {
-                    continue;
-                }
-
-                $field->setSort($field->getSort() + 1);
-            }
-        }
-
-        // DOWN
-        if ($profileField->getSort() < $command->sort) {
-            /** @var \App\Model\Entity\Profile\Field $field */
-            foreach ($profileField->getProfile()->getFields() as $field) {
-                if ($field->getSort() <= $profileField->getSort()) {
-                    continue;
-                }
-
-                if ($field->getSort() > $command->sort) {
-                    break;
-                }
-
-                $field->setSort($field->getSort() - 1);
-            }
-        }
-
-        $profileField->setSort($command->sort);
         $this->flusher->flush();
     }
 }

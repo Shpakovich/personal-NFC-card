@@ -104,4 +104,16 @@ class Field
         $this->sort = $sort;
         return $this;
     }
+
+    public function sortUp(): self
+    {
+        ++$this->sort;
+        return $this;
+    }
+
+    public function sortDown(): self
+    {
+        --$this->sort;
+        return $this;
+    }
 }
