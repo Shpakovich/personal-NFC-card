@@ -22,7 +22,7 @@ class Command implements CommandInterface
      * @Assert\Type(type="int")
      * @Assert\Positive()
      */
-    public mixed $sort = 10;
+    public mixed $sort = 1;
 
     /** Setting in controller */
     public string $userId = '';
