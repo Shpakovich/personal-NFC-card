@@ -47,19 +47,16 @@ class Field
         Id $id,
         Profile $profile,
         FieldEntity $field,
-        string $value,
-        int $sort
+        string $value
     ) {
         $value = trim($value);
-
         Assert::notEmpty($value);
-        Assert::positiveInteger($sort);
 
         $this->id = $id;
         $this->profile = $profile;
         $this->field = $field;
         $this->value = $value;
-        $this->sort = $sort;
+        $this->sort = $profile->getFields()->count() + 1;
     }
 
     public function getId(): Id

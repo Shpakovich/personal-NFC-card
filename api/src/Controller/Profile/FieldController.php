@@ -32,11 +32,10 @@ class FieldController extends AbstractController
      *     summary="Добавить поле в профиль",
      *     @OA\RequestBody(
      *          @OA\JsonContent(
-     *              required={"profile_id", "field_id", "value", "sort"},
+     *              required={"profile_id", "field_id", "value"},
      *              @OA\Property(property="profile_id", type="string", description="ID профиля"),
      *              @OA\Property(property="field_id", type="string", description="ID поля"),
-     *              @OA\Property(property="value", type="string", description="Значение поля"),
-     *              @OA\Property(property="sort", type="integer", description="Порядок вывода")
+     *              @OA\Property(property="value", type="string", description="Значение поля")
      *          )
      *      )
      * )
