@@ -31,11 +31,10 @@ class FieldCustomController extends AbstractController
      *     summary="Добавить пользовательское поле в профиль",
      *     @OA\RequestBody(
      *          @OA\JsonContent(
-     *              required={"profile_id", "field_id", "value", "sort"},
+     *              required={"profile_id", "field_id", "value"},
      *              @OA\Property(property="profile_id", type="string", description="ID профиля"),
      *              @OA\Property(property="field_id", type="string", description="ID поля"),
-     *              @OA\Property(property="value", type="string", description="Значение поля"),
-     *              @OA\Property(property="sort", type="integer", description="Порядок вывода")
+     *              @OA\Property(property="value", type="string", description="Значение поля")
      *          )
      *      )
      * )
@@ -97,7 +96,6 @@ class FieldCustomController extends AbstractController
             [
                 'id' => $command->id,
                 'value' => $command->value,
-                'sort' => $command->sort,
             ],
             201
         );
@@ -168,11 +166,10 @@ class FieldCustomController extends AbstractController
      *     summary="Изменить пользовательское поле профиля",
      *     @OA\RequestBody(
      *          @OA\JsonContent(
-     *              required={"id", "value", "sort"},
+     *              required={"id", "value"},
      *              @OA\Property(property="id", type="string", description="ID поля профиля"),
      *              @OA\Property(property="field_id", type="string", description="ID поля"),
-     *              @OA\Property(property="value", type="string", description="Значение поля"),
-     *              @OA\Property(property="sort", type="integer", description="Порядок вывода")
+     *              @OA\Property(property="value", type="string", description="Значение поля")
      *          )
      *      )
      * )

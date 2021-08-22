@@ -54,9 +54,9 @@ class ProfileFixtures extends Fixture implements DependentFixtureInterface
             ->publish();
 
         $publishedOne
-            ->addField(new Field(Id::next(), $publishedOne, $workPhoneField, '+79997776644', 10))
-            ->addField(new Field(Id::next(), $publishedOne, $workPhoneField, '+79991112233', 20))
-            ->addField(new Field(Id::next(), $publishedOne, $emailField, 'work@email.ru', 10));
+            ->addField(new Field(Id::next(), $publishedOne, $workPhoneField, '+79997776644'))
+            ->addField(new Field(Id::next(), $publishedOne, $workPhoneField, '+79991112233'))
+            ->addField(new Field(Id::next(), $publishedOne, $emailField, 'work@email.ru'));
 
         $hidden = new Profile(
             Id::next(),

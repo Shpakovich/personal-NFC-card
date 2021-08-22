@@ -10,28 +10,33 @@ use App\Model\Repository\Profile\CustomFieldRepository as ProfileCustomFieldRepo
 
 class Handler
 {
-    private ProfileCustomFieldRepository $profileFields;
+    private ProfileCustomFieldRepository $profileCustomFields;
     private Flusher $flusher;
 
     public function __construct(
         ProfileCustomFieldRepository $profileFields,
         Flusher $flusher
     ) {
-        $this->profileFields = $profileFields;
+        $this->profileCustomFields = $profileFields;
         $this->flusher = $flusher;
     }
 
     public function handle(Command $command): void
     {
-        $profileField = $this->profileFields->getById(new Id($command->id));
+        $field = $this->profileCustomFields->getById(new Id($command->id));
 
-        if (!$profileField->getProfile()->getUser()->getId()->isEqual(new Id($command->userId))) {
+        if (!$field->getProfile()->getUser()->getId()->isEqual(new Id($command->userId))) {
             throw new \DomainException('It is not your profile.');
         }
 
-        $profileField
-            ->setSort($command->sort)
-            ->getProfile()->setUpdatedAt(new \DateTimeImmutable());
+        if ($field->getSort() === $command->sort) {
+            return;
+        }
+
+        $field
+            ->getProfile()
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->moveCustomField($field, $command->sort);
 
         $this->flusher->flush();
     }

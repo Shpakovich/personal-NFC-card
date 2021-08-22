@@ -50,8 +50,7 @@ class Handler
                     new Id($command->id),
                     $profile,
                     $field,
-                    $command->value,
-                    $command->sort
+                    $command->value
                 )
             )
             ->setUpdatedAt(new \DateTimeImmutable());
