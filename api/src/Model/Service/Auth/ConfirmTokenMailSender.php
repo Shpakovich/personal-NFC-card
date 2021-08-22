@@ -26,10 +26,6 @@ class ConfirmTokenMailSender
             ->text('Confirm token: ' . $token->getValue())
             ->html('<p>Confirm token: ' . $token->getValue() . '</p>');
 
-        try {
-            $this->mailer->send($message);
-        } catch (TransportExceptionInterface $e) {
-            throw new \RuntimeException('Unable send message. Error: ' . $e->getDebug());
-        }
+        $this->mailer->send($message);
     }
 }
