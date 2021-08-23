@@ -1,7 +1,6 @@
 const actions = {
     async nuxtServerInit ({ dispatch }, { route, redirect }) {
         const isProfileRoute = route.path.indexOf('profile') !== -1;
-        console.log(isProfileRoute);
         if (this.$auth.loggedIn) {
             await Promise.all([
                 dispatch('profile/getAllProfilesInfo'),

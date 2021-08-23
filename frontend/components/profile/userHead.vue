@@ -88,10 +88,10 @@
                 </v-tooltip>
             </div>
             <div class="flex flex-row inline-flex m-auto">
-                <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4">
+                <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4 card-padding">
                     {{ getUserMock }}
                 </v-card-subtitle>
-                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white">
+                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white card-padding">
                     {{ getUserName }}
                 </v-card-subtitle>
                 <v-btn
@@ -122,10 +122,10 @@
                     >
                 </nuxt-link>
             </v-row>
-            <v-card-subtitle v-if="!edit && user.post" class="white--text text-center">
+            <v-card-subtitle v-if="!edit && user.post" class="white--text text-center card-padding">
                 {{ user.post }}
             </v-card-subtitle>
-            <v-card-text v-if="!edit && user.description" class="white--text text-center">
+            <v-card-text v-if="!edit && user.description" class="white--text text-center card-padding">
                 {{ user.description }}
             </v-card-text>
         </v-card>
@@ -156,6 +156,8 @@
     </v-row>
 </template>
 
-<style scoped>
-
+<style lang="scss">
+    .card-padding {
+        padding: 2px!important;
+    }
 </style>

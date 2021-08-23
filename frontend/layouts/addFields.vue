@@ -11,7 +11,7 @@
 </script>
 
 <template>
-    <v-app>
+    <v-app class="fixMainContainer">
         <v-main class="main-container">
             <nuxt />
         </v-main>
