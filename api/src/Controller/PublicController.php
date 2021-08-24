@@ -34,7 +34,7 @@ class PublicController extends AbstractController
      */
     public function index(): JsonResponse
     {
-        return $this->json(['name' => 'Personal NFS card API']);
+        return $this->json(['name' => 'Personal NFС card API']);
     }
 
     /**
