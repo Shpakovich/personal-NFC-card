@@ -203,6 +203,62 @@ class CardController extends AbstractController
     }
 
     /**
+     * @Route("/generate", methods={"POST"}, name=".generate")
+     *
+     * @OA\Post(
+     *     summary="Сгенерировать карты",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              required={"count"},
+     *              @OA\Property(property="count", type="integer", description="Количество карт")
+     *          )
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *     response=201,
+     *     description="Карты созданы",
+     *     @OA\JsonContent(
+     *         @OA\Property(property="count", type="integer", description="Количество созданных карт")
+     *     )
+     * )
+     *
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибки бизнес логики.",
+     *     @OA\JsonContent(ref=@Model(type=Error\DomainError::class))
+     * )
+     *
+     * @OA\Response(
+     *     response=422,
+     *     description="Ошибка валидации входных данных.",
+     *     @OA\JsonContent(ref=@Model(type=Error\ValidationError::class))
+     * )
+     *
+     * @OA\Response(response=401, description="Требуется авторизация")
+     * @OA\Response(response=403, description="Доступ запрещен")
+     *
+     * @OA\Tag(name="Card")
+     * @Security(name="Bearer")
+     *
+     * @param \App\Model\UseCase\Card\Generate\Command $command
+     * @param \App\Model\UseCase\Card\Generate\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function generate(
+        Card\Generate\Command $command,
+        Card\Generate\Handler $handler
+    ): JsonResponse {
+        /** @var \App\Security\UserIdentity $user */
+        $user = $this->getUser();
+
+        $command->userId = $user->getId();
+        $handler->handle($command);
+
+        return $this->json(['count' => $command->count], 201);
+    }
+
+    /**
      * @Route("/register", methods={"POST"}, name=".register")
      *
      * @OA\Post(
