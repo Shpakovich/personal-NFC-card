@@ -20,8 +20,7 @@
           await this.$store.dispatch('card/setCard', nick)
             .then((res) => {
               if (res?.response?.status === 400) {
-                const errorMessage = res?.response?.data?.message;
-                console.log(errorMessage.includes('not found'));
+                  const errorMessage = res?.response?.data?.message;
                 if( errorMessage.includes('not found') ) {
                   this.errorMessageToField = 'Метка myID с таким hash не найдена';
                 } else if (errorMessage.includes('already registered')) {

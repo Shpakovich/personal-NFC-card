@@ -75,12 +75,9 @@
         },
         async checkMoveEnd(e) {
 
-          console.log(e.clone?.id);
-          console.log(e.newIndex+1);
-
             const data = {
-                id: e?.clone.id,
-                sort: e?.newIndex+1
+                id: e?.clone?.id,
+                sort: e?.newIndex+1 //  сортировка с положительных чисел
             };
 
             await this.$store.dispatch('profile/editSortFieldInProfile', data)

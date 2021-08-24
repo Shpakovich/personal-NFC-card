@@ -23,7 +23,7 @@
                 return this.user.default_name === 1 ? this.user.name : this.user.nickname
             },
             getUserPhoto() {
-                return this.user?.photo?.path ? this.user.photo.path : ''
+                return this.user?.photo?.path ? `background-image: url(${this.user.photo.path});border-radius: 50px;` : ''
             },
             isPublished() {
                 return this.user.is_published
@@ -62,13 +62,17 @@
                 width="100%"
                 color="#00A460"
         >
-            <img
+            <!-- <img
                     class="m-auto bg-white"
                     style="max-height: 120px; max-width: 120px; border-radius: 120px;"
                     :src="getUserPhoto"
                     alt=""
                     @click="routerToChoosePhoto()"
-            >
+            >-->
+            <div
+                    class="m-auto bg-white img-header"
+                :style="getUserPhoto"
+            />
             <div v-if="!isPublished">
                 <v-tooltip
                         v-model="show"
@@ -159,5 +163,12 @@
 <style lang="scss">
     .card-padding {
         padding: 2px!important;
+    }
+    .img-header {
+        width: 100px;
+        height: 100px;
+        background-position: center;
+        background-size: cover;
+        display: flex;
     }
 </style>
