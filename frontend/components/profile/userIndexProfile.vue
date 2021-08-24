@@ -8,7 +8,7 @@
 
         computed: {
             getUserPhoto() {
-                return this.user?.photo?.path ? this.user.photo.path : ''
+                return this.user?.photo?.path ? `background-image: url(${this.user.photo.path});border-radius: 50px;` : ''
             },
             getUserName() {
                 return this.user.default_name === 1 ? this.user.name : this.user.nickname
@@ -28,18 +28,26 @@
             @click="redirectToPage()"
             style="display: flex;flex-direction: column!important; text-align: center;"
     >
-        <img
-                class="m-auto bg-white"
-                style="max-height: 120px; max-width: 120px; border-radius: 120px; border: 5px solid #00A460;"
-                :src="getUserPhoto"
-                alt=""
-        >
-        <v-card-subtitle v-if="getUserName" class="font-bold">
+        <div
+                class="m-auto bg-white img-header index-photo"
+                :style="getUserPhoto"
+        />
+        <v-card-subtitle v-if="getUserName" class="font-bold card-padding">
             {{ getUserName }}
         </v-card-subtitle>
     </v-row>
 </template>
 
-<style scoped>
-
+<style lang="scss">
+    .card-padding {
+        padding: 2px!important;
+    }
+    .index-photo {
+        border: 5px solid #00A460;
+        width: 100px;
+        height: 100px;
+        background-position: center;
+        background-size: cover;
+        display: flex;
+    }
 </style>

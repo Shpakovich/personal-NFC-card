@@ -115,7 +115,7 @@
       </v-row> -->
     </div>
     <div v-else>
-      <userIndexProfile class="mb-10" :user="profile" />
+      <userIndexProfile class="mb-8" :user="profile" />
       <div class="flex flex-col justify-center mb-10" >
         <v-btn
                 class="rounded-lg m-auto white--text mb-4"
