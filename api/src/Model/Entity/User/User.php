@@ -128,6 +128,7 @@ class User
         $this->cards = new ArrayCollection();
         $this->profiles = new ArrayCollection();
         $this->fields = new ArrayCollection();
+        $this->favorite = new ArrayCollection();
     }
 
     public function confirm(\DateTimeImmutable $data): void

@@ -39,8 +39,12 @@ class Handler
             throw new \DomainException('This profile is yours.');
         }
 
+        if (!$profile->isPublished()) {
+            throw new \DomainException('This profile is not published.');
+        }
+
         $favorite = new Favorite(
-            Id::next(),
+            new Id($command->id),
             $user,
             $profile
         );

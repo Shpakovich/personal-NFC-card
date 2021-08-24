@@ -17,5 +17,6 @@ class Command implements CommandInterface
     public mixed $profileId = '';
 
     // Setting in controller
+    public string $id = '';
     public string $userId = '';
 }
