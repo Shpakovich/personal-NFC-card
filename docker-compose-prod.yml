@@ -13,6 +13,7 @@ services:
         depends_on:
             - frontend
             - api
+            - storage
 
     frontend:
         image: ${REGISTRY}/frontend:${IMAGE_TAG}
