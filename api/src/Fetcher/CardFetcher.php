@@ -32,7 +32,8 @@ class CardFetcher
             )
             ->from('cards', 'c')
             ->innerJoin('c', 'users', 'u', 'c.created_by = u.id')
-            ->orderBy('c.created_at', 'asc');
+            ->orderBy('c.created_at', 'asc')
+            ->addOrderBy('c.id', 'asc');
 
         return $this->paginator->paginate($qb, $page, $limit);
     }

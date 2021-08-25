@@ -69,9 +69,7 @@ class CardController extends AbstractController
     public function index(Request $request, CardFetcher $fetcher): JsonResponse
     {
         $page = $request->query->getInt('page', 1);
-        /** @var int $perPage */
-        $perPage = $this->getParameter('app.items_per_page');
-        $pagination = $fetcher->all($page, $perPage);
+        $pagination = $fetcher->all($page, 100);
 
         return $this->json(
             [
