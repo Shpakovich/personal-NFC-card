@@ -4,7 +4,8 @@
 
         props: [
             "user",
-            "edit"
+            "edit",
+            "show"
         ],
 
         data () {
@@ -99,7 +100,7 @@
                     {{ getUserName }}
                 </v-card-subtitle>
                 <v-btn
-                        v-if="!edit"
+                        v-if="!edit && !show"
                         icon
                         class="font-bold mx-0 my-auto"
                         max-width="24px"

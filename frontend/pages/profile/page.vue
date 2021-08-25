@@ -89,7 +89,11 @@
 
 <template>
   <v-container class="px-11">
-    <userHead :user="profile" :edit="false" />
+    <userHead
+            :user="profile"
+            :edit="false"
+            :show="false"
+    />
 
     <v-row class="flex flex-row justify-space-between my-4">
       <p class="mb-0">Общее</p>
