@@ -37,31 +37,39 @@
             </h2>
             <p class="font-gilroy text-sm">
                 Срабатывание в одно прикосновение
-
-                iPhone SE 2 gen (2020 г)
-                iPhone Xs
-                iPhone Xs Max
-                iPhone Xr
-                iPhone 11
-                iPhone 11 Pro
-                iPhone 11 Pro Max	iPhone 12
-                iPhone 12 mini
-                iPhone 12 Pro
-                iPhone 12 Pro Max
+            </p>
+            <p class="font-gilroy text-sm text-center">
+                iPhone SE 2 gen (2020 г)<br />
+                iPhone Xs<br />
+                iPhone Xs Max<br />
+                iPhone Xr<br />
+                iPhone 11<br />
+                iPhone 11 Pro<br />
+                iPhone 11 Pro Max<br />
+                iPhone 12<br />
+                iPhone 12 mini<br />
+                iPhone 12 Pro<br />
+                iPhone 12 Pro Max<br />
                 Все будущие модели
             </p>
             <br><br>
 
-            <h2 class="font-gilroy text-lg mb-2">
+            <h2 class="font-gilroy text-lg">
                 iPhone
                 Срабатывание в один клик
                 (только для iOS 14 и новее)
             </h2>
-            <p class="font-gilroy text-sm">
-                iPhone 7
-                iPhone 7 Plus
-                iPhone 8
-                iPhone 8 Plus
+            <nuxt-link
+                    class="font-gilroy text-lg"
+                    to="/info/nfc_on_ios14"
+            >
+                Подробная инструкция
+            </nuxt-link>
+            <p class="font-gilroy text-sm text-center mt-2">
+                iPhone 7<br />
+                iPhone 7 Plus<br />
+                iPhone 8<br />
+                iPhone 8 Plus<br />
                 iPhone X
             </p>
         </div>
