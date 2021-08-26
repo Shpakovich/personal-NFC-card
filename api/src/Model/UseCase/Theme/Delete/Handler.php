@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\UseCase\Profile\Theme\Delete;
+namespace App\Model\UseCase\Theme\Delete;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Flusher;

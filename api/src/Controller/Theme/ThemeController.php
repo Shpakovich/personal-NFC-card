@@ -9,7 +9,7 @@ use App\Fetcher\Profile\Theme\ThemeFetcher;
 use App\Formatter\Error;
 use App\Model\Entity\Common\Id;
 use App\Model\UseCase\Card;
-use App\Model\UseCase\Profile\Theme;
+use App\Model\UseCase\Theme;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
@@ -129,8 +129,8 @@ class ThemeController extends AbstractController
      * @OA\Tag(name="Theme")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\Profile\Theme\Create\Command $command
-     * @param \App\Model\UseCase\Profile\Theme\Create\Handler $handler
+     * @param \App\Model\UseCase\Theme\Create\Command $command
+     * @param \App\Model\UseCase\Theme\Create\Handler $handler
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function create(
@@ -186,13 +186,13 @@ class ThemeController extends AbstractController
      * @OA\Tag(name="Theme")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\Profile\Theme\Delete\Command $command
-     * @param \App\Model\UseCase\Profile\Theme\Delete\Handler $handler
+     * @param \App\Model\UseCase\Theme\Delete\Command $command
+     * @param \App\Model\UseCase\Theme\Delete\Handler $handler
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function delete(
-        Theme\Delete\Command $command,
-        Theme\Delete\Handler $handler
+       Theme\Delete\Command $command,
+       Theme\Delete\Handler $handler
     ): JsonResponse {
         $handler->handle($command);
 
@@ -242,8 +242,8 @@ class ThemeController extends AbstractController
      * @OA\Tag(name="Theme")
      * @Security(name="Bearer")
      *
-     * @param \App\Model\UseCase\Profile\Theme\Edit\Command $command
-     * @param \App\Model\UseCase\Profile\Theme\Edit\Handler $handler
+     * @param \App\Model\UseCase\Theme\Edit\Command $command
+     * @param \App\Model\UseCase\Theme\Edit\Handler $handler
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function edit(

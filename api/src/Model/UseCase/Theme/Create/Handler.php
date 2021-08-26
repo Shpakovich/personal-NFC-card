@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\UseCase\Profile\Theme\Create;
+namespace App\Model\UseCase\Theme\Create;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Entity\Profile\Theme;

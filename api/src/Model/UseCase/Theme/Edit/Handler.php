@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\UseCase\Profile\Theme\Edit;
+namespace App\Model\UseCase\Theme\Edit;
 
 use App\Model\Entity\Common\Id;
 use App\Model\Flusher;
