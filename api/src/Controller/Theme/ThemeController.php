@@ -191,8 +191,8 @@ class ThemeController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function delete(
-       Theme\Delete\Command $command,
-       Theme\Delete\Handler $handler
+        Theme\Delete\Command $command,
+        Theme\Delete\Handler $handler
     ): JsonResponse {
         $handler->handle($command);
 

@@ -86,7 +86,7 @@ class Profile
      * @ORM\ManyToOne(targetEntity="App\Model\Entity\Profile\Theme")
      * @ORM\JoinColumn(name="theme_id", referencedColumnName="id", onDelete="RESTRICT", nullable=true)
      */
-    private Theme $theme;
+    private ?Theme $theme = null;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -289,7 +289,7 @@ class Profile
         return $this;
     }
 
-    public function getTheme(): Theme
+    public function getTheme(): ?Theme
     {
         return $this->theme;
     }
