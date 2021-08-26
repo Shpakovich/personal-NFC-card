@@ -272,6 +272,16 @@ class ProfileController extends AbstractController
             ];
         }
 
+        $themeResponse = null;
+        $theme = $profile->getTheme();
+        if ($theme !== null) {
+            $themeResponse = [
+                'id' => $theme->getId()->getValue(),
+                'name' => $theme->getName(),
+                'code' => $theme->getCode(),
+            ];
+        }
+
         return $this->json(
             [
                 'id' => $profile->getId()->getValue(),
@@ -284,6 +294,7 @@ class ProfileController extends AbstractController
                 'description' => $profile->getPost(),
                 'is_published' => $profile->isPublished(),
                 'card' => $cardResponse,
+                'theme' => $themeResponse,
                 'user' => [
                     'id' => $profile->getUser()->getId()->getValue(),
                     'email' => $profile->getUser()->getEmail()->getValue(),
