@@ -92,7 +92,7 @@
     <userHead
             :user="profile"
             :edit="false"
-            :show="false"
+            :isShow="false"
     />
 
     <v-row class="flex flex-row justify-space-between my-4">

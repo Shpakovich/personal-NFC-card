@@ -84,7 +84,7 @@
     <div>
         <profileEditHeader @editUser="editInfoInProfile" />
         <v-container class="px-11">
-            <userHead :user="profile" :edit="true" />
+            <userHead :isShow="false" :user="profile" :edit="true" />
 
             <v-form
                     ref="form"
@@ -135,7 +135,7 @@
                         label="Адрес страницы"
                         required
                         outlined
-                        placeholder="https://myid-card/myNick"
+                        placeholder="https://myid-card/?hash=myNick"
                 ></v-text-field>
 
                 <v-text-field

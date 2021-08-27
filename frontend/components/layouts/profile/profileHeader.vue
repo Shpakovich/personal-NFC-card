@@ -21,6 +21,10 @@
                     }
                 }
 
+                if (this.$route.name === 'show') {
+                    return header = 'Профиль';
+                }
+
                 return header;
             }
         },
@@ -33,6 +37,10 @@
             resetProfile () {
                 this.$store.commit('profile/SET_PROFILE_INFO', {});
                 this.$store.commit('profile/SET_PROFILE_FIELDS', {});
+            },
+            async resetShowProfile() {
+                await this.$store.commit('show/SET_SHOW_PROFILE_INFO', {});
+                await this.$router.push('/');
             }
         }
     }
@@ -42,6 +50,7 @@
     <v-container class="pt-11 pb-0 px-11">
     <v-row>
         <v-btn
+                v-if="this.$auth.loggedIn"
                 icon
                 class="rounded-lg font-bold w-4/12"
                 max-width="90px"
@@ -52,8 +61,21 @@
         >
             Выйти
         </v-btn>
+        <v-btn
+                v-else
+                icon
+                class="rounded-lg font-bold w-4/12"
+                max-width="90px"
+                min-width="80px"
+                height="48"
+                color="secondary"
+                to="/authorization"
+        >
+            Войти
+        </v-btn>
         <h2 class="m-auto mt-1.5 font-gilroy text-lg ">{{ headerTitle }}</h2>
         <v-btn
+                v-if="this.$auth.loggedIn"
                 icon
                 class="rounded-lg font-bold w-4/12"
                 max-width="90px"
@@ -64,6 +86,17 @@
         >
             QR cod
         </v-btn>
+        <div
+                v-else
+                @click="resetShowProfile()"
+                style="width: 80px;"
+        >
+            <img
+                    src="../../../assets/images/myID-logo.svg"
+                    style="width: 45px; height: 45px; margin-left: auto;"
+                    alt=""
+            />
+        </div>
     </v-row>
     </v-container>
 </template>

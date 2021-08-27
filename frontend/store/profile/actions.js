@@ -71,6 +71,12 @@ export default {
             }
         )
     },
+    async getFieldsInProfile ({ commit }, profileID) {
+        await this.$api.profile.getProfileFields(profileID).then((res)=> {
+                commit('show/SET_SHOW_PROFILE_FIELDS', res.data, {root: true})
+            }
+        )
+    },
     async editFieldInProfile ({ commit }, fieldInfo) {
         await this.$api.profile.editProfileField(fieldInfo).then((res)=> {
                 //commit('SET_FIELD_TO_EDIT', res.data);

@@ -9,7 +9,7 @@
 
       data: () => ({
         nick: '',
-        mask: 'https://myid-card/NNNNNNNNNNNN',
+        mask: 'https://myid-card/?hash=NNNNNNNNNNNN',
         valid: false,
         errorMessage: '',
         errorMessageToField: ''
@@ -83,7 +83,7 @@
         hint="Поддерживает только латинские буквы и цифры"
         required
         outlined
-        placeholder="https://myid-card/myNick"
+        placeholder="https://myid-card/hash?=myNick"
       ></v-text-field>
 
       <v-btn

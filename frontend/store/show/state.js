@@ -1,3 +1,6 @@
 export default () => ({
-    profile: {}
+    profile: {},
+    card: {},
+    fields: {},
+    sortFields: {}
 });

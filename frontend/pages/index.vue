@@ -2,7 +2,8 @@
   import userIndexProfile from '../components/profile/userIndexProfile';
 
   import { createNamespacedHelpers } from 'vuex';
-  const { mapState } = createNamespacedHelpers('profile');
+  const profileStore = createNamespacedHelpers('profile');
+  const showStore = createNamespacedHelpers('show');
 
   export default {
     components: {
@@ -10,8 +11,11 @@
     },
 
     computed:{
-      ...mapState({
+      ...profileStore.mapState({
         profile: (state) => state
+      }),
+      ...showStore.mapState({
+        show: (state) => state
       }),
       getUserName() {
         return this.profile?.name;
@@ -23,8 +27,30 @@
               .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
     },
 
-    mounted() {
+    async mounted() {
       if (this.$route.query?.hash) {
+        await this.$store.dispatch('show/getShowProfile', this.$route.query?.hash)
+                .catch((e) => console.log('show/getShowProfile error' + e));
+      }
+
+      if( !!this.show.profile?.id ) {
+        const fields = this.show.profile?.fields;
+        const sortable = [];
+
+        for (let field in fields) {
+          const num = fields[field];
+          for (let fiel in num) {
+            sortable.push(num[fiel]);
+          }
+        }
+
+        sortable.sort(function (a, b) {
+          return a.sort - b.sort;
+        });
+
+        this.$store.commit('show/SET_SHOW_PROFILE_SORT_FIELDS', sortable);
+        await this.$router.push('/show');
+      } else if (this.$route.query?.hash) {
         let name = "hash";
         let hashValue = this.$route.query.hash;
 

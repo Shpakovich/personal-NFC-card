@@ -5,7 +5,7 @@
         props: [
             "user",
             "edit",
-            "show"
+            "isShow"
         ],
 
         data () {
@@ -21,13 +21,13 @@
               }
             },
             getUserName() {
-                return this.user.default_name === 1 ? this.user.name : this.user.nickname
+                return this.user.default_name === 2 ? this.user.nickname : this.user.name
             },
             getUserPhoto() {
                 return this.user?.photo?.path ? `background-image: url(${this.user.photo.path});border-radius: 50px;` : ''
             },
             isPublished() {
-                return this.user.is_published
+                return this.user?.is_published
             }
         },
 
@@ -74,7 +74,7 @@
                     class="m-auto bg-white img-header"
                 :style="getUserPhoto"
             />
-            <div v-if="!isPublished">
+            <div v-if="!isPublished && !isShow">
                 <v-tooltip
                         v-model="show"
                         top
@@ -100,7 +100,7 @@
                     {{ getUserName }}
                 </v-card-subtitle>
                 <v-btn
-                        v-if="!edit && !show"
+                        v-if="!edit && !isShow"
                         icon
                         class="font-bold mx-0 my-auto"
                         max-width="24px"

@@ -1,37 +1,39 @@
 <script>
     import userHead from "../components/profile/userHead";
-    import field from '../components/profile/fields/field';
+    import fieldForShow from '../components/profile/fields/fieldForShow';
     import addTEG from '../components/profile/fields/addTEG';
 
     import draggable from 'vuedraggable';
 
     import { createNamespacedHelpers } from 'vuex';
-    const { mapState } = createNamespacedHelpers('profile');
+    const { mapState } = createNamespacedHelpers('show');
 
     export default {
         name: "show",
-        layout: "profile",
+        layout: "showProfile",
 
         components: {
             userHead,
-            field,
+            fieldForShow,
             addTEG,
             draggable
         },
 
         computed:{
             ...mapState({
-                profile: (state) => state
+                show: (state) => state
             }),
             getDashboardIcon() {
                 return this.enabled ? require("../assets/images/icon/swap__active.svg") :  require("../assets/images/icon/swap-black.svg")
             }
         },
 
-        async asyncData ({ route,redirect, store }) {
-            await $store.dispatch('show/getShowProfile', this.profile?.id) //берём id из роута
-                    .catch((e) => console.log('profile/editProfileInfo error' + e));
-        },
+        async asyncData ({ redirect, store }) {
+            const showProfile = store.state.show.profile?.id;
+            if(!showProfile) {
+                redirect( '/' );
+            }
+        }
 
 
         // TODO: если авторизованный то закрытый лэйаут, если нет, только шапка(адаптировать - сделать для авторизованного нет)
@@ -40,7 +42,7 @@
 
 <template>
     <v-container class="px-11">
-        <userHead :show="true" :user="profile" :edit="false" />
+        <userHead :isShow="true" :user="show.profile" :edit="false" />
 
         <v-row class="flex flex-row justify-space-between my-4">
             <p class="mb-0">Общее</p>
@@ -55,12 +57,11 @@
         </v-row>
 
         <v-row class="flex flex-column justify-center">
-            <field
-              v-for="(field, index) in profile.fields"
+            <fieldForShow
+              v-for="(field, index) in show.sortFields"
               :field-info="field"
               class="mb-6"
               :key="index"
-              @updateFields="getProfileFields()" <!-- брать из стора, класть встор в асиндате -->
             />
         </v-row>
     </v-container>
