@@ -192,7 +192,7 @@
       <p class="text-sm text-center font-gilroy">
         Вопросы и предложения<br>
         присылай на
-        <a href="mailto:myidcard.ru@gmail.comm">
+        <a href="mailto:myidcard.ru@gmail.com">
           потчу
         </a>
       </p>
