@@ -12,7 +12,7 @@
 
 <template>
     <v-app class="fixMainContainer">
-        <v-main class="main-container">
+        <v-main class="main-container__all-height">
             <nuxt />
         </v-main>
     </v-app>

@@ -22,6 +22,8 @@
             async addInfoInProfile() {
                 const data = {
                     name: this.profile?.name,
+                    nickname: this.profile?.nickname,
+                    default_name: this.profile?.default_name,
                     title: this.profile?.title, // TODO сказать Владу сделать не обязательными
                     id: this.profile?.id, // id профиля который меняем
                     post: this.post,

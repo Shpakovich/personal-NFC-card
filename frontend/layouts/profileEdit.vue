@@ -46,4 +46,9 @@
         max-height: calc(100% - 92px);
         overflow: scroll;
     }
+    .main-container__all-height {
+        height: 100%;
+        max-height: 100%;
+        overflow: scroll;
+    }
 </style>

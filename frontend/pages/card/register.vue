@@ -9,7 +9,7 @@
 
       data: () => ({
         nick: '',
-        mask: 'https://myid-card/?hash=NNNNNNNNNNNN',
+        mask: 'https://myid-card.ru/NNNNNNNNNNNN',
         valid: false,
         errorMessage: '',
         errorMessageToField: ''
@@ -23,6 +23,8 @@
                   const errorMessage = res?.response?.data?.message;
                 if( errorMessage.includes('not found') ) {
                   this.errorMessageToField = 'Метка myID с таким hash не найдена';
+                } else if (errorMessage.includes('Card with alias')) {
+                  this.errorMessageToField = 'Такой адрес страницы уже существует';
                 } else if (errorMessage.includes('already registered')) {
                   this.errorMessageToField = 'Метка myID с таким hash уже зарегестрировнна';
                 }
@@ -60,7 +62,6 @@
     </v-btn>
 
     <h3 class="text-center px-5 mb-6">
-      Вы подтвердили почту.<br />
       Давайте активируем метку, выберете ваш ник.
     </h3>
     <p class="font-gilroy mb-6" style="color: #FF645A;" v-if="errorMessage">
@@ -83,7 +84,7 @@
         hint="Поддерживает только латинские буквы и цифры"
         required
         outlined
-        placeholder="https://myid-card/hash?=myNick"
+        placeholder="https://myid-card.ru/hash?=myNick"
       ></v-text-field>
 
       <v-btn

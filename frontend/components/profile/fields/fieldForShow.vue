@@ -38,6 +38,7 @@
 
 <template>
     <a
+            style="max-width: 100%"
             :href="fieldLink"
         target="_blank"
     >

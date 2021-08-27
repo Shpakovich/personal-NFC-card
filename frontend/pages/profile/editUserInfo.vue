@@ -25,7 +25,7 @@
             default_name: 1,
             description: '',
             errorMessages: '',
-            mask: 'https://myid-card/NNNNNNNNNNNN',
+            mask: 'https://myid-card.ru/NNNNNNNNNNNN',
             valid: false
         }),
 
