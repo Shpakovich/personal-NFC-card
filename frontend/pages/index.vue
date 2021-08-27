@@ -171,9 +171,13 @@
       <nuxt-link class="text-sm text-center font-gilroy" to="/info/supportedDevice">
         Поддерживаемые устройства
       </nuxt-link><br>
-      <a href="mailto:myidcard.ru@gmail.comm" class="text-sm text-center font-gilroy">
-        Обратная связь
-      </a>
+      <p class="text-sm text-center font-gilroy">
+        Вопросы и предложения<br>
+        присылай на
+        <a href="mailto:myidcard.ru@gmail.comm">
+          потчу
+        </a>
+      </p>
       <p v-if="!this.$auth.loggedIn" class="mt-8 text-sm text-center font-gilroy">
         2021 myID - будущее нетворкинга
       </p>

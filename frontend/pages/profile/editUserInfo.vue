@@ -120,10 +120,10 @@
                 <v-text-field
                         v-model="post"
                         class="font-croc"
-                        label="Должность"
+                        label="Род деятельности"
                         required
                         outlined
-                        placeholder="Напишите вашу должность"
+                        placeholder="Разработчик, event-менеджер и др."
                 ></v-text-field>
 
                 <v-text-field
