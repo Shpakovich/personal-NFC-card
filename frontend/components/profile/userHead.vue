@@ -71,6 +71,7 @@
                     @click="routerToChoosePhoto()"
             >-->
             <div
+                    v-if="getUserPhoto"
                     class="m-auto bg-white img-header"
                 :style="getUserPhoto"
             />

@@ -74,7 +74,7 @@
             Войти
         </v-btn>
         <h2 class="m-auto mt-1.5 font-gilroy text-lg ">{{ headerTitle }}</h2>
-        <v-btn
+        <!--<v-btn
                 v-if="this.$auth.loggedIn"
                 icon
                 class="rounded-lg font-bold w-4/12"
@@ -85,9 +85,9 @@
                 to="/"
         >
             QR cod
-        </v-btn>
+        </v-btn> -->
         <div
-                v-else
+
                 @click="resetShowProfile()"
                 style="width: 80px;"
         >

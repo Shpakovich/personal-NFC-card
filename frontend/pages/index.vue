@@ -2,6 +2,7 @@
   import userIndexProfile from '../components/profile/userIndexProfile';
 
   import { createNamespacedHelpers } from 'vuex';
+  const cardStore = createNamespacedHelpers('card');
   const profileStore = createNamespacedHelpers('profile');
   const showStore = createNamespacedHelpers('show');
 
@@ -17,24 +18,24 @@
       ...showStore.mapState({
         show: (state) => state
       }),
+      ...cardStore.mapState({
+        card: (state) => state
+      }),
       getUserName() {
         return this.profile?.name;
+      },
+      hasRegisterCard () {
+        return (!!this.card.card?.id || !!this.profile.id);
       }
     },
 
-    async asyncData ({ store }) {
-      await store.dispatch('profile/getAllProfilesInfo')
-              .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
-    },
-
-    async mounted() {
-      if (this.$route.query?.hash) {
-        await this.$store.dispatch('show/getShowProfile', this.$route.query?.hash)
-                .catch((e) => console.log('show/getShowProfile error' + e));
+    async asyncData ({ store, route }) {
+      if (route.query?.hash) {
+        await store.dispatch('show/getShowProfile', route.query?.hash)
+                .catch((e) => console.log('show/getShowProfile error ' + e));
       }
-
-      if( !!this.show.profile?.id ) {
-        const fields = this.show.profile?.fields;
+      if( !!store.state.show.profile?.id ) {
+        const fields = store.state.show.profile?.fields;
         const sortable = [];
 
         for (let field in fields) {
@@ -48,7 +49,16 @@
           return a.sort - b.sort;
         });
 
-        this.$store.commit('show/SET_SHOW_PROFILE_SORT_FIELDS', sortable);
+        store.commit('show/SET_SHOW_PROFILE_SORT_FIELDS', sortable);
+      } else {
+        await store.dispatch('profile/getAllProfilesInfo')
+                .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
+      }
+    },
+
+
+    async mounted() {
+      if (!!this.show.profile?.id) {
         await this.$router.push('/show');
       } else if (this.$route.query?.hash) {
         let name = "hash";
@@ -97,7 +107,7 @@
         телефона, нажав всего одну кнопку.
       </h2>
     </v-row>
-    <v-row class="mb-4" style="justify-content: center;" v-else>
+    <v-row class="mb-4" style="justify-content: center;" v-else-if="this.$auth.loggedIn && hasRegisterCard" >
       <p class="font-croc text-center">
         Привет, {{ getUserName }}!<br/>
         Мы рады снова видеть тебя.
@@ -140,8 +150,16 @@
         <img src="../assets/images/icon/facebook-logo.svg" alt="">
       </v-row> -->
     </div>
-    <div v-else>
-      <userIndexProfile class="mb-8" :user="profile" />
+    <div class="flex flex-col" v-else>
+      <userIndexProfile v-if="hasRegisterCard" class="mb-8" :user="profile" />
+      <div class="flex- flex-col text-center mb-8" v-else>
+        <p class="font-gilroy text-center mb-1">
+          К сожалению, мы не нашли у вас зарегестрированной метки myID.
+        </p>
+        <nuxt-link class="font-gilroy text-center" to="/card/register">
+          Зарегестрировать карту
+        </nuxt-link>
+      </div>
       <div class="flex flex-col justify-center mb-10" >
         <v-btn
                 class="rounded-lg m-auto white--text mb-4"

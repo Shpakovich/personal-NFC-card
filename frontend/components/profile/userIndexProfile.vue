@@ -29,6 +29,7 @@
             style="display: flex;flex-direction: column!important; text-align: center;"
     >
         <div
+                v-if="getUserPhoto"
                 class="m-auto bg-white img-header index-photo"
                 :style="getUserPhoto"
         />
