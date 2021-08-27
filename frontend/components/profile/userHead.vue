@@ -4,7 +4,8 @@
 
         props: [
             "user",
-            "edit"
+            "edit",
+            "isShow"
         ],
 
         data () {
@@ -20,13 +21,13 @@
               }
             },
             getUserName() {
-                return this.user.default_name === 1 ? this.user.name : this.user.nickname
+                return this.user.default_name === 2 ? this.user.nickname : this.user.name
             },
             getUserPhoto() {
-                return this.user?.photo?.path ? this.user.photo.path : ''
+                return this.user?.photo?.path ? `background-image: url(${this.user.photo.path});border-radius: 50px;` : ''
             },
             isPublished() {
-                return this.user.is_published
+                return this.user?.is_published
             }
         },
 
@@ -62,14 +63,18 @@
                 width="100%"
                 color="#00A460"
         >
-            <img
+            <!-- <img
                     class="m-auto bg-white"
                     style="max-height: 120px; max-width: 120px; border-radius: 120px;"
                     :src="getUserPhoto"
                     alt=""
                     @click="routerToChoosePhoto()"
-            >
-            <div v-if="!isPublished">
+            >-->
+            <div
+                    class="m-auto bg-white img-header"
+                :style="getUserPhoto"
+            />
+            <div v-if="!isPublished && !isShow">
                 <v-tooltip
                         v-model="show"
                         top
@@ -88,14 +93,14 @@
                 </v-tooltip>
             </div>
             <div class="flex flex-row inline-flex m-auto">
-                <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4">
+                <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4 card-padding">
                     {{ getUserMock }}
                 </v-card-subtitle>
-                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white">
+                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white card-padding">
                     {{ getUserName }}
                 </v-card-subtitle>
                 <v-btn
-                        v-if="!edit"
+                        v-if="!edit && !isShow"
                         icon
                         class="font-bold mx-0 my-auto"
                         max-width="24px"
@@ -122,10 +127,10 @@
                     >
                 </nuxt-link>
             </v-row>
-            <v-card-subtitle v-if="!edit && user.post" class="white--text text-center">
+            <v-card-subtitle v-if="!edit && user.post" class="white--text text-center card-padding">
                 {{ user.post }}
             </v-card-subtitle>
-            <v-card-text v-if="!edit && user.description" class="white--text text-center">
+            <v-card-text v-if="!edit && user.description" class="white--text text-center card-padding">
                 {{ user.description }}
             </v-card-text>
         </v-card>
@@ -156,6 +161,15 @@
     </v-row>
 </template>
 
-<style scoped>
-
+<style lang="scss">
+    .card-padding {
+        padding: 2px!important;
+    }
+    .img-header {
+        width: 100px;
+        height: 100px;
+        background-position: center;
+        background-size: cover;
+        display: flex;
+    }
 </style>

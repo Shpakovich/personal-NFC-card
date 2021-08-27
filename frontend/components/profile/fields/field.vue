@@ -17,8 +17,7 @@
                 this.$router.push(`/profile/fields/editField?id=${this.fieldInfo.id}`);
             },
             getIconSrc (fieldInfo) {
-                const src = "http://localhost:8083/" + fieldInfo?.icon;
-                return new URL(src);
+                return fieldInfo?.icon?.path;
             },
             async removeField() {
                 const data = {

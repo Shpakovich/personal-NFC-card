@@ -66,11 +66,15 @@
 <template>
     <v-container v-if="filedInfo" class="py-11 px-11">
         <h3 style="font-size: 24px; line-height: 35px;" class="text-center font-bold font-croc mb-2">{{ filedInfo.title }}</h3>
+        <p class="text-center text-sm font-croc mb-2">Укажи ссылку, начиная с https<br/>(например,
+            <a href="https://Instagram.com/crocinc" target="_blank">
+                https://Instagram.com/crocinc
+            </a>)</p>
         <v-btn
                 icon
                 class="rounded-lg flex-initial font-bold w-4/12 mb-3 ml-1.5 btn-back"
-                max-width="90px"
-                min-width="80px"
+                max-width="110px"
+                min-width="100px"
                 height="48"
                 color="secondary"
                 to="/profile/fields/addFields"

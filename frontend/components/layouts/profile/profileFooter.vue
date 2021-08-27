@@ -5,22 +5,22 @@
         data: () => ({
             links: [{
                     name: 'Избранное',
-                    url: 'favorite',
+                    url: '/profile/favorite',
                     icon: 'favorite.svg',
                     iconActive: 'favorite-active.svg'
                 }, {
                     name: 'Профиль',
-                    url: 'page',
+                    url: '/profile/page',
                     icon: 'user.svg',
                     iconActive: 'user-active.svg'
                 }, {
                     name: 'Просмотры',
-                    url: 'watches',
+                    url: '/profile/watches',
                     icon: 'eye.svg',
                     iconActive: 'eye-active.svg'
                 }, {
                     name: 'Настройки',
-                    url: 'settings',
+                    url: '/profile/settings',
                     icon: 'settings.svg',
                     iconActive: 'settings-active.svg'
                 }],

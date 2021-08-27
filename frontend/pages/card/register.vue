@@ -9,7 +9,7 @@
 
       data: () => ({
         nick: '',
-        mask: 'https://myid-card/NNNNNNNNNNNN',
+        mask: 'https://myid-card/?hash=NNNNNNNNNNNN',
         valid: false,
         errorMessage: '',
         errorMessageToField: ''
@@ -20,8 +20,7 @@
           await this.$store.dispatch('card/setCard', nick)
             .then((res) => {
               if (res?.response?.status === 400) {
-                const errorMessage = res?.response?.data?.message;
-                console.log(errorMessage.includes('not found'));
+                  const errorMessage = res?.response?.data?.message;
                 if( errorMessage.includes('not found') ) {
                   this.errorMessageToField = 'Метка myID с таким hash не найдена';
                 } else if (errorMessage.includes('already registered')) {
@@ -84,7 +83,7 @@
         hint="Поддерживает только латинские буквы и цифры"
         required
         outlined
-        placeholder="https://myid-card/myNick"
+        placeholder="https://myid-card/hash?=myNick"
       ></v-text-field>
 
       <v-btn

@@ -41,4 +41,9 @@
         max-height: calc(100% - 114px);
         overflow: scroll;
     }
+    .main-container__without-footer {
+        height: calc(100% - 92px);
+        max-height: calc(100% - 92px);
+        overflow: scroll;
+    }
 </style>
