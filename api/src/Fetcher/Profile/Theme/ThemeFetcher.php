@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Fetcher;
+namespace App\Fetcher\Profile\Theme;
 
 use Doctrine\DBAL\Connection;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
-class CardFetcher
+class ThemeFetcher
 {
     private Connection $connection;
     private PaginatorInterface $paginator;
@@ -19,21 +19,22 @@ class CardFetcher
         $this->paginator = $paginator;
     }
 
+    /**
+     * @param int $page
+     * @param int $limit
+     * @return \Knp\Component\Pager\Pagination\PaginationInterface
+     */
     public function all(int $page, int $limit): PaginationInterface
     {
         $qb = $this->connection->createQueryBuilder()
             ->select(
                 [
-                    'c.id',
-                    'c.created_at',
-                    'u.id as creator_id',
-                    'u.email as creator_email',
+                    't.id',
+                    't.name',
+                    't.code',
                 ]
             )
-            ->from('cards', 'c')
-            ->innerJoin('c', 'users', 'u', 'c.created_by = u.id')
-            ->orderBy('c.created_at', 'asc')
-            ->addOrderBy('c.id', 'asc');
+            ->from('themes', 't');
 
         return $this->paginator->paginate($qb, $page, $limit);
     }

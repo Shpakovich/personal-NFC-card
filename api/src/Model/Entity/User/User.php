@@ -100,6 +100,14 @@ class User
      */
     private ArrayCollection|PersistentCollection $fields;
 
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Model\Entity\User\Favorite",
+     *     mappedBy="user", cascade={"all"}
+     * )
+     */
+    private ArrayCollection|PersistentCollection $favorite;
+
     public function __construct(
         Id $id,
         Email $email,
@@ -120,6 +128,7 @@ class User
         $this->cards = new ArrayCollection();
         $this->profiles = new ArrayCollection();
         $this->fields = new ArrayCollection();
+        $this->favorite = new ArrayCollection();
     }
 
     public function confirm(\DateTimeImmutable $data): void
@@ -243,5 +252,16 @@ class User
     public function getProfiles(): Collection
     {
         return $this->profiles;
+    }
+
+    public function getFavorite(): ArrayCollection|PersistentCollection
+    {
+        return $this->favorite;
+    }
+
+    public function addFavorite(Favorite $favorite): User
+    {
+        $this->favorite->add($favorite);
+        return $this;
     }
 }

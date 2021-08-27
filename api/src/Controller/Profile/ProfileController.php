@@ -65,6 +65,11 @@ class ProfileController extends AbstractController
      *                     @OA\Property(property="id", type="string", description="ID"),
      *                     @OA\Property(property="alias", type="string", description="Псевдоним"),
      *                 ),
+     *                 @OA\Property(property="theme", type="object", description="Тема", nullable=true,
+     *                     @OA\Property(property="id", type="string", description="ID"),
+     *                     @OA\Property(property="name", type="string", description="Название"),
+     *                     @OA\Property(property="code", type="string", description="Код"),
+     *                 ),
      *                 @OA\Property(property="user", type="object", description="Пользователь",
      *                     @OA\Property(property="id", type="string", description="ID"),
      *                     @OA\Property(property="email", type="string", description="Email")
@@ -122,6 +127,15 @@ class ProfileController extends AbstractController
                             ];
                         }
 
+                        $theme = null;
+                        if (!empty($item['theme_id'])) {
+                            $theme = [
+                                'id' => $item['theme_id'],
+                                'name' => $item['theme_name'],
+                                'code' => $item['theme_code'],
+                            ];
+                        }
+
                         return [
                             'id' => $item['id'],
                             'title' => $item['title'],
@@ -133,6 +147,7 @@ class ProfileController extends AbstractController
                             'is_published' => $item['is_published'],
                             'photo' => $photo,
                             'card' => $card,
+                            'theme' => $theme,
                             'user' => [
                                 'id' => $item['user_id'],
                                 'email' => $item['user_email'],
@@ -257,6 +272,16 @@ class ProfileController extends AbstractController
             ];
         }
 
+        $themeResponse = null;
+        $theme = $profile->getTheme();
+        if ($theme !== null) {
+            $themeResponse = [
+                'id' => $theme->getId()->getValue(),
+                'name' => $theme->getName(),
+                'code' => $theme->getCode(),
+            ];
+        }
+
         return $this->json(
             [
                 'id' => $profile->getId()->getValue(),
@@ -269,6 +294,7 @@ class ProfileController extends AbstractController
                 'description' => $profile->getPost(),
                 'is_published' => $profile->isPublished(),
                 'card' => $cardResponse,
+                'theme' => $themeResponse,
                 'user' => [
                     'id' => $profile->getUser()->getId()->getValue(),
                     'email' => $profile->getUser()->getEmail()->getValue(),

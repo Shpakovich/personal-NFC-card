@@ -83,6 +83,12 @@ class Profile
     private bool $isPublished;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Model\Entity\Profile\Theme")
+     * @ORM\JoinColumn(name="theme_id", referencedColumnName="id", onDelete="RESTRICT", nullable=true)
+     */
+    private ?Theme $theme = null;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
@@ -280,6 +286,17 @@ class Profile
     public function hide(): self
     {
         $this->isPublished = false;
+        return $this;
+    }
+
+    public function getTheme(): ?Theme
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(Theme $theme): self
+    {
+        $this->theme = $theme;
         return $this;
     }
 

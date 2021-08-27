@@ -34,7 +34,7 @@ class PublicController extends AbstractController
      */
     public function index(): JsonResponse
     {
-        return $this->json(['name' => 'Personal NFS card API']);
+        return $this->json(['name' => 'Personal NFC card API']);
     }
 
     /**
@@ -67,6 +67,11 @@ class PublicController extends AbstractController
      *             ),
      *             @OA\Property(property="post", type="string", description="Должность"),
      *             @OA\Property(property="description", type="string", description="Описание"),
+     *             @OA\Property(property="theme", type="object", description="Тема", nullable=true,
+     *                 @OA\Property(property="id", type="string", description="ID"),
+     *                 @OA\Property(property="name", type="string", description="Название"),
+     *                 @OA\Property(property="code", type="string", description="Код"),
+     *             ),
      *             @OA\Property(property="fields", type="object", description="Поля",
      *                 @OA\Property(property="type_name", type="array", description="Поля типа",
      *                     @OA\Items(
@@ -143,6 +148,15 @@ class PublicController extends AbstractController
             ];
         }
 
+        $theme = null;
+        if (!empty($profile->themeId)) {
+            $theme = [
+                'id' => $profile->themeId,
+                'name' => $profile->themeName,
+                'code' => $profile->themeCode,
+            ];
+        }
+
         /** @var string $profile->userCardId */
         $this->dispatcher->dispatch(new ShowEvent($profile->userCardId, $profile->id));
 
@@ -158,6 +172,7 @@ class PublicController extends AbstractController
                     'photo' => $photo,
                     'post' => $profile->post,
                     'description' => $profile->description,
+                    'theme' => $theme,
                     'fields' => $this->groupFields($profileFields),
                     'custom' => $this->customFields($profileCustomFields)
                 ]

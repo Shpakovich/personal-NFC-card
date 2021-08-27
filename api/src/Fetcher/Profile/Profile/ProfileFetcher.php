@@ -51,10 +51,14 @@ class ProfileFetcher
                     'uc.id as user_card_id',
                     'uc.card_id',
                     'uc.alias as card_alias',
+                    't.id as theme_id',
+                    't.name as theme_name',
+                    't.code as theme_code',
                 ]
             )
             ->from('user_cards', 'uc')
             ->innerJoin('uc', 'profiles', 'p', 'uc.id = p.user_card_id')
+            ->leftJoin('p', 'themes', 't', 'p.theme_id = t.id')
             ->setMaxResults(1);
 
         $identity = $filter->getIdentity();
@@ -104,10 +108,14 @@ class ProfileFetcher
                     'uc.alias as card_alias',
                     'u.id as user_id',
                     'u.email as user_email',
+                    't.id as theme_id',
+                    't.name as theme_name',
+                    't.code as theme_code',
                 ]
             )
             ->from('profiles', 'p')
             ->leftJoin('p', 'user_cards', 'uc', 'uc.id = p.user_card_id')
+            ->leftJoin('p', 'themes', 't', 'p.theme_id = t.id')
             ->innerJoin('p', 'users', 'u', 'p.user_id = u.id');
 
         if ($userId !== null) {

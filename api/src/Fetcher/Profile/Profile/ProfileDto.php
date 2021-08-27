@@ -19,4 +19,7 @@ class ProfileDto
     public ?string $userCardId = null;
     public ?string $cardId = null;
     public ?string $cardAlias = null;
+    public ?string $themeId = null;
+    public ?string $themeName = null;
+    public ?string $themeCode = null;
 }
