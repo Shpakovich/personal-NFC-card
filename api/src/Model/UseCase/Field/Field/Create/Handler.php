@@ -50,6 +50,10 @@ class Handler
             $field->setHelp($command->help);
         }
 
+        if (!empty($command->mask)) {
+            $field->setMask($command->mask);
+        }
+
         $this->fields->add($field);
         $this->flusher->flush();
     }

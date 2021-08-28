@@ -36,6 +36,15 @@ class Command implements CommandInterface
      * @var string
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank(),
+     *     @Assert\Length(min=1, max=255)
+     * })
+     */
+    public mixed $mask = '';
+
+    /**
+     * @var string
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank(),
      *     @Assert\Length(min=1, max=500)
      * })
      */

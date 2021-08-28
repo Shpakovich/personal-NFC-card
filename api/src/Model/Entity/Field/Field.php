@@ -48,6 +48,11 @@ class Field
     private ?string $iconPath = null;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $mask = null;
+
+    /**
      * @ORM\Column(type="string", length=500, nullable=true)
      */
     private ?string $help = null;
@@ -175,6 +180,17 @@ class Field
     public function setHelp(?string $help): self
     {
         $this->help = $help;
+        return $this;
+    }
+
+    public function getMask(): ?string
+    {
+        return $this->mask;
+    }
+
+    public function setMask(?string $mask): Field
+    {
+        $this->mask = $mask;
         return $this;
     }
 

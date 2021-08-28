@@ -229,6 +229,8 @@ class ProfileController extends AbstractController
                     'sort' => $type->getSort(),
                 ],
                 'icon' => $icon,
+                'mask' => $field->getMask(),
+                'help' => $field->getHelp(),
                 'colors' => [
                     'bg' => $field->getBgColor()->getValue(),
                     'text' => $field->getTextColor()->getValue(),
@@ -688,7 +690,7 @@ class ProfileController extends AbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profile);
 
-        /** @var string $typeId */
+        /** @var null|string $typeId */
         $typeId = $request->query->get('type_id');
         if ($typeId === null) {
             $fields = $profile->getFields();
@@ -721,6 +723,8 @@ class ProfileController extends AbstractController
                             'sort' => $type->getSort(),
                         ],
                         'icon' => $icon,
+                        'mask' => $field->getMask(),
+                        'help' => $field->getHelp(),
                         'colors' => [
                             'bg' => $field->getBgColor()->getValue(),
                             'text' => $field->getTextColor()->getValue(),

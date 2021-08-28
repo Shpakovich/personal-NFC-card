@@ -29,6 +29,7 @@ class FieldFetcher
                     'f.bg_color',
                     'f.text_color',
                     'f.icon_path',
+                    'f.mask',
                     'f.help',
                     'f.created_at',
                     'f.updated_at',
