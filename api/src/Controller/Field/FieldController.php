@@ -64,6 +64,7 @@ class FieldController extends AbstractController
      *                 @OA\Property(property="icon", type="object", description="Иконка",
      *                     @OA\Property(property="path", type="string", description="Путь до картинки")
      *                 ),
+     *                 @OA\Property(property="mask", type="string", description="Маска"),
      *                 @OA\Property(property="help", type="string", description="Поясняющий текст"),
      *                 @OA\Property(property="type", type="object", description="Тип поля",
      *                     @OA\Property(property="id", type="string", description="ID"),
@@ -121,6 +122,7 @@ class FieldController extends AbstractController
                                 'text' => $item['text_color'],
                             ],
                             'icon' => $icon,
+                            'mask' => $item['mask'],
                             'help' => $item['help'],
                             'type' => [
                                 'id' => $item['type_id'],
@@ -197,6 +199,7 @@ class FieldController extends AbstractController
                     'text' => $field->getTextColor()->getValue(),
                 ],
                 'icon' => $icon,
+                'mask' => $field->getMask(),
                 'help' => $field->getHelp(),
                 'type' => [
                     'id' => $type->getId()->getValue(),
@@ -228,6 +231,7 @@ class FieldController extends AbstractController
      *              @OA\Property(property="title", type="string", description="Название"),
      *              @OA\Property(property="bg_color", type="string", description="Цвет фона"),
      *              @OA\Property(property="text_color", type="string", description="Цвет текста"),
+     *              @OA\Property(property="mask", type="string", description="Маска"),
      *              @OA\Property(property="help", type="string", description="Поясняющий текст"),
      *              @OA\Property(property="type_id", type="string", description="ID типа")
      *          )
@@ -247,6 +251,7 @@ class FieldController extends AbstractController
      *         @OA\Property(property="icon", type="object", description="Иконка",
      *             @OA\Property(property="path", type="string", description="Путь до картинки")
      *         ),
+     *         @OA\Property(property="mask", type="string", description="Маска"),
      *         @OA\Property(property="help", type="string", description="Поясняющий текст"),
      *         @OA\Property(property="type", type="object", description="Тип поля",
      *             @OA\Property(property="id", type="string", description="ID"),
@@ -305,6 +310,7 @@ class FieldController extends AbstractController
                 'icon' => [
                     'path' => $field->getIconPath()
                 ],
+                'mask' => $field->getMask(),
                 'help' => $field->getHelp(),
                 'type' => [
                     'id' => $type->getId()->getValue(),
@@ -377,6 +383,7 @@ class FieldController extends AbstractController
      *              @OA\Property(property="title", type="string", description="Название"),
      *              @OA\Property(property="bg_color", type="string", description="Цвет фона"),
      *              @OA\Property(property="text_color", type="string", description="Цвет текста"),
+     *              @OA\Property(property="mask", type="string", description="Маска"),
      *              @OA\Property(property="help", type="string", description="Поясняющий текст"),
      *              @OA\Property(property="type_id", type="string", description="ID типа")
      *          )
@@ -396,6 +403,7 @@ class FieldController extends AbstractController
      *         @OA\Property(property="icon", type="object", description="Иконка",
      *             @OA\Property(property="path", type="string", description="Путь до картинки")
      *         ),
+     *         @OA\Property(property="mask", type="string", description="Маска"),
      *         @OA\Property(property="help", type="string", description="Поясняющий текст"),
      *         @OA\Property(property="type", type="object", description="Тип поля",
      *             @OA\Property(property="id", type="string", description="ID"),
@@ -453,6 +461,7 @@ class FieldController extends AbstractController
                 'icon' => [
                     'path' => $field->getIconPath()
                 ],
+                'mask' => $field->getMask(),
                 'help' => $field->getHelp(),
                 'type' => [
                     'id' => $type->getId()->getValue(),
