@@ -41,6 +41,7 @@ class Handler
             ->setBgColor(new Color($command->bgColor))
             ->setTextColor(new Color($command->textColor))
             ->setHelp(!empty($command->help) ? $command->help : null)
+            ->setMask(!empty($command->mask) ? $command->mask : null)
             ->setType($type)
             ->setEditor($user)
             ->setUpdatedAt(new \DateTimeImmutable());

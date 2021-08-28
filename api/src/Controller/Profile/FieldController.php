@@ -331,6 +331,8 @@ class FieldController extends AbstractController
                     'sort' => $type->getSort(),
                 ],
                 'icon' => $icon,
+                'mask' => $field->getMask(),
+                'help' => $field->getHelp(),
                 'colors' => [
                     'bg' => $field->getBgColor()->getValue(),
                     'text' => $field->getTextColor()->getValue(),
