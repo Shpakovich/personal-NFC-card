@@ -336,6 +336,19 @@ class Profile
         return $this->fields;
     }
 
+    /**
+     * @param \App\Model\Entity\Common\Id $typeId
+     * @return \Doctrine\Common\Collections\Collection<array-key, \App\Model\Entity\Profile\Field>
+     */
+    public function getFieldsByTypeId(Id $typeId): Collection
+    {
+        return $this->fields->filter(
+            static function (Field $element) use ($typeId) {
+                return $element->getField()->getType()->getId()->isEqual($typeId);
+            }
+        );
+    }
+
     public function moveField(Field $moveField, int $newSort): void
     {
         if ($moveField->getSort() > $newSort) {

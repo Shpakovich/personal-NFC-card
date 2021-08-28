@@ -41,6 +41,14 @@ class FieldController extends AbstractController
      *     @OA\Schema(type="integer")
      * )
      *
+     * @OA\Parameter(
+     *     name="type_id",
+     *     in="query",
+     *     description="ID типа",
+     *     required=false,
+     *     @OA\Schema(type="string")
+     * )
+     *
      * @OA\Response(
      *     response=200,
      *     description="OK",
@@ -87,7 +95,10 @@ class FieldController extends AbstractController
         $page = $request->query->getInt('page', 1);
         /** @var int $perPage */
         $perPage = $this->getParameter('app.items_per_page');
-        $pagination = $fetcher->all($page, $perPage);
+
+        /** @var string $typeId */
+        $typeId = $request->query->get('type_id');
+        $pagination = $fetcher->all($page, $perPage, $typeId);
 
         return $this->json(
             [

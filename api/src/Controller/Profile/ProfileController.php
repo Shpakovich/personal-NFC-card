@@ -660,6 +660,14 @@ class ProfileController extends AbstractController
      *     @OA\Schema(type="string")
      * )
      *
+     * @OA\Parameter(
+     *     name="type_id",
+     *     in="query",
+     *     description="ID типа",
+     *     required=false,
+     *     @OA\Schema(type="string")
+     * )
+     *
      * @OA\Response(response=200, description="OK")
      * @OA\Response(response=404, description="Не найдена")
      * @OA\Response(response=401, description="Требуется авторизация")
@@ -668,13 +676,25 @@ class ProfileController extends AbstractController
      * @OA\Tag(name="Profile")
      * @Security(name="Bearer")
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \App\Model\Entity\Profile\Profile $profile
      * @param \App\Model\Service\Storage\Storage $storage
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function fieldsList(\App\Model\Entity\Profile\Profile $profile, Storage $storage): JsonResponse
-    {
+    public function fieldsList(
+        Request $request,
+        \App\Model\Entity\Profile\Profile $profile,
+        Storage $storage
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(ProfileAccess::VIEW, $profile);
+
+        /** @var string $typeId */
+        $typeId = $request->query->get('type_id');
+        if ($typeId === null) {
+            $fields = $profile->getFields();
+        } else {
+            $fields = $profile->getFieldsByTypeId(new Id($typeId));
+        }
 
         return $this->json(
             array_map(
@@ -707,7 +727,7 @@ class ProfileController extends AbstractController
                         ]
                     ];
                 },
-                $profile->getFields()->toArray()
+                $fields->toArray()
             )
         );
     }
