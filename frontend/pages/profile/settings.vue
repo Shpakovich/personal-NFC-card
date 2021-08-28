@@ -44,13 +44,13 @@
 <template>
     <v-container class="px-11">
         <p class="font-croc text-center" style="font-size: 17px; line-height: 24px;">
-            Вы можете создать карточку
+            Чуть позже вы сможете создать карточку
             в дополнение к этой, но написать другую
             должность или любую другую информацию
         </p>
-        <nuxt-link class="font-croc" style="font-size: 17px; line-height: 24px;" to="/profile/createNewProfile">
+        <!-- <nuxt-link class="font-croc" style="font-size: 17px; line-height: 24px;" to="/profile/createNewProfile">
             Создать еще одну карточку
-        </nuxt-link>
+        </nuxt-link> -->
         <userHead class="my-6" :user="profile" :edit="false" />
 
         <nuxt-link class="font-croc" style="font-size: 17px; line-height: 24px;" to="/newPassword">

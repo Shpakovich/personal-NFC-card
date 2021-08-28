@@ -16,7 +16,7 @@ export default {
         await this.$api.profile.getProfiles().then((res)=> {
                 commit('SET_PROFILE_INFO', res.data.items[0]);
             }
-        )
+        ).catch((err)=> console.log(err))
     },
     async publishProfile ({ commit }, data) {
         await this.$api.profile.publishProfile(data).then((res)=> {
@@ -74,6 +74,12 @@ export default {
     async getFieldsInProfile ({ commit }, profileID) {
         await this.$api.profile.getProfileFields(profileID).then((res)=> {
                 commit('show/SET_SHOW_PROFILE_FIELDS', res.data, {root: true})
+            }
+        )
+    },
+    async getFieldsInProfileByType ({ commit }, data) {
+        await this.$api.profile.getProfileFieldsByType(data).then((res)=> {
+                commit('SET_PROFILE_FIELDS', res.data)
             }
         )
     },

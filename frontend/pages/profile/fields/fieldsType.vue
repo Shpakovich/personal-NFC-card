@@ -20,34 +20,8 @@
         },
 
         async asyncData ({ redirect, store }) {
-            const fields = store.state.profile.fields;
-            let sortable = [];
-
-
-            for (let field in fields) {
-                const types = fields[field].type;
-                sortable.push(types);
-            }
-
-            const typeAllFields = {
-                id: '1',
-                name: 'Все',
-                sort: '1'
-            };
-
-            sortable.push(typeAllFields);
-
-            sortable.sort(function (a, b) {
-                return a.sort - b.sort;
-            });
-
-            sortable = sortable.filter((type, index, self) =>
-                index === self.findIndex((t) => (
-                    t.id === type.id
-                ))
-            );
-
-            store.commit('fields/SET_FIELDS_TYPES', sortable);
+            await store.dispatch('fields/getFieldTypes')
+                .catch((e) => console.log('fields/getFieldTypes error ' + e));
         },
 
         mounted() {

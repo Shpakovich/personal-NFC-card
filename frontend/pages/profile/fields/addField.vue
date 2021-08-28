@@ -19,6 +19,7 @@
                 v => !!v || 'Поле не должно быть пустым'
             ],
             mask: '',
+            maskContinue: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
             placeholder: ''
         }),
 
@@ -44,6 +45,10 @@
                     })
                     .catch((e) => console.log('fields/getFieldInfo error' + e));
             }
+            if(!store.state.profile?.id) {
+                await store.dispatch('profile/getAllProfilesInfo')
+                    .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
+            }
         },
 
         async mounted() {
@@ -61,6 +66,7 @@
                     value: fieldValue,
                     sort: 1 // TODO добавить сортировку?
                 };
+
                 await this.$store.dispatch('profile/addFieldInProfile', data)
                     .then((fieldInfo) => {
                     })
@@ -83,7 +89,7 @@
                     }
                     case 'Facebook': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://www.facebook.com/'
+                        return this.mask = 'https://www.facebook.com/' + this.maskContinue
                     }
                     case 'Instagram': {
                         this.placeholder = this.getPlaceholder;

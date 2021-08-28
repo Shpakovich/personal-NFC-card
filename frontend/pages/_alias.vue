@@ -29,7 +29,6 @@
         },
 
         async asyncData ({ redirect, store, route }) {
-            console.log(route.params?.alias);
 
             await store.dispatch('show/getShowProfile', route.params?.alias)
                 .catch((e) => console.log('show/getShowProfile error ' + e));
