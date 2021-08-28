@@ -4,5 +4,11 @@ export default {
     },
     SET_CURRENT_FIELD_INFO (state,  field) {
         state.currentField = field;
+    },
+    SET_FIELDS_TYPES (state,  types) {
+        state.fieldTypes = types;
+    },
+    SET_ID_TYPES (state, id) {
+        state.typesID = id;
     }
 };

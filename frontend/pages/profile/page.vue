@@ -28,8 +28,6 @@
 
 
       async asyncData ({ redirect, store }) {
-        let profiles= {},
-                profile = {};
 
         await store.dispatch('profile/getAllProfilesInfo')
                 .then(() => {
@@ -45,14 +43,30 @@
 
         if (profileID) {
           await store.dispatch('profile/getProfileInfo', profileID)
-                  .then((res) => { profile = res })
                   .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
         }
 
-        return [
-          profiles,
-          profile
-        ];
+          const fields = store.state.profile.fields;
+          let sortable = [];
+
+
+          for (let field in fields) {
+            const types = fields[field].type;
+            sortable.push(types);
+          }
+
+          sortable.sort(function (a, b) {
+            return a.sort - b.sort;
+          });
+
+        sortable = sortable.filter((type, index, self) =>
+                index === self.findIndex((t) => (
+                        t.id === type.id
+                ))
+        );
+
+        store.commit('fields/SET_FIELDS_TYPES', sortable);
+
       },
 
       computed:{
@@ -111,12 +125,14 @@
                 type="checkbox"
                 v-model="enabled"
         />
-        <img
-                class="ml-4"
-                style="width: 24px; height: 24px;"
-                src="../../assets/images/icon/line-settings.svg"
-                alt=""
-        />
+        <nuxt-link to="/profile/fields/fieldsType">
+          <img
+                  class="ml-4"
+                  style="width: 24px; height: 24px;"
+                  src="../../assets/images/icon/line-settings.svg"
+                  alt=""
+          />
+        </nuxt-link>
       </div>
     </v-row>
 

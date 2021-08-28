@@ -28,7 +28,30 @@
             }
         },
 
-        async asyncData ({ redirect, store }) {
+        async asyncData ({ redirect, store, route }) {
+            console.log(route.params?.alias);
+
+            await store.dispatch('show/getShowProfile', route.params?.alias)
+                .catch((e) => console.log('show/getShowProfile error ' + e));
+
+            if( !!store.state.show.profile?.id ) {
+                const fields = store.state.show.profile?.fields;
+                const sortable = [];
+
+                for (let field in fields) {
+                    const num = fields[field];
+                    for (let fiel in num) {
+                        sortable.push(num[fiel]);
+                    }
+                }
+
+                sortable.sort(function (a, b) {
+                    return a.sort - b.sort;
+                });
+
+                store.commit('show/SET_SHOW_PROFILE_SORT_FIELDS', sortable);
+            }
+
             const showProfile = store.state.show.profile?.id;
             if(!showProfile) {
                 redirect( '/' );

@@ -59,7 +59,7 @@
 
     async mounted() {
       if (!!this.show.profile?.id) {
-        await this.$router.push('/show');
+        await this.$router.push(`/${this.show.card?.alias}`);
       } else if (this.$route.query?.hash) {
         let name = "hash";
         let hashValue = this.$route.query.hash;
