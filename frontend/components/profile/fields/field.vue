@@ -8,7 +8,13 @@
 
         computed: {
             getRedirectField() {
-                return this.fieldInfo.value;
+                if (this.fieldInfo.title === 'Email') {
+                    return 'mailto:' + this.fieldInfo.value;
+                } else if (this.fieldInfo.title === ('Номер телефона')) {
+                    return 'tel:' + this.fieldInfo.value;
+                } else {
+                    return this.fieldInfo.value;
+                }
             }
         },
 
@@ -80,7 +86,11 @@
 
                 <v-list>
                     <v-list-item>
-                        <a class="flex flex-row" :href="getRedirectField" target="_blank">
+                        <a
+                                class="flex flex-row"
+                                :href="getRedirectField"
+                                target="_blank"
+                        >
                             <p style="color: #FFA436;" class="my-auto mx-0">Перейти</p>
                             <img src="../../../assets/images/icon/icon-arrow-right.svg" alt="">
                         </a>

@@ -10,5 +10,11 @@ export default {
                 commit('SET_CURRENT_FIELD_INFO', res.data);
             }
         )
+    },
+    async getFieldTypes({commit}) {
+        await this.$api.fields.getFieldsType().then((res) => {
+                commit('SET_FIELDS_TYPES', res.data);
+            }
+        )
     }
 }

@@ -3,6 +3,10 @@
     const fieldsStore = createNamespacedHelpers('fields');
     const profileStore = createNamespacedHelpers( 'profile');
 
+    import Vue from 'vue'
+    import VueMask from 'v-mask'
+    Vue.use(VueMask);
+
     export default {
         name: "addField",
         layout: "addFields",
@@ -13,7 +17,10 @@
             valid: false,
             valueRules: [
                 v => !!v || 'Поле не должно быть пустым'
-            ]
+            ],
+            mask: '',
+            maskContinue: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+            placeholder: ''
         }),
 
         computed:{
@@ -38,6 +45,14 @@
                     })
                     .catch((e) => console.log('fields/getFieldInfo error' + e));
             }
+            if(!store.state.profile?.id) {
+                await store.dispatch('profile/getAllProfilesInfo')
+                    .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
+            }
+        },
+
+        async mounted() {
+           await this.createFieldMask();
         },
 
 
@@ -51,6 +66,7 @@
                     value: fieldValue,
                     sort: 1 // TODO добавить сортировку?
                 };
+
                 await this.$store.dispatch('profile/addFieldInProfile', data)
                     .then((fieldInfo) => {
                     })
@@ -58,6 +74,92 @@
             },
             getIconSrc (fieldInfo) {
                 return fieldInfo?.icon?.path;
+            },
+            createFieldMask() {
+                switch (this.filedInfo.title) {
+                    case 'Номер телефона': {
+                        this.placeholder = '+7 (999) 999-99-99';
+                        return this.mask = '+# (###) ###-##-##'
+                    }
+                    case 'Email': {
+                        return this.placeholder = 'myid-card.ru@gmail.com';
+                    }
+                    case 'Ссылка на сайт': {
+                        return this.placeholder = 'https://myid-card.ru/';
+                    }
+                    case 'Facebook': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://www.facebook.com/' + this.maskContinue
+                    }
+                    case 'Instagram': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://instagram.com/'
+                    }
+                    case 'Telegram': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://t.me/'
+                    }
+                    case 'VK': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://vk.com/'
+                    }
+                    case 'Linkedin': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://www.linkedin.com/'
+                    }
+                    case 'Twitter': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://twitter.com/'
+                    }
+                    case 'TikTok': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://vm.tiktok.com/'
+                    }
+                    case 'Pinterest': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://www.pinterest.ru/'
+                    }
+                    case 'Youtube': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://www.youtube.com/channel/'
+                    }
+                    case 'Twitch': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://www.twitch.tv/user/'
+                    }
+                    case 'Apple Music': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://music.apple.com/ru/playlist/'
+                    }
+                    case 'Spotify': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://open.spotify.com/user/'
+                    }
+                    case 'Yandex music': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://music.yandex.ru/users/'
+                    }
+                    case 'GitHub': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'http://githab.com/'
+                    }
+                    case 'GitLab': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'http://gitlab.com/'
+                    }
+                    case 'Habr': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'http://habrahabr.ru/'
+                    }
+                    case 'Steam': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'http://steamcommunity.com/id/'
+                    }
+                    case 'Discord': {
+                        this.placeholder = this.getPlaceholder;
+                        return this.mask = 'https://discord.gg/'
+                    }
+                }
             }
         }
     }
@@ -103,12 +205,13 @@
         >
             <v-text-field
                     v-model="fieldValue"
+                    v-mask="mask"
                     class="font-croc"
                     :label="filedInfo.title"
                     :rules="valueRules"
                     required
                     outlined
-                    :placeholder="getPlaceholder"
+                    :placeholder="placeholder"
             ></v-text-field>
 
             <v-btn

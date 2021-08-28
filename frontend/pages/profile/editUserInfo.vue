@@ -127,6 +127,7 @@
                 ></v-text-field>
 
                 <v-text-field
+                        disabled
                         v-model="nick"
                         v-mask="mask"
                         :error-messages="errorMessages"
@@ -135,7 +136,7 @@
                         label="Адрес страницы"
                         required
                         outlined
-                        placeholder="https://myid-card/?hash=myNick"
+                        placeholder="https://myid-card/myNick"
                 ></v-text-field>
 
                 <v-text-field

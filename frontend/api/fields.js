@@ -4,5 +4,8 @@ export default axios => ({
     },
     getField(id) {
         return axios.get(`/field/${id}`);
+    },
+    getFieldsType() {
+        return axios.get(`/field/types`);
     }
 });

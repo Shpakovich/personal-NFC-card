@@ -38,5 +38,8 @@ export default axios => ({
     },
     getProfileFields(id) {
         return axios.get(`/profile/${id}/fields`);
+    },
+    getProfileFieldsByType (data) {
+        return axios.get(`/profile/${data.profileID}/fields?type_id=${data.typesID}`);
     }
 });

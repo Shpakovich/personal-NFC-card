@@ -8,7 +8,7 @@
       layout: "createProfile",
 
       data: () => ({
-        nick: '',
+        alias: '',
         mask: 'https://myid-card.ru/NNNNNNNNNNNN',
         valid: false,
         errorMessage: '',
@@ -16,8 +16,8 @@
       }),
 
       methods: {
-        async registerCard(nick) {
-          await this.$store.dispatch('card/setCard', nick)
+        async registerCard(alias) {
+          await this.$store.dispatch('card/setCard', alias)
             .then((res) => {
               if (res?.response?.status === 400) {
                   const errorMessage = res?.response?.data?.message;
@@ -64,6 +64,12 @@
     <h3 class="text-center px-5 mb-6">
       Давайте активируем метку, выберете ваш ник.
     </h3>
+    <v-row class="flex-nowrap mb-6">
+      <img src="../../assets/images/icon/info_secondary.svg" class="mr-2" alt="">
+      <p class="font-gilroy my-auto">
+        Повторно адрес страницы изменить будет нельзя
+      </p>
+    </v-row>
     <p class="font-gilroy mb-6" style="color: #FF645A;" v-if="errorMessage">
       {{ errorMessage }}
     </p>
@@ -75,7 +81,7 @@
       lazy-validation
     >
       <v-text-field
-        v-model="nick"
+        v-model="alias"
         v-mask="mask"
         :error-messages="errorMessageToField"
         v-on:keyup="resetError()"
@@ -84,7 +90,7 @@
         hint="Поддерживает только латинские буквы и цифры"
         required
         outlined
-        placeholder="https://myid-card.ru/hash?=myNick"
+        placeholder="https://myid-card.ru/myNick"
       ></v-text-field>
 
       <v-btn
@@ -94,7 +100,7 @@
         width="155"
         max-width="186"
         class="m-auto w-2/5"
-        @click="registerCard(nick)"
+        @click="registerCard(alias)"
       >
         Активировать
       </v-btn>

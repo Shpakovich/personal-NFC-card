@@ -30,7 +30,7 @@
     },
 
     async asyncData ({ store, route }) {
-      if (route.query?.hash) {
+      if (!!route.query?.hash) {
         await store.dispatch('show/getShowProfile', route.query?.hash)
                 .catch((e) => console.log('show/getShowProfile error ' + e));
       }
@@ -59,7 +59,7 @@
 
     async mounted() {
       if (!!this.show.profile?.id) {
-        await this.$router.push('/show');
+        await this.$router.push(`/${this.show.card?.alias}`);
       } else if (this.$route.query?.hash) {
         let name = "hash";
         let hashValue = this.$route.query.hash;
@@ -192,7 +192,7 @@
       <p class="text-sm text-center font-gilroy">
         Вопросы и предложения<br>
         присылай на
-        <a href="mailto:myidcard.ru@gmail.comm">
+        <a href="mailto:myidcard.ru@gmail.com">
           потчу
         </a>
       </p>

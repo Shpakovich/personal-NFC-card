@@ -7,7 +7,8 @@
   import draggable from 'vuedraggable'
 
   import { createNamespacedHelpers } from 'vuex';
-  const { mapState } = createNamespacedHelpers('profile');
+  const profileStore = createNamespacedHelpers('profile');
+  const fieldsStore = createNamespacedHelpers('fields');
 
     export default {
       name: "page",
@@ -28,9 +29,6 @@
 
 
       async asyncData ({ redirect, store }) {
-        let profiles= {},
-                profile = {};
-
         await store.dispatch('profile/getAllProfilesInfo')
                 .then(() => {
                   if (!store.state?.profile?.id && store.state.auth.user.length) {
@@ -42,29 +40,42 @@
                 .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
 
         const profileID = store.state?.profile?.id;
+        const typeID = store.state?.fields?.typesID;
 
-        if (profileID) {
+        if (typeID !=='1') {
+          await store.dispatch('profile/getFieldsInProfileByType', profileID, typeID)
+                  .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
+        } else if (profileID ?? typeID === '1') {
           await store.dispatch('profile/getProfileInfo', profileID)
-                  .then((res) => { profile = res })
                   .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
         }
 
-        return [
-          profiles,
-          profile
-        ];
       },
 
       computed:{
-        ...mapState({
+        ...profileStore.mapState({
           profile: (state) => state
+        }),
+        ...fieldsStore.mapState({
+          fieldsType: (state) => state
         }),
         getDashboardIcon() {
           return this.enabled ? require("../../assets/images/icon/swap__active.svg") :  require("../../assets/images/icon/swap-black.svg")
+        },
+        isFieldsTypeAll () {
+          return this.fieldsType.typesID === '1';
         }
       },
 
-      mounted() {
+      async mounted() {
+        if (this.fieldsType.typesID !== '1') {
+          const data = {
+            profileID: this.profile.id,
+            typesID: this.fieldsType.typesID
+          };
+          await this.$store.dispatch('profile/getFieldsInProfileByType', data)
+                  .catch((e) => console.log('profile/getProfileInfo error ' + e));
+        }
         // this.showAlert = 'test'; TODO таймер на показ
       },
 
@@ -96,9 +107,9 @@
     />
 
     <v-row class="flex flex-row justify-space-between my-4">
-      <p class="mb-0">Общее</p>
+      <p class="mb-0">{{ fieldsType.typesName }}</p>
       <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
-        <label for="disabled">
+        <label v-if="isFieldsTypeAll" for="disabled">
           <img
                   style="width: 24px; height: 24px;"
                   :src="getDashboardIcon"
@@ -106,17 +117,20 @@
           >
         </label>
         <input
+                v-if="isFieldsTypeAll"
                 style="position: absolute; display: contents;"
                 id="disabled"
                 type="checkbox"
                 v-model="enabled"
         />
-        <img
-                class="ml-4"
-                style="width: 24px; height: 24px;"
-                src="../../assets/images/icon/line-settings.svg"
-                alt=""
-        />
+        <nuxt-link to="/profile/fields/fieldsType">
+          <img
+                  class="ml-4"
+                  style="width: 24px; height: 24px;"
+                  src="../../assets/images/icon/line-settings.svg"
+                  alt=""
+          />
+        </nuxt-link>
       </div>
     </v-row>
 
