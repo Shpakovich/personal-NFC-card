@@ -29,7 +29,6 @@
 
 
       async asyncData ({ redirect, store }) {
-
         await store.dispatch('profile/getAllProfilesInfo')
                 .then(() => {
                   if (!store.state?.profile?.id && store.state.auth.user.length) {
@@ -41,37 +40,15 @@
                 .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
 
         const profileID = store.state?.profile?.id;
-        // const typeID = store.state?.fields?.typesID;
+        const typeID = store.state?.fields?.typesID;
 
-        /* if (typeID !=='1') {
-          console.log(typeID)
+        if (typeID !=='1') {
           await store.dispatch('profile/getFieldsInProfileByType', profileID, typeID)
                   .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
-        } else */ if (profileID) {
+        } else if (profileID ?? typeID === '1') {
           await store.dispatch('profile/getProfileInfo', profileID)
                   .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
         }
-
-          const fields = store.state.profile.fields;
-          let sortable = [];
-
-
-          for (let field in fields) {
-            const types = fields[field].type;
-            sortable.push(types);
-          }
-
-          sortable.sort(function (a, b) {
-            return a.sort - b.sort;
-          });
-
-        sortable = sortable.filter((type, index, self) =>
-                index === self.findIndex((t) => (
-                        t.id === type.id
-                ))
-        );
-
-        store.commit('fields/SET_FIELDS_TYPES', sortable);
 
       },
 
