@@ -48,17 +48,22 @@
             );
 
             store.commit('fields/SET_FIELDS_TYPES', sortable);
+        },
 
-            const currentField = store.state.fields.currentField;
-
-            if (currentField) {
-
+        mounted() {
+            if (this.typeID) {
+                this.fieldTypes.forEach( (element, index) => {
+                    if (element.id === this.typeID) {
+                        this.selected = index
+                    }
+                })
             }
         },
 
         methods: {
-            setTypesID(id) {
-                this.$store.commit('fields/SET_ID_TYPES', id);
+            setTypesID(fieldType) {
+                this.$store.commit('fields/SET_ID_TYPES', fieldType.id);
+                this.$store.commit('fields/SET_NAME_TYPES', fieldType.name);
             }
         }
     }
@@ -89,7 +94,7 @@
                         style="font-size: 17px; line-height: 25.06px"
                         color="secondary"
                         :label="fieldType.name"
-                        @change="setTypesID(fieldType.id)"
+                        @change="setTypesID(fieldType)"
                 >
                 </v-radio>
             </v-radio-group>

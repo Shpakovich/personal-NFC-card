@@ -89,8 +89,8 @@
                         <a
                                 class="flex flex-row"
                                 :href="getRedirectField"
-                                target="_blank
-                        ">
+                                target="_blank"
+                        >
                             <p style="color: #FFA436;" class="my-auto mx-0">Перейти</p>
                             <img src="../../../assets/images/icon/icon-arrow-right.svg" alt="">
                         </a>

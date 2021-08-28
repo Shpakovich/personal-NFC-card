@@ -10,5 +10,8 @@ export default {
     },
     SET_ID_TYPES (state, id) {
         state.typesID = id;
+    },
+    SET_NAME_TYPES (state, name) {
+        state.typesName = name;
     }
 };

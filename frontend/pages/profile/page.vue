@@ -7,7 +7,8 @@
   import draggable from 'vuedraggable'
 
   import { createNamespacedHelpers } from 'vuex';
-  const { mapState } = createNamespacedHelpers('profile');
+  const profileStore = createNamespacedHelpers('profile');
+  const fieldsStore = createNamespacedHelpers('fields');
 
     export default {
       name: "page",
@@ -70,8 +71,11 @@
       },
 
       computed:{
-        ...mapState({
+        ...profileStore.mapState({
           profile: (state) => state
+        }),
+        ...fieldsStore.mapState({
+          fieldsTypeName: (state) => state.typesName
         }),
         getDashboardIcon() {
           return this.enabled ? require("../../assets/images/icon/swap__active.svg") :  require("../../assets/images/icon/swap-black.svg")
@@ -110,7 +114,7 @@
     />
 
     <v-row class="flex flex-row justify-space-between my-4">
-      <p class="mb-0">Общее</p>
+      <p class="mb-0">{{ fieldsTypeName }}</p>
       <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
         <label for="disabled">
           <img
