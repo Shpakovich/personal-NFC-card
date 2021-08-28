@@ -19,7 +19,7 @@ class FieldFetcher
         $this->paginator = $paginator;
     }
 
-    public function all(int $page, int $limit): PaginationInterface
+    public function all(int $page, int $limit, ?string $typeId = null): PaginationInterface
     {
         $qb = $this->connection->createQueryBuilder()
             ->select(
@@ -46,6 +46,11 @@ class FieldFetcher
             ->innerJoin('f', 'users', 'uc', 'f.created_by = uc.id')
             ->innerJoin('f', 'users', 'uu', 'f.updated_by = uu.id')
             ->orderBy('ft.sort', 'asc');
+
+        if ($typeId !== null) {
+            $qb->where('ft.id = :type_id')
+                ->setParameter(':type_id', $typeId);
+        }
 
         return $this->paginator->paginate($qb, $page, $limit);
     }
