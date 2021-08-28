@@ -9,7 +9,7 @@
 
         data: () => ({
             rules: [
-                value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+                value => !value || value.size < 5000000 || 'Размер фото не должен превышать 5 MB!',
             ],
             chosenFile: {},
             valid: false
@@ -57,7 +57,7 @@
             <img class="m-auto mb-7" src="../../assets/images/addImageIcon.svg" alt="">
             <v-file-input
                     v-model="chosenFile"
-                    label="File input"
+                    label="Добавить фото"
                     outlined
                     dense
             ></v-file-input>
@@ -86,7 +86,6 @@
                     Пропустить
                 </v-btn>
             </div>
-        </v-form>
     </v-container>
 </template>
 
