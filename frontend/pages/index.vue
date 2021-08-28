@@ -30,7 +30,7 @@
     },
 
     async asyncData ({ store, route }) {
-      if (route.query?.hash) {
+      if (!!route.query?.hash) {
         await store.dispatch('show/getShowProfile', route.query?.hash)
                 .catch((e) => console.log('show/getShowProfile error ' + e));
       }

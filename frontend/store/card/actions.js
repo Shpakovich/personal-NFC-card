@@ -1,8 +1,12 @@
 import { getCookie } from '../../utils/helpers'
 
 export default {
-    async setCard ({ commit }, nick) {
-        const alias = nick.substr(nick.indexOf("myid-card/") + 10);
+    async setCard ({ commit }, aliasWithMask) {
+        let alias;
+        if(aliasWithMask) {
+            alias = aliasWithMask.replace("https://myid-card.ru/", "");
+            alias = alias.replace(/[^\w\s!?]/g,'')
+        }
         const data = {
             id: getCookie('hash'),
             alias
