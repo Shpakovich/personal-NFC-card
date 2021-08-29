@@ -129,3 +129,29 @@ $ bin/console app:create:admin <email> <password>
 ```
 
 Она пробрасывается внутрь контейнеров.
+
+## Ручной деплой
+
+> Команды выполняем из корня проекта.
+
+Собрать Docker контейнеры:
+```bash
+$ REGISTRY=registry.gitlab.com/shpakovich/personal-nfc-card IMAGE_TAG=master make build
+```
+
+Запушить готовые контейнеры в наш реестр:
+```bash
+$ REGISTRY=registry.gitlab.com/shpakovich/personal-nfc-card IMAGE_TAG=master make push
+```
+
+Развернуть новый код на сервере:
+```bash
+$ HOST=<SERVER_IP> PORT=22 REGISTRY=registry.gitlab.com/shpakovich/personal-nfc-card BUILD_NUMBER=master IMAGE_TAG=master BASE_URL=https://myid-card.ru STORAGE_BASE_URL=https://media.myid-card.ru STORAGE_DIR=/var/storage MAILER_DSN=<MAILER_DSN> make deploy
+```
+
+В случае, если на сервере надо перезапустить контейнеры:
+```bash
+$ ssh root@<SERVER_IP>
+$ cd /home/deploy/myid_card
+$ docker-compose -f docker-compose-prod.yml restart
+```
