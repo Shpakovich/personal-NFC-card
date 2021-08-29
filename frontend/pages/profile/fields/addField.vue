@@ -93,71 +93,71 @@
                     }
                     case 'Instagram': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://instagram.com/'
+                        return this.mask = 'https://instagram.com/' + this.maskContinue
                     }
                     case 'Telegram': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://t.me/'
+                        return this.mask = 'https://t.me/' + this.maskContinue
                     }
                     case 'VK': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://vk.com/'
+                        return this.mask = 'https://vk.com/' + this.maskContinue
                     }
                     case 'Linkedin': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://www.linkedin.com/'
+                        return this.mask = 'https://www.linkedin.com/' + this.maskContinue
                     }
                     case 'Twitter': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://twitter.com/'
+                        return this.mask = 'https://twitter.com/' + this.maskContinue
                     }
                     case 'TikTok': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://vm.tiktok.com/'
+                        return this.mask = 'https://vm.tiktok.com/' + this.maskContinue
                     }
                     case 'Pinterest': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://www.pinterest.ru/'
+                        return this.mask = 'https://www.pinterest.ru/' + this.maskContinue
                     }
                     case 'Youtube': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://www.youtube.com/channel/'
+                        return this.mask = 'https://www.youtube.com/channel/' + this.maskContinue
                     }
                     case 'Twitch': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://www.twitch.tv/user/'
+                        return this.mask = 'https://www.twitch.tv/user/' + this.maskContinue
                     }
                     case 'Apple Music': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://music.apple.com/ru/playlist/'
+                        return this.mask = 'https://music.apple.com/ru/playlist/' + this.maskContinue
                     }
                     case 'Spotify': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://open.spotify.com/user/'
+                        return this.mask = 'https://open.spotify.com/user/' + this.maskContinue
                     }
                     case 'Yandex music': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://music.yandex.ru/users/'
+                        return this.mask = 'https://music.yandex.ru/users/' + this.maskContinue
                     }
                     case 'GitHub': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://githab.com/'
+                        return this.mask = 'http://githab.com/' + this.maskContinue
                     }
                     case 'GitLab': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://gitlab.com/'
+                        return this.mask = 'http://gitlab.com/' + this.maskContinue
                     }
                     case 'Habr': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://habrahabr.ru/'
+                        return this.mask = 'http://habrahabr.ru/' + this.maskContinue
                     }
                     case 'Steam': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://steamcommunity.com/id/'
+                        return this.mask = 'http://steamcommunity.com/id/' + this.maskContinue
                     }
                     case 'Discord': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'https://discord.gg/'
+                        return this.mask = 'https://discord.gg/' + this.maskContinue
                     }
                 }
             }

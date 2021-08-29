@@ -9,6 +9,7 @@
         data: () => ({
             post: '',
             description: '',
+            descriptionRules: [v => v.length <= 30 || 'Максимум 30 символов'],
             valid: false
         }),
 
@@ -79,6 +80,9 @@
                     v-model="description"
                     class="font-croc"
                     label="Описание"
+                    :rules="descriptionRules"
+                    counter="30"
+                    height="78"
                     outlined
                     placeholder="Напишите пару слов о себе"
             ></v-text-field>
