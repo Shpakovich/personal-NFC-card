@@ -39,6 +39,7 @@ services:
             OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
             STORAGE_BASE_URL: ${STORAGE_BASE_URL}
             STORAGE_DIR: ${STORAGE_DIR}
+            BASE_URL: ${BASE_URL}
         volumes:
             - /media/storage/myid-card:/var/storage
             - socket_php:/var/run/php
@@ -54,6 +55,7 @@ services:
             OAUTH2_ENCRYPTION_KEY: "B7rM540/2ez9KlmZgDJZqlSbeTHXBqRJevgUSlUSZKk="
             STORAGE_BASE_URL: ${STORAGE_BASE_URL}
             STORAGE_DIR: ${STORAGE_DIR}
+            BASE_URL: ${BASE_URL}
 
     db:
         image: postgres:13.3-alpine
