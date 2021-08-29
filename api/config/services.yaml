@@ -42,6 +42,9 @@ services:
     App\Model\Service\Storage\Storage:
         arguments: [ '@local.storage', '%env(resolve:STORAGE_BASE_URL)%' ]
 
+    App\Twig\Extension\FrontendUrlGenerator:
+        arguments: [ '%env(resolve:BASE_URL)%' ]
+
     App\Event\Listener\MetricListener:
         tags:
             - { name: kernel.event_listener, event: App\Event\Profile\ShowEvent, method: onShow }
