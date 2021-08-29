@@ -6,7 +6,9 @@
     import draggable from 'vuedraggable';
 
     import { createNamespacedHelpers } from 'vuex';
-    const { mapState } = createNamespacedHelpers('show');
+
+    const showStore = createNamespacedHelpers('show');
+    const fieldsStore = createNamespacedHelpers('fields');
 
     export default {
         name: "show",
@@ -20,8 +22,11 @@
         },
 
         computed:{
-            ...mapState({
+            ...showStore.mapState({
                 show: (state) => state
+            }),
+            ...fieldsStore.mapState({
+                fieldsType: (state) => state
             }),
             getDashboardIcon() {
                 return this.enabled ? require("../assets/images/icon/swap__active.svg") :  require("../assets/images/icon/swap-black.svg")
@@ -67,14 +72,16 @@
         <userHead :isShow="true" :user="show.profile" :edit="false" />
 
         <v-row class="flex flex-row justify-space-between my-4">
-            <p class="mb-0">Общее</p>
+            <p class="mb-0">{{ fieldsType.typesName }}</p>
             <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
-                <img
-                        class="ml-4"
-                        style="width: 24px; height: 24px;"
-                        src="../assets/images/icon/line-settings.svg"
-                        alt=""
-                />
+                <nuxt-link to="/fieldsType">
+                    <img
+                            class="ml-4"
+                            style="width: 24px; height: 24px;"
+                            src="../assets/images/icon/line-settings.svg"
+                            alt=""
+                    />
+                </nuxt-link>
             </div>
         </v-row>
 

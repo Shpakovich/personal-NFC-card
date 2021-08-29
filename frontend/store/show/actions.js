@@ -9,5 +9,11 @@ export default {
                     this.$router.push('/notFoundCard');
                 } */
             })
+    },
+    async getFieldTypes({commit}) {
+        await this.$api.fields.getFieldsType().then((res) => {
+                commit('SET_SHOW_PROFILE_FIELDS_TYPES', res.data);
+            }
+        )
     }
 }

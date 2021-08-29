@@ -2,5 +2,8 @@ export default () => ({
     profile: {},
     card: {},
     fields: {},
-    sortFields: {}
+    sortFields: {},
+    fieldTypes: [],
+    typesID: "1",
+    typesName: "Все"
 });
