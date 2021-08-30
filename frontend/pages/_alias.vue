@@ -73,7 +73,7 @@
 
         <v-row class="flex flex-row justify-space-between my-4">
             <p class="mb-0">{{ fieldsType.typesName }}</p>
-            <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
+            <!-- <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
                 <nuxt-link to="/fieldsType">
                     <img
                             class="ml-4"
@@ -82,7 +82,7 @@
                             alt=""
                     />
                 </nuxt-link>
-            </div>
+            </div> -->
         </v-row>
 
         <v-row class="flex flex-column justify-center">
