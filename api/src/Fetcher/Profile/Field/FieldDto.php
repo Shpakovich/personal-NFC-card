@@ -15,6 +15,7 @@ class FieldDto
     public string $textColor = '';
     public ?string $iconPath = null;
     public ?string $help = null;
+    public ?string $mask = null;
     public string $value = '';
-    public int $sort = 10;
+    public int $sort = 1;
 }
