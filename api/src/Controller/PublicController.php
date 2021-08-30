@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Event\Profile\ShowEvent;
 use App\Fetcher\Profile;
+use App\Fetcher\Profile\Field\FieldDto;
 use App\Fetcher\User;
 use App\Model\Entity\Common\Id;
 use App\Model\Service\Storage\Storage;
@@ -38,7 +40,7 @@ class PublicController extends AbstractController
     }
 
     /**
-     * @Route("/show/{identity}", methods={"GET"}, name="show")
+     * @Route("/show/{identity}", methods={"GET"}, name="show.profile")
      *
      * @OA\Get(
      *     summary="Вывести информацию по профилю, который привязан к карте"
@@ -85,6 +87,7 @@ class PublicController extends AbstractController
      *                             @OA\Property(property="sort", type="integer", description="Порядок вывода"),
      *                         ),
      *                         @OA\Property(property="icon", type="string", description="Путь до иконки"),
+     *                         @OA\Property(property="mask", type="string", description="Маска"),
      *                         @OA\Property(property="colors", type="object", description="Цвета",
      *                             @OA\Property(property="bg", type="string", description="Цвет фона"),
      *                             @OA\Property(property="text", type="string", description="Цвет текста"),
@@ -122,7 +125,7 @@ class PublicController extends AbstractController
      * @throws \Doctrine\DBAL\Exception
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function show(
+    public function showProfile(
         string $identity,
         Profile\Profile\ProfileFetcher $profiles,
         Profile\Field\FieldFetcher $fields,
@@ -209,6 +212,7 @@ class PublicController extends AbstractController
                     'sort' => $field->typeSort,
                 ],
                 'icon' => $icon,
+                'mask' => $field->mask,
                 'colors' => [
                     'bg' => $field->bgColor,
                     'text' => $field->textColor,
@@ -247,6 +251,119 @@ class PublicController extends AbstractController
                 ];
             },
             $fields
+        );
+    }
+
+    /**
+     * @Route("/show/{identity}/type/{type_id}", methods={"GET"}, name="show.types", requirements={
+     *     "type_id"=Guid::PATTERN
+     * })
+     *
+     * @OA\Get(
+     *     summary="Вывести поля указанного профиля, указанного типа."
+     * )
+     *
+     * @OA\Parameter(
+     *     name="identity",
+     *     in="path",
+     *     required=true,
+     *     description="Идентификатор карты (ID или псевдоним)",
+     *     @OA\Schema(type="string")
+     * )
+     *
+     * @OA\Parameter(
+     *     name="type_id",
+     *     in="path",
+     *     required=true,
+     *     description="ID типа филда",
+     *     @OA\Schema(type="string")
+     * )
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Профиль найден",
+     *     @OA\JsonContent(type="array", description="Список полей",
+     *         @OA\Items(
+     *             @OA\Property(property="id", type="string", description="ID"),
+     *             @OA\Property(property="title", type="string", description="Заголовок"),
+     *             @OA\Property(property="volue", type="string", description="Значение"),
+     *             @OA\Property(property="sort", type="integer", description="Порядок вывода"),
+     *             @OA\Property(property="type", type="object", description="Тип",
+     *                 @OA\Property(property="id", type="string", description="ID"),
+     *                 @OA\Property(property="name", type="string", description="Название"),
+     *                 @OA\Property(property="sort", type="integer", description="Порядок вывода"),
+     *             ),
+     *             @OA\Property(property="icon", type="string", description="Путь до иконки"),
+     *             @OA\Property(property="mask", type="string", description="Маска"),
+     *             @OA\Property(property="colors", type="object", description="Цвета",
+     *                 @OA\Property(property="bg", type="string", description="Цвет фона"),
+     *                 @OA\Property(property="text", type="string", description="Цвет текста"),
+     *             ),
+     *         )
+     *     )
+     * )
+     *
+     * @OA\Response(response=404, description="Профиль не найден")
+     *
+     * @OA\Tag(name="Public")
+     *
+     * @param string $identity
+     * @param string $type_id
+     * @param \App\Fetcher\Profile\Profile\ProfileFetcher $profiles
+     * @param \App\Fetcher\Profile\Field\FieldFetcher $fields
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function fieldsByType(
+        string $identity,
+        string $type_id,
+        Profile\Profile\ProfileFetcher $profiles,
+        Profile\Field\FieldFetcher $fields
+    ): JsonResponse {
+        $filter = (new User\Filter())
+            ->withIdentity($identity)
+            ->withIsOnlyPublished(true);
+
+        try {
+            $profile = $profiles->getOneByFilter($filter);
+        } catch (\DomainException $e) {
+            throw new NotFoundHttpException($e->getMessage());
+        }
+
+        $profileFields = $fields->getAllByProfileId(new Id($profile->id), new Id($type_id));
+
+        return $this->json(
+            array_map(
+                function (FieldDto $field) {
+                    $icon = null;
+                    if (!empty($field->iconPath)) {
+                        $icon = [
+                            'path' => $this->storage->url($field->iconPath)
+                        ];
+                    }
+
+                    return [
+                        'id' => $field->id,
+                        'title' => $field->title,
+                        'value' => $field->value,
+                        'sort' => $field->sort,
+                        'type' => [
+                            'id' => $field->typeId,
+                            'name' => $field->typeName,
+                            'sort' => $field->typeSort,
+                        ],
+                        'icon' => $icon,
+                        'mask' => $field->mask,
+                        'colors' => [
+                            'bg' => $field->bgColor,
+                            'text' => $field->textColor,
+                        ],
+                    ];
+                },
+                $profileFields
+            )
         );
     }
 }
