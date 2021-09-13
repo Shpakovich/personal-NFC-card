@@ -43,9 +43,10 @@
 </script>
 
 <template>
-  <v-container class="py-11 px-11">
+  <v-container class="py-11 px-11 xl:flex xl:flex-row xl:h-full">
     <img
       src="../assets/images/myID-logo.svg"
+      style="max-width: 415px;"
       class="mx-auto pb-4"
       alt=""
     />
@@ -76,5 +77,13 @@
 
   .btn-back {
     justify-content: normal!important;
+
+    @media (min-width: 1280px) { // todo вынести в переменную
+      position: absolute!important;
+      top: 100px;
+      left: 50px;
+
+      font-size: 1.6rem!important;
+    }
   }
 </style>

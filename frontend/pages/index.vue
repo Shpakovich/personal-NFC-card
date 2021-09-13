@@ -83,13 +83,17 @@
 </script>
 
 <template>
-  <v-container class="py-11 px-11">
+  <v-container class="py-11 px-11 xl:flex xl:flex-row xl:h-full">
     <img
+            style="max-width: 415px;"
       src="../assets/images/myID-logo.svg"
-      class="mx-auto pb-4"
+      class="mx-auto pb-4 xl:w-full"
       alt=""
     />
-    <div>
+    <div
+            class="xl:text-center xl:m-auto"
+            style="max-width: 550px;"
+    >
       <v-row v-if="!this.$auth.loggedIn" style="display: flex;flex-direction: column!important;">
         <p class="text-xl font-croc mb-3">Привет!</p>
         <h1 class="text-5xl pb-4 font-croc">
@@ -116,7 +120,7 @@
       </v-row>
 
       <div v-if="!this.$auth.loggedIn">
-        <v-row class="flex-row pb-10" >
+        <v-row class="flex-row pb-10 xl:justify-center" >
           <v-btn
               class="rounded-lg flex-initial w-8/12"
               max-width="225px"
