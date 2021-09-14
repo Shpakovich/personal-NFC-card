@@ -35,6 +35,9 @@
     .main-container {
         height: calc(100% - 114px - 92px);max-height: calc(100% - 114px - 92px);
         overflow: scroll;
+        @media (min-width: 1280px) { // todo вынести в переменную
+            overflow: hidden;
+        }
     }
     .main-container__without-header {
         height: calc(100% - 114px);

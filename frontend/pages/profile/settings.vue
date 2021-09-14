@@ -42,7 +42,7 @@
 </script>
 
 <template>
-    <v-container class="px-11">
+    <v-container class="px-11 settings-page__xl">
         <p class="font-croc text-center" style="font-size: 17px; line-height: 24px;">
             Чуть позже вы сможете создать карточку
             в дополнение к этой, но написать другую
@@ -60,6 +60,8 @@
 
 </template>
 
-<style scoped>
-
+<style lang="scss">
+    .settings-page__xl {
+        max-width: 700px !important;
+    }
 </style>

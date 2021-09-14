@@ -99,65 +99,67 @@
 </script>
 
 <template>
-  <v-container class="px-11">
+  <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between  xl:mt-6 user-page__xl">
     <userHead
+            class="userHead__xl"
             :user="profile"
             :edit="false"
             :isShow="false"
     />
 
-    <v-row class="flex flex-row justify-space-between my-4">
-      <p class="mb-0">{{ fieldsType.typesName }}</p>
-      <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
-        <label v-if="isFieldsTypeAll" for="disabled">
-          <img
-                  style="width: 24px; height: 24px;"
-                  :src="getDashboardIcon"
-                  alt=""
-          >
-        </label>
-        <input
-                v-if="isFieldsTypeAll"
-                style="position: absolute; display: contents;"
-                id="disabled"
-                type="checkbox"
-                v-model="enabled"
-        />
-        <nuxt-link to="/profile/fields/fieldsType">
-          <img
-                  class="ml-4"
-                  style="width: 24px; height: 24px;"
-                  src="../../assets/images/icon/line-settings.svg"
-                  alt=""
+    <v-row class="flex flex-column fields-block__xl flex-nowrap">
+      <v-row class="flex flex-row justify-space-between my-4 max-h-7">
+        <p class="mb-0">{{ fieldsType.typesName }}</p>
+        <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
+          <label v-if="isFieldsTypeAll" for="disabled">
+            <img
+                    style="width: 24px; height: 24px;"
+                    :src="getDashboardIcon"
+                    alt=""
+            >
+          </label>
+          <input
+                  v-if="isFieldsTypeAll"
+                  style="position: absolute; display: contents;"
+                  id="disabled"
+                  type="checkbox"
+                  v-model="enabled"
           />
-        </nuxt-link>
-      </div>
-    </v-row>
-
-    <v-row class="flex flex-column justify-center">
-      <draggable
-              :disabled="!enabled"
-              style="width: 100%;"
-              v-model="profile.fields"
-              @end="checkMoveEnd"
-      >
-        <div v-for="(field, index) in profile.fields" :id="field.id" :key="index" class="item">
-          <field
-                  :field-info="field"
-                  class="mb-6"
-                  @updateFields="getProfileFields()"
-          />
+          <nuxt-link to="/profile/fields/fieldsType">
+            <img
+                    class="ml-4"
+                    style="width: 24px; height: 24px;"
+                    src="../../assets/images/icon/line-settings.svg"
+                    alt=""
+            />
+          </nuxt-link>
         </div>
-      </draggable>
+      </v-row>
+      <v-row class="field-list__xl xl:overflow-scroll">
+        <draggable
+                :disabled="!enabled"
+                style="width: 100%;"
+                v-model="profile.fields"
+                @end="checkMoveEnd"
+        >
+          <div v-for="(field, index) in profile.fields" :id="field.id" :key="index" class="item">
+            <field
+                    :field-info="field"
+                    class="mb-6"
+                    @updateFields="getProfileFields()"
+            />
+          </div>
+        </draggable>
 
-      <!-- <field
-        v-for="(field, index) in profile.fields"
-        :field-info="field"
-        class="mb-6"
-        :key="index"
-        @updateFields="getProfileFields()"
-      /> -->
-      <addTEG class="mt-11" />
+        <!-- <field
+          v-for="(field, index) in profile.fields"
+          :field-info="field"
+          class="mb-6"
+          :key="index"
+          @updateFields="getProfileFields()"
+        /> -->
+        <addTEG class="mt-11" />
+      </v-row>
     </v-row>
     <v-alert
             v-if="showAlert"
@@ -179,5 +181,32 @@
     }
     .flip-list-move {
       transition: transform 0.5s;
+    }
+
+  .userHead__xl {
+    max-width: 447px;
+    @media (min-width: 1280px) { // todo вынести в переменную
+      height: max-content;
+    }
+  }
+
+  .fields-block__xl {
+    max-width: 448px;
+    justify-content: center;
+      @media (min-width: 1280px) { // todo вынести в переменную
+        justify-content: flex-start !important;
+      }
+  }
+
+    .user-page__xl {
+      @media (min-width: 1280px) { // todo вынести в переменную
+        max-width: 1085px;
+        padding-bottom: 114px;
+      }
+    }
+
+    /*Убрать полосу прокрутки у элемента*/
+    .field-list__xl::-webkit-scrollbar {
+      width: 0;
     }
 </style>

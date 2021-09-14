@@ -67,8 +67,6 @@
     <v-btn
       icon
       class="rounded-lg flex-initial font-bold w-4/12 mb-6 ml-1.5 btn-back"
-      max-width="110px"
-      min-width="100px"
       height="48"
       color="secondary"
       to="/"
@@ -94,8 +92,8 @@
   }
 
   .v-btn {
-    font-size: 17px!important;
-    line-height: 24px!important;
+    font-size: 17px;
+    line-height: 24px;
 
   }
 </style>

@@ -72,7 +72,7 @@
             >-->
             <div
                     v-if="getUserPhoto"
-                    class="m-auto bg-white img-header"
+                    class="m-auto bg-white img-header mb-2"
                 :style="getUserPhoto"
             />
             <div v-if="!isPublished && !isShow">
@@ -97,7 +97,7 @@
                 <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4 card-padding">
                     {{ getUserMock }}
                 </v-card-subtitle>
-                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white card-padding">
+                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white mb-2 card-padding">
                     {{ getUserName }}
                 </v-card-subtitle>
                 <v-btn

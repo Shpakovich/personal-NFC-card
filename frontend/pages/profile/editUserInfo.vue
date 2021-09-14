@@ -75,6 +75,12 @@
                 await this.$store.dispatch('profile/editProfileInfo', data)
                     .then((data) => {})
                     .catch((e) => console.log('profile/editProfileInfo error' + e));
+            },
+            copyToClipboard() {
+                const textBox = document.getElementById("alias");
+                textBox.select();
+                // console.log(textBox.value);
+                document.execCommand("copy");
             }
         }
     }
@@ -83,12 +89,17 @@
 <template>
     <div>
         <profileEditHeader @editUser="editInfoInProfile" />
-        <v-container class="px-11">
-            <userHead :isShow="false" :user="profile" :edit="true" />
+        <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6">
+            <userHead
+                    class="userHead__xl"
+                    :isShow="false"
+                    :user="profile"
+                    :edit="true"
+            />
 
             <v-form
                     ref="form"
-                    class="flex flex-col mt-6"
+                    class="flex flex-col mt-6 fields-block__xl"
                     v-model="valid"
                     lazy-validation
             >
@@ -126,18 +137,37 @@
                         placeholder="Разработчик, event-менеджер и др."
                 ></v-text-field>
 
-                <v-text-field
-                        disabled
-                        v-model="nick"
-                        v-mask="mask"
-                        :error-messages="errorMessages"
-                        v-on:keyup="resetError()"
-                        class="font-croc"
-                        label="Адрес страницы"
-                        required
-                        outlined
-                        placeholder="https://myid-card.ru/myNick"
-                ></v-text-field>
+                <div class="relative">
+                    <v-text-field
+                            readonly
+                            v-model="nick"
+                            v-mask="mask"
+                            :error-messages="errorMessages"
+                            v-on:keyup="resetError()"
+                            class="font-croc"
+                            id="alias"
+                            label="Адрес страницы"
+                            required
+                            outlined
+                            placeholder="https://myid-card.ru/myNick"
+                    >
+                    </v-text-field>
+                    <v-btn
+                            icon
+                            class="rounded-lg"
+                            max-width="24px"
+                            min-width="24px"
+                            height="24"
+                            style="right: 25px; top: 15px; position: absolute!important;"
+                            @click="copyToClipboard()"
+                    >
+                        <img
+                                style="width: 24px; height: 24px;"
+                                src="../../assets/images/icon/copy_to_clipboard.svg"
+                                alt="copy"
+                        />
+                    </v-btn>
+                </div>
 
                 <v-text-field
                         v-model="description"

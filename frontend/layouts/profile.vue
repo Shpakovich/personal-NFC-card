@@ -1,13 +1,15 @@
 <script>
   import profileHeader from "../components/layouts/profile/profileHeader";
   import profileFooter from "../components/layouts/profile/profileFooter";
+  import profileHeaderDesktop from "../components/layouts/profile/profileHeaderDesktop";
 
     export default {
       name: "profile",
 
       components: {
         profileHeader,
-        profileFooter
+        profileFooter,
+        profileHeaderDesktop
       },
 
       data: () => ({
@@ -33,10 +35,11 @@
               color="success"
               @click="overlay = false"
       >
-        Hide Overlay
+        //
       </v-btn>
     </v-overlay>
-    <profileHeader />
+    <profileHeader class="block xl:hidden" />
+    <profileHeaderDesktop class="hidden xl:block" />
     <v-main class="main-container">
       <nuxt />
     </v-main>

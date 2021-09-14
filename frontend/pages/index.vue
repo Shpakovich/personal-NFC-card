@@ -21,11 +21,15 @@
       ...cardStore.mapState({
         card: (state) => state
       }),
-      getUserName() {
+      getUserName () {
         return this.profile?.name;
       },
       hasRegisterCard () {
         return (!!this.card.card?.id || !!this.profile.id);
+      },
+      getYear () {
+        const data = new Date();
+        return data.getFullYear();
       }
     },
 
@@ -123,7 +127,7 @@
         <v-row class="flex-row pb-10 xl:justify-center" >
           <v-btn
               class="rounded-lg flex-initial w-8/12"
-              max-width="225px"
+              max-width="175px"
               min-width="150px"
               height="48"
               color="primary"
@@ -133,8 +137,8 @@
           </v-btn>
           <v-btn
               class="rounded-lg flex font-bold ml-6"
-              max-width="81px"
-              min-width="45px"
+              max-width="90px"
+              min-width="85px"
               height="48"
               color="secondary"
               to="/authorization"
@@ -202,7 +206,7 @@
           </a>
         </p>
         <p v-if="!this.$auth.loggedIn" class="mt-8 text-sm text-center font-gilroy">
-          2021 myID - будущее нетворкинга
+          {{ getYear }} myID - будущее нетворкинга
         </p>
       </v-row>
     </div>
