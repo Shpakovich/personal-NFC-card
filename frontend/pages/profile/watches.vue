@@ -26,6 +26,9 @@
 
             getMetricText() {
                 return this.getMetricValue ? this.metric.value.value : 'У вас пока нет просмотров';
+            },
+            isLoading() {
+                return this.metric?.loading;
             }
         },
 
@@ -55,11 +58,18 @@
                 Просмотры профиля
             </p>
             <p
+                    v-if="!isLoading"
                     class="font-bold text-center"
                     :class="getMetricValue ? 'font-gilroy text-value mt-2' : 'font-croc text-empty mt-4'"
             >
                 {{ getMetricText }}
             </p>
+            <v-progress-circular
+                    v-else
+                    class="m-auto text-center mt-4"
+                    indeterminate
+                    color="primary"
+            ></v-progress-circular>
         </div>
     </v-container>
 </template>
