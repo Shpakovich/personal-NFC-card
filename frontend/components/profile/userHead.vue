@@ -16,15 +16,15 @@
 
         computed: {
             getUserMock() {
-              if ( !this.user.name && !this.user.nickname && !this.user?.description && !this.user?.post )  {
+              if ( !this.user?.name && !this.user?.nickname && !this.user?.description && !this.user?.post )  {
                   return 'Ваш профиль не заполнен'
               }
             },
             getUserName() {
-                return this.user.default_name === 2 ? this.user.nickname : this.user.name
+                return this.user?.default_name === 2 ? this.user?.nickname : this.user?.name
             },
             getUserPhoto() {
-                return this.user?.photo?.path ? `background-image: url(${this.user.photo.path});border-radius: 50px;` : ''
+                return this.user?.photo?.path ? `background-image: url(${this.user?.photo.path});border-radius: 50px;` : ''
             },
             isPublished() {
                 return this.user?.is_published
@@ -128,10 +128,10 @@
                     >
                 </nuxt-link>
             </v-row>
-            <v-card-subtitle v-if="!edit && user.post" class="white--text text-center card-padding">
+            <v-card-subtitle v-if="!edit && user && user.post" class="white--text text-center card-padding">
                 {{ user.post }}
             </v-card-subtitle>
-            <v-card-text v-if="!edit && user.description" class="white--text text-center card-padding">
+            <v-card-text v-if="!edit && user && user.description" class="white--text text-center card-padding">
                 {{ user.description }}
             </v-card-text>
         </v-card>

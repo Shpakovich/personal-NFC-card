@@ -18,7 +18,7 @@ export default {
     },
     async getFieldTypesToShow({commit}, showInfo) {
         await this.$api.show.getFieldsToTypeShow(showInfo).then((res) => {
-               console.log(res)
+                commit('SET_SHOW_PROFILE_FIELDS', res.data);
             }
         )
     }

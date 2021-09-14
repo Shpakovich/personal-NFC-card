@@ -30,6 +30,14 @@
             }),
             getDashboardIcon() {
                 return this.enabled ? require("../assets/images/icon/swap__active.svg") :  require("../assets/images/icon/swap-black.svg")
+            },
+            getShowFields() {
+                const typeID = this.$store.state.show?.typesID;
+                if (typeID === "1") {
+                    return this.show.sortFields;
+                } else {
+                    return this.show.fields;
+                }
             }
         },
 
@@ -96,7 +104,7 @@
 
         <v-row class="flex flex-column justify-center">
             <fieldForShow
-              v-for="(field, index) in show.sortFields"
+              v-for="(field, index) in getShowFields"
               :field-info="field"
               class="mb-6"
               :key="index"

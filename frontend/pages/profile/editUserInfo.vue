@@ -45,7 +45,7 @@
             this.nickname = this.profile.nickname; // добавляем в инпуты значения профиля
             this.name = this.profile.name;
             this.default_name = this.profile.default_name;
-            this.post = this.profile.post;
+            this.post = this.profile?.post;
             this.nick = this.profile.card?.alias ? 'https://myid-card.ru/' + this.profile.card?.alias : 'https://myid-card.ru/';
             this.description = this.profile.description;
         },
@@ -79,7 +79,6 @@
             copyToClipboard() {
                 const textBox = document.getElementById("alias");
                 textBox.select();
-                // console.log(textBox.value);
                 document.execCommand("copy");
             }
         }
