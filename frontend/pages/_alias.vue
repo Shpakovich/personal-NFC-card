@@ -34,7 +34,6 @@
         },
 
         async asyncData ({ redirect, store, route }) {
-
             await store.dispatch('show/getShowProfile', route.params?.alias)
                 .catch((e) => console.log('show/getShowProfile error ' + e));
 
@@ -60,10 +59,20 @@
             if(!showProfile) {
                 redirect( '/' );
             }
+        },
+
+        async mounted() {
+            const typeID = this.$store.state.show?.typesID;
+            if (typeID !== "1") {
+                const showInfo = {
+                    cardID: this.$route.params?.alias,
+                    typeID: typeID
+                };
+
+                await this.$store.dispatch('show/getFieldTypesToShow', showInfo)
+                    .catch((e) => console.log('show/getFieldTypesToShow error ' + e));
+            }
         }
-
-
-        // TODO: если авторизованный то закрытый лэйаут, если нет, только шапка(адаптировать - сделать для авторизованного нет)
     }
 </script>
 
@@ -72,8 +81,8 @@
         <userHead :isShow="true" :user="show.profile" :edit="false" />
 
         <v-row class="flex flex-row justify-space-between my-4">
-            <p class="mb-0">{{ fieldsType.typesName }}</p>
-            <!-- <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
+            <p class="mb-0">{{ show.typesName }}</p>
+            <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
                 <nuxt-link to="/fieldsType">
                     <img
                             class="ml-4"
@@ -82,7 +91,7 @@
                             alt=""
                     />
                 </nuxt-link>
-            </div> -->
+            </div>
         </v-row>
 
         <v-row class="flex flex-column justify-center">

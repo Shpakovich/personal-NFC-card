@@ -14,6 +14,9 @@
             }),
             ...showStore.mapState({
                 typeID: (state) => state.typesID,
+            }),
+            ...showStore.mapState({
+                show: (state) => state,
             })
         },
 
@@ -37,6 +40,9 @@
             setTypesID(fieldType) {
                 this.$store.commit('show/SET_SHOW_PROFILE_TYPE_ID', fieldType.id);
                 this.$store.commit('show/SET_SHOW_PROFILE_TYPE_NAME', fieldType.name);
+            },
+            async routerPushToShow() {
+                await this.$router.push(`/${this.show.card?.alias}`);
             }
         }
     }
@@ -52,7 +58,7 @@
                 min-width="100px"
                 height="48"
                 color="secondary"
-                to="/alias"
+                @click="routerPushToShow()"
         >
             <img src="../assets/images/icon/icon-arrow-left.svg" alt="">
             Назад
