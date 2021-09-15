@@ -185,6 +185,7 @@
                   style="font-size: 15px!important; line-height: 21px!important;"
                   block
                   height="48"
+                  class="rounded-lg"
                   color="secondary"
                   to="/authorization"
           >

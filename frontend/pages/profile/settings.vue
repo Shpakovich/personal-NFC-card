@@ -53,7 +53,7 @@
         </nuxt-link> -->
         <userHead class="my-6" :user="profile" :edit="false" />
 
-        <nuxt-link class="font-croc" style="font-size: 17px; line-height: 24px;" to="/newPassword">
+        <nuxt-link class="font-croc" style="font-size: 17px; line-height: 24px;" to="/resetPassword">
             Поменять пароль
         </nuxt-link>
     </v-container>

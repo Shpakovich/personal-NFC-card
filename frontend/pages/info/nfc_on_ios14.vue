@@ -18,7 +18,7 @@
             <img src="../../assets/images/icon/icon-arrow-left.svg" alt="">
             Назад
         </v-btn>
-        <div class="flex flex-col xl:m-auto ios14TextContainer mt-12">
+        <div class="flex flex-col xl:m-auto ios14TextContainer xl:mt-12">
             <h2 class="font-bold font-gilroy text-xl mb-6">
                 Как найти и использовать новый сканер тегов NFC в iOS 14
             </h2>
