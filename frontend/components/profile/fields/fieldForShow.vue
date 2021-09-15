@@ -12,6 +12,14 @@
                     return 'mailto:' + this.fieldInfo.value;
                 } else if (this.fieldInfo.title === ('Номер телефона')) {
                     return 'tel:' + this.fieldInfo.value;
+                } else if (this.fieldInfo.title === 'Viber') {
+                    if( this.fieldInfo.value.includes('chats.viber') ) {
+                        return this.fieldInfo.value;
+                    } else {
+                        const userPhone = this.fieldInfo.value.replace(/\D/g, '');
+                        console.log(userPhone);
+                        return 'https://skobelkin.ru/viber/' + userPhone;
+                    }
                 } else {
                     return this.fieldInfo.value;
                 }

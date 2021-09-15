@@ -90,7 +90,7 @@
 
         <v-row class="flex flex-row justify-space-between my-4">
             <p class="mb-0">{{ show.typesName }}</p>
-            <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
+            <div v-if="this.$auth.loggedIn" class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
                 <nuxt-link to="/fieldsType">
                     <img
                             class="ml-4"

@@ -24,6 +24,7 @@
             nick: '',
             default_name: 1,
             description: '',
+            descriptionRules: [v => v.length <= 30 || 'Максимум 30 символов'],
             errorMessages: '',
             mask: 'https://myid-card.ru/NNNNNNNNNNNN',
             valid: false
@@ -170,8 +171,10 @@
 
                 <v-text-field
                         v-model="description"
+                        :rules="descriptionRules"
                         class="font-croc"
                         label="Описание"
+                        counter="30"
                         height="78"
                         outlined
                         placeholder="Напишите пару слов о себе"
