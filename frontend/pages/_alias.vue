@@ -42,8 +42,17 @@
         },
 
         async asyncData ({ redirect, store, route }) {
-            await store.dispatch('show/getShowProfile', route.params?.alias)
-                .catch((e) => console.log('show/getShowProfile error ' + e));
+            const alias = route.params?.alias;
+
+            if (alias.includes('hash=')) {
+                const clearAlias = alias.replace("hash=", "");
+                await store.dispatch('show/getShowProfile', clearAlias)
+                    .catch((e) => console.log('show/getShowProfile error ' + e));
+            } else {
+                await store.dispatch('show/getShowProfile', route.params?.alias)
+                    .catch((e) => console.log('show/getShowProfile error ' + e));
+            }
+
 
             if( !!store.state.show.profile?.id ) {
                 const fields = store.state.show.profile?.fields;
@@ -72,10 +81,21 @@
         async mounted() {
             const typeID = this.$store.state.show?.typesID;
             if (typeID !== "1") {
-                const showInfo = {
-                    cardID: this.$route.params?.alias,
-                    typeID: typeID
-                };
+                let showInfo;
+                const alias = this.$route.params?.alias;
+
+                if (alias.includes('hash=')) {
+                    const clearAlias = alias.replace("hash=", "");
+                    showInfo = {
+                        cardID: clearAlias,
+                        typeID: typeID
+                    };
+                } else {
+                    showInfo = {
+                        cardID: this.$route.params?.alias,
+                        typeID: typeID
+                    };
+                }
 
                 await this.$store.dispatch('show/getFieldTypesToShow', showInfo)
                     .catch((e) => console.log('show/getFieldTypesToShow error ' + e));

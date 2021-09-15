@@ -1,4 +1,4 @@
-import { getCookie } from '../../utils/helpers'
+import {getCookie} from '../../utils/helpers'
 
 export default {
     async setCard ({ commit }, aliasWithMask) {
@@ -11,16 +11,21 @@ export default {
             id: getCookie('hash'),
             alias
         };
-        const res = this.$api.card.registrationCard(data)
-            .then((res)=> {
-                commit('SET_CARD_INFO', res.data);
-            }
-        ).catch((err) => err);
-
-        return res;
+        return this.$api.card.registrationCard(data)
+            .then((res) => {
+                    commit('SET_CARD_INFO', res.data);
+                }
+            ).catch((err) => err);
     },
 
     setCardInfo ({ commit }, card) {
         commit('SET_CARD_INFO', card);
+    },
+
+    async getUserCards({commit}, card) {
+        await this.$api.card.getUserCardsInfo().then((res) => {
+                commit('SET_CARD_INFO',  res.data?.items[0]);
+            }
+        )
     }
 };

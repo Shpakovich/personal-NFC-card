@@ -31,10 +31,8 @@
       async asyncData ({ redirect, store }) {
         await store.dispatch('profile/getAllProfilesInfo')
                 .then(() => {
-                  if (!store.state?.profile?.id && store.state.auth.user.length) {
+                  if (!store.state?.profile?.id && !store.state.auth.user.length) {
                     redirect( '/profile/create' )
-                  } else if (!store.state.auth.user.length) {
-                    // redirect( '/card/register' ) // TODO делать проверку на наличие карт у пользователя /user/cards, если нет то редирект
                   }
                 })
                 .catch((e) => console.log('profile/getAllProfilesInfo error' + e));

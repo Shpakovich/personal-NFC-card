@@ -25,7 +25,10 @@
         return this.profile?.name;
       },
       hasRegisterCard () {
-        return (!!this.card.card?.id || !!this.profile.id);
+        return (!!this.card.card?.id);
+      },
+      hasRegisterProfile () {
+        return (!!this.profile.id);
       },
       getYear () {
         const data = new Date();
@@ -58,12 +61,23 @@
         await store.dispatch('profile/getAllProfilesInfo')
                 .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
       }
+
+      const cardID = store.state.card?.card?.id;
+      const profileID = store.state.profile?.id;
+      if (!cardID || !profileID) {
+        await store.dispatch('card/getUserCards')
+                .catch((e) => console.log('card/getUserCards error ' + e));
+      }
     },
 
 
     async mounted() {
       if (!!this.show.profile?.id) {
-        await this.$router.push(`/${this.show.card?.alias}`);
+        if(this.show.card?.alias.includes('/')) {
+          await this.$router.push(`/hash=${this.show.card?.id}`);
+        } else {
+          await this.$router.push(`/${this.show.card?.alias}`);
+        }
       } else if (this.$route.query?.hash) {
         let name = "hash";
         let hashValue = this.$route.query.hash;
@@ -74,8 +88,8 @@
 
     methods: {
       logOut () {
-        this.$auth.logout().then(
-                this.resetProfile()
+          this.$auth.logout().then(
+                  this.resetProfile()
         )
       },
       resetProfile () {
@@ -116,7 +130,7 @@
           телефона, нажав всего одну кнопку.
         </h2>
       </v-row>
-      <v-row class="mb-4" style="justify-content: center;" v-else-if="this.$auth.loggedIn && hasRegisterCard" >
+      <v-row class="mb-4" style="justify-content: center;" v-else-if="this.$auth.loggedIn && hasRegisterCard && hasRegisterProfile" >
         <p class="font-croc text-center">
           Привет, {{ getUserName }}!<br/>
           Мы рады снова видеть тебя.
@@ -161,12 +175,20 @@
       </div>
       <div class="flex flex-col" v-else>
         <userIndexProfile v-if="hasRegisterCard" class="mb-8" :user="profile" />
-        <div class="flex- flex-col text-center mb-8" v-else>
+        <div class="flex- flex-col text-center mb-8" v-if="!hasRegisterCard">
           <p class="font-gilroy text-center mb-1">
             К сожалению, мы не нашли у вас зарегестрированной метки myID.
           </p>
           <nuxt-link class="font-gilroy text-center" to="/card/register">
             Зарегестрировать карту
+          </nuxt-link>
+        </div>
+        <div class="flex- flex-col text-center mb-8" v-if="hasRegisterCard && !hasRegisterProfile">
+          <p class="font-gilroy text-center mb-1">
+            У вас ещё нет своего профиля. Создать его можно по ссылке ниже.
+          </p>
+          <nuxt-link class="font-gilroy text-center" to="/profile/create">
+            Создать профиль
           </nuxt-link>
         </div>
         <div class="flex flex-col justify-center mb-10" >

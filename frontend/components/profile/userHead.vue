@@ -8,11 +8,10 @@
             "isShow"
         ],
 
-        data () {
-            return {
-                show: false,
-            }
-        },
+        data: () => ({
+            show: false,
+            loading: false
+        }),
 
         computed: {
             getUserMock() {
@@ -33,18 +32,19 @@
 
         methods: {
             async changeVisibilityProfile (status) {
+                this.loading = true
                 const data = {
                     id: this.user.id
                 };
                 if (status) {
                     await this.$store.dispatch('profile/publishProfile', data)
-                        .then(() => this.$router.push('/profile/page'))
                         .catch((e) => console.log('profile/publishProfile error' + e));
                 } else {
                     await this.$store.dispatch('profile/hideProfile', data)
-                        .then(() => this.$router.push('/profile/page'))
                         .catch((e) => console.log('profile/hideProfile error' + e));
                 }
+
+                this.loading = false
             },
             routerToChoosePhoto() {
                 if (this.edit) {
@@ -138,6 +138,7 @@
         <div style="display: flex;flex-direction: column!important;">
             <v-btn
                     v-if="edit && !isPublished"
+                    :loading="loading"
                     plain
                     color="#FFA436"
                     style="font-size: 15px!important; line-height: 17.89px!important;"
@@ -149,6 +150,7 @@
             </v-btn>
             <v-btn
                     v-if="edit && isPublished"
+                    :loading="loading"
                     plain
                     color="#475DEB"
                     style="font-size: 15px!important; line-height: 17.89px!important;"

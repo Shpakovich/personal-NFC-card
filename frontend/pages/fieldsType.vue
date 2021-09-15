@@ -1,6 +1,7 @@
 <script>
     import { createNamespacedHelpers } from 'vuex';
     const showStore = createNamespacedHelpers('show');
+    const cardStore = createNamespacedHelpers('card');
 
     export default {
         name: "fieldsType",
@@ -17,6 +18,9 @@
             }),
             ...showStore.mapState({
                 show: (state) => state,
+            }),
+            ...cardStore.mapState({
+                card: (state) => state
             })
         },
 
@@ -42,7 +46,11 @@
                 this.$store.commit('show/SET_SHOW_PROFILE_TYPE_NAME', fieldType.name);
             },
             async routerPushToShow() {
-                await this.$router.push(`/${this.show.card?.alias}`);
+                if (this.show.card?.alias.includes('/')) {
+                    await this.$router.push(`/hash=${this.show.card?.id}`);
+                } else {
+                    await this.$router.push(`/${this.show.card?.alias}`);
+                }
             }
         }
     }

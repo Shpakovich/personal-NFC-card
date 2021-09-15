@@ -39,6 +39,8 @@
         passwordConfirmationRule() {
           if (this.userInfo.confirmPassword) { // TODO добавить debounce на 500
             return this.userInfo.password === this.userInfo.confirmPassword ? true : "Пароли не совпадают";
+          } else {
+            return ''
           }
         },
         colorPasswordIcon () {
