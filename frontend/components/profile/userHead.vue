@@ -8,23 +8,22 @@
             "isShow"
         ],
 
-        data () {
-            return {
-                show: false,
-            }
-        },
+        data: () => ({
+            show: false,
+            loading: false
+        }),
 
         computed: {
             getUserMock() {
-              if ( !this.user.name && !this.user.nickname && !this.user?.description && !this.user?.post )  {
+              if ( !this.user?.name && !this.user?.nickname && !this.user?.description && !this.user?.post )  {
                   return 'Ваш профиль не заполнен'
               }
             },
             getUserName() {
-                return this.user.default_name === 2 ? this.user.nickname : this.user.name
+                return this.user?.default_name === 2 ? this.user?.nickname : this.user?.name
             },
             getUserPhoto() {
-                return this.user?.photo?.path ? `background-image: url(${this.user.photo.path});border-radius: 50px;` : ''
+                return this.user?.photo?.path ? `background-image: url(${this.user?.photo.path});border-radius: 50px;` : ''
             },
             isPublished() {
                 return this.user?.is_published
@@ -33,18 +32,19 @@
 
         methods: {
             async changeVisibilityProfile (status) {
+                this.loading = true
                 const data = {
                     id: this.user.id
                 };
                 if (status) {
                     await this.$store.dispatch('profile/publishProfile', data)
-                        .then(() => this.$router.push('/profile/page'))
                         .catch((e) => console.log('profile/publishProfile error' + e));
                 } else {
                     await this.$store.dispatch('profile/hideProfile', data)
-                        .then(() => this.$router.push('/profile/page'))
                         .catch((e) => console.log('profile/hideProfile error' + e));
                 }
+
+                this.loading = false
             },
             routerToChoosePhoto() {
                 if (this.edit) {
@@ -72,7 +72,7 @@
             >-->
             <div
                     v-if="getUserPhoto"
-                    class="m-auto bg-white img-header"
+                    class="m-auto bg-white img-header mb-2"
                 :style="getUserPhoto"
             />
             <div v-if="!isPublished && !isShow">
@@ -97,7 +97,7 @@
                 <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4 card-padding">
                     {{ getUserMock }}
                 </v-card-subtitle>
-                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white card-padding">
+                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white mb-2 card-padding">
                     {{ getUserName }}
                 </v-card-subtitle>
                 <v-btn
@@ -128,16 +128,17 @@
                     >
                 </nuxt-link>
             </v-row>
-            <v-card-subtitle v-if="!edit && user.post" class="white--text text-center card-padding">
+            <v-card-subtitle v-if="!edit && user && user.post" class="white--text text-center card-padding">
                 {{ user.post }}
             </v-card-subtitle>
-            <v-card-text v-if="!edit && user.description" class="white--text text-center card-padding">
+            <v-card-text v-if="!edit && user && user.description" class="white--text text-center card-padding">
                 {{ user.description }}
             </v-card-text>
         </v-card>
         <div style="display: flex;flex-direction: column!important;">
             <v-btn
                     v-if="edit && !isPublished"
+                    :loading="loading"
                     plain
                     color="#FFA436"
                     style="font-size: 15px!important; line-height: 17.89px!important;"
@@ -149,6 +150,7 @@
             </v-btn>
             <v-btn
                     v-if="edit && isPublished"
+                    :loading="loading"
                     plain
                     color="#475DEB"
                     style="font-size: 15px!important; line-height: 17.89px!important;"

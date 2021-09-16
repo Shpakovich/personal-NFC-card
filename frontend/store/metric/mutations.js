@@ -5,4 +5,7 @@ export default {
     SET_METRIC_PERIOD (state,  value) {
         state.period = value;
     },
+    SET_LOADING_STATUS (state,  status) {
+        state.loading = status;
+    },
 };

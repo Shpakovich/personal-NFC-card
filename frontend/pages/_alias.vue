@@ -6,7 +6,9 @@
     import draggable from 'vuedraggable';
 
     import { createNamespacedHelpers } from 'vuex';
-    const { mapState } = createNamespacedHelpers('show');
+
+    const showStore = createNamespacedHelpers('show');
+    const fieldsStore = createNamespacedHelpers('fields');
 
     export default {
         name: "show",
@@ -20,18 +22,37 @@
         },
 
         computed:{
-            ...mapState({
+            ...showStore.mapState({
                 show: (state) => state
+            }),
+            ...fieldsStore.mapState({
+                fieldsType: (state) => state
             }),
             getDashboardIcon() {
                 return this.enabled ? require("../assets/images/icon/swap__active.svg") :  require("../assets/images/icon/swap-black.svg")
+            },
+            getShowFields() {
+                const typeID = this.$store.state.show?.typesID;
+                if (typeID === "1") {
+                    return this.show.sortFields;
+                } else {
+                    return this.show.fields;
+                }
             }
         },
 
         async asyncData ({ redirect, store, route }) {
+            const alias = route.params?.alias;
 
-            await store.dispatch('show/getShowProfile', route.params?.alias)
-                .catch((e) => console.log('show/getShowProfile error ' + e));
+            if (alias.includes('hash=')) {
+                const clearAlias = alias.replace("hash=", "");
+                await store.dispatch('show/getShowProfile', clearAlias)
+                    .catch((e) => console.log('show/getShowProfile error ' + e));
+            } else {
+                await store.dispatch('show/getShowProfile', route.params?.alias)
+                    .catch((e) => console.log('show/getShowProfile error ' + e));
+            }
+
 
             if( !!store.state.show.profile?.id ) {
                 const fields = store.state.show.profile?.fields;
@@ -55,10 +76,31 @@
             if(!showProfile) {
                 redirect( '/' );
             }
+        },
+
+        async mounted() {
+            const typeID = this.$store.state.show?.typesID;
+            if (typeID !== "1") {
+                let showInfo;
+                const alias = this.$route.params?.alias;
+
+                if (alias.includes('hash=')) {
+                    const clearAlias = alias.replace("hash=", "");
+                    showInfo = {
+                        cardID: clearAlias,
+                        typeID: typeID
+                    };
+                } else {
+                    showInfo = {
+                        cardID: this.$route.params?.alias,
+                        typeID: typeID
+                    };
+                }
+
+                await this.$store.dispatch('show/getFieldTypesToShow', showInfo)
+                    .catch((e) => console.log('show/getFieldTypesToShow error ' + e));
+            }
         }
-
-
-        // TODO: если авторизованный то закрытый лэйаут, если нет, только шапка(адаптировать - сделать для авторизованного нет)
     }
 </script>
 
@@ -67,20 +109,22 @@
         <userHead :isShow="true" :user="show.profile" :edit="false" />
 
         <v-row class="flex flex-row justify-space-between my-4">
-            <p class="mb-0">Общее</p>
-            <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
-                <img
-                        class="ml-4"
-                        style="width: 24px; height: 24px;"
-                        src="../assets/images/icon/line-settings.svg"
-                        alt=""
-                />
+            <p class="mb-0">{{ show.typesName }}</p>
+            <div v-if="this.$auth.loggedIn" class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
+                <nuxt-link to="/fieldsType">
+                    <img
+                            class="ml-4"
+                            style="width: 24px; height: 24px;"
+                            src="../assets/images/icon/line-settings.svg"
+                            alt=""
+                    />
+                </nuxt-link>
             </div>
         </v-row>
 
         <v-row class="flex flex-column justify-center">
             <fieldForShow
-              v-for="(field, index) in show.sortFields"
+              v-for="(field, index) in getShowFields"
               :field-info="field"
               class="mb-6"
               :key="index"

@@ -57,17 +57,16 @@
 </script>
 
 <template>
-  <v-container class="py-11 px-11">
+  <v-container class="py-11 px-11 xl:flex xl:flex-row xl:h-full">
     <img
       src="../assets/images/myID-logo.svg"
+      style="max-width: 415px;"
       class="mx-auto pb-4"
       alt=""
     />
     <v-btn
       icon
       class="rounded-lg flex-initial font-bold w-4/12 mb-6 ml-1.5 btn-back"
-      max-width="110px"
-      min-width="100px"
       height="48"
       color="secondary"
       to="/"
@@ -92,12 +91,9 @@
     height: 32px;
   }
 
-  .btn-back {
-    justify-content: normal!important;
-  }
-
   .v-btn {
-    font-size: 17px!important;
-    line-height: 24px!important;
+    font-size: 17px;
+    line-height: 24px;
+
   }
 </style>

@@ -36,6 +36,7 @@
                 return this.metric.period === period;
             },
             async changePeriodOfMetric(period) {
+                this.$store.commit('metric/SET_LOADING_STATUS', true);
                 await this.$store.dispatch('metric/setMetricPeriod', period)
                     .catch((e) => console.log('metric/setMetricPeriod error ' + e));
 
@@ -75,6 +76,8 @@
 
                 await this.$store.dispatch('metric/getMetricValue', data)
                     .catch((e) => console.log('metric/getMetricValue error ' + e));
+
+                this.$store.commit('metric/SET_LOADING_STATUS', false);
             }
         }
     }
@@ -90,7 +93,7 @@
                 :key="index"
                 height="32"
                 min-height="32"
-                max-width="136"
+                max-width="256"
                 class="m-auto font-gilroy w-1/4 pb-2"
                 :class="isActiveButton(link.title) ? 'active_period' : 'period'"
                 style="font-size: 13px!important; line-height: 15.3px!important; border-radius: 0 !important;"

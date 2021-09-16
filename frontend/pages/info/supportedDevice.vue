@@ -5,12 +5,12 @@
 </script>
 
 <template>
-    <v-container class="py-11 px-11 flex flex-col justify-center">
+    <v-container class="py-11 px-11 flex flex-col justify-center xl:flex xl:flex-row xl:h-full">
         <v-btn
                 icon
-                class="font-bold mb-6"
+                class="rounded-lg font-bold mb-6 btn-back"
                 max-width="110px"
-                width="80px"
+                min-width="100px"
                 height="48"
                 color="secondary"
                 to="/"
@@ -18,7 +18,7 @@
             <img src="../../assets/images/icon/icon-arrow-left.svg" alt="">
             Назад
         </v-btn>
-        <div>
+        <div class="flex flex-col xl:m-auto infoTextContainer h-5/6">
             <h1 class="font-gilroy text-xl mb-6">
                 Поддерживаемые устройства
             </h1>
@@ -76,6 +76,11 @@
     </v-container>
 </template>
 
-<style scoped>
-
+<style lang="scss">
+    .infoTextContainer {
+        @media (min-width: 840px) { // todo вынести в переменную
+            max-width: 800px;
+            margin: auto;
+        }
+    }
 </style>

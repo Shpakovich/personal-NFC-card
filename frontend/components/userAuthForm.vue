@@ -48,7 +48,7 @@
 <template>
   <v-form
     ref="form"
-    class="flex flex-col"
+    class="flex flex-col xl:m-auto form-container_xl"
     v-model="valid"
   >
 

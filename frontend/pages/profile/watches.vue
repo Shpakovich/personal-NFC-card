@@ -26,6 +26,9 @@
 
             getMetricText() {
                 return this.getMetricValue ? this.metric.value.value : 'У вас пока нет просмотров';
+            },
+            isLoading() {
+                return this.metric?.loading;
             }
         },
 
@@ -48,18 +51,25 @@
 </script>
 
 <template>
-    <v-container class="pb-11 pt-4 px-11">
+    <v-container class="pb-11 pt-4 px-11 watch-container">
         <settingsHeader />
         <div class="flex flex-col mt-14">
             <p class="font-croc text-center" style="font-size: 20px; line-height:  29.48px">
                 Просмотры профиля
             </p>
             <p
+                    v-if="!isLoading"
                     class="font-bold text-center"
                     :class="getMetricValue ? 'font-gilroy text-value mt-2' : 'font-croc text-empty mt-4'"
             >
                 {{ getMetricText }}
             </p>
+            <v-progress-circular
+                    v-else
+                    class="m-auto text-center mt-4"
+                    indeterminate
+                    color="primary"
+            ></v-progress-circular>
         </div>
     </v-container>
 </template>
@@ -72,5 +82,12 @@
     .text-empty {
         font-size: 18px!important;
         line-height: 21px!important;
+    }
+
+    .watch-container {
+        @media (min-width: 640px) { // todo вынести в переменную
+            max-width: 447px;
+            margin: auto !important;
+        }
     }
 </style>

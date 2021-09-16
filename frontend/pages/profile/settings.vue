@@ -42,7 +42,7 @@
 </script>
 
 <template>
-    <v-container class="px-11">
+    <v-container class="px-11 settings-page-block">
         <p class="font-croc text-center" style="font-size: 17px; line-height: 24px;">
             Чуть позже вы сможете создать карточку
             в дополнение к этой, но написать другую
@@ -53,13 +53,23 @@
         </nuxt-link> -->
         <userHead class="my-6" :user="profile" :edit="false" />
 
-        <nuxt-link class="font-croc" style="font-size: 17px; line-height: 24px;" to="/newPassword">
+        <nuxt-link class="font-croc" style="font-size: 17px; line-height: 24px;" to="/resetPassword">
             Поменять пароль
         </nuxt-link>
     </v-container>
 
 </template>
 
-<style scoped>
+<style lang="scss">
+    .settings-page-block {
+        @media (min-width: 1280px) {
+            max-width: 700px !important;
+        }
+
+        @media (min-width: 640px) { // todo вынести в переменную
+            max-width: 447px;
+            margin: auto !important;
+        }
+    }
 
 </style>

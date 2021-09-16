@@ -27,8 +27,8 @@
 </script>
 
 <template>
-  <v-app>
-    <v-main>
+  <v-app class="app-container">
+    <v-main >
         <nuxt keep-alive :keep-alive-props="{include: ['registration']}" />
     </v-main>
   </v-app>
@@ -36,6 +36,11 @@
 
 <style lang="scss">
   @import "~/assets/styles/variables.scss";
+
+  .app-container{
+      max-width: 1200px;
+      margin: auto;
+  }
 
   .font-croc {
     font-family: 'CrocWeb', sans-serif;

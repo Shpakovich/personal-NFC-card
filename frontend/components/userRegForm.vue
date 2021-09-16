@@ -39,6 +39,8 @@
         passwordConfirmationRule() {
           if (this.userInfo.confirmPassword) { // TODO добавить debounce на 500
             return this.userInfo.password === this.userInfo.confirmPassword ? true : "Пароли не совпадают";
+          } else {
+            return ''
           }
         },
         colorPasswordIcon () {
@@ -63,7 +65,7 @@
 <template>
   <v-form
     ref="form"
-    class="flex flex-col"
+    class="flex flex-col xl:m-auto form-container_xl"
     v-model="valid"
   >
     <v-text-field
@@ -191,5 +193,11 @@
     padding: 12px 0 0px!important;
   }
 
+  .form-container_xl {
+    @media (min-width: 1280px) { // todo вынести в переменную
+      max-height: 300px;
+      max-width: 436px;
+    }
+  }
 
 </style>

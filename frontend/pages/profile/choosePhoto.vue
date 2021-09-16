@@ -43,8 +43,8 @@
         <v-btn
                 icon
                 class="rounded-lg flex-initial font-bold w-4/12 mb-6 ml-1.5 btn-back"
-                max-width="90px"
-                min-width="80px"
+                max-width="110px"
+                min-width="100px"
                 height="48"
                 color="secondary"
                 to="/"
@@ -53,8 +53,8 @@
             Назад
         </v-btn>
 
-        <div class="flex flex-col mt-8 mb-12">
-            <img class="m-auto mb-7" src="../../assets/images/addImageIcon.svg" alt="">
+        <div class="flex flex-col mt-8 mb-6">
+            <img style="width: 150px; height: 150px;" class="m-auto mb-12" src="../../assets/images/addImageIcon.svg" alt="">
             <v-file-input
                     v-model="chosenFile"
                     label="Добавить фото"

@@ -23,7 +23,7 @@
 
     mounted () {
       if (!this.$route.query?.token) {
-        this.title = 'Ой, кажется ваша ссылка изменения пароля не правильная.';
+        this.title = 'Ой, кажется ваша ссылка изменения пароля сломана. Попробуйте востановить пароль ещё раз.';
       }
       this.token = this.$route.query?.token;
     },
@@ -38,6 +38,9 @@
       },
       colorConfirmPasswordIcon () {
         return this.showConfirm ? '#68676C' : '#FFA436';
+      },
+      hasTokenToReset () {
+        return this.$route.query?.token;
       }
     },
 
@@ -66,8 +69,8 @@
     <v-btn
       icon
       class="rounded-lg flex-initial font-bold w-4/12 mb-6 ml-1.5 btn-back"
-      max-width="81px"
-      min-width="45px"
+      max-width="110px"
+      min-width="100px"
       height="48"
       color="secondary"
       to="/"
@@ -78,12 +81,13 @@
       </svg>
       Назад
     </v-btn>
+    <h3 class="text-center font-gilroy" v-if="title">{{ title }}</h3>
     <v-form
+            v-if="hasTokenToReset"
       ref="form"
       class="flex flex-col"
       v-model="valid"
     >
-      <h3>{{ title }}</h3>
       <v-text-field
         class="font-croc"
         v-model="userInfo.password"

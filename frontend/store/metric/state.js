@@ -1,4 +1,5 @@
 export default () => ({
     value: {},
-    period: 'day'
+    period: 'day',
+    loading: false
 })
