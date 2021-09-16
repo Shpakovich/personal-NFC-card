@@ -99,16 +99,16 @@
 <template>
   <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between  xl:mt-6 user-page__xl">
     <userHead
-            class="userHead__xl"
+            class="userHead__xl m-auto__sm"
             :user="profile"
             :edit="false"
             :isShow="false"
     />
 
-    <v-row class="flex flex-column fields-block__xl flex-nowrap">
+    <v-row class="flex flex-column fields-block__xl flex-nowrap m-auto__sm">
       <v-row class="flex flex-row justify-space-between my-4 max-h-7">
         <p class="mb-0">{{ fieldsType.typesName }}</p>
-        <div class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
+        <div class="flex flex-row justify-end" style="max-width: 80px; margin: 0;">
           <label v-if="isFieldsTypeAll" for="disabled">
             <img
                     style="width: 24px; height: 24px;"
@@ -207,4 +207,10 @@
     .field-list__xl::-webkit-scrollbar {
       width: 0;
     }
+
+  .m-auto__sm {
+    @media (min-width: 640px) and (max-width: 1280px) {
+      margin: auto !important;
+    }
+  }
 </style>

@@ -42,7 +42,7 @@
 
 <template>
     <v-footer
-            class="mx-4 xl:w-full"
+            class="mx-4 sm:w-full contents-block"
             color="white"
             style="position: fixed; bottom: 0"
             padless
@@ -60,7 +60,7 @@
                     min-height="78"
                     max-width="136"
                     active-class="test-active"
-                    class="m-auto font-gilroy w-1/4 mb-9 "
+                    class="m-auto font-gilroy w-1/4 mb-5 "
                     :style="isActiveRoute(link.url) ? 'border-top: 2px solid #FFA436;' : 'border-top: 2px solid rgba(104, 103, 108, 0.3);'"
                     style="font-size: 13px!important; line-height: 15.3px!important; border-radius: 0 !important;"
                     :to="link.url"
@@ -112,9 +112,19 @@
         bottom: 0;
     }
 
+    .contents-block__sm {
+        @media (min-width: 640px) and (max-width: 1280px){
+            display: contents !important;
+        }
+    }
+
     .footer-block {
         @media (min-width: 1280px) { // todo вынести в переменную
             max-width: 615px;
+            margin: auto !important;
+        }
+        @media (min-width: 640px) { // todo вынести в переменную
+            max-width: 447px;
             margin: auto !important;
         }
     }

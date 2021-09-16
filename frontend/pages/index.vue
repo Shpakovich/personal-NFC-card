@@ -64,7 +64,8 @@
 
       const cardID = store.state.card?.card?.id;
       const profileID = store.state.profile?.id;
-      if (!cardID || !profileID) {
+      const user = store.state.auth.user;
+      if ((!cardID || !profileID) && !!user) {
         await store.dispatch('card/getUserCards')
                 .catch((e) => console.log('card/getUserCards error ' + e));
       }

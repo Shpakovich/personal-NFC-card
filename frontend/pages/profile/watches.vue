@@ -51,7 +51,7 @@
 </script>
 
 <template>
-    <v-container class="pb-11 pt-4 px-11">
+    <v-container class="pb-11 pt-4 px-11 watch-container">
         <settingsHeader />
         <div class="flex flex-col mt-14">
             <p class="font-croc text-center" style="font-size: 20px; line-height:  29.48px">
@@ -82,5 +82,12 @@
     .text-empty {
         font-size: 18px!important;
         line-height: 21px!important;
+    }
+
+    .watch-container {
+        @media (min-width: 640px) { // todo вынести в переменную
+            max-width: 447px;
+            margin: auto !important;
+        }
     }
 </style>

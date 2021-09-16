@@ -47,8 +47,8 @@
 </script>
 
 <template>
-    <v-container class="pt-11 pb-0 px-11">
-    <v-row>
+    <v-container class="pt-11 pb-0 px-11 header-container">
+    <v-row class="flex-nowrap">
         <v-btn
                 v-if="this.$auth.loggedIn"
                 icon
@@ -101,6 +101,10 @@
     </v-container>
 </template>
 
-<style scoped>
-
+<style lang="scss">
+    .header-container {
+        @media (min-width: 640px) { // todo вынести в переменную
+            max-width: 415px;
+        }
+    }
 </style>
