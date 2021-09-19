@@ -24,7 +24,7 @@
             nick: '',
             default_name: 1,
             description: '',
-            descriptionRules: [v => v?.length <= 30 || 'Максимум 30 символов'],
+            descriptionRules: [v => v?.length < 31 || 'Максимум 30 символов'],
             errorMessages: '',
             mask: 'https://myid-card.ru/NNNNNNNNNNNN',
             valid: false

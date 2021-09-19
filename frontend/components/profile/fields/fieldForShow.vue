@@ -12,6 +12,8 @@
                     return 'mailto:' + this.fieldInfo.value;
                 } else if (this.fieldInfo.title === ('Номер телефона')) {
                     return 'tel:' + this.fieldInfo.value;
+                } else if (this.fieldInfo.title === ('Whatsapp')) {
+                    return 'https://api.whatsapp.com/send?phone=' + this.fieldInfo.value;
                 } else if (this.fieldInfo.title === 'Viber') {
                     if( this.fieldInfo.value.includes('chats.viber') ) {
                         return this.fieldInfo.value;

@@ -159,19 +159,19 @@
                     }
                     case 'GitHub': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://githab.com/' + this.maskContinue
+                        return this.mask = 'https://githab.com/' + this.maskContinue
                     }
                     case 'GitLab': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://gitlab.com/' + this.maskContinue
+                        return this.mask = 'https://gitlab.com/' + this.maskContinue
                     }
                     case 'Habr': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://habrahabr.ru/' + this.maskContinue
+                        return this.mask = 'https://habrahabr.ru/' + this.maskContinue
                     }
                     case 'Steam': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://steamcommunity.com/id/' + this.maskContinue
+                        return this.mask = 'https://steamcommunity.com/profiles/' + this.maskContinue
                     }
                     case 'Discord': {
                         this.placeholder = this.getPlaceholder;

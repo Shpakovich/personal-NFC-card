@@ -9,7 +9,7 @@
         data: () => ({
             post: '',
             description: '',
-            descriptionRules: [v => v.length <= 30 || 'Максимум 30 символов'],
+            descriptionRules: [v => v.length < 30 || 'Максимум 30 символов'],
             valid: false
         }),
 
