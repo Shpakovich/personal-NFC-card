@@ -1,5 +1,6 @@
 <script>
     import { createNamespacedHelpers } from 'vuex';
+    const fieldsStore = createNamespacedHelpers('fields');
     const profile = createNamespacedHelpers('profile');
 
     import Vue from 'vue'
@@ -19,6 +20,8 @@
                 v => !!v || 'Поле не должно быть пустым'
             ],
             mask: '',
+            maskContinue: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+            isMaskOff: false,
             placeholder: ''
         }),
 
@@ -27,21 +30,41 @@
                 profile: (state) => state,
                 profileField: (state) => state.fieldToEdit,
             }),
+            ...fieldsStore.mapState({
+                filedInfo: (state) => state.currentField,
+            }),
             getPlaceholder () {
                 return 'Ввведите ' + this.profileField.title;
             },
             isViber () {
-                return this.filedInfo.title === 'Viber';
+                return this.filedInfo?.title === 'Viber';
+            },
+            hasMaskField() {
+                return !(this.filedInfo?.title === 'Email' ||
+                    this.filedInfo?.title === 'Ссылка на сайт' ||
+                    this.filedInfo?.title === 'Whatsapp');
             }
         },
 
         async asyncData ({ route, store }) {
-            const fieldID = route.query?.id;
+            const profileFieldID = route.query?.id;
 
-            await store.dispatch('profile/getFieldInProfile', fieldID)
+            await store.dispatch('profile/getFieldInProfile', profileFieldID)
                 .then(() => {
                 })
                 .catch((e) => console.log('profile/getFieldInProfile error ' + e));
+
+            const fieldID = store.state.fields.currentField.id;
+            if (fieldID) {
+                await store.dispatch('fields/getFieldInfo', fieldID)
+                    .then(() => {
+                    })
+                    .catch((e) => console.log('fields/getFieldInfo error' + e));
+            }
+            if(!store.state.profile?.id) {
+                await store.dispatch('profile/getAllProfilesInfo')
+                    .catch((e) => console.log('profile/getAllProfilesInfo error' + e));
+            }
 
         },
 
@@ -64,21 +87,28 @@
                     sort: this.profileField.sort
                 };
 
-                await this.$store.dispatch('profile/editFieldInProfile', data)
+                /* await this.$store.dispatch('profile/editFieldInProfile', data)
                     .then(() => {
                         this.$router.push('/profile/page')
                     })
                     .catch((e) => console.log('profile/editFieldInProfile error ' + e))
                 .finally(() =>
                     this.loading = false
-                );
+                ); */
             },
             changeContactStatus() {
                 this.isContactViber = !this.isContactViber;
                 this.createFieldMask();
             },
+            changeMuskViewStatus() {
+                this.isMaskOff = !this.isMaskOff;
+
+                this.isMaskOff ?
+                    this.mask = '' :
+                    this.createFieldMask();
+            },
             createFieldMask() {
-                switch (this.filedInfo.title) {
+                switch (this.filedInfo?.title) {
                     case 'Номер телефона': {
                         this.placeholder = '+7 (999) 999-99-99';
                         return this.mask = '+# (###) ###-##-##'
@@ -114,6 +144,10 @@
                             this.placeholder = 'https://chats.viber.com/myid-card';
                             return this.mask = 'https://chats.viber.com/' + this.maskContinue;
                         }
+                    }
+                    case 'Whatsapp': {
+                        this.placeholder = '+7 (999) 999-99-99';
+                        return this.mask = '+# (###) ###-##-##'
                     }
                     case 'Linkedin': {
                         this.placeholder = this.getPlaceholder;
@@ -165,13 +199,16 @@
                     }
                     case 'Steam': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://steamcommunity.com/profiles/' + this.maskContinue
+                        return this.mask = 'https://steamcommunity.com/profiles/' + this.maskContinue
                     }
                     case 'Discord': {
                         this.placeholder = this.getPlaceholder;
                         return this.mask = 'https://discord.gg/' + this.maskContinue
                     }
                 }
+            },
+            submitForm (fieldValue) {
+                this.editProfilesField(fieldValue);
             }
         }
     }
@@ -180,10 +217,6 @@
 <template>
     <v-container v-if="profileField" class="py-11 px-11">
         <h3 style="font-size: 24px; line-height: 35px;" class="text-center font-bold font-croc mb-2">{{ profileField.title }}</h3>
-        <!-- <p class="text-center text-sm font-croc mb-2">Укажи ссылку, начиная с https<br/>(например,
-            <a href="https://Instagram.com/crocinc" target="_blank">
-                https://Instagram.com/crocinc
-            </a>)</p> -->
         <v-btn
                 icon
                 class="rounded-lg flex-initial font-bold w-4/12 mb-3 ml-1.5 btn-back"
@@ -214,13 +247,18 @@
                 ref="form"
                 class="flex flex-col mt-14"
                 v-model="valid"
+                @submit.prevent="submitForm(fieldValue)"
         >
             <div v-if="isViber" class="flex flex-row justify-around ml-4 mb-6">
                 <input @click="changeContactStatus" :checked="isContactViber" class="ml-4 font-croc custom-checkbox" type="radio" id="name" name="privacy">
                 <label for="name">Контакт</label>
                 <input @click="changeContactStatus" :checked="!isContactViber" class="ml-4 font-croc custom-checkbox" type="radio" id="nickname" name="privacy">
                 <label for="nickname">Чат/Группа</label>
-            </div
+            </div>
+            <!-- <div v-if="hasMaskField" class="flex flex-row justify-around ml-4 mb-6">
+                <input @click="changeMuskViewStatus" :checked="isMaskOff" class="ml-4 font-croc custom-checkbox" type="checkbox" id="muskOn">
+                <label for="muskOn">Отключить маску контакта</label>
+            </div> -->
             <v-text-field
                     v-model="fieldValue"
                     v-mask="mask"
@@ -248,6 +286,43 @@
     </v-container>
 </template>
 
-<style scoped>
+<style lang="scss">
+    .custom-checkbox {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    }
 
+    .custom-checkbox+label {
+        display: inline-flex;
+        align-items: center;
+        user-select: none;
+    }
+    .custom-checkbox+label::before {
+        content: '';
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
+        flex-shrink: 0;
+        flex-grow: 0;
+        border: 1px solid $secondary;
+        border-radius: 4px;
+        margin-right: 0.5rem;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 50% 50%;
+    }
+
+    .custom-checkbox:checked+label::before {
+        border-color: $secondary;
+        background-color: $secondary;
+        filter: drop-shadow(0px 4px 8px rgba(50, 50, 71, 0.16));
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+    }
+
+    label {
+        font-size: 12px;
+        line-height: 20px;
+        color: #68676C;
+    }
 </style>

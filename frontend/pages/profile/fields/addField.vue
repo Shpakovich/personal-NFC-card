@@ -20,7 +20,8 @@
                 v => !!v || 'Поле не должно быть пустым'
             ],
             mask: '',
-            maskContinue: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+            maskContinue: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+            isMaskOff: false,
             placeholder: ''
         }),
 
@@ -38,6 +39,11 @@
             },
             isViber () {
                 return this.filedInfo.title === 'Viber';
+            },
+            hasMaskField() {
+                return !(this.filedInfo.title === 'Email' ||
+                    this.filedInfo.title === 'Ссылка на сайт' ||
+                    this.filedInfo.title === 'Whatsapp');
             }
         },
 
@@ -62,6 +68,7 @@
 
         methods: {
             async setFieldValue(fieldValue) {
+                this.loading = true;
                 const fieldID = this.$route.query?.id;
 
                 const data = {
@@ -74,7 +81,8 @@
                 await this.$store.dispatch('profile/addFieldInProfile', data)
                     .then((fieldInfo) => {
                     })
-                    .catch((e) => console.log('profile/addProfile ' + e));
+                    .catch((e) => console.log('profile/addProfile ' + e))
+                    .finally( () => (this.loading = false));
             },
             getIconSrc (fieldInfo) {
                 return fieldInfo?.icon?.path;
@@ -82,6 +90,13 @@
             changeContactStatus() {
                 this.isContactViber = !this.isContactViber;
                 this.createFieldMask();
+            },
+            changeMuskViewStatus() {
+                this.isMaskOff = !this.isMaskOff;
+
+                this.isMaskOff ?
+                    this.mask = '' :
+                    this.createFieldMask();
             },
             createFieldMask() {
                 switch (this.filedInfo.title) {
@@ -120,6 +135,10 @@
                             this.placeholder = 'https://chats.viber.com/myid-card';
                             return this.mask = 'https://chats.viber.com/' + this.maskContinue;
                         }
+                    }
+                    case 'Whatsapp': {
+                        this.placeholder = '+7 (999) 999-99-99';
+                        return this.mask = '+# (###) ###-##-##'
                     }
                     case 'Linkedin': {
                         this.placeholder = this.getPlaceholder;
@@ -178,6 +197,9 @@
                         return this.mask = 'https://discord.gg/' + this.maskContinue
                     }
                 }
+            },
+            submitForm (fieldValue) {
+                this.setFieldValue(fieldValue);
             }
         }
     }
@@ -216,7 +238,12 @@
                 ref="form"
                 class="flex flex-col mt-14"
                 v-model="valid"
+                @submit.prevent="submitForm(fieldValue)"
         >
+            <div v-if="hasMaskField" class="flex flex-row justify-around ml-4 mb-6">
+                <input @click="changeMuskViewStatus" :checked="isMaskOff" class="ml-4 font-croc custom-checkbox" type="checkbox" id="muskOn">
+                <label for="muskOn">Отключить маску контакта</label>
+            </div>
             <div v-if="isViber" class="flex flex-row justify-around ml-4 mb-6">
                 <input @click="changeContactStatus" :checked="isContactViber" class="ml-4 font-croc custom-checkbox" type="radio" id="name" name="privacy">
                 <label for="name">Контакт</label>

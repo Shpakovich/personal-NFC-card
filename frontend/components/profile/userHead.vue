@@ -63,13 +63,6 @@
                 width="100%"
                 color="#00A460"
         >
-            <!-- <img
-                    class="m-auto bg-white"
-                    style="max-height: 120px; max-width: 120px; border-radius: 120px;"
-                    :src="getUserPhoto"
-                    alt=""
-                    @click="routerToChoosePhoto()"
-            >-->
             <div
                     v-if="getUserPhoto"
                     class="m-auto bg-white img-header mb-2"
