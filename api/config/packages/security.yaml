@@ -47,7 +47,7 @@ security:
          - { path: ^/fields$, roles: ROLE_USER }
          - { path: ^/themes$, roles: ROLE_USER }
          - { path: ^/field/custom, roles: ROLE_USER }
-         - { path: ^/field/types$, roles: ROLE_USER }
+         - { path: ^/field/types$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/profile, roles: ROLE_USER }
          - { path: ^/metric, roles: ROLE_USER }
 
