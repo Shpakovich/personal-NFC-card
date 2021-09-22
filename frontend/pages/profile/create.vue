@@ -82,6 +82,7 @@
         :rules="nameRules"
         class="font-croc"
         label="Имя"
+        id="name"
         required
         outlined
         placeholder="Ваше имя"
@@ -91,6 +92,7 @@
         v-model="nickname"
         class="font-croc"
         label="Никнейм"
+        id="nickname"
         outlined
         hint="Можно использовать вместо имени"
         placeholder="my-Nick"

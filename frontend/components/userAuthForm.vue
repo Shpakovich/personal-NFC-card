@@ -59,6 +59,8 @@
       v-on:keyup="resetError()"
       :rules="emailRules"
       label="Email"
+      id="email"
+      type="email"
       required
       outlined
       placeholder="Ваш email"

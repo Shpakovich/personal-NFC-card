@@ -71,6 +71,7 @@
                     v-model="post"
                     class="font-croc"
                     label="Род деятельности"
+                    id="post"
                     required
                     outlined
                     placeholder="Разработчик, event-менеджер и др."
@@ -80,6 +81,7 @@
                     v-model="description"
                     class="font-croc"
                     label="Описание"
+                    id="bio"
                     :rules="descriptionRules"
                     counter="50"
                     height="78"

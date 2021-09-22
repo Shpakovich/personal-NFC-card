@@ -138,6 +138,7 @@
                         v-model="name"
                         class="font-croc"
                         label="Имя"
+                        id="name"
                         required
                         outlined
                         placeholder="Ваше имя"
@@ -147,6 +148,7 @@
                         v-model="nickname"
                         class="font-croc"
                         label="Никнейм"
+                        id="nickname"
                         outlined
                         hint="Можно использовать вместо имени"
                         placeholder="my-Nick"
@@ -162,6 +164,7 @@
                 <v-text-field
                         v-model="post"
                         class="font-croc"
+                        id="post"
                         label="Род деятельности"
                         required
                         outlined
@@ -204,6 +207,7 @@
                         v-model="description"
                         :rules="descriptionRules"
                         class="font-croc"
+                        id="bio"
                         label="Описание"
                         counter="50"
                         height="78"

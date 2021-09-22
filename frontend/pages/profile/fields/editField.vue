@@ -13,6 +13,7 @@
 
         data: () => ({
             fieldValue: '',
+            type: 'text',
             loading: false,
             valid: false,
             isContactViber: true,
@@ -43,6 +44,10 @@
                 return !(this.filedInfo?.title === 'Email' ||
                     this.filedInfo?.title === 'Ссылка на сайт' ||
                     this.filedInfo?.title === 'Whatsapp');
+            },
+            fieldType () {
+                this.isMaskOff ? this.type = 'url' : this.type = 'text';
+                return this.type;
             }
         },
 
@@ -110,10 +115,12 @@
             createFieldMask() {
                 switch (this.filedInfo?.title) {
                     case 'Номер телефона': {
+                        this.type = 'tel';
                         this.placeholder = '+7 (999) 999-99-99';
                         return this.mask = '+# (###) ###-##-##'
                     }
                     case 'Email': {
+                        this.type = 'email';
                         return this.placeholder = 'myid-card.ru@gmail.com';
                     }
                     case 'Ссылка на сайт': {
@@ -138,6 +145,7 @@
                     case 'Viber': {
                         this.placeholder = this.getPlaceholder;
                         if (this.isContactViber) {
+                            this.type = 'tel';
                             this.placeholder = '+7 (999) 999-99-99';
                             return this.mask = '+# (###) ###-##-##';
                         } else {
@@ -146,6 +154,7 @@
                         }
                     }
                     case 'Whatsapp': {
+                        this.type = 'tel';
                         this.placeholder = '+7 (999) 999-99-99';
                         return this.mask = '+# (###) ###-##-##'
                     }
@@ -265,6 +274,8 @@
                     class="font-croc"
                     :label="profileField.title"
                     :rules="valueRules"
+                    :type="fieldType"
+                    :id="filedInfo.title"
                     required
                     outlined
                     :placeholder="placeholder"
