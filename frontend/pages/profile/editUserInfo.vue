@@ -112,9 +112,10 @@
 <template>
     <div>
         <profileEditHeader @editUser="editInfoInProfile" />
-        <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6 relative">
+        <v-container class="user-page__xl px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6 relative">
             <userHead
                     class="userHead__xl"
+                    style="max-width: 447px; height: max-content;"
                     :isShow="false"
                     :user="profile"
                     :edit="true"
@@ -132,6 +133,7 @@
             <v-form
                     ref="form"
                     class="flex flex-col mt-6 fields-block__xl"
+                    style="max-width: 448px;"
                     v-model="valid"
             >
                 <v-text-field

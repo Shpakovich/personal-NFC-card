@@ -97,7 +97,7 @@
 </script>
 
 <template>
-  <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between  xl:mt-6 user-page__xl">
+  <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6 user-page__xl fix-page-container">
     <userHead
             class="userHead__xl m-auto__sm"
             :user="profile"
@@ -212,5 +212,11 @@
     @media (min-width: 640px) and (max-width: 1280px) {
       margin: auto !important;
     }
+  }
+
+  .fix-page-container {
+    height: 100%;
+    max-height: 100%;
+    overflow: scroll;
   }
 </style>

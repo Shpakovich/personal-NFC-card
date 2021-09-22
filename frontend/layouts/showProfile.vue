@@ -1,24 +1,29 @@
 <script>
     import profileHeader from "../components/layouts/profile/profileHeader";
+    import profileHeaderDesktop from "../components/layouts/profile/profileHeaderDesktop";
 
     export default {
         name: "showProfile",
 
         components: {
-            profileHeader
+            profileHeader,
+            profileHeaderDesktop
         }
     }
 </script>
 
 <template>
     <v-app class="fixMainContainer">
-        <profileHeader />
+        <profileHeader class="block xl:hidden" />
+        <profileHeaderDesktop class="hidden xl:block" />
         <v-main class="main-container__without-footer">
             <nuxt />
         </v-main>
     </v-app>
 </template>
 
-<style scoped>
-
+<style lang="scss">
+    .v-main__wrap {
+        overflow: hidden;
+    }
 </style>

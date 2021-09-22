@@ -21,7 +21,7 @@
                     }
                 }
 
-                if (this.$route.name === 'show') {
+                if (this.$route.name === 'alias') {
                     return header = 'Профиль';
                 }
 
@@ -80,7 +80,7 @@
                 >
                     Войти
                 </v-btn>
-                <v-btn
+                <!--<v-btn
                         v-if="this.$auth.loggedIn"
                         icon
                         class="rounded-lg font-bold w-4/12 xl:ml-3 xl:my-auto header-button__xl"
@@ -89,7 +89,7 @@
                         to="/"
                 >
                     QR cod
-                </v-btn>
+                </v-btn> -->
             </v-row>
         </v-row>
     </v-container>
