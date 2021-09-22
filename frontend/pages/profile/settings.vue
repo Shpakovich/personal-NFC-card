@@ -42,7 +42,7 @@
 </script>
 
 <template>
-    <v-container class="px-11 settings-page-block">
+    <v-container class="px-11 settings-page-block" style="height: 100%; max-height: 100%; overflow: scroll;">
         <p class="font-croc text-center" style="font-size: 17px; line-height: 24px;">
             Чуть позже вы сможете создать карточку
             в дополнение к этой, но написать другую

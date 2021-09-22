@@ -118,7 +118,7 @@
                 style="max-width: 448px;"
         >
             <v-row class="flex flex-row justify-space-between my-4">
-                <p class="mb-0">{{ show.typesName }}</p>
+                <p class="mb-0 font-gilroy">{{ show.typesName }}</p>
                 <div v-if="this.$auth.loggedIn" class="flex flex-row m-auto justify-end" style="max-width: 80px; margin: 0;">
                     <nuxt-link to="/fieldsType">
                         <img
@@ -131,13 +131,16 @@
                 </div>
             </v-row>
 
-            <v-row class="flex flex-column xl:overflow-scroll field-list__xl flex-nowrap">
+            <v-row v-if="getShowFields.length" class="flex flex-column xl:overflow-scroll field-list__xl flex-nowrap">
                 <fieldForShow
                   v-for="(field, index) in getShowFields"
                   :field-info="field"
                   class="mb-6"
                   :key="index"
                 />
+            </v-row>
+            <v-row v-else class="flex flex-column mt-6">
+                <p class="text-center font-croc">Пользователь ещё не добавил информацию о себе</p>
             </v-row>
         </v-row>
     </v-container>
@@ -147,7 +150,7 @@
     .user-page__xl {
         @media (min-width: 1280px) { // todo вынести в переменную
             max-width: 1085px;
-            padding-bottom: 114px;
+            padding-bottom: 98px;
         }
     }
 

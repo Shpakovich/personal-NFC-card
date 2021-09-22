@@ -33,15 +33,16 @@
 
 <style lang="scss">
     .main-container {
-        height: calc(100% - 114px - 92px);max-height: calc(100% - 114px - 92px);
+        height: calc(100% - 98px - 92px);
+        max-height: calc(100% - 98px - 92px);
         overflow: scroll;
         @media (min-width: 1280px) { // todo вынести в переменную
             overflow: hidden;
         }
     }
     .main-container__without-header {
-        height: calc(100% - 114px);
-        max-height: calc(100% - 114px);
+        height: calc(100% - 98px);
+        max-height: calc(100% - 98px);
         overflow: scroll;
     }
     .main-container__without-footer {

@@ -110,7 +110,7 @@
 </script>
 
 <template>
-    <div>
+    <div style="height: 100%; max-height: 100%; overflow: scroll;">
         <profileEditHeader @editUser="editInfoInProfile" />
         <v-container class="user-page__xl px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6 relative">
             <userHead
@@ -140,7 +140,7 @@
                         v-model="name"
                         class="font-croc"
                         label="Имя"
-                        id="name"
+                        id="nameText"
                         required
                         outlined
                         placeholder="Ваше имя"
@@ -150,7 +150,7 @@
                         v-model="nickname"
                         class="font-croc"
                         label="Никнейм"
-                        id="nickname"
+                        id="nicknameText"
                         outlined
                         hint="Можно использовать вместо имени"
                         placeholder="my-Nick"

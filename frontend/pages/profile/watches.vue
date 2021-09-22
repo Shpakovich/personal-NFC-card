@@ -80,7 +80,7 @@
 </script>
 
 <template>
-    <v-container class="pb-11 pt-4 px-11 watch-container">
+    <v-container class="pb-11 pt-4 px-11 watch-container" style="height: 100%; max-height: 100%; overflow: scroll;">
         <settingsHeader />
         <div class="flex flex-col mt-14">
             <p class="font-croc text-center" style="font-size: 20px; line-height: 29.48px; z-index: 1;">
@@ -132,13 +132,13 @@
 
         @media (min-height: 660px) and (max-height: 760px){
             display: block;
-            max-width: 215px;
-            bottom: -5%;
+            max-width: 105px;
+            bottom: 10%;
         }
         @media (min-height: 760px) {
             display: block;
-            max-width: 415px;
-            bottom: 5%;
+            max-width: 165px;
+            bottom: 15%;
         }
     }
 </style>

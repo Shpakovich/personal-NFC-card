@@ -19,7 +19,9 @@
 </script>
 
 <template>
-        <plug :text="text" :btn="false" :hAuto="true" />
+        <v-container style="height: 100%; max-height: 100%; overflow: scroll;">
+                <plug :text="text" :btn="false" :hAuto="true" />
+        </v-container>
 </template>
 
 <style scoped>

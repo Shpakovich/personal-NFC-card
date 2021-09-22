@@ -75,12 +75,16 @@
                 >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                                style="position: absolute; left: 12px; top: 8px;"
+                                style="position: absolute; left: 12px; top: 8px; border: 1px solid white;"
                                 icon
                                 v-bind="attrs"
                                 @click="show = !show"
                         >
-                            <img src="../../assets/images/icon/eye-off-red.svg" alt="">
+                            <img
+                                    style="margin: 2px 2px 0 0"
+                                    src="../../assets/images/icon/eye-off-red.svg"
+                                    alt=""
+                            >
                         </v-btn>
                     </template>
                     <span>Профиль не опубликован</span>
