@@ -97,7 +97,7 @@
 </script>
 
 <template>
-  <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between  xl:mt-6 user-page__xl">
+  <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6 user-page__xl fix-page-container">
     <userHead
             class="userHead__xl m-auto__sm"
             :user="profile"
@@ -107,7 +107,7 @@
 
     <v-row class="flex flex-column fields-block__xl flex-nowrap m-auto__sm">
       <v-row class="flex flex-row justify-space-between my-4 max-h-7">
-        <p class="mb-0">{{ fieldsType.typesName }}</p>
+        <p class="mb-0 font-gilroy">{{ fieldsType.typesName }}</p>
         <div class="flex flex-row justify-end" style="max-width: 80px; margin: 0;">
           <label v-if="isFieldsTypeAll" for="disabled">
             <img
@@ -199,7 +199,7 @@
     .user-page__xl {
       @media (min-width: 1280px) { // todo вынести в переменную
         max-width: 1085px;
-        padding-bottom: 114px;
+        padding-bottom: 98px;
       }
     }
 
@@ -212,5 +212,11 @@
     @media (min-width: 640px) and (max-width: 1280px) {
       margin: auto !important;
     }
+  }
+
+  .fix-page-container {
+    height: 100%;
+    max-height: 100%;
+    overflow: scroll;
   }
 </style>

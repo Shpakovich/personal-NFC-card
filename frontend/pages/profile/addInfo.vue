@@ -9,7 +9,7 @@
         data: () => ({
             post: '',
             description: '',
-            descriptionRules: [v => v.length <= 30 || 'Максимум 30 символов'],
+            descriptionRules: [v => v?.length < 51 || 'Максимум 50 символов'],
             valid: false
         }),
 
@@ -25,7 +25,7 @@
                     name: this.profile?.name,
                     nickname: this.profile?.nickname,
                     default_name: this.profile?.default_name,
-                    title: this.profile?.title, // TODO сказать Владу сделать не обязательными
+                    title: this.profile?.title,
                     id: this.profile?.id, // id профиля который меняем
                     post: this.post,
                     description: this.description
@@ -71,6 +71,7 @@
                     v-model="post"
                     class="font-croc"
                     label="Род деятельности"
+                    id="post"
                     required
                     outlined
                     placeholder="Разработчик, event-менеджер и др."
@@ -80,8 +81,9 @@
                     v-model="description"
                     class="font-croc"
                     label="Описание"
+                    id="bio"
                     :rules="descriptionRules"
-                    counter="30"
+                    counter="50"
                     height="78"
                     outlined
                     placeholder="Напишите пару слов о себе"

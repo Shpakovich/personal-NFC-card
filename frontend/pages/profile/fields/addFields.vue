@@ -28,7 +28,7 @@
 </script>
 
 <template>
-    <v-container class="py-11 px-11">
+    <v-container class="py-11 px-11" style="height: 100%; max-height: 100%; overflow: scroll;">
         <h3 style="font-size: 24px; line-height: 35px;" class="text-center font-bold font-croc">Общее</h3>
         <v-btn
                 icon

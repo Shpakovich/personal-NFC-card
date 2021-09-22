@@ -24,10 +24,14 @@
             nick: '',
             default_name: 1,
             description: '',
-            descriptionRules: [v => v?.length <= 30 || 'Максимум 30 символов'],
+            descriptionRules: [v => v?.length < 51 || 'Максимум 50 символов'],
             errorMessages: '',
+            showErrorAlert: false,
             mask: 'https://myid-card.ru/NNNNNNNNNNNN',
-            valid: false
+            valid: false,
+
+            currentTime: 3,
+            timer: null
         }),
 
         computed:{
@@ -63,50 +67,80 @@
                 this.errorMessages = '';
             },
             async editInfoInProfile() {
-                const data = {
-                    name: this.name,
-                    title: this.name,
-                    nickname: this.nickname ?? '',
-                    default_name: this.default_name,
-                    id: this.profile?.id, // id профиля который меняем
-                    post: this.post ?? '',
-                    nick: this.nick ?? '',
-                    description: this.description ?? ''
-                };
-                await this.$store.dispatch('profile/editProfileInfo', data)
-                    .then((data) => {})
-                    .catch((e) => console.log('profile/editProfileInfo error' + e));
+                if (this.valid) {
+                    const data = {
+                        name: this.name,
+                        title: this.name,
+                        nickname: this.nickname ?? '',
+                        default_name: this.default_name,
+                        id: this.profile?.id, // id профиля который меняем
+                        post: this.post ?? '',
+                        nick: this.nick ?? '',
+                        description: this.description ?? ''
+                    };
+                    await this.$store.dispatch('profile/editProfileInfo', data)
+                        .then((data) => {})
+                        .catch((e) => console.log('profile/editProfileInfo error' + e));
+                } else {
+                   this.startTimer();
+                }
             },
             copyToClipboard() {
                 const textBox = document.getElementById("alias");
                 textBox.select();
                 document.execCommand("copy");
-            }
+            },
+            startTimer () {
+                this.showErrorAlert = true;
+                this.timer = setInterval(() => {
+                    this.currentTime--;
+                    if (this.currentTime === 0) {
+                        this.stopTimer();
+                    }
+                }, 1000);
+            },
+
+            stopTimer () {
+                this.showErrorAlert = false;
+                this.currentTime = 3;
+                clearTimeout(this.timer);
+            },
         }
     }
 </script>
 
 <template>
-    <div>
+    <div style="height: 100%; max-height: 100%; overflow: scroll;">
         <profileEditHeader @editUser="editInfoInProfile" />
-        <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6">
+        <v-container class="user-page__xl px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6 relative">
             <userHead
                     class="userHead__xl"
+                    style="max-width: 447px; height: max-content;"
                     :isShow="false"
                     :user="profile"
                     :edit="true"
             />
+            <v-alert
+                    v-if="showErrorAlert"
+                    style="right: 5%; top: 0; position: absolute; background: rgba(72%, 11%, 11%, 0.9); !important;"
+                    elevation="4"
+                    type="error"
+                    transition="slide-x-transition"
+            >
+                В форме есть ошибки
+            </v-alert>
 
             <v-form
                     ref="form"
                     class="flex flex-col mt-6 fields-block__xl"
+                    style="max-width: 448px;"
                     v-model="valid"
-                    lazy-validation
             >
                 <v-text-field
                         v-model="name"
                         class="font-croc"
                         label="Имя"
+                        id="nameText"
                         required
                         outlined
                         placeholder="Ваше имя"
@@ -116,6 +150,7 @@
                         v-model="nickname"
                         class="font-croc"
                         label="Никнейм"
+                        id="nicknameText"
                         outlined
                         hint="Можно использовать вместо имени"
                         placeholder="my-Nick"
@@ -131,6 +166,7 @@
                 <v-text-field
                         v-model="post"
                         class="font-croc"
+                        id="post"
                         label="Род деятельности"
                         required
                         outlined
@@ -173,8 +209,9 @@
                         v-model="description"
                         :rules="descriptionRules"
                         class="font-croc"
+                        id="bio"
                         label="Описание"
-                        counter="30"
+                        counter="50"
                         height="78"
                         outlined
                         placeholder="Напишите пару слов о себе"

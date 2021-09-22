@@ -73,6 +73,8 @@
       v-model="userInfo.email"
       :rules="emailRules"
       label="Email"
+      id="email"
+      type="email"
       :error-messages="errorMessages"
       v-on:keyup="resetError()"
       required

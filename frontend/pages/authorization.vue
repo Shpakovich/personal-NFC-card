@@ -57,7 +57,7 @@
 </script>
 
 <template>
-  <v-container class="py-11 px-11 xl:flex xl:flex-row xl:h-full">
+  <v-container class="py-11 px-11 xl:flex xl:flex-row xl:h-full" style="height: 100%; max-height: 100%; overflow: scroll;">
     <img
       src="../assets/images/myID-logo.svg"
       style="max-width: 415px;"

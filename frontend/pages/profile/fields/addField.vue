@@ -13,6 +13,7 @@
 
         data: () => ({
             fieldValue: '',
+            type: 'text',
             loading: false,
             valid: false,
             isContactViber: true,
@@ -20,7 +21,8 @@
                 v => !!v || 'Поле не должно быть пустым'
             ],
             mask: '',
-            maskContinue: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+            maskContinue: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+            isMaskOff: false,
             placeholder: ''
         }),
 
@@ -38,6 +40,15 @@
             },
             isViber () {
                 return this.filedInfo.title === 'Viber';
+            },
+            hasMaskField() {
+                return !(this.filedInfo.title === 'Email' ||
+                    this.filedInfo.title === 'Ссылка на сайт' ||
+                    this.filedInfo.title === 'Whatsapp');
+            },
+            fieldType () {
+                this.isMaskOff ? this.type = 'url' : this.type = 'text';
+                return this.type;
             }
         },
 
@@ -62,6 +73,7 @@
 
         methods: {
             async setFieldValue(fieldValue) {
+                this.loading = true;
                 const fieldID = this.$route.query?.id;
 
                 const data = {
@@ -74,7 +86,8 @@
                 await this.$store.dispatch('profile/addFieldInProfile', data)
                     .then((fieldInfo) => {
                     })
-                    .catch((e) => console.log('profile/addProfile ' + e));
+                    .catch((e) => console.log('profile/addProfile ' + e))
+                    .finally( () => (this.loading = false));
             },
             getIconSrc (fieldInfo) {
                 return fieldInfo?.icon?.path;
@@ -83,13 +96,22 @@
                 this.isContactViber = !this.isContactViber;
                 this.createFieldMask();
             },
+            changeMuskViewStatus() {
+                this.isMaskOff = !this.isMaskOff;
+
+                this.isMaskOff ?
+                    this.mask = '' :
+                    this.createFieldMask();
+            },
             createFieldMask() {
                 switch (this.filedInfo.title) {
                     case 'Номер телефона': {
+                        this.type = 'tel';
                         this.placeholder = '+7 (999) 999-99-99';
                         return this.mask = '+# (###) ###-##-##'
                     }
                     case 'Email': {
+                        this.type = 'email';
                         return this.placeholder = 'myid-card.ru@gmail.com';
                     }
                     case 'Ссылка на сайт': {
@@ -114,12 +136,18 @@
                     case 'Viber': {
                         this.placeholder = this.getPlaceholder;
                         if (this.isContactViber) {
+                            this.type = 'tel';
                             this.placeholder = '+7 (999) 999-99-99';
                             return this.mask = '+# (###) ###-##-##';
                         } else {
                             this.placeholder = 'https://chats.viber.com/myid-card';
                             return this.mask = 'https://chats.viber.com/' + this.maskContinue;
                         }
+                    }
+                    case 'Whatsapp': {
+                        this.type = 'tel';
+                        this.placeholder = '+7 (999) 999-99-99';
+                        return this.mask = '+# (###) ###-##-##'
                     }
                     case 'Linkedin': {
                         this.placeholder = this.getPlaceholder;
@@ -159,25 +187,28 @@
                     }
                     case 'GitHub': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://githab.com/' + this.maskContinue
+                        return this.mask = 'https://githab.com/' + this.maskContinue
                     }
                     case 'GitLab': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://gitlab.com/' + this.maskContinue
+                        return this.mask = 'https://gitlab.com/' + this.maskContinue
                     }
                     case 'Habr': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://habrahabr.ru/' + this.maskContinue
+                        return this.mask = 'https://habrahabr.ru/' + this.maskContinue
                     }
                     case 'Steam': {
                         this.placeholder = this.getPlaceholder;
-                        return this.mask = 'http://steamcommunity.com/id/' + this.maskContinue
+                        return this.mask = 'https://steamcommunity.com/profiles/' + this.maskContinue
                     }
                     case 'Discord': {
                         this.placeholder = this.getPlaceholder;
                         return this.mask = 'https://discord.gg/' + this.maskContinue
                     }
                 }
+            },
+            submitForm (fieldValue) {
+                this.setFieldValue(fieldValue);
             }
         }
     }
@@ -216,7 +247,12 @@
                 ref="form"
                 class="flex flex-col mt-14"
                 v-model="valid"
+                @submit.prevent="submitForm(fieldValue)"
         >
+            <div v-if="hasMaskField" class="flex flex-row justify-around ml-4 mb-6">
+                <input @click="changeMuskViewStatus" :checked="isMaskOff" class="ml-4 font-croc custom-checkbox" type="checkbox" id="muskOn">
+                <label for="muskOn">Отключить маску контакта</label>
+            </div>
             <div v-if="isViber" class="flex flex-row justify-around ml-4 mb-6">
                 <input @click="changeContactStatus" :checked="isContactViber" class="ml-4 font-croc custom-checkbox" type="radio" id="name" name="privacy">
                 <label for="name">Контакт</label>
@@ -230,6 +266,8 @@
                     class="font-croc"
                     :label="filedInfo.title"
                     :rules="valueRules"
+                    :type="fieldType"
+                    :id="filedInfo.title"
                     required
                     outlined
                     :placeholder="placeholder"

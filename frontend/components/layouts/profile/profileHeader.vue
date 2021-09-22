@@ -21,7 +21,7 @@
                     }
                 }
 
-                if (this.$route.name === 'show') {
+                if (this.$route.name === 'alias') {
                     return header = 'Профиль';
                 }
 
