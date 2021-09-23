@@ -61,6 +61,7 @@ class CustomFieldAccess extends Voter
 
     private function canEdit(CustomField $profile, UserIdentity $user): bool
     {
-        return $profile->getUser()->getId()->isEqual(new Id($user->getId()));
+        return $this->security->isGranted(Role::ADMIN)
+            || $profile->getUser()->getId()->isEqual(new Id($user->getId()));
     }
 }
