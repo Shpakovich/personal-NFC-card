@@ -23,11 +23,6 @@ class Handler
     {
         $field = $this->fields->getById(new Id($command->id));
 
-        if (!$field->getProfile()->getUser()->getId()->isEqual(new Id($command->userId))
-            && !$field->getProfile()->getUser()->getRole()->isAdmin()) {
-            throw new \DomainException('It is not your profile.');
-        }
-
         $this->fields->remove($field);
         $this->flusher->flush();
     }

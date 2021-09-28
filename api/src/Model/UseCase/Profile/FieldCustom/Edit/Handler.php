@@ -29,22 +29,12 @@ class Handler
     {
         $profileField = $this->profileFields->getById(new Id($command->id));
 
-        if (!$profileField->getProfile()->getUser()->getId()->isEqual(new Id($command->userId))
-            && !$profileField->getProfile()->getUser()->getRole()->isAdmin()) {
-            throw new \DomainException('It is not your profile.');
-        }
-
         $profileField
             ->setValue($command->value)
             ->getProfile()->setUpdatedAt(new \DateTimeImmutable());
 
         if (!empty($command->fieldId)) {
             $field = $this->fields->getById(new Id($command->fieldId));
-            if (!$field->getUser()->getId()->isEqual(new Id($command->userId))
-                && !$field->getUser()->getRole()->isAdmin()) {
-                throw new \DomainException('It is not your custom field.');
-            }
-
             $profileField->setField($field);
         }
 
