@@ -30,7 +30,7 @@ class Handler
         $user = $this->users->getById(new Id($command->userId));
         $profile = $this->profiles->getById(new Id($command->id));
 
-        if (!$profile->getUser()->getId()->isEqual($user->getId())) {
+        if (!$profile->getUser()->getId()->isEqual($user->getId()) && !$profile->getUser()->getRole()->isAdmin()) {
             throw new \DomainException('It is not your profile.');
         }
 
