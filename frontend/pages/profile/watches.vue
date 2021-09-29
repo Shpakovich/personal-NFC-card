@@ -138,7 +138,7 @@
         @media (min-height: 760px) {
             display: block;
             max-width: 165px;
-            bottom: 15%;
+            bottom: 35%;
         }
     }
 </style>
