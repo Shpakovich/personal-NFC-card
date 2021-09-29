@@ -104,7 +104,7 @@
         <img
                 :src="getImageSrc"
                 class="watch-image"
-                style="position: absolute; left: 50%; transform: translate(-50%, -50%); z-index: 0"
+                style="z-index: 0; margin: auto;"
                 alt=""
         />
     </v-container>
@@ -137,8 +137,7 @@
         }
         @media (min-height: 760px) {
             display: block;
-            max-width: 165px;
-            bottom: 35%;
+            max-width: 200px;
         }
     }
 </style>
