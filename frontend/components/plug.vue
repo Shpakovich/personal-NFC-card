@@ -31,8 +31,9 @@
         </v-btn>
         <div>
             <img
-                    class="pb-16 m-auto"
+                    class="pb-6 m-auto"
                     src="../assets/images/plug.svg"
+                    style="max-width: 150px;"
                     alt=""
             />
             <p class="text-center text-2xl leading-10 font-bold mb-2.5" style="color: #00A460">
