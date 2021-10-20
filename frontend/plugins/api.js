@@ -4,6 +4,7 @@ import Profile from "@/api/profile";
 import Fields from "@/api/fields";
 import Show from "@/api/show";
 import Metric from "@/api/metric";
+import User from "@/api/user";
 
 export default (context, inject) => {
   const factories = {
@@ -12,7 +13,8 @@ export default (context, inject) => {
     profile: Profile(context.$axios),
     fields: Fields(context.$axios),
     show: Show(context.$axios),
-    metric: Metric(context.$axios)
+    metric: Metric(context.$axios),
+    user: User(context.$axios)
   };
 
   // Inject $api

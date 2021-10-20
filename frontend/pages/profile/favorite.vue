@@ -1,5 +1,8 @@
 <script>
     import plug from "../../components/plug";
+    import {createNamespacedHelpers} from "vuex";
+
+    const userStore = createNamespacedHelpers('user');
 
     export default {
         name: "favorite",
@@ -15,6 +18,17 @@
                 subTitle: 'Скоро он станет досутпен'
             }
         }),
+
+            computed: {
+                    ...userStore.mapState({
+                            user: (state) => state
+                    })
+            },
+
+            async asyncData ({ store }) {
+                    await store.dispatch('user/getFavoritesUsers')
+                            .catch((e) => console.log('user/getFavoritesUsers error ' + e));
+            }
     }
 </script>
 
