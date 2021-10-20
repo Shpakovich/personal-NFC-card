@@ -57,6 +57,7 @@
             const currentDate = new Date();
             const isoDateString = currentDate.toISOString();
             const from = new Date(currentDate - dayMilliseconds).toISOString();
+            await store.dispatch('metric/setMetricPeriod', 'day')
 
             const data = {
                 profile_id: store.state.profile?.id,
@@ -96,14 +97,14 @@
             </p>
             <v-progress-circular
                     v-else
-                    class="m-auto text-center mt-4"
+                    class="m-auto text-center my-4"
                     indeterminate
                     color="primary"
             ></v-progress-circular>
         </div>
         <img
                 :src="getImageSrc"
-                class="watch-image"
+                class="watch-image mt-2"
                 style="z-index: 0; margin: auto;"
                 alt=""
         />
