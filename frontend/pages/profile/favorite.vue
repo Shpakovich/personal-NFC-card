@@ -1,6 +1,7 @@
 <script>
     import plug from "../../components/plug";
     import {createNamespacedHelpers} from "vuex";
+    import userField from '../../components/profile/favorites/userField';
 
     const userStore = createNamespacedHelpers('user');
 
@@ -9,7 +10,8 @@
         layout: "profile",
 
         components: {
-            plug
+            plug,
+                userField
         },
 
         data: () => ({
@@ -21,8 +23,11 @@
 
             computed: {
                     ...userStore.mapState({
-                            user: (state) => state
-                    })
+                            favorites: (state) => state.favorites
+                    }),
+                    getFavorites () {
+                           return this.favorites;
+                    }
             },
 
             async asyncData ({ store }) {
@@ -33,8 +38,22 @@
 </script>
 
 <template>
-        <v-container style="height: 100%; max-height: 100%; overflow: scroll;">
-                <plug :text="text" :btn="false" :hAuto="true" />
+        <v-container class="pb-11 pt-4 px-11 watch-container" style="height: 100%; max-height: 100%; overflow: scroll;">
+                <!--<plug :text="text" :btn="false" :hAuto="true" /> -->
+                <v-row style="display: flex; flex-direction: column; gap: 20px;" v-if="getFavorites.length">
+                        <userField
+                                v-for="(favorit, index) in favorites"
+                                :favorit="favorit"
+                                :index="index"
+                        />
+                </v-row>
+                <v-row
+                        v-if="!getFavorites.length"
+                        class="h-full">
+                        <h2 class="m-auto text-center font-gilroy">
+                                У вас пока нет людей в избранном, время познакомиться!
+                        </h2>
+                </v-row>
         </v-container>
 </template>
 

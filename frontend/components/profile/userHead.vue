@@ -1,4 +1,7 @@
 <script>
+    import {createNamespacedHelpers} from "vuex";
+    const userStore = createNamespacedHelpers('user');
+
     export default {
         name: "userHead",
 
@@ -14,6 +17,9 @@
         }),
 
         computed: {
+            ...userStore.mapState({
+                favoriteStatus: (state) => state.isUserInFavorites
+            }),
             getUserMock() {
               if ( !this.user?.name && !this.user?.nickname && !this.user?.description && !this.user?.post )  {
                   return 'Ваш профиль не заполнен'
@@ -27,6 +33,9 @@
             },
             isPublished() {
                 return this.user?.is_published
+            },
+            getFavoriteStatus () {
+                return this.favoriteStatus;
             }
         },
 
@@ -50,6 +59,20 @@
                 if (this.edit) {
                     this.$router.push('/profile/choosePhoto')
                 }
+            },
+            async addUserToFavorite() {
+                const id = {
+                    "profileId": this.$store.state.show?.profile?.id // TODO вроде был id, но сейчас так
+                };
+                await this.$store.dispatch('user/addUserToFavorites', id)
+                    .catch((e) => console.log('profile/hideProfile error' + e));
+            },
+            async deleteUserFromFavorite() {
+                const id = {
+                    "id": this.$store.state.show?.profile?.id // TODO вроде был id, но сейчас так
+                };
+                await this.$store.dispatch('user/deleteUserFromFavorites', id)
+                    .catch((e) => console.log('profile/hideProfile error' + e));
             }
         }
     }
@@ -81,7 +104,6 @@
                                 @click="show = !show"
                         >
                             <img
-                                    style="margin: 2px 2px 0 0"
                                     src="../../assets/images/icon/eye-off-red.svg"
                                     alt=""
                             >
@@ -89,6 +111,32 @@
                     </template>
                     <span>Профиль не опубликован</span>
                 </v-tooltip>
+            </div>
+            <div v-if="isShow">
+                <v-btn
+                        v-if="!getFavoriteStatus"
+                        style="position: absolute; right: 12px; top: 8px;"
+                        icon
+                        @click="addUserToFavorite()"
+                >
+                    <img
+                                    style="margin: 2px 2px 0 0"
+                                    src="../../assets/images/icon/star.svg"
+                                    alt=""
+                            >
+                </v-btn>
+                <v-btn
+                        v-else
+                        style="position: absolute; right: 12px; top: 8px;"
+                        icon
+                        @click="deleteUserFromFavorite()"
+                >
+                    <img
+                            style="margin: 2px 2px 0 0"
+                            src="../../assets/images/icon/star_active.svg"
+                            alt=""
+                    >
+                </v-btn>
             </div>
             <div class="flex flex-row inline-flex m-auto">
                 <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4 card-padding">

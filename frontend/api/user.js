@@ -6,6 +6,6 @@ export default axios => ({
         return axios.post('/user/favorite/add', id);
     },
     deleteFavorite (id) {
-        return axios.get('/user/favorite/delete', id);
+        return axios.post('/user/favorite/delete', id);
     }
 })

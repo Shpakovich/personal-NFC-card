@@ -5,9 +5,26 @@ export default {
             return res;
         })
             .catch((error) => {
-                if (error.response && error.response.status === 404) {
-                    this.$router.push('/notFoundCard');
-                }
+                console.log('getFavoritesUsers error ' + error)
+            })
+    },
+
+    async addUserToFavorites ({commit, dispatch}, id) {
+        await this.$api.user.addFavorite(id).then(() => {
+            commit('SET_USER_IN_FAVORITES_STATUS', true);
+            dispatch('getFavoritesUsers');
+        })
+            .catch((error) => {
+                console.log('addUserToFavorites error ' + error)
+            })
+    },
+    async deleteUserFromFavorites ({commit, dispatch}, id) {
+        await this.$api.user.deleteFavorite(id).then(() => {
+            commit('SET_USER_IN_FAVORITES_STATUS', false);
+            dispatch('getFavoritesUsers');
+        })
+            .catch((error) => {
+                console.log('addUserToFavorites error ' + error)
             })
     }
 }
