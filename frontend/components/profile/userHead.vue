@@ -34,6 +34,9 @@
             isPublished() {
                 return this.user?.is_published
             },
+            isLoginUser () {
+                return  this.$auth.loggedIn;
+            },
             getFavoriteStatus () {
                 return this.favoriteStatus;
             }
@@ -61,18 +64,26 @@
                 }
             },
             async addUserToFavorite() {
-                const id = {
-                    "profileId": this.$store.state.show?.profile?.id // TODO вроде был id, но сейчас так
-                };
-                await this.$store.dispatch('user/addUserToFavorites', id)
-                    .catch((e) => console.log('profile/hideProfile error' + e));
+                if (!this.$auth.loggedIn) {
+                    await this.$router.push('/authorization');
+                } else {
+                    const id = {
+                        "profileId": this.$store.state.show?.profile?.id // TODO вроде был id, но сейчас так
+                    };
+                    await this.$store.dispatch('user/addUserToFavorites', id)
+                        .catch((e) => console.log('profile/hideProfile error' + e));
+                }
             },
             async deleteUserFromFavorite() {
-                const id = {
-                    "id": this.$store.state.show?.profile?.id // TODO вроде был id, но сейчас так
-                };
-                await this.$store.dispatch('user/deleteUserFromFavorites', id)
-                    .catch((e) => console.log('profile/hideProfile error' + e));
+                if (!this.$auth.loggedIn) {
+                    await this.$router.push('/authorization');
+                } else {
+                    const id = {
+                        "id": this.$store.state.show?.profile?.id // TODO вроде был id, но сейчас так
+                    };
+                    await this.$store.dispatch('user/deleteUserFromFavorites', id)
+                        .catch((e) => console.log('profile/hideProfile error' + e));
+                }
             }
         }
     }
@@ -112,7 +123,7 @@
                     <span>Профиль не опубликован</span>
                 </v-tooltip>
             </div>
-            <div v-if="isShow">
+            <div v-if="isShow && isLoginUser">
                 <v-btn
                         v-if="!getFavoriteStatus"
                         style="position: absolute; right: 12px; top: 8px;"
