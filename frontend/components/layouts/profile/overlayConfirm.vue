@@ -1,15 +1,9 @@
 <script>
-    import overlayConfirm from "../../layouts/profile/overlayConfirm";
-
     import {createNamespacedHelpers} from "vuex";
     const profileStore = createNamespacedHelpers('profile');
 
     export default {
         name: "overlayConfirm",
-
-        components: {
-            overlayConfirm
-        },
 
         data: () => ({
             absolute: true

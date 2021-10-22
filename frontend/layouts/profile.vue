@@ -3,6 +3,8 @@
   import profileFooter from "../components/layouts/profile/profileFooter";
   import profileHeaderDesktop from "../components/layouts/profile/profileHeaderDesktop";
   import overlayConfirm from "../components/layouts/profile/overlayConfirm";
+  import overlayNewFunc from "../components/layouts/profile/overlayNewFunc";
+  import { initOverlayState, getCookie } from "../utils/helpers";
 
     export default {
       name: "profile",
@@ -11,7 +13,8 @@
         profileHeader,
         profileFooter,
         profileHeaderDesktop,
-        overlayConfirm
+        overlayConfirm,
+        overlayNewFunc
       },
 
       beforeCreate() {
@@ -25,6 +28,7 @@
 <template>
   <v-app class="fixMainContainer">
     <overlayConfirm />
+    <overlayNewFunc />
     <profileHeader class="block xl:hidden" />
     <profileHeaderDesktop class="hidden xl:block" />
     <v-main class="main-container">

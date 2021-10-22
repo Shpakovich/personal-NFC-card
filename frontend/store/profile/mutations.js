@@ -28,5 +28,11 @@ export default {
     },
     SET_OVERLAY_PARAMS (state, params) {
         state.overlay.params = params;
-    }
+    },
+    SET_OVERLAY_NEW_STATUS (state, status) {
+        state.overlayNew.status = status;
+    },
+    SET_OVERLAY_NEW_SHOULD (state, should) {
+        state.overlayNew.should = should;
+    },
 };

@@ -19,5 +19,9 @@ export default () => ({
                 status: false,
                 text: '',
                 params: {}
+        },
+        overlayNew: {
+                status: false,
+                should: true
         }
 });
