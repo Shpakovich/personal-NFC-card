@@ -2,6 +2,7 @@
   import profileHeader from "../components/layouts/profile/profileHeader";
   import profileFooter from "../components/layouts/profile/profileFooter";
   import profileHeaderDesktop from "../components/layouts/profile/profileHeaderDesktop";
+  import overlayConfirm from "../components/layouts/profile/overlayConfirm";
 
     export default {
       name: "profile",
@@ -9,13 +10,9 @@
       components: {
         profileHeader,
         profileFooter,
-        profileHeaderDesktop
+        profileHeaderDesktop,
+        overlayConfirm
       },
-
-      data: () => ({
-        absolute: true,
-        overlay: false,
-      }),
 
       beforeCreate() {
         if (!this.$auth.loggedIn){
@@ -27,17 +24,7 @@
 
 <template>
   <v-app class="fixMainContainer">
-    <v-overlay
-            :absolute="absolute"
-            :value="overlay"
-    >
-      <v-btn
-              color="success"
-              @click="overlay = false"
-      >
-        //
-      </v-btn>
-    </v-overlay>
+    <overlayConfirm />
     <profileHeader class="block xl:hidden" />
     <profileHeaderDesktop class="hidden xl:block" />
     <v-main class="main-container">

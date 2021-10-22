@@ -32,11 +32,15 @@
                 this.$router.push(`/?hash=${this.favorit?.profile?.id}`);
             },
             async deleteUserFromFavorite() {
+                this.$store.commit('profile/SET_OVERLAY_TEXT', 'Вы точно хотите ' +
+                    'удалить из избранного этого человека?');
+                this.$store.commit('profile/SET_OVERLAY_STATUS', true);
+
                 const id = {
-                    "id": this.favorit?.profile?.id // TODO вроде был id, но сейчас так
+                    "id": this.favorit?.profile?.id
                 };
-                await this.$store.dispatch('user/deleteUserFromFavorites', id)
-                    .catch((e) => console.log('profile/hideProfile error' + e));
+                this.$store.commit('profile/SET_OVERLAY_PARAMS', id);
+
             }
         }
     }

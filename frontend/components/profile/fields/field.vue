@@ -36,14 +36,21 @@
                 return fieldInfo?.icon?.path;
             },
             async removeField() {
-                const data = {
+                this.$store.commit('profile/SET_OVERLAY_TEXT', 'Вы точно хотите ' +
+                    'удалить этот TEG?');
+                this.$store.commit('profile/SET_OVERLAY_STATUS', true);
+
+                const id = {
+                    "id": this.fieldInfo?.id
+                };
+                this.$store.commit('profile/SET_OVERLAY_PARAMS', id);
+
+                /* const data = {
                     id: this.fieldInfo?.id
                 };
                 await this.$store.dispatch('profile/deleteFieldInProfile', data)
-                    .then(() => {
-                        this.$emit('updateFields');
-                    })
-                    .catch((e) => console.log('profile/deleteFieldInProfile error: ' + e));
+                    .then(() => { this.$emit('updateFields'); })
+                    .catch((e) => console.log('profile/deleteFieldInProfile error: ' + e)); */
             }
         }
     }
