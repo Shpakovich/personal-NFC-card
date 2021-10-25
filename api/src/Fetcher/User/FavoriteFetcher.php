@@ -37,7 +37,7 @@ class FavoriteFetcher
             )
             ->from('favorites', 'f')
             ->innerJoin('f', 'users', 'u', 'f.user_id = u.id')
-            ->innerJoin('f', 'profiles', 'p', 'f.user_id = p.id');
+            ->innerJoin('f', 'profiles', 'p', 'f.profile_id = p.id');
 
         if ($userId !== null) {
             $qb->andWhere('f.user_id = :user_id')

@@ -121,7 +121,7 @@ class FavoriteController extends AbstractController
                             'profile' => [
                                 'id' => $item['profile_id'],
                                 'name' => $name,
-                                'post' => $item['post'],
+                                'post' => $item['profile_post'],
                                 'photo' => $photo,
                             ]
                         ];
@@ -141,7 +141,7 @@ class FavoriteController extends AbstractController
      *     @OA\RequestBody(
      *          @OA\JsonContent(
      *              required={"profile_id"},
-     *              @OA\Property(property="id", type="string", description="ID профиля")
+     *              @OA\Property(property="profile_id", type="string", description="ID профиля")
      *          )
      *      )
      * )
