@@ -39,7 +39,6 @@
                 this.$store.commit('profile/SET_PROFILE_FIELDS', {});
             },
             async resetShowProfile() {
-                await this.$store.commit('show/SET_SHOW_PROFILE_INFO', {});
                 await this.$router.push('/');
             }
         }
@@ -80,16 +79,6 @@
                 >
                     Войти
                 </v-btn>
-                <!--<v-btn
-                        v-if="this.$auth.loggedIn"
-                        icon
-                        class="rounded-lg font-bold w-4/12 xl:ml-3 xl:my-auto header-button__xl"
-                        height="48"
-                        color="#313131"
-                        to="/"
-                >
-                    QR cod
-                </v-btn> -->
             </v-row>
         </v-row>
     </v-container>

@@ -3,6 +3,10 @@ export default {
         state.profile = data?.profile;
         state.card = data?.card;
     },
+    RESET_SHOW_PROFILE_INFO (state) {
+        state.profile = {};
+        state.card = {};
+    },
     SET_SHOW_PROFILE_FIELDS (state, fields) {
         state.fields = fields;
     },

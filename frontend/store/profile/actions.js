@@ -19,16 +19,14 @@ export default {
         ).catch((err)=> console.log(err))
     },
     async publishProfile ({ commit }, data) {
-        await this.$api.profile.publishProfile(data).then((res)=> {
+        await this.$api.profile.publishProfile(data).then(_ => {
                 this.$router.push('/profile/page'); // TODO Добавить уведомлялку что мы опубликовали профиль
-                return res?.data?.items[0]
             }
         )
     },
     async hideProfile ({ commit }, data) {
-        await this.$api.profile.hideProfile(data).then((res)=> {
+        await this.$api.profile.hideProfile(data).then(_ => {
                 this.$router.push('/profile/page'); // TODO Добавить уведомлялку что мы скрыли профиль
-                return res?.data?.items[0]
             }
         )
     },
