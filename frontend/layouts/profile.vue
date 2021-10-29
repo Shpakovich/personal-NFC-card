@@ -40,6 +40,7 @@
 
 <style lang="scss">
   .fixMainContainer {
+    position: relative;
     overflow: hidden;
     max-height: 100vh;
     height: 100vh;

@@ -53,6 +53,8 @@
     <v-btn
       icon
       class="rounded-lg flex-initial font-bold w-4/12 mb-6 ml-1.5 btn-back"
+      max-width="110px"
+      min-width="100px"
       height="48"
       color="secondary"
       to="/"
