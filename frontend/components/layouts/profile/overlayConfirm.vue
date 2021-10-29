@@ -27,7 +27,9 @@
             },
             clickOverlayBtn (status) {
                 if (status) {
-                    this.$store.dispatch('profile/startOverlayAction', this.$route?.path);
+                    this.$store.dispatch('profile/startOverlayAction', this.$route?.path).finally(_ => {
+                        this.closeOverlay();
+                    });
                 } else {
                     this.closeOverlay();
                 }

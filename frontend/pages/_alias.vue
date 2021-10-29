@@ -53,6 +53,27 @@
                     .catch((e) => console.log('show/getShowProfile error ' + e));
             }
 
+            // Получение избранных чтобы понять входит ли юзер в них
+
+            function isFavorite(favorite) {
+                return favorite.profile.id === store.state.show.profile?.id;
+            }
+
+            await store.dispatch('user/getFavoritesUsers').then(_ => {
+                const { commit } = store;
+                const favorites = store.state.user.favorites;
+                const profileInFavorite = favorites.find(isFavorite);
+
+                if ( profileInFavorite && profileInFavorite.id ) {
+                    commit('user/SET_USER_IN_FAVORITES', profileInFavorite.id);
+                }
+
+
+            }).catch((e) => console.log('user/getFavoritesUsers error ' + e));
+
+
+            // Получение избранных чтобы понять входит ли юзер в них
+
 
             if( !!store.state.show.profile?.id ) {
                 const fields = store.state.show.profile?.fields;

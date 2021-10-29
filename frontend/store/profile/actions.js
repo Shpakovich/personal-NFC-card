@@ -101,7 +101,7 @@ export default {
                 "id": rootState.profile.overlay.params.id // TODO вроде был id, но сейчас так
             };
             await dispatch('user/deleteUserFromFavorites', id, { root: true })
-                .then(() => commit('profile/SET_OVERLAY_STATUS', false))
+                .then(() => commit('profile/SET_OVERLAY_STATUS', false, { root: true }))
                 .catch((e) => console.log('profile/hideProfile error' + e));
         } else if (path.includes('page')) {
             const data = {

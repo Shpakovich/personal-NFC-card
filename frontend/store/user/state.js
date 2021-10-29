@@ -1,4 +1,7 @@
 export default () => ({
     favorites: [],
-    isUserInFavorites: false
+    userInFavorites: {
+        status: false,
+        id: ''
+    }
 });

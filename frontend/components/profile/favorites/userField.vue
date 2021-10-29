@@ -3,16 +3,16 @@
         name: "userField",
 
         props: [
-            "favorit",
+            "favorite",
             "index"
         ],
 
         computed: {
             getUserName () {
-                return this.favorit?.profile?.name;
+                return this.favorite?.profile?.name;
             },
             getUserPost () {
-                return this.favorit?.profile?.post;
+                return this.favorite?.profile?.post;
             },
             getFieldColor () {
                 const order = this.index % 3;
@@ -29,7 +29,7 @@
 
         methods: {
             routeToUser () {
-                this.$router.push(`/?hash=${this.favorit?.profile?.id}`);
+                this.$router.push(`/?hash=${this.favorite?.profile?.id}`); // TODO должен быть .card?.id или alias
             },
             async deleteUserFromFavorite() {
                 this.$store.commit('profile/SET_OVERLAY_TEXT', 'Вы точно хотите ' +
@@ -37,7 +37,7 @@
                 this.$store.commit('profile/SET_OVERLAY_STATUS', true);
 
                 const id = {
-                    "id": this.favorit?.profile?.id
+                    "id": this.favorite?.id
                 };
                 this.$store.commit('profile/SET_OVERLAY_PARAMS', id);
 
@@ -48,7 +48,7 @@
 
 <template>
     <v-card
-            v-if="favorit"
+            v-if="favorite"
             outlined
             class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5"
             style="display: flex!important; border-radius: 20px!important;"

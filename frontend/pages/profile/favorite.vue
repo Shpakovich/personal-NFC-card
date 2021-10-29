@@ -42,8 +42,8 @@
                 <!--<plug :text="text" :btn="false" :hAuto="true" /> -->
                 <v-row style="display: flex; flex-direction: column; gap: 20px;" v-if="getFavorites.length">
                         <userField
-                                v-for="(favorit, index) in favorites"
-                                :favorit="favorit"
+                                v-for="(favorite, index) in favorites"
+                                :favorite="favorite"
                                 :index="index"
                         />
                 </v-row>

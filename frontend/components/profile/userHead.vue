@@ -18,7 +18,7 @@
 
         computed: {
             ...userStore.mapState({
-                favoriteStatus: (state) => state.isUserInFavorites
+                favoriteUser: (state) => state.userInFavorites
             }),
             getUserMock() {
               if ( !this.user?.name && !this.user?.nickname && !this.user?.description && !this.user?.post )  {
@@ -38,7 +38,7 @@
                 return  this.$auth.loggedIn;
             },
             getFavoriteStatus () {
-                return this.favoriteStatus;
+                return this.favoriteUser.status;
             }
         },
 
@@ -79,7 +79,7 @@
                     await this.$router.push('/authorization');
                 } else {
                     const id = {
-                        "id": this.$store.state.show?.profile?.id // TODO вроде был id, но сейчас так
+                        "id": this.$store.state.user?.userInFavorites?.id
                     };
                     await this.$store.dispatch('user/deleteUserFromFavorites', id)
                         .catch((e) => console.log('profile/hideProfile error' + e));
@@ -109,7 +109,7 @@
                 >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                                style="position: absolute; left: 12px; top: 8px; border: 1px solid white;"
+                                style="position: absolute; left: 12px; top: 8px;"
                                 icon
                                 v-bind="attrs"
                                 @click="show = !show"

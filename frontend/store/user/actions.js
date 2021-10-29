@@ -10,20 +10,19 @@ export default {
     },
 
     async addUserToFavorites ({commit, dispatch}, id) {
-        await this.$api.user.addFavorite(id).then(() => {
-            commit('SET_USER_IN_FAVORITES_STATUS', true);
-            dispatch('getFavoritesUsers');
+        await this.$api.user.addFavorite(id).then((res) => {
+            commit('SET_USER_IN_FAVORITES', res.data.id);
         })
             .catch((error) => {
                 console.log('addUserToFavorites error ' + error)
             })
     },
-    async deleteUserFromFavorites ({commit, dispatch}, id) {
-        await this.$api.user.deleteFavorite(id).then(() => {
-            commit('SET_USER_IN_FAVORITES_STATUS', false);
-            dispatch('getFavoritesUsers');
-        })
-            .catch((error) => {
+    async deleteUserFromFavorites ({commit, dispatch }, id) {
+        await this.$api.user.deleteFavorite(id)
+            .then(() => {
+                commit('RESET_USER_IN_FAVORITES');
+                dispatch('getFavoritesUsers');
+            }).catch((error) => {
                 console.log('addUserToFavorites error ' + error)
             })
     }
