@@ -28,10 +28,7 @@
             errorMessages: '',
             showErrorAlert: false,
             mask: 'https://myid-card.ru/NNNNNNNNNNNN',
-            valid: false,
-
-            currentTime: 3,
-            timer: null
+            valid: false
         }),
 
         computed:{
@@ -79,32 +76,28 @@
                         description: this.description ?? ''
                     };
                     await this.$store.dispatch('profile/editProfileInfo', data)
-                        .then((data) => {})
                         .catch((e) => console.log('profile/editProfileInfo error' + e));
                 } else {
-                   this.startTimer();
+                   this.showAlert(
+                       'error',
+                       'В форме есть ошибки',
+                       'Пожалуйста, проверьте корректность введенных данных'
+                   );
                 }
             },
             copyToClipboard() {
                 const textBox = document.getElementById("alias");
                 textBox.select();
                 document.execCommand("copy");
+                this.showAlert('', 'Адрес страницы скопирован 👌');
             },
-            startTimer () {
-                this.showErrorAlert = true;
-                this.timer = setInterval(() => {
-                    this.currentTime--;
-                    if (this.currentTime === 0) {
-                        this.stopTimer();
-                    }
-                }, 1000);
-            },
-
-            stopTimer () {
-                this.showErrorAlert = false;
-                this.currentTime = 3;
-                clearTimeout(this.timer);
-            },
+            showAlert (type, title, text) {
+                this.$notify({
+                    type: type,
+                    title: title,
+                    text: text
+                })
+            }
         }
     }
 </script>
@@ -120,15 +113,6 @@
                     :user="profile"
                     :edit="true"
             />
-            <v-alert
-                    v-if="showErrorAlert"
-                    style="right: 5%; top: 0; position: absolute; background: rgba(72%, 11%, 11%, 0.9); !important;"
-                    elevation="4"
-                    type="error"
-                    transition="slide-x-transition"
-            >
-                В форме есть ошибки
-            </v-alert>
 
             <v-form
                     ref="form"
@@ -267,5 +251,42 @@
 
     .v-text-field input{
         padding: 12px 0 0 !important;
+    }
+
+    .vue-notification {
+        // styling
+        margin: 0 5px 5px;
+        padding: 10px;
+        font-size: 14px;
+        color: #ffffff;
+        font-family: 'Gilroy', sans-serif;
+
+        .notification-title {
+            font-size: 16px !important;
+        }
+
+        // style for content
+        .notification-content {
+        }
+
+        // default (blue)
+        background: #44A4FC;
+        border-left: 5px solid #187FE7;
+
+        // types (green, amber, red)
+        &.success {
+            background: #68CD86;
+            border-left-color: #42A85F;
+        }
+
+        &.warn {
+            background: #ffb648;
+            border-left-color: #f48a06;
+        }
+
+        &.error {
+            background: #E54D42!important;
+            border-left-color: #B82E24!important;
+        }
     }
 </style>

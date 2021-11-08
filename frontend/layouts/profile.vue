@@ -4,7 +4,6 @@
   import profileHeaderDesktop from "../components/layouts/profile/profileHeaderDesktop";
   import overlayConfirm from "../components/layouts/profile/overlayConfirm";
   import overlayNewFunc from "../components/layouts/profile/overlayNewFunc";
-  import { initOverlayState, getCookie } from "../utils/helpers";
 
     export default {
       name: "profile",
@@ -31,6 +30,7 @@
     <overlayNewFunc />
     <profileHeader class="block xl:hidden" />
     <profileHeaderDesktop class="hidden xl:block" />
+    <notifications width="300px" position="left bottom"/>
     <v-main class="main-container">
       <nuxt />
     </v-main>
