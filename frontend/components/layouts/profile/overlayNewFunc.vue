@@ -73,7 +73,7 @@
         <img
                 class="mx-auto my-6 flex-none"
                 style="max-height: 240px; max-width: 240px; border-radius: 30px;"
-                src="../../../assets/images/favoriteStar.png"
+                src="../../../assets/images/addFavorite.gif"
                 alt=""
         >
         <p class="text-center font-croc text-lg">
