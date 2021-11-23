@@ -29,7 +29,11 @@
 
         methods: {
             routeToUser () {
-                this.$router.push(`/?hash=${this.favorite?.profile?.id}`); // TODO должен быть .card?.id или alias
+                if ( this.favorite.card?.alias ) {
+                    return this.$router.push(`/${this.favorite.card?.alias}`);
+                } else {
+                    return this.$router.push(`/${this.favorite.card?.id}`);
+                }
             },
             async deleteUserFromFavorite() {
                 this.$store.commit('profile/SET_OVERLAY_TEXT', 'Вы точно хотите ' +
