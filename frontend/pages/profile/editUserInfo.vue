@@ -270,23 +270,22 @@
         }
 
         // default (blue)
-        background: #44A4FC;
-        border-left: 5px solid #187FE7;
+        background: #475DEB;
+        border-left: 5px solid #C4C4C4;
 
-        // types (green, amber, red)
         &.success {
-            background: #68CD86;
-            border-left-color: #42A85F;
+            background: #00A460!important;
+            border-left: 5px solid #C4C4C4!important;
         }
 
         &.warn {
-            background: #ffb648;
-            border-left-color: #f48a06;
+            background: #FFA436!important;
+            border-left: 5px solid #C4C4C4!important;
         }
 
         &.error {
-            background: #E54D42!important;
-            border-left-color: #B82E24!important;
+            background: #FF645A!important;
+            border-left: 5px solid #C4C4C4!important;
         }
     }
 </style>
