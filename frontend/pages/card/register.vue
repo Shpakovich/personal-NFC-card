@@ -36,6 +36,8 @@
                   if (errorMessage.includes('not be blank')) {
                     this.errorMessage = "Упс, мы не видим код с вашей метки. \n️ " +
                             "Приложите ваше устройство к метке, перейдите по ссылке и повторите активацию";
+                  } else if (errorMessage.includes('value is too short')) {
+                    this.errorMessageToField = 'Адрес должен состоять минимум из 3 символов';
                   }
                 }
               } else {
