@@ -123,6 +123,10 @@ class FavoriteController extends AbstractController
                                 'name' => $name,
                                 'post' => $item['profile_post'],
                                 'photo' => $photo,
+                            ],
+                            'card' => [
+                                'id' => $item['card_id'],
+                                'alias' => $item['card_alias']
                             ]
                         ];
                     },
