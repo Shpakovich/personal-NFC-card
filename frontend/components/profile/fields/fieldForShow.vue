@@ -19,7 +19,6 @@
                         return this.fieldInfo.value;
                     } else {
                         const userPhone = this.fieldInfo.value.replace(/\D/g, '');
-                        console.log(userPhone);
                         return 'https://skobelkin.ru/viber/' + userPhone;
                     }
                 } else {
