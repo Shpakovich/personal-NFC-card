@@ -73,13 +73,13 @@
             >
         </div>
         <div
-                style="display: flex; flex-direction: column; flex-wrap: nowrap; max-width: 70%;"
+                class="user-fields__text-block"
                 @click="routeToUser()"
         >
-            <v-card-subtitle class="my-auto ml-4 font-gilroy font-bold" style="color: #415EB6;font-size: 15px;line-height: 18px; padding: 0">
+            <v-card-subtitle class="my-auto ml-4 font-gilroy font-bold user-fields__text-title">
                 {{ getUserName }}
             </v-card-subtitle>
-            <v-card-subtitle class="my-auto ml-4 font-gilroy" style="color: #415EB6;font-size: 12px;line-height: 16px; padding: 0">
+            <v-card-subtitle class="my-auto ml-4 font-gilroy user-fields__text-subtitle">
                 {{ getUserPost }}
             </v-card-subtitle>
         </div>
@@ -101,6 +101,26 @@
     </v-card>
 </template>
 
-<style scoped>
+<style lang="scss">
+    .user-fields__text-block {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        max-width: 70%;
+        width: 70%;
+    }
 
+    .user-fields__text-title {
+        color: #415EB6!important;
+        font-size: 15px!important;
+        line-height: 18px!important;
+        padding: 0!important;
+    }
+
+    .user-fields__text-subtitle {
+        color: #415EB6!important;
+        font-size: 12px!important;
+        line-height: 16px!important;
+        padding: 0!important;
+    }
 </style>
