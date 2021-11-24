@@ -19,5 +19,20 @@ export default {
     },
     SET_FIELD_TO_EDIT (state, field) {
         state.fieldToEdit = field;
-    }
+    },
+    SET_OVERLAY_STATUS (state, status) {
+        state.overlay.status = status;
+    },
+    SET_OVERLAY_TEXT (state, text) {
+        state.overlay.text = text;
+    },
+    SET_OVERLAY_PARAMS (state, params) {
+        state.overlay.params = params;
+    },
+    SET_OVERLAY_NEW_STATUS (state, status) {
+        state.overlayNew.status = status;
+    },
+    SET_OVERLAY_NEW_SHOULD (state, should) {
+        state.overlayNew.should = should;
+    },
 };

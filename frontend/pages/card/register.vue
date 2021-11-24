@@ -29,6 +29,17 @@
                   this.errorMessageToField = 'Метка myID с таким hash уже зарегестрировнна';
                 }
                 this.errorMessage = res?.response?.data?.message;
+              } else if (res?.response?.status === 422) {
+                if (res.response.data?.errors.length) {
+                  const errorMessage = res.response.data.errors[0].message;
+
+                  if (errorMessage.includes('not be blank')) {
+                    this.errorMessage = "Упс, мы не видим код с вашей метки. \n️ " +
+                            "Приложите ваше устройство к метке, перейдите по ссылке и повторите активацию";
+                  } else if (errorMessage.includes('value is too short')) {
+                    this.errorMessageToField = 'Адрес должен состоять минимум из 3 символов';
+                  }
+                }
               } else {
                 this.$router.push('/profile/create')
               }
@@ -64,7 +75,7 @@
     <h3 class="text-center px-5 mb-6">
       Давайте активируем метку, выберете ваш ник.
     </h3>
-    <v-row class="flex-nowrap mb-6">
+    <v-row v-if="!errorMessage" class="flex-nowrap mb-6">
       <img src="../../assets/images/icon/info_secondary.svg" class="mr-2" alt="">
       <p class="font-gilroy my-auto">
         Повторно адрес страницы изменить будет нельзя

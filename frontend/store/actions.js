@@ -1,3 +1,5 @@
+import { initOverlayState } from '../utils/helpers'
+
 const actions = {
     async nuxtServerInit ({ dispatch }, { route, redirect }) {
         const isProfileRoute = route.path.indexOf('profile') !== -1;

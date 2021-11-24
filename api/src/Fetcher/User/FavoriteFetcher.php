@@ -33,11 +33,14 @@ class FavoriteFetcher
                     'p.default_name as profile_default_name',
                     'p.post as profile_post',
                     'p.photo_path as profile_photo_path',
+                    'uc.card_id as card_id',
+                    'uc.alias as card_alias'
                 ]
             )
             ->from('favorites', 'f')
             ->innerJoin('f', 'users', 'u', 'f.user_id = u.id')
-            ->innerJoin('f', 'profiles', 'p', 'f.profile_id = p.id');
+            ->innerJoin('f', 'profiles', 'p', 'f.profile_id = p.id')
+            ->innerJoin('u', 'user_cards', 'uc', 'p.user_id = uc.user_id');
 
         if ($userId !== null) {
             $qb->andWhere('f.user_id = :user_id')

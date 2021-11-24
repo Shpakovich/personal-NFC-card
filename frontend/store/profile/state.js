@@ -14,5 +14,14 @@ export default () => ({
         post: "",
         description: "",
         is_published: false,
-        created_at: ""
+        created_at: "",
+        overlay: {
+                status: false,
+                text: '',
+                params: {}
+        },
+        overlayNew: {
+                status: false,
+                should: true
+        }
 });

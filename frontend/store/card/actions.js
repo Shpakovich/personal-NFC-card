@@ -15,7 +15,9 @@ export default {
             .then((res) => {
                     commit('SET_CARD_INFO', res.data);
                 }
-            ).catch((err) => err);
+            ).catch((err) => {
+                return err;
+            });
     },
 
     setCardInfo ({ commit }, card) {

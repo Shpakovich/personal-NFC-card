@@ -38,9 +38,17 @@
                 this.$store.commit('profile/SET_PROFILE_INFO', {});
                 this.$store.commit('profile/SET_PROFILE_FIELDS', {});
             },
-            async resetShowProfile() {
-                await this.$store.commit('show/SET_SHOW_PROFILE_INFO', {});
-                await this.$router.push('/');
+            resetShowProfile() {
+                this.$router.push('/');
+                let isCalled = false;
+
+                this.$router.afterEach((to, from) => {
+                    const isTrueRoute = from.name === 'alias' && to.name === 'index';
+                    if (isTrueRoute && !isCalled) {
+                        isCalled = true;
+                        this.$store.commit('show/RESET_SHOW_PROFILE_INFO');
+                    }
+                });
             }
         }
     }
@@ -74,18 +82,6 @@
             Войти
         </v-btn>
         <h2 class="m-auto mt-1.5 font-gilroy text-lg ">{{ headerTitle }}</h2>
-        <!--<v-btn
-                v-if="this.$auth.loggedIn"
-                icon
-                class="rounded-lg font-bold w-4/12"
-                max-width="90px"
-                min-width="80px"
-                height="48"
-                color="#313131"
-                to="/"
-        >
-            QR cod
-        </v-btn> -->
         <div
 
                 @click="resetShowProfile()"

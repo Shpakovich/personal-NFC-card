@@ -1,4 +1,9 @@
 <script>
+    import {createNamespacedHelpers} from "vuex";
+    const profileStore = createNamespacedHelpers('profile');
+    const showStore = createNamespacedHelpers('show');
+    const userStore = createNamespacedHelpers('user');
+
     export default {
         name: "userHead",
 
@@ -14,6 +19,15 @@
         }),
 
         computed: {
+            ...profileStore.mapState({
+                profile: (state) => state
+            }),
+            ...userStore.mapState({
+                favoriteUser: (state) => state.userInFavorites
+            }),
+            ...showStore.mapState({
+                showProfile: (state) => state.profile
+            }),
             getUserMock() {
               if ( !this.user?.name && !this.user?.nickname && !this.user?.description && !this.user?.post )  {
                   return 'Ваш профиль не заполнен'
@@ -27,20 +41,43 @@
             },
             isPublished() {
                 return this.user?.is_published
+            },
+            isLoginUser () {
+                return  this.$auth.loggedIn;
+            },
+            getFavoriteStatus () {
+                return this.favoriteUser.status;
+            },
+            isYourProfile () {
+                return this.showProfile.id === this.profile.id;
             }
         },
 
         methods: {
             async changeVisibilityProfile (status) {
-                this.loading = true
+                this.loading = true;
                 const data = {
                     id: this.user.id
                 };
                 if (status) {
                     await this.$store.dispatch('profile/publishProfile', data)
+                        .then(_ => {
+                            this.showAlert(
+                            'success',
+                            'Профиль успешно опубликован',
+                            ''
+                            )
+                        })
                         .catch((e) => console.log('profile/publishProfile error' + e));
                 } else {
                     await this.$store.dispatch('profile/hideProfile', data)
+                        .then(_ => {
+                            this.showAlert(
+                                'success',
+                                'Профиль скрыт',
+                                ''
+                            )
+                        })
                         .catch((e) => console.log('profile/hideProfile error' + e));
                 }
 
@@ -50,6 +87,35 @@
                 if (this.edit) {
                     this.$router.push('/profile/choosePhoto')
                 }
+            },
+            async addUserToFavorite() {
+                if (!this.$auth.loggedIn) {
+                    await this.$router.push('/authorization');
+                } else {
+                    const id = {
+                        "profileId": this.$store.state.show?.profile?.id // TODO вроде был id, но сейчас так
+                    };
+                    await this.$store.dispatch('user/addUserToFavorites', id)
+                        .catch((e) => console.log('profile/hideProfile error' + e));
+                }
+            },
+            async deleteUserFromFavorite() {
+                if (!this.$auth.loggedIn) {
+                    await this.$router.push('/authorization');
+                } else {
+                    const id = {
+                        "id": this.$store.state.user?.userInFavorites?.id
+                    };
+                    await this.$store.dispatch('user/deleteUserFromFavorites', id)
+                        .catch((e) => console.log('profile/hideProfile error' + e));
+                }
+            },
+            showAlert (type, title, text) {
+                this.$notify({
+                    type: type,
+                    title: title,
+                    text: text
+                })
             }
         }
     }
@@ -69,32 +135,52 @@
                 :style="getUserPhoto"
             />
             <div v-if="!isPublished && !isShow">
-                <v-tooltip
-                        v-model="show"
-                        top
+                <v-btn
+                        style="position: absolute; left: 12px; top: 8px;"
+                        icon
+                        @click="showAlert(
+                            '',
+                            'Профиль не опубликован',
+                            'Другие пользователи не смогут увидеть ваш профиль'
+                        )"
                 >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                                style="position: absolute; left: 12px; top: 8px; border: 1px solid white;"
-                                icon
-                                v-bind="attrs"
-                                @click="show = !show"
-                        >
-                            <img
+                    <img
+                            src="../../assets/images/icon/eye-off-red.svg"
+                            alt=""
+                    >
+                </v-btn>
+            </div>
+            <div v-if="isShow && isLoginUser && !isYourProfile">
+                <v-btn
+                        v-if="!getFavoriteStatus"
+                        style="position: absolute; right: 12px; top: 8px;"
+                        icon
+                        @click="addUserToFavorite()"
+                >
+                    <img
                                     style="margin: 2px 2px 0 0"
-                                    src="../../assets/images/icon/eye-off-red.svg"
+                                    src="../../assets/images/icon/star.svg"
                                     alt=""
                             >
-                        </v-btn>
-                    </template>
-                    <span>Профиль не опубликован</span>
-                </v-tooltip>
+                </v-btn>
+                <v-btn
+                        v-else
+                        style="position: absolute; right: 12px; top: 8px;"
+                        icon
+                        @click="deleteUserFromFavorite()"
+                >
+                    <img
+                            style="margin: 2px 2px 0 0"
+                            src="../../assets/images/icon/star_active.svg"
+                            alt=""
+                    >
+                </v-btn>
             </div>
             <div class="flex flex-row inline-flex m-auto">
                 <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4 card-padding">
                     {{ getUserMock }}
                 </v-card-subtitle>
-                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white mb-2 card-padding">
+                <v-card-subtitle v-if="getUserName" class="font-bold white--text text-white mb-2 card-padding non-margin" style="margin: 0!important;">
                     {{ getUserName }}
                 </v-card-subtitle>
                 <v-btn

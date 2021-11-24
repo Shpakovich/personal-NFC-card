@@ -19,16 +19,14 @@ export default {
         ).catch((err)=> console.log(err))
     },
     async publishProfile ({ commit }, data) {
-        await this.$api.profile.publishProfile(data).then((res)=> {
+        await this.$api.profile.publishProfile(data).then(_ => {
                 this.$router.push('/profile/page'); // TODO Добавить уведомлялку что мы опубликовали профиль
-                return res?.data?.items[0]
             }
         )
     },
     async hideProfile ({ commit }, data) {
-        await this.$api.profile.hideProfile(data).then((res)=> {
+        await this.$api.profile.hideProfile(data).then(_ => {
                 this.$router.push('/profile/page'); // TODO Добавить уведомлялку что мы скрыли профиль
-                return res?.data?.items[0]
             }
         )
     },
@@ -94,5 +92,27 @@ export default {
                 //commit('SET_FIELD_TO_EDIT', res.data);
             }
         )
+    },
+    async startOverlayAction ({ commit, rootState, dispatch  }, path) {
+        if (path.includes('favorite')) {
+            const id = {
+                "id": rootState.profile.overlay.params.id // TODO вроде был id, но сейчас так
+            };
+            await dispatch('user/deleteUserFromFavorites', id, { root: true })
+                .then(() => commit('profile/SET_OVERLAY_STATUS', false, { root: true }))
+                .catch((e) => console.log('profile/hideProfile error' + e));
+        } else if (path.includes('page')) {
+            const data = {
+                "id": rootState.profile.overlay.params.id
+            };
+
+            await dispatch('profile/deleteFieldInProfile', data, { root: true })
+                .then(() => {
+                    commit('profile/SET_OVERLAY_STATUS', false, { root: true });
+                    dispatch('profile/getProfileInfo', rootState.profile?.id, { root: true })
+                        .catch((e) => console.log('profile/getProfileInfo error' + e));
+                })
+                .catch((e) => console.log('profile/deleteFieldInProfile error: ' + e));
+        }
     }
 };
