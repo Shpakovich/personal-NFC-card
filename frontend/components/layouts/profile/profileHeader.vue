@@ -38,9 +38,17 @@
                 this.$store.commit('profile/SET_PROFILE_INFO', {});
                 this.$store.commit('profile/SET_PROFILE_FIELDS', {});
             },
-            async resetShowProfile() {
-                await this.$router.push('/');
-                this.$store.commit('show/RESET_SHOW_PROFILE_INFO')
+            resetShowProfile() {
+                this.$router.push('/');
+                let isCalled = false;
+
+                this.$router.afterEach((to, from) => {
+                    const isTrueRoute = from.name === 'alias' && to.name === 'index';
+                    if (isTrueRoute && !isCalled) {
+                        isCalled = true;
+                        this.$store.commit('show/RESET_SHOW_PROFILE_INFO');
+                    }
+                });
             }
         }
     }
