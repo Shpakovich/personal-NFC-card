@@ -17,7 +17,7 @@
             if (hasOverlayInStorage) {
                 this.$store.commit('profile/SET_OVERLAY_NEW_SHOULD', false);
             }
-            const should = this.$store.state.profile.overlayNew.should;
+            const should = this.$store.state.profile.overlayNew?.should;
             if (should) {
                 this.setOverlayTimerToShow();
             }

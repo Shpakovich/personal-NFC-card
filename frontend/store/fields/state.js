@@ -1,5 +1,6 @@
 export default () => ({
         fields: [],
+        customFields: [],
         currentField: {},
         fieldTypes: [],
         typesID: "1",

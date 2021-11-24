@@ -3,12 +3,17 @@
         name: "simpleField",
 
         props: [
-            "filed"
+            "field",
+            "isCustomFields"
         ],
 
         methods: {
             routeAddTag() {
-                this.$router.push(`/profile/fields/addField?id=${this.filed.id}`);
+                if (this.isCustomFields) {
+                    this.$router.push(`/profile/fields/addCustomField`);
+                } else {
+                    this.$router.push(`/profile/fields/addField?id=${this.field.id}`);
+                }
             },
             getIconSrc (fieldInfo) {
                     return fieldInfo?.icon?.path;
@@ -19,7 +24,7 @@
 
 <template>
     <v-card
-            v-if="filed"
+            v-if="field"
             outlined
             class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5"
             style="display: flex!important; border-radius: 20px!important;"
@@ -32,12 +37,12 @@
                 <img
                         class="m-auto flex-none"
                         style="max-height: 24px; max-width: 24px"
-                        :src="getIconSrc(filed)"
+                        :src="getIconSrc(field)"
                         alt=""
                 >
             </div>
             <v-card-subtitle class="my-auto ml-4 font-gilroy" style="color: #415EB6;font-size: 15px;line-height: 18px; padding: 0">
-                {{ filed.title }}
+                {{ field.title }}
             </v-card-subtitle>
     </v-card>
 </template>

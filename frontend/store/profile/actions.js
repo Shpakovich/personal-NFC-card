@@ -38,6 +38,13 @@ export default {
         )
     },
 
+    async addCustomFieldInProfile ({ commit }, data) {
+        await this.$api.profile.addFieldInProfile(data).then((res)=> {
+                this.$router.push('/profile/page');
+            }
+        )
+    },
+
     async addPhotoProfile ({ commit }, data) {
         await this.$api.profile.addPhotoInProfile(data).then((res)=> {
                 this.$router.push('/profile/page');
