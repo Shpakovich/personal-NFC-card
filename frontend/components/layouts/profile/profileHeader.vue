@@ -29,10 +29,6 @@
             }
         },
 
-        beforeDestroy () {
-            this.$store.commit('show/RESET_SHOW_PROFILE_INFO');
-        },
-
         methods: {
             async logOut () {
                 await this.$auth.logout();
@@ -44,6 +40,7 @@
             },
             async resetShowProfile() {
                 await this.$router.push('/');
+                this.$store.commit('show/RESET_SHOW_PROFILE_INFO')
             }
         }
     }
