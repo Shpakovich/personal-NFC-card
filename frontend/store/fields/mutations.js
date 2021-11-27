@@ -5,6 +5,9 @@ export default {
     SET_ALL_CUSTOMS_FIELD_INFO (state, customFields) {
         state.customFields = customFields.items;
     },
+    SET_LAST_CUSTOMS_FIELD_INFO (state, lastCustomField) {
+        state.lastCustomField = lastCustomField;
+    },
     SET_CURRENT_FIELD_INFO (state,  field) {
         state.currentField = field;
     },

@@ -48,11 +48,14 @@
                   .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
         }
 
+        await store.dispatch('fields/getAllCustomsFieldsToProfile', profileID)
+                .catch((e) => console.log('fields/getAllCustomsFieldsInfo error' + e));
       },
 
       computed:{
         ...profileStore.mapState({
-          profile: (state) => state
+          profile: (state) => state,
+          customFieldsToProfile: (state) => state.customsFields
         }),
         ...fieldsStore.mapState({
           fieldsType: (state) => state
@@ -92,6 +95,9 @@
             await this.$store.dispatch('profile/editSortFieldInProfile', data)
                     .catch((e) => console.log('profile/editFieldInProfile error ' + e));
         },
+        isBothTypesFields () {
+          return this.profile.fields.length && this.customFields
+        }
       }
     }
 </script>
@@ -143,6 +149,23 @@
           <div v-for="(field, index) in profile.fields" :id="field.id" :key="index" class="item">
             <field
                     :field-info="field"
+                    class="mb-6"
+                    @updateFields="getProfileFields()"
+            />
+          </div>
+        </draggable>
+
+        <div v-if="isBothTypesFields" style="width: 100%; height: 1px; background-color: #68676C; margin: 20px 0;"></div>
+
+        <draggable
+                :disabled="!enabled"
+                style="width: 100%;"
+                v-model="customFieldsToProfile"
+                @end="checkMoveEnd"
+        >
+          <div v-for="(customField, index) in customFieldsToProfile" :id="customField.id" :key="index" class="item">
+            <field
+                    :field-info="customField"
                     class="mb-6"
                     @updateFields="getProfileFields()"
             />

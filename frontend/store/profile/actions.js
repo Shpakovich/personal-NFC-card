@@ -61,8 +61,7 @@ export default {
     async getProfileInfo ({ commit }, id) {
         await this.$api.profile.getProfile(id).then((res)=> {
                 commit('SET_PROFILE_FIELDS', res.data?.fields);
-            }
-        )
+        });
     },
     async deleteFieldInProfile ({ commit }, fieldInfo) {
         await this.$api.profile.deleteProfileField(fieldInfo).then((res)=> {

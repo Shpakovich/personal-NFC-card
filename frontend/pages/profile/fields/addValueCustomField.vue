@@ -1,9 +1,9 @@
 <script>
     import { createNamespacedHelpers } from 'vuex';
-    const profileStore = createNamespacedHelpers( 'profile');
+    const fieldsStore = createNamespacedHelpers( 'fields');
 
     export default {
-        name: "createCustomField",
+        name: "addValueCustomField",
         layout: "addFields",
 
         data: () => ({
@@ -11,7 +11,6 @@
                 id: 'custom',
                 title: 'Личная карточка'
             },
-            customFieldTitle: '',
             customFieldValue: '',
             type: 'text',
             loading: false,
@@ -22,22 +21,30 @@
         }),
 
         computed: {
-            ...profileStore.mapState({
-                profile: (state) => state,
+            ...fieldsStore.mapState({
+                field: (state) => state.lastCustomField,
             })
         },
 
+        async asyncData ({ route, store }) {
+            const customFieldID = route.query?.id;
+            if (customFieldID) {
+                await store.dispatch('fields/getLastCustomFieldInfo')
+                    .catch((e) => console.log('fields/getAllCustomsFieldsInfo error' + e));
+            }
+        },
+
         methods: {
-            async createCustomField(fieldTitle) {
+            async addValueToField(id, customFieldValue) {
                 const data = {
-                    "title": fieldTitle,
-                    "bg_color": "#fff",
-                    "text_color": "#000"
+                    id: id,
+                    title: customFieldValue,
+                    bg_color: "#fff",
+                    text_color: "#000"
                 };
 
-                await this.$store.dispatch('fields/createCustomField', data)
-                    // TODO разделить полосиком дефолнтные кастомные и мб филд создание сделать другим цветом?
-                .catch((err)=> { console.log('error fields/createCustomField ' + err) })
+                await this.$store.dispatch('fields/editCustomFieldInfo', data)
+                    .catch((e) => console.log('fields/editCustomFieldInfo error' + e));
             }
         }
     }
@@ -45,7 +52,7 @@
 
 <template>
     <v-container class="py-11 px-11">
-        <h3 style="font-size: 24px; line-height: 35px;" class="text-center font-bold font-croc mb-2">{{ customField.title }}</h3>
+        <h3 style="font-size: 24px; line-height: 35px;" class="text-center font-bold font-croc mb-2">{{ field.title }}</h3>
         <v-btn
                 icon
                 class="rounded-lg flex-initial font-bold w-4/12 mb-3 ml-1.5 btn-back"
@@ -68,23 +75,22 @@
                 >
             </div>
             <p class="my-auto ml-8 font-croc" style="font-size: 17px;line-height: 24px;padding: 0">
-                Введите назание<br>
-                вашей карточки ниже
+                Введите данные<br>
+                контакта ниже
             </p>
         </v-row>
         <v-form
                 ref="form"
                 class="flex flex-col mt-14"
                 v-model="valid"
-                @submit.prevent="createCustomField(customFieldTitle)"
         >
             <v-text-field
-                    v-model="customFieldTitle"
+                    v-model="customFieldValue"
                     class="font-croc"
-                    :label="customField.title"
+                    :label="field.title"
                     :rules="valueRules"
                     :type="type"
-                    :id="customField.title"
+                    :id="field.title"
                     required
                     outlined
             ></v-text-field>
@@ -97,9 +103,9 @@
                     max-width="225px"
                     min-width="150px"
                     height="48"
-                    @click="createCustomField(customFieldTitle)"
+                    @click="addValueToField(field.id, customFieldValue)"
             >
-                Создать
+                Сохранить
             </v-btn>
         </v-form>
     </v-container>
