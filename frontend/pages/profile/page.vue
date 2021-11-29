@@ -1,8 +1,9 @@
 <script>
   import socialIconsBlock from '~/components/socialIconsBlock';
   import userHead from "../../components/profile/userHead";
-  import field from '../../components/profile/fields/field'
-  import addTEG from '../../components/profile/fields/addTEG'
+  import field from '../../components/profile/fields/field';
+  import customField from '../../components/profile/fields/customField';
+  import addTEG from '../../components/profile/fields/addTEG';
 
   import draggable from 'vuedraggable'
 
@@ -19,7 +20,8 @@
         userHead,
         field,
         addTEG,
-        draggable
+        draggable,
+        customField
       },
 
       data: () => ({
@@ -164,8 +166,8 @@
                 @end="checkMoveEnd"
         >
           <div v-for="(customField, index) in customFieldsToProfile" :id="customField.id" :key="index" class="item">
-            <field
-                    :field-info="customField"
+            <customField
+                    :custom-field-info="customField"
                     class="mb-6"
                     @updateFields="getProfileFields()"
             />

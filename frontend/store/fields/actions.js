@@ -52,6 +52,12 @@ export default {
             }
         )
     },
+    async getCustomsFieldInfo({commit}, id) {
+        await this.$api.fields.getCustomField(id).then((res) => {
+                commit('SET_CURRENT_FIELD_INFO', res.data);
+            }
+        )
+    },
     async getFieldTypes({commit}) {
         await this.$api.fields.getFieldsType().then((res) => {
                 commit('SET_FIELDS_TYPES', res.data);

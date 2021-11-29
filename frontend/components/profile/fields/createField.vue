@@ -20,7 +20,7 @@
             color="#EEF7FE"
             @click="routeCreateTag()"
     >
-        <div class="flex justify-center" style=" width: 36px; max-width: 36px; height: 36px;">
+        <div class="flex justify-center" style="width: 36px; max-width: 36px; height: 36px;">
             <img
                     class="m-auto flex-none"
                     style="max-height: 24px; max-width: 24px"

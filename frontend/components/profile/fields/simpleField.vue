@@ -10,7 +10,7 @@
         methods: {
             routeAddTag() {
                 if (this.isCustomFields) {
-                    this.$router.push(`/profile/fields/addCustomField`);
+                    this.$router.push(`/profile/fields/addCustomField?id=${this.field.id}`);
                 } else {
                     this.$router.push(`/profile/fields/addField?id=${this.field.id}`);
                 }
