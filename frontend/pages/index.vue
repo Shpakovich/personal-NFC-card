@@ -110,7 +110,7 @@
       alt=""
     />
     <div
-            class="xl:text-center xl:m-auto"
+            class="xl:text-center md:m-auto"
             style="max-width: 550px;"
     >
       <v-row v-if="!this.$auth.loggedIn" style="display: flex;flex-direction: column!important;">

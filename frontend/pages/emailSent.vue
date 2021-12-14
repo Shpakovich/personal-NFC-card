@@ -27,19 +27,22 @@
             Назад
         </v-btn>
 
-        <v-row>
-            <h3 class="text-center font-gilroy mb-8">
-                Письмо со сылкой для сброса пароля уже отправленно вам на почту 📩
-            </h3>
-            <v-btn
-                    color="primary"
-                    height="48"
-                    max-width="136"
-                    class="m-auto w-2/5"
-                    to="/"
-            >
+        <v-row class="m-auto">
+            <v-col>
+                <h3 class="text-center font-gilroy mb-8">
+                    Письмо со ссылкой для сброса пароля уже отправлено вам на почту&nbsp;&nbsp;📩
+                </h3>
+                <v-btn
+                        color="primary"
+                        height="48"
+                        max-width="136"
+                        class="m-auto w-2/5"
+                        style="display: flex !important;"
+                        to="/"
+                >
                     Окей
-            </v-btn>
+                </v-btn>
+            </v-col>
         </v-row>
     </v-container>
 </template>
