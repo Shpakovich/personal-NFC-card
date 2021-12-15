@@ -79,13 +79,17 @@
           await this.$store.dispatch('profile/getFieldsInProfileByType', data)
                   .catch((e) => console.log('profile/getProfileInfo error ' + e));
         }
-        // this.showAlert = 'test'; TODO таймер на показ
       },
 
       methods: {
         async getProfileFields() {
           await this.$store.dispatch('profile/getProfileInfo', this.profile?.id)
-                  .catch((e) => console.log('profile/editProfileInfo error' + e));
+                  .catch((e) => console.log('profile/getProfileInfo error' + e));
+        },
+
+        async getCustomProfileFields() {
+          await this.$store.dispatch('fields/getAllCustomsFieldsToProfile', this.profile?.id)
+                  .catch((e) => console.log('fields/getAllCustomsFieldsToProfile error' + e));
         },
         async checkMoveEnd(e) {
 
@@ -148,13 +152,15 @@
                 v-model="profile.fields"
                 @end="checkMoveEnd"
         >
-          <div v-for="(field, index) in profile.fields" :id="field.id" :key="index" class="item">
-            <field
-                    :field-info="field"
-                    class="mb-6"
-                    @updateFields="getProfileFields()"
-            />
-          </div>
+          <transition name="fade">
+            <div v-for="(field, index) in profile.fields" :id="field.id" :key="index" class="item">
+                <field
+                        :field-info="field"
+                        class="mb-6"
+                        @updateFields="getProfileFields()"
+                />
+            </div>
+          </transition>
         </draggable>
 
         <div v-if="isBothTypesFields" style="width: 100%; height: 1px; background-color: #68676C; margin: 20px 0;"></div>
@@ -165,22 +171,16 @@
                 v-model="customFieldsToProfile"
                 @end="checkMoveEnd"
         >
-          <div v-for="(customField, index) in customFieldsToProfile" :id="customField.id" :key="index" class="item">
-            <customField
-                    :custom-field-info="customField"
-                    class="mb-6"
-                    @updateFields="getProfileFields()"
-            />
-          </div>
+          <transition name="fade">
+            <div v-for="(customField, index) in customFieldsToProfile" :id="customField.id" :key="index" class="item">
+              <customField
+                      :custom-field-info="customField"
+                      class="mb-6"
+                      @updateFields="getCustomProfileFields()"
+              />
+            </div>
+          </transition>
         </draggable>
-
-        <!-- <field
-          v-for="(field, index) in profile.fields"
-          :field-info="field"
-          class="mb-6"
-          :key="index"
-          @updateFields="getProfileFields()"
-        /> -->
         <addTEG class="mt-11" />
       </v-row>
     </v-row>
@@ -199,6 +199,13 @@
 </template>
 
 <style lang="scss">
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
+
     .v-card__subtitle, .v-card__text, .v-card__title {
         padding: 5px;
     }

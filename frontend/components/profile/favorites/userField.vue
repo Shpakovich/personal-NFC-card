@@ -51,54 +51,56 @@
 </script>
 
 <template>
-    <v-card
-            v-if="favorite"
-            outlined
-            class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5"
-            style="display: flex!important; border-radius: 20px!important;"
-            height="80"
-            width="100%"
-            :color="getFieldColor"
-    >
-        <div
-                class="flex justify-center"
-                style=" width: 36px; max-width: 36px; height: 36px;"
-                @click="routeToUser()"
+    <transition name="fade">
+        <v-card
+                v-if="favorite"
+                outlined
+                class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5"
+                style="display: flex!important; border-radius: 20px!important;"
+                height="80"
+                width="100%"
+                :color="getFieldColor"
         >
-            <img
-                    class="m-auto flex-none"
-                    style="max-height: 24px; max-width: 24px"
-                    src="./../../../assets/images/icon/user-green.svg"
-                    alt=""
+            <div
+                    class="flex justify-center"
+                    style=" width: 36px; max-width: 36px; height: 36px;"
+                    @click="routeToUser()"
             >
-        </div>
-        <div
-                class="user-fields__text-block"
-                @click="routeToUser()"
-        >
-            <v-card-subtitle class="my-auto ml-4 font-gilroy font-bold user-fields__text-title">
-                {{ getUserName }}
-            </v-card-subtitle>
-            <v-card-subtitle class="my-auto ml-4 font-gilroy user-fields__text-subtitle">
-                {{ getUserPost }}
-            </v-card-subtitle>
-        </div>
-        <v-btn
-                icon
-                class="font-bold ml-auto"
-                max-width="36px"
-                min-width="36px"
-                height="36"
-                @click="deleteUserFromFavorite()"
-        >
-            <img
-                    class="m-auto flex-none"
-                    style="max-height: 36px; max-width: 36px"
-                    src="../../../assets/images/icon/Delete.svg"
-                    alt=""
+                <img
+                        class="m-auto flex-none"
+                        style="max-height: 24px; max-width: 24px"
+                        src="./../../../assets/images/icon/user-green.svg"
+                        alt=""
+                >
+            </div>
+            <div
+                    class="user-fields__text-block"
+                    @click="routeToUser()"
             >
-        </v-btn>
-    </v-card>
+                <v-card-subtitle class="my-auto ml-4 font-gilroy font-bold user-fields__text-title">
+                    {{ getUserName }}
+                </v-card-subtitle>
+                <v-card-subtitle class="my-auto ml-4 font-gilroy user-fields__text-subtitle">
+                    {{ getUserPost }}
+                </v-card-subtitle>
+            </div>
+            <v-btn
+                    icon
+                    class="font-bold ml-auto"
+                    max-width="36px"
+                    min-width="36px"
+                    height="36"
+                    @click="deleteUserFromFavorite()"
+            >
+                <img
+                        class="m-auto flex-none"
+                        style="max-height: 36px; max-width: 36px"
+                        src="../../../assets/images/icon/Delete.svg"
+                        alt=""
+                >
+            </v-btn>
+        </v-card>
+    </transition>
 </template>
 
 <style lang="scss">

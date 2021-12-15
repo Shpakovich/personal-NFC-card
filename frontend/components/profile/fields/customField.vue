@@ -11,21 +11,12 @@
                 this.$router.push(`/profile/fields/editField?id=${this.customFieldInfo.id}`);
             },
             async removeField() {
-                this.$store.commit('profile/SET_OVERLAY_TEXT', 'Вы точно хотите ' +
-                    'удалить этот TEG?');
-                this.$store.commit('profile/SET_OVERLAY_STATUS', true);
-
-                const id = {
-                    "id": this.fieldInfo?.id
+                const data = {
+                    id: this.customFieldInfo?.id
                 };
-                this.$store.commit('profile/SET_OVERLAY_PARAMS', id);
-
-                /* const data = {
-                    id: this.fieldInfo?.id
-                };
-                await this.$store.dispatch('profile/deleteFieldInProfile', data)
+                await this.$store.dispatch('profile/deleteCustomFieldInProfile', data)
                     .then(() => { this.$emit('updateFields'); })
-                    .catch((e) => console.log('profile/deleteFieldInProfile error: ' + e)); */
+                    .catch((e) => console.log('profile/deleteCustomFieldInProfile error: ' + e));
             }
         }
     }

@@ -69,6 +69,9 @@ export default {
             }
         )
     },
+    async deleteCustomFieldInProfile ({ commit }, fieldInfo) {
+        await this.$api.profile.deleteCustomFieldInProfile(fieldInfo);
+    },
     async getFieldInProfile ({ commit }, fieldID) {
         await this.$api.profile.getProfileField(fieldID).then((res)=> {
                 commit('SET_FIELD_TO_EDIT', res.data);

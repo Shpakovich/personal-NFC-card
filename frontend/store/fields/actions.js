@@ -11,6 +11,11 @@ export default {
                 this.$router.push(`/profile/fields/addValueCustomField?id=${res?.data.id}`);
             })
     },
+    async deleteCustomField ({commit, dispatch}, data) {
+        await this.$api.fields.deleteCustomField(data).then((res) => {
+            dispatch('fields/getAllCustomsFieldsInfo', null, { root: true });
+        })
+    },
     async getAllCustomsFieldsInfo({commit}) {
         await this.$api.fields.getAllCustomsFields().then((res) => {
                 commit('SET_ALL_CUSTOMS_FIELD_INFO', res.data);
@@ -33,7 +38,6 @@ export default {
     },
     async addCustomFieldToProfile ({commit}, data) {
         await this.$api.fields.addCustomField(data).then((res) => {
-                console.log(res);
                 this.$router.push(`/profile/page`);
                 return res;
             }

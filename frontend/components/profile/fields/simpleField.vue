@@ -17,6 +17,16 @@
             },
             getIconSrc (fieldInfo) {
                     return fieldInfo?.icon?.path;
+            },
+
+            async deleteCustomFiled () {
+                const data = {
+                    "id": this.field.id
+                };
+
+                await this.$store.dispatch('fields/deleteCustomField', data)
+                    .then(() => { this.$emit('updateFields') })
+                    .catch((e) => console.log('fields/deleteCustomField error: ' + e));
             }
         }
     }
@@ -44,6 +54,22 @@
             <v-card-subtitle class="my-auto ml-4 font-gilroy" style="color: #415EB6;font-size: 15px;line-height: 18px; padding: 0">
                 {{ field.title }}
             </v-card-subtitle>
+        <v-btn
+                v-if="isCustomFields"
+                icon
+                class="font-bold ml-auto"
+                max-width="36px"
+                min-width="36px"
+                height="36"
+                @click="deleteCustomFiled()"
+        >
+            <img
+                    class="m-auto flex-none"
+                    style="max-height: 36px; max-width: 36px"
+                    src="../../../assets/images/icon/Delete.svg"
+                    alt=""
+            >
+        </v-btn>
     </v-card>
 </template>
 

@@ -5,6 +5,9 @@ export default axios => ({
     createCustomField(data) {
         return axios.post('/field/custom/create', data);
     },
+    deleteCustomField(data) {
+        return axios.post('/field/custom/delete', data);
+    },
     getAllCustomsFields() {
         return axios.get('/field/customs');
     },

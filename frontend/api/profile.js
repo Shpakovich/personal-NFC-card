@@ -24,6 +24,9 @@ export default axios => ({
     addCustomFieldInProfile (data) {
         return axios.post('​/profile​/field​/custom​/add', data);
     },
+    deleteCustomFieldInProfile (data) {
+        return axios.post("/profile/field/custom/delete", data);
+    },
     addPhotoInProfile (data) {
         return axios.post('/profile/photo/add', data);
     },

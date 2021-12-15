@@ -35,6 +35,24 @@
                 await store.dispatch('fields/getCustomsFieldInfo', fieldID)
                     .catch((e) => console.log('fields/getCustomsFieldInfo error' + e));
             }
+        },
+
+        methods: {
+            async setCustomFieldValue (fieldValue) {
+                this.loading = true;
+                const fieldID = this.$route.query?.id;
+
+                const data = {
+                    profile_id: this.profile.id,
+                    field_id: fieldID,
+                    value: fieldValue,
+                };
+
+                await this.$store.dispatch('fields/addCustomFieldToProfile', data)
+                    .then(() => this.$router.push('/profile/page'))
+                    .catch((e) => console.log('fields/addCustomFieldToProfile error ' + e))
+                    .finally( () => (this.loading = false));
+            }
         }
     }
 </script>
@@ -95,6 +113,7 @@
                     max-width="225px"
                     min-width="150px"
                     height="48"
+                    @click="setCustomFieldValue(fieldValue)"
             >
                 Сохранить
             </v-btn>

@@ -84,8 +84,6 @@
                 };
 
                 await this.$store.dispatch('profile/addFieldInProfile', data)
-                    .then((fieldInfo) => {
-                    })
                     .catch((e) => console.log('profile/addProfile ' + e))
                     .finally( () => (this.loading = false));
             },
