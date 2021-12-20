@@ -42,10 +42,7 @@
         const profileID = store.state?.profile?.id;
         const typeID = store.state?.fields?.typesID;
 
-        if (typeID !=='1') {
-          await store.dispatch('profile/getFieldsInProfileByType', profileID, typeID)
-                  .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
-        } else if (profileID ?? typeID === '1') {
+        if (profileID ?? typeID === '1') {
           await store.dispatch('profile/getProfileInfo', profileID)
                   .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
         }
