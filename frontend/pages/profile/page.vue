@@ -171,7 +171,7 @@
                 v-model="customFieldsToProfile"
                 @end="checkMoveEnd"
         >
-          <transition name="fade">
+          <transition-group name="fade" tag="div">
             <div v-for="(customField, index) in customFieldsToProfile" :id="customField.id" :key="index" class="item">
               <customField
                       :custom-field-info="customField"
@@ -179,7 +179,7 @@
                       @updateFields="getCustomProfileFields()"
               />
             </div>
-          </transition>
+          </transition-group>
         </draggable>
         <addTEG class="mt-11" />
       </v-row>

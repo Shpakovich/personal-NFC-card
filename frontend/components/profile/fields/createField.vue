@@ -17,7 +17,7 @@
             style="display: flex!important; border-radius: 20px!important;"
             height="80"
             width="100%"
-            color="#EEF7FE"
+            color="#F6FEEE"
             @click="routeCreateTag()"
     >
         <div class="flex justify-center" style="width: 36px; max-width: 36px; height: 36px;">

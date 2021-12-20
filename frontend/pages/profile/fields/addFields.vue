@@ -47,19 +47,22 @@
             Назад
         </v-btn>
         <v-row class="flex flex-column justify-center">
-            <simpleField
-                    v-for="(field, index) in fields.fields"
-                    class="mb-6"
-                    :key="index"
-                    :field="field"
-                    :isCustomFields="false"
-            />
-            <simpleField
-                    v-for="(customField) in fields.customFields"
-                    class="mb-6"
-                    :field="customField"
-                    :isCustomFields="true"
-            />
+            <transition-group name="fade" tag="div">
+                <simpleField
+                        v-for="(field, index) in fields.fields"
+                        class="mb-6"
+                        :key="field.id"
+                        :field="field"
+                        :isCustomFields="false"
+                />
+                <simpleField
+                        v-for="(customField) in fields.customFields"
+                        class="mb-6"
+                        :key="customField.id"
+                        :field="customField"
+                        :isCustomFields="true"
+                />
+            </transition-group>
             <createField class="mb-6" />
         </v-row>
     </v-container>

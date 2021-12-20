@@ -33,46 +33,78 @@
 </script>
 
 <template>
-    <v-card
-            v-if="field"
-            outlined
-            class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5"
-            style="display: flex!important; border-radius: 20px!important;"
-            height="80"
-            width="100%"
-            color="#EEF7FE"
-            @click="routeAddTag()"
-    >
-            <div class="flex justify-center" style=" width: 36px; max-width: 36px; height: 36px;">
+    <div>
+        <v-card
+                v-if="field && !isCustomFields"
+                outlined
+                class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5"
+                style="display: flex!important; border-radius: 20px!important;"
+                height="80"
+                width="100%"
+                color="#EEF7FE"
+                @click="routeAddTag()"
+        >
+                <div class="flex justify-center" style=" width: 36px; max-width: 36px; height: 36px;">
+                    <img
+                            class="m-auto flex-none"
+                            style="max-height: 24px; max-width: 24px"
+                            :src="getIconSrc(field)"
+                            alt=""
+                    >
+                </div>
+                <v-card-subtitle class="my-auto ml-4 font-gilroy" style="color: #415EB6;font-size: 15px;line-height: 18px; padding: 0">
+                    {{ field.title }}
+                </v-card-subtitle>
+        </v-card>
+        <v-card
+                v-if="field && isCustomFields"
+                outlined
+                class="mx-auto flex flex-row rounded-lg pt-5 pb-6 px-5"
+                style="display: flex!important; border-radius: 20px!important;"
+                height="80"
+                width="100%"
+                color="#EEF7FE"
+        >
+            <div
+                    class="flex justify-center"
+                    style=" width: 36px; max-width: 36px; height: 36px;"
+                    @click="routeAddTag()"
+            >
                 <img
                         class="m-auto flex-none"
                         style="max-height: 24px; max-width: 24px"
-                        :src="getIconSrc(field)"
+                        src="../../../assets/images/customIcon.svg"
                         alt=""
                 >
             </div>
-            <v-card-subtitle class="my-auto ml-4 font-gilroy" style="color: #415EB6;font-size: 15px;line-height: 18px; padding: 0">
+            <v-card-subtitle @click="routeAddTag()" class="my-auto ml-4 font-gilroy" style="color: #415EB6;font-size: 15px;line-height: 18px; padding: 0">
                 {{ field.title }}
             </v-card-subtitle>
-        <v-btn
-                v-if="isCustomFields"
-                icon
-                class="font-bold ml-auto"
-                max-width="36px"
-                min-width="36px"
-                height="36"
-                @click="deleteCustomFiled()"
-        >
-            <img
-                    class="m-auto flex-none"
-                    style="max-height: 36px; max-width: 36px"
-                    src="../../../assets/images/icon/Delete.svg"
-                    alt=""
+            <v-btn
+                    v-if="isCustomFields"
+                    icon
+                    class="font-bold ml-auto"
+                    max-width="36px"
+                    min-width="36px"
+                    height="36"
+                    @click="deleteCustomFiled()"
             >
-        </v-btn>
-    </v-card>
+                <img
+                        class="m-auto flex-none"
+                        style="max-height: 36px; max-width: 36px"
+                        src="../../../assets/images/icon/Delete.svg"
+                        alt=""
+                >
+            </v-btn>
+        </v-card>
+    </div>
 </template>
 
 <style scoped>
-
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
 </style>
