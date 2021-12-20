@@ -91,8 +91,8 @@ export default {
         )
     },
     async editFieldInProfile ({ commit }, fieldInfo) {
-        await this.$api.profile.editProfileField(fieldInfo).then((res)=> {
-                //commit('SET_FIELD_TO_EDIT', res.data);
+        await this.$api.profile.editProfileField(fieldInfo).then(()=> {
+                this.$router.push('/profile/page')
             }
         )
     },

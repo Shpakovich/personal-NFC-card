@@ -164,7 +164,7 @@
           </transition-group>
         </draggable>
 
-        <div v-if="isBothTypesFields()" style="width: 100%; height: 1px; background-color: #68676C; margin: 20px 0;"></div>
+        <div v-if="isBothTypesFields()" class="separation-line"/>
 
         <draggable
                 :disabled="!enabled"
@@ -260,5 +260,12 @@
     height: 100%;
     max-height: 100%;
     overflow: scroll;
+  }
+
+  .separation-line {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(104, 103, 108, 0.3);
+    margin: 20px 0;
   }
 </style>

@@ -20,6 +20,9 @@ export default axios => ({
     addCustomField (data) {
         return axios.post('/profile/field/custom/add', data);
     },
+    editCustomFieldInProfile (data) {
+        return axios.post('/profile/field/custom/edit', data);
+    },
     getCustomField(id) {
         return axios.get(`/field/custom/${id}`);
     },

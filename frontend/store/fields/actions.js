@@ -42,6 +42,14 @@ export default {
             }
         )
     },
+
+    async editCustomFieldInProfile ({commit}, data) {
+        await this.$api.fields.editCustomFieldInProfile(data).then((res) => {
+                this.$router.push(`/profile/page`);
+                return res;
+            }
+        )
+    },
     async getLastCustomFieldInfo({commit}) {
         await this.$api.fields.getAllCustomsFields().then((res) => {
                 commit('SET_LAST_CUSTOMS_FIELD_INFO', res.data.items[res.data.items.length-1]);
