@@ -74,7 +74,7 @@
         <v-row class="flex flex-column justify-center">
             <v-radio-group v-model="selected" >
                 <v-radio
-                        v-for="(fieldType, index) in fieldTypes"
+                        v-for="(fieldType) in fieldTypes"
                         :key="fieldType.id"
                         class="radio-btn font-croc mb-8"
                         style="font-size: 17px; line-height: 25.06px"

@@ -3,7 +3,8 @@
         name: "fieldForShow",
 
         props: [
-            "fieldInfo"
+            "fieldInfo",
+            "isCustom"
         ],
 
         computed: {
@@ -61,9 +62,17 @@
         >
             <div class="flex justify-center" style=" width: 36px; max-width: 36px; height: 36px;">
                 <img
+                        v-if="!isCustom"
                         class="m-auto flex-none"
                         style="max-height: 24px; max-width: 24px"
                         :src="getIconSrc(fieldInfo)"
+                        alt=""
+                >
+                <img
+                        v-else
+                        class="m-auto flex-none"
+                        style="max-height: 24px; max-width: 24px"
+                        src="../../../assets/images/customIcon.svg"
                         alt=""
                 >
             </div>
