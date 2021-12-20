@@ -51,7 +51,6 @@
 </script>
 
 <template>
-    <transition name="fade">
         <v-card
                 v-if="favorite"
                 outlined
@@ -100,7 +99,6 @@
                 >
             </v-btn>
         </v-card>
-    </transition>
 </template>
 
 <style lang="scss">

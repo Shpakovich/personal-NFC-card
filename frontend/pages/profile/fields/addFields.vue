@@ -49,7 +49,7 @@
         <v-row class="flex flex-column justify-center">
             <transition-group name="fade" tag="div">
                 <simpleField
-                        v-for="(field, index) in fields.fields"
+                        v-for="(field) in fields.fields"
                         class="mb-6"
                         :key="field.id"
                         :field="field"

@@ -151,30 +151,32 @@
                 </v-btn>
             </div>
             <div v-if="isShow && isLoginUser && !isYourProfile">
-                <v-btn
-                        v-if="!getFavoriteStatus"
-                        style="position: absolute; right: 12px; top: 8px;"
-                        icon
-                        @click="addUserToFavorite()"
-                >
-                    <img
-                                    style="margin: 2px 2px 0 0"
-                                    src="../../assets/images/icon/star.svg"
-                                    alt=""
-                            >
-                </v-btn>
-                <v-btn
-                        v-else
-                        style="position: absolute; right: 12px; top: 8px;"
-                        icon
-                        @click="deleteUserFromFavorite()"
-                >
-                    <img
-                            style="margin: 2px 2px 0 0"
-                            src="../../assets/images/icon/star_active.svg"
-                            alt=""
+                <transition name="fade">
+                    <v-btn
+                            v-if="!getFavoriteStatus"
+                            style="position: absolute; right: 12px; top: 8px;"
+                            icon
+                            @click="addUserToFavorite()"
                     >
-                </v-btn>
+                        <img
+                                        style="margin: 2px 2px 0 0"
+                                        src="../../assets/images/icon/star.svg"
+                                        alt=""
+                                >
+                    </v-btn>
+                    <v-btn
+                            v-else
+                            style="position: absolute; right: 12px; top: 8px;"
+                            icon
+                            @click="deleteUserFromFavorite()"
+                    >
+                        <img
+                                style="margin: 2px 2px 0 0"
+                                src="../../assets/images/icon/star_active.svg"
+                                alt=""
+                        >
+                    </v-btn>
+                </transition>
             </div>
             <div class="flex flex-row inline-flex m-auto">
                 <v-card-subtitle v-if="getUserMock" class="font-bold white--text text-white mt-4 card-padding">

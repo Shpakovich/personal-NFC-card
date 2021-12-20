@@ -102,7 +102,9 @@
                     .catch((e) => console.log('profile/editFieldInProfile error ' + e));
         },
         isBothTypesFields () {
-          return this.profile.fields.length && this.customFields
+          console.log(this.profile.fields);
+          console.log(this.customFieldsToProfile);
+          return this.profile.fields.length && this.customFieldsToProfile.length
         }
       }
     }
@@ -152,18 +154,19 @@
                 v-model="profile.fields"
                 @end="checkMoveEnd"
         >
-          <transition name="fade">
-            <div v-for="(field, index) in profile.fields" :id="field.id" :key="index" class="item">
+          <transition-group name="fade" tag="div">
                 <field
+                        v-for="(field) in profile.fields"
+                        :id="field.id"
+                        :key="field.id"
                         :field-info="field"
-                        class="mb-6"
+                        class="item"
                         @updateFields="getProfileFields()"
                 />
-            </div>
-          </transition>
+          </transition-group>
         </draggable>
 
-        <div v-if="isBothTypesFields" style="width: 100%; height: 1px; background-color: #68676C; margin: 20px 0;"></div>
+        <div v-if="isBothTypesFields()" style="width: 100%; height: 1px; background-color: #68676C; margin: 20px 0;"></div>
 
         <draggable
                 :disabled="!enabled"
@@ -172,13 +175,14 @@
                 @end="checkMoveEnd"
         >
           <transition-group name="fade" tag="div">
-            <div v-for="(customField, index) in customFieldsToProfile" :id="customField.id" :key="index" class="item">
               <customField
+                      v-for="(customField) in customFieldsToProfile"
+                      :id="customField.id"
+                      :key="customField.id"
                       :custom-field-info="customField"
-                      class="mb-6"
+                      class="item"
                       @updateFields="getCustomProfileFields()"
               />
-            </div>
           </transition-group>
         </draggable>
         <addTEG class="mt-11" />
@@ -211,6 +215,14 @@
     }
     .flip-list-move {
       transition: transform 0.5s;
+    }
+
+    .item {
+      margin-bottom: 24px;
+    }
+
+    .item:last-of-type {
+      margin-bottom: 0 !important;
     }
 
   .userHead__xl {
