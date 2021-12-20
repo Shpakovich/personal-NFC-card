@@ -102,8 +102,6 @@
                     .catch((e) => console.log('profile/editFieldInProfile error ' + e));
         },
         isBothTypesFields () {
-          console.log(this.profile.fields);
-          console.log(this.customFieldsToProfile);
           return this.profile.fields.length && this.customFieldsToProfile.length
         }
       }

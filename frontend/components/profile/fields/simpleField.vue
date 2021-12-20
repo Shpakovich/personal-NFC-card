@@ -26,7 +26,29 @@
 
                 await this.$store.dispatch('fields/deleteCustomField', data)
                     .then(() => { this.$emit('updateFields') })
-                    .catch((e) => console.log('fields/deleteCustomField error: ' + e));
+                    .catch((err) => {
+                        let userMessageTitle = 'Ошибка сервера';
+                        let userMessageText = 'Попробуйте позже';
+
+                        if (err.response && err.response.status === 500) {
+                            const errorDetail = err?.response?.data?.detail;
+
+                            if ( errorDetail && errorDetail.includes('while executing') ) {
+                                userMessageTitle = 'Данная категория используется';
+                                userMessageText = 'Удалите все карточки этой группы';
+                            }
+                        }
+
+                        this.showAlert('error', userMessageTitle, userMessageText);
+                    });
+            },
+
+            showAlert (type, title, text) {
+                this.$notify({
+                    type: type,
+                    title: title,
+                    text: text
+                })
             }
         }
     }
