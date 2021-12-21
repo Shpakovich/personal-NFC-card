@@ -38,6 +38,13 @@ export default {
         )
     },
 
+    async addCustomFieldInProfile ({ commit }, data) {
+        await this.$api.profile.addFieldInProfile(data).then((res)=> {
+                this.$router.push('/profile/page');
+            }
+        )
+    },
+
     async addPhotoProfile ({ commit }, data) {
         await this.$api.profile.addPhotoInProfile(data).then((res)=> {
                 this.$router.push('/profile/page');
@@ -54,14 +61,16 @@ export default {
     async getProfileInfo ({ commit }, id) {
         await this.$api.profile.getProfile(id).then((res)=> {
                 commit('SET_PROFILE_FIELDS', res.data?.fields);
-            }
-        )
+        });
     },
     async deleteFieldInProfile ({ commit }, fieldInfo) {
         await this.$api.profile.deleteProfileField(fieldInfo).then((res)=> {
                 // commit('SET_PROFILE_FIELDS', res.data?.fields);
             }
         )
+    },
+    async deleteCustomFieldInProfile ({ commit }, fieldInfo) {
+        await this.$api.profile.deleteCustomFieldInProfile(fieldInfo);
     },
     async getFieldInProfile ({ commit }, fieldID) {
         await this.$api.profile.getProfileField(fieldID).then((res)=> {
@@ -82,8 +91,8 @@ export default {
         )
     },
     async editFieldInProfile ({ commit }, fieldInfo) {
-        await this.$api.profile.editProfileField(fieldInfo).then((res)=> {
-                //commit('SET_FIELD_TO_EDIT', res.data);
+        await this.$api.profile.editProfileField(fieldInfo).then(()=> {
+                this.$router.push('/profile/page')
             }
         )
     },

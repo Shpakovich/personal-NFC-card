@@ -35,9 +35,22 @@
                 const typeID = this.$store.state.show?.typesID;
                 if (typeID === "1") {
                     return this.show.sortFields;
+                } if (typeID === "2") {
+                    return [];
                 } else {
                     return this.show.fields;
                 }
+            },
+            isShowCustomFields() {
+                const typeID = this.$store.state.show?.typesID;
+                return (typeID === "1" || typeID === "2") && this.getCustomShowFields.length;
+            },
+            getCustomShowFields() {
+                return this.show?.profile.custom;
+            },
+            isBothTypesFields () {
+                const typeID = this.$store.state.show?.typesID;
+                return this.getShowFields.length && this.getCustomShowFields.length && typeID === "1";
             }
         },
 
@@ -53,8 +66,6 @@
                     .catch((e) => console.log('show/getShowProfile error ' + e));
             }
 
-            // Получение избранных чтобы понять входит ли юзер в них
-
             function isFavorite(favorite) {
                 return favorite.profile.id === store.state.show.profile?.id;
             }
@@ -67,12 +78,7 @@
                 if ( profileInFavorite && profileInFavorite.id ) {
                     commit('user/SET_USER_IN_FAVORITES', profileInFavorite.id);
                 }
-
-
             }).catch((e) => console.log('user/getFavoritesUsers error ' + e));
-
-
-            // Получение избранных чтобы понять входит ли юзер в них
 
 
             if( !!store.state.show.profile?.id ) {
@@ -101,7 +107,7 @@
 
         async mounted() {
             const typeID = this.$store.state.show?.typesID;
-            if (typeID !== "1") {
+            if (typeID !== "1" && typeID !== "2") {
                 let showInfo;
                 const alias = this.$route.params?.alias;
 
@@ -154,13 +160,27 @@
 
             <v-row v-if="getShowFields.length" class="flex flex-column xl:overflow-scroll field-list__xl flex-nowrap">
                 <fieldForShow
-                  v-for="(field, index) in getShowFields"
+                  v-for="(field) in getShowFields"
+                  :is-custom="false"
                   :field-info="field"
-                  class="mb-6"
-                  :key="index"
+                  class="item"
+                  :key="field.id"
                 />
             </v-row>
-            <v-row v-else class="flex flex-column mt-6">
+
+            <div v-if="isShowCustomFields && getShowFields.length" class="separation-line"/>
+
+            <v-row v-if="isShowCustomFields" class="flex flex-column xl:overflow-scroll field-list__xl flex-nowrap">
+                <fieldForShow
+                        v-for="(customField) in getCustomShowFields"
+                        :is-custom="true"
+                        :field-info="customField"
+                        class="item"
+                        :key="customField.id"
+                />
+            </v-row>
+
+            <v-row v-if="!getShowFields.length && !isShowCustomFields" class="flex flex-column mt-6">
                 <p class="text-center font-croc">Пользователь ещё не добавил информацию о себе</p>
             </v-row>
         </v-row>
@@ -168,6 +188,13 @@
 </template>
 
 <style lang="scss">
+    .item {
+        margin-bottom: 24px;
+    }
+
+    .item:last-of-type {
+        margin-bottom: 0 !important;
+    }
     .user-page__xl {
         @media (min-width: 1280px) { // todo вынести в переменную
             max-width: 1085px;
@@ -190,5 +217,12 @@
         @media (min-width: 640px) and (max-width: 1280px) {
             margin: auto !important;
         }
+    }
+
+    .separation-line {
+        width: 100%;
+        height: 1px;
+        background-color: rgba(104, 103, 108, 0.3);
+        margin: 20px 0;
     }
 </style>

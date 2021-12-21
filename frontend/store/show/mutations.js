@@ -19,9 +19,15 @@ export default {
             name: 'Все',
             sort: '1'
         };
+        const typeCustomFields = {
+            id: '2',
+            name: 'Уникальные TAG',
+            sort: fieldTypes.items.length + 1
+        };
         state.fieldTypes = fieldTypes.items;
         if (state.fieldTypes) {
             state.fieldTypes.unshift(typeAllFields);
+            state.fieldTypes.push(typeCustomFields);
         }
     },
     SET_SHOW_PROFILE_TYPE_ID (state, typesID) {

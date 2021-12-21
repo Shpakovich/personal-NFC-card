@@ -10,6 +10,7 @@ export default () => ({
         },
         fieldToEdit: {},
         fields: [],
+        customsFields: [],
         default_name: 0,
         post: "",
         description: "",

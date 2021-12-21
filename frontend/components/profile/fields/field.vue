@@ -19,7 +19,6 @@
                         return this.fieldInfo.value;
                     } else {
                         const userPhone = this.fieldInfo.value.replace(/\D/g, '');
-                        console.log(userPhone);
                         return 'https://skobelkin.ru/viber/' + userPhone;
                     }
                 } else {
@@ -65,7 +64,7 @@
             width="100%"
             color="#EEF7FE"
     >
-            <div class="flex justify-center" style=" width: 36px; max-width: 36px; height: 36px;">
+            <div class="flex justify-center" style="width: 36px; max-width: 36px; height: 36px;">
                 <img
                         class="m-auto flex-none"
                         style="max-height: 24px; max-width: 24px"

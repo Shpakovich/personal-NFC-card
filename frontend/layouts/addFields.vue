@@ -12,6 +12,7 @@
 
 <template>
     <v-app class="fixMainContainer">
+        <notifications width="300px" position="left bottom"/>
         <v-main class="main-container__all-height">
             <nuxt />
         </v-main>

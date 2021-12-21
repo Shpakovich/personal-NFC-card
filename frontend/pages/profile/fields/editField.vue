@@ -55,8 +55,6 @@
             const profileFieldID = route.query?.id;
 
             await store.dispatch('profile/getFieldInProfile', profileFieldID)
-                .then(() => {
-                })
                 .catch((e) => console.log('profile/getFieldInProfile error ' + e));
 
             const fieldID = store.state.fields.currentField.id;
@@ -92,14 +90,9 @@
                     sort: this.profileField.sort
                 };
 
-                /* await this.$store.dispatch('profile/editFieldInProfile', data)
-                    .then(() => {
-                        this.$router.push('/profile/page')
-                    })
+                await this.$store.dispatch('profile/editFieldInProfile', data)
                     .catch((e) => console.log('profile/editFieldInProfile error ' + e))
-                .finally(() =>
-                    this.loading = false
-                ); */
+                    .finally(() => this.loading = false);
             },
             changeContactStatus() {
                 this.isContactViber = !this.isContactViber;

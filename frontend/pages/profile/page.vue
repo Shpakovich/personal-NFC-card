@@ -1,8 +1,9 @@
 <script>
   import socialIconsBlock from '~/components/socialIconsBlock';
   import userHead from "../../components/profile/userHead";
-  import field from '../../components/profile/fields/field'
-  import addTEG from '../../components/profile/fields/addTEG'
+  import field from '../../components/profile/fields/field';
+  import customField from '../../components/profile/fields/customField';
+  import addTEG from '../../components/profile/fields/addTEG';
 
   import draggable from 'vuedraggable'
 
@@ -19,7 +20,8 @@
         userHead,
         field,
         addTEG,
-        draggable
+        draggable,
+        customField
       },
 
       data: () => ({
@@ -40,19 +42,19 @@
         const profileID = store.state?.profile?.id;
         const typeID = store.state?.fields?.typesID;
 
-        if (typeID !=='1') {
-          await store.dispatch('profile/getFieldsInProfileByType', profileID, typeID)
-                  .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
-        } else if (profileID ?? typeID === '1') {
+        if (profileID ?? typeID === '1') {
           await store.dispatch('profile/getProfileInfo', profileID)
                   .catch((e) => console.log('profile/getProfileInfo error' + profileID + e));
         }
 
+        await store.dispatch('fields/getAllCustomsFieldsToProfile', profileID)
+                .catch((e) => console.log('fields/getAllCustomsFieldsInfo error' + e));
       },
 
       computed:{
         ...profileStore.mapState({
-          profile: (state) => state
+          profile: (state) => state,
+          customFieldsToProfile: (state) => state.customsFields
         }),
         ...fieldsStore.mapState({
           fieldsType: (state) => state
@@ -74,13 +76,17 @@
           await this.$store.dispatch('profile/getFieldsInProfileByType', data)
                   .catch((e) => console.log('profile/getProfileInfo error ' + e));
         }
-        // this.showAlert = 'test'; TODO таймер на показ
       },
 
       methods: {
         async getProfileFields() {
           await this.$store.dispatch('profile/getProfileInfo', this.profile?.id)
-                  .catch((e) => console.log('profile/editProfileInfo error' + e));
+                  .catch((e) => console.log('profile/getProfileInfo error' + e));
+        },
+
+        async getCustomProfileFields() {
+          await this.$store.dispatch('fields/getAllCustomsFieldsToProfile', this.profile?.id)
+                  .catch((e) => console.log('fields/getAllCustomsFieldsToProfile error' + e));
         },
         async checkMoveEnd(e) {
 
@@ -92,6 +98,9 @@
             await this.$store.dispatch('profile/editSortFieldInProfile', data)
                     .catch((e) => console.log('profile/editFieldInProfile error ' + e));
         },
+        isBothTypesFields () {
+          return this.profile.fields.length && this.customFieldsToProfile.length
+        }
       }
     }
 </script>
@@ -140,22 +149,37 @@
                 v-model="profile.fields"
                 @end="checkMoveEnd"
         >
-          <div v-for="(field, index) in profile.fields" :id="field.id" :key="index" class="item">
-            <field
-                    :field-info="field"
-                    class="mb-6"
-                    @updateFields="getProfileFields()"
-            />
-          </div>
+          <transition-group name="fade" tag="div">
+                <field
+                        v-for="(field) in profile.fields"
+                        :id="field.id"
+                        :key="field.id"
+                        :field-info="field"
+                        class="item"
+                        @updateFields="getProfileFields()"
+                />
+          </transition-group>
         </draggable>
 
-        <!-- <field
-          v-for="(field, index) in profile.fields"
-          :field-info="field"
-          class="mb-6"
-          :key="index"
-          @updateFields="getProfileFields()"
-        /> -->
+        <div v-if="isBothTypesFields()" class="separation-line"/>
+
+        <draggable
+                :disabled="!enabled"
+                style="width: 100%;"
+                v-model="customFieldsToProfile"
+                @end="checkMoveEnd"
+        >
+          <transition-group name="fade" tag="div">
+              <customField
+                      v-for="(customField) in customFieldsToProfile"
+                      :id="customField.id"
+                      :key="customField.id"
+                      :custom-field-info="customField"
+                      class="item"
+                      @updateFields="getCustomProfileFields()"
+              />
+          </transition-group>
+        </draggable>
         <addTEG class="mt-11" />
       </v-row>
     </v-row>
@@ -174,11 +198,26 @@
 </template>
 
 <style lang="scss">
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
+
     .v-card__subtitle, .v-card__text, .v-card__title {
         padding: 5px;
     }
     .flip-list-move {
       transition: transform 0.5s;
+    }
+
+    .item {
+      margin-bottom: 24px;
+    }
+
+    .item:last-of-type {
+      margin-bottom: 0 !important;
     }
 
   .userHead__xl {
@@ -218,5 +257,12 @@
     height: 100%;
     max-height: 100%;
     overflow: scroll;
+  }
+
+  .separation-line {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(104, 103, 108, 0.3);
+    margin: 20px 0;
   }
 </style>

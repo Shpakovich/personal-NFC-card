@@ -2,26 +2,30 @@
     import { createNamespacedHelpers } from 'vuex';
     const { mapState } = createNamespacedHelpers(['profile', 'fields']);
 
-    import simpleField from '../../../components/profile/fields/simpleField'
+    import simpleField from '../../../components/profile/fields/simpleField';
+    import createField from '../../../components/profile/fields/createField';
 
     export default {
         name: "addFields",
         layout: "addFields",
 
         components: {
-            simpleField
+            simpleField,
+            createField
         },
 
-        async asyncData ({ route, store }) {
+        async asyncData ({ store }) {
             await store.dispatch('fields/getAllFieldsInfo')
-                .then(() => {})
                 .catch((e) => console.log('fields/getAllFieldsInfo error' + e));
+
+            await store.dispatch('fields/getAllCustomsFieldsInfo')
+                .catch((e) => console.log('fields/getAllCustomsFieldsInfo error' + e));
         },
 
         computed:{
             ...mapState({
                 profile: (state) => state,
-                fields: (state) => state
+                fields: (state) => state,
             })
         }
     }
@@ -43,12 +47,23 @@
             Назад
         </v-btn>
         <v-row class="flex flex-column justify-center">
-            <simpleField
-                    v-for="(field, index) in fields.fields"
-                    class="mb-6"
-                    :key="index"
-                    :filed="field"
-            />
+            <transition-group name="fade" tag="div">
+                <simpleField
+                        v-for="(field) in fields.fields"
+                        class="mb-6"
+                        :key="field.id"
+                        :field="field"
+                        :isCustomFields="false"
+                />
+                <simpleField
+                        v-for="(customField) in fields.customFields"
+                        class="mb-6"
+                        :key="customField.id"
+                        :field="customField"
+                        :isCustomFields="true"
+                />
+            </transition-group>
+            <createField class="mb-6" />
         </v-row>
     </v-container>
 </template>
