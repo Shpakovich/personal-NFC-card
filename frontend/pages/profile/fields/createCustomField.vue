@@ -36,7 +36,6 @@
                 };
 
                 await this.$store.dispatch('fields/createCustomField', data)
-                    // TODO разделить полосиком дефолнтные кастомные и мб филд создание сделать другим цветом?
                 .catch((err)=> { console.log('error fields/createCustomField ' + err) })
             }
         }
