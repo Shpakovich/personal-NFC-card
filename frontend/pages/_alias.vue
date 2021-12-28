@@ -132,7 +132,7 @@
 </script>
 
 <template>
-    <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between  xl:mt-6 user-page__xl fix-page-container">
+    <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between  xl:mt-6 user-page__xl fix-page-container field-list__xl">
         <userHead
                 class="userHead__xl m-auto__sm"
                 style="max-width: 447px; height: max-content;"
@@ -158,7 +158,7 @@
                 </div>
             </v-row>
 
-            <v-row v-if="getShowFields.length" class="flex flex-column xl:overflow-scroll field-list__xl flex-nowrap">
+            <v-row v-if="getShowFields.length" class="flex flex-column xl:overflow-scroll flex-nowrap">
                 <fieldForShow
                   v-for="(field) in getShowFields"
                   :is-custom="false"
@@ -170,7 +170,7 @@
 
             <div v-if="isShowCustomFields && getShowFields.length" class="separation-line"/>
 
-            <v-row v-if="isShowCustomFields" class="flex flex-column xl:overflow-scroll field-list__xl flex-nowrap">
+            <v-row v-if="isShowCustomFields" class="flex flex-column xl:overflow-scroll flex-nowrap">
                 <fieldForShow
                         v-for="(customField) in getCustomShowFields"
                         :is-custom="true"

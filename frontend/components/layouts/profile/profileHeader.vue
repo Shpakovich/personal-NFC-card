@@ -99,6 +99,10 @@
 
 <style lang="scss">
     .header-container {
+        position: fixed;
+        top: 0;
+        height: 92px;
+        max-height: 92px;
         @media (min-width: 640px) { // todo вынести в переменную
             max-width: 415px;
         }

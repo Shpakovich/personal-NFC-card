@@ -106,7 +106,7 @@
 </script>
 
 <template>
-  <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6 user-page__xl fix-page-container">
+  <v-container class="px-11 xl:flex xl:flex-row xl:h-full xl:justify-between xl:mt-6 user-page__xl fix-page-container field-list__xl">
     <userHead
             class="userHead__xl m-auto__sm"
             :user="profile"
@@ -142,7 +142,7 @@
           </nuxt-link>
         </div>
       </v-row>
-      <v-row class="field-list__xl xl:overflow-scroll">
+      <v-row class="xl:overflow-scroll">
         <draggable
                 :disabled="!enabled"
                 style="width: 100%;"
@@ -254,8 +254,8 @@
   }
 
   .fix-page-container {
-    height: calc(100% - 98px);
-    max-height: calc(100% - 98px);
+    height: 100%!important;
+    max-height: 100%!important;
     overflow: scroll;
   }
 

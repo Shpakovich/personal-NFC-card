@@ -33,24 +33,20 @@
 </template>
 
 <style lang="scss">
-    .main-container {
-        height: calc(100% - 98px - 92px);
-        max-height: calc(100% - 98px - 92px);
-        overflow: hidden;
-    }
     .main-container__without-header {
         height: calc(100% - 98px);
         max-height: calc(100% - 98px);
         overflow: scroll;
     }
     .main-container__without-footer {
-        height: calc(100% - 92px);
-        max-height: calc(100% - 92px);
-        overflow: scroll;
+        height: 100%!important;
+        max-height: 100%!important;
+        padding-top: 92px!important;
+        overflow: hidden;
     }
     .main-container__all-height {
         height: 100%;
         max-height: 100%;
-        overflow: scroll;
+        overflow: hidden;
     }
 </style>

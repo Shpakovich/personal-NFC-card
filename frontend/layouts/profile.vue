@@ -39,6 +39,14 @@
 </template>
 
 <style lang="scss">
+  .main-container {
+    height: 100%!important;
+    max-height: 100%!important;
+    padding-top: 92px!important;
+    padding-bottom: 82px !important;
+    overflow: hidden;
+  }
+
   .fixMainContainer {
     position: relative;
     overflow: hidden;

@@ -33,7 +33,7 @@
 
 <template>
     <v-container class="py-11 px-11" style="height: 100%; max-height: 100%; overflow: scroll;">
-        <h3 style="font-size: 24px; line-height: 35px;" class="text-center font-bold font-croc">Общее</h3>
+        <h3 style="font-size: 24px; line-height: 35px;" class="text-center font-bold font-croc">TAGs</h3>
         <v-btn
                 icon
                 class="rounded-lg flex-initial font-bold w-4/12 mb-3 ml-1.5 btn-back"
