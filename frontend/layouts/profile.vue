@@ -43,8 +43,9 @@
     height: 100%!important;
     max-height: 100%!important;
     padding-top: 92px!important;
-    padding-bottom: 82px !important;
-    overflow: hidden;
+    padding-bottom: 98px!important;
+    overflow: hidden!important;
+    z-index: 30;
   }
 
   .fixMainContainer {

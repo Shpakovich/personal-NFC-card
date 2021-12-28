@@ -44,7 +44,7 @@
     <v-footer
             class="mx-4 sm:w-full contents-block"
             color="white"
-            style="position: fixed; bottom: 0"
+            style="position: fixed; z-index: 100; background-color: white; bottom: 0"
             padless
     >
         <v-row
