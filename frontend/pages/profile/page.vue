@@ -254,8 +254,8 @@
   }
 
   .fix-page-container {
-    height: 100%;
-    max-height: 100%;
+    height: calc(100% - 98px);
+    max-height: calc(100% - 98px);
     overflow: scroll;
   }
 
