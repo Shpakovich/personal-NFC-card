@@ -100,9 +100,12 @@
 <style lang="scss">
     .header-container {
         position: fixed;
+        z-index: 100;
+        background-color: white;
         top: 0;
         height: 92px;
         max-height: 92px;
+        overflow: hidden;
         @media (min-width: 640px) { // todo вынести в переменную
             max-width: 415px;
         }

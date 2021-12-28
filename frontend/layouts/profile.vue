@@ -25,7 +25,7 @@
 </script>
 
 <template>
-  <v-app class="fixMainContainer">
+  <v-app>
     <overlayConfirm />
     <overlayNewFunc />
     <profileHeader class="block xl:hidden" />
@@ -43,14 +43,8 @@
     height: 100%!important;
     max-height: 100%!important;
     padding-top: 92px!important;
-    padding-bottom: 82px !important;
-    overflow: hidden;
-  }
-
-  .fixMainContainer {
-    position: relative;
-    overflow: hidden;
-    max-height: 100vh;
-    height: 100vh;
+    padding-bottom: 98px!important;
+    overflow: hidden!important;
+    z-index: 30;
   }
 </style>
