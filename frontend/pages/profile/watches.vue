@@ -123,7 +123,7 @@
 
     .watch-container {
         @media (min-width: 640px) { // todo вынести в переменную
-            max-width: 447px;
+            max-width: 447px!important;
             margin: auto !important;
         }
     }
