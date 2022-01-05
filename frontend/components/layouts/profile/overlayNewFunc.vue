@@ -47,6 +47,7 @@
             class="p-12"
             :absolute="true"
             :value="overlayNew.status"
+            z-index="102"
             opacity="0.8"
             color="black"
     >

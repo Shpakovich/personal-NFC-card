@@ -41,6 +41,7 @@
 <template>
     <v-overlay
             class="p-12"
+            z-index="101"
             :absolute="absolute"
             :value="isActiveOverlay"
     >
