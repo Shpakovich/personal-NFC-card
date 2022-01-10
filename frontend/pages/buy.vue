@@ -91,7 +91,7 @@
 
            <v-row class="flex-nowrap tags-block">
                <img class="my-auto mr-12 tag1-img" src="../assets/images/buy/tags1.png" alt="">
-               <div class="sm:pt-8 pt-4" style="max-height: 504px;">
+               <div class="sm:pt-8 pt-4">
                    <h2 class="font-gilroy text-4xl mb-6" >
                        Брендирование NFC Меток
                    </h2>
@@ -209,7 +209,7 @@
         }
         @media (max-width: 640px) { // todo вынести в переменную
             flex-direction: column !important;
-            margin-bottom: 64px !important;
+            margin-bottom: 32px !important;
         }
     }
 
