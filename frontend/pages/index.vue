@@ -215,21 +215,28 @@
             Войти как другой пользователь
             <img src="../assets/images/icon/icon-arrow-right.svg" alt="">
           </v-btn>
-        </div>
+        </div>s
       </div>
 
       <v-row class="flex-col leading-6 justify-center">
-        <nuxt-link class="text-sm text-center font-gilroy" to="/info/supportedDevice">
-          Поддерживаемые устройства
-        </nuxt-link><br>
-        <p class="text-sm text-center font-gilroy">
+        <a href="https://docs.google.com/presentation/d/1vkso9GlcRg_T_voretY9Cs6sZThve44w/edit?usp=sharing&ouid=107025095017751406473&rtpof=true&sd=true"
+           class="mt-2 text-sm text-center font-gilroy"
+           target="_blank"
+        >
+          Информация для покупателей
+        </a>
+        <p class="text-sm text-center font-gilroy mt-4">
           Вопросы и предложения<br>
           присылай на
           <a href="mailto:myidcard.ru@gmail.com">
             потчу
           </a>
         </p>
-        <p v-if="!this.$auth.loggedIn" class="mt-8 text-sm text-center font-gilroy">
+
+        <nuxt-link class="text-sm text-center font-gilroy mt-8" to="/info/supportedDevice">
+          Поддерживаемые устройства
+        </nuxt-link>
+        <p v-if="!this.$auth.loggedIn" class="mt-2 text-sm text-center font-gilroy">
           {{ getYear }} myID - будущее нетворкинга
         </p>
       </v-row>
