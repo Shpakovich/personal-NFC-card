@@ -215,16 +215,13 @@
             Войти как другой пользователь
             <img src="../assets/images/icon/icon-arrow-right.svg" alt="">
           </v-btn>
-        </div>s
+        </div>
       </div>
 
       <v-row class="flex-col leading-6 justify-center">
-        <a href="https://docs.google.com/presentation/d/1vkso9GlcRg_T_voretY9Cs6sZThve44w/edit?usp=sharing&ouid=107025095017751406473&rtpof=true&sd=true"
-           class="mt-2 text-sm text-center font-gilroy"
-           target="_blank"
-        >
+        <nuxt-link class="mt-2 text-sm text-center font-gilroy" to="/buy">
           Информация для покупателей
-        </a>
+        </nuxt-link>
         <p class="text-sm text-center font-gilroy mt-4">
           Вопросы и предложения<br>
           присылай на

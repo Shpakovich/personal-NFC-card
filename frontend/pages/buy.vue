@@ -12,6 +12,14 @@
                     <img class="m-auto iphone-img" src="./../assets/images/buy/iphone_bg.jpg" alt="">
                 </v-col>
                 <v-col>
+                    <nuxt-link to="/">
+                        <img
+                                style="max-width: 215px;"
+                                src="../assets/images/myID-logo.svg"
+                                class="mx-auto pb-4 xl:w-full"
+                                alt=""
+                        />
+                    </nuxt-link>
                     <h1 class="font-gilroy text-4xl mb-6" >
                         MyID — Электронная визиsтка
                     </h1>
@@ -19,6 +27,18 @@
                         в которой можно указывать ссылки на все свои социальные сети и добавлять контакты.<br>
                         Она позволит любому, кто прислонит телефон к метке перейти в соц. сеть, позвонить, начать чат в мессенджере, открыть сайт, прослушать плейлист, перевести деньги и так далее без дополнительных действий.
                     </p>
+                    <v-btn
+                            icon
+                            width="150"
+                            height="48"
+                            class="rounded-lg text-4xl"
+                            color="secondary"
+                            target="_blank"
+                            href="https://docs.google.com/presentation/d/1vkso9GlcRg_T_voretY9Cs6sZThve44w/edit?usp=sharing&ouid=107025095017751406473&rtpof=true&sd=true"
+                    >
+                        Презентация
+                        <img src="../assets/images/icon/icon-arrow-right.svg" alt="">
+                    </v-btn>
                 </v-col>
             </v-row>
 
