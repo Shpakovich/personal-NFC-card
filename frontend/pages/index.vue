@@ -219,17 +219,21 @@
       </div>
 
       <v-row class="flex-col leading-6 justify-center">
-        <nuxt-link class="text-sm text-center font-gilroy" to="/info/supportedDevice">
-          Поддерживаемые устройства
-        </nuxt-link><br>
-        <p class="text-sm text-center font-gilroy">
+        <nuxt-link class="mt-2 text-sm text-center font-gilroy" to="/buy">
+          Информация для покупателей
+        </nuxt-link>
+        <p class="text-sm text-center font-gilroy mt-4">
           Вопросы и предложения<br>
           присылай на
           <a href="mailto:myidcard.ru@gmail.com">
             потчу
           </a>
         </p>
-        <p v-if="!this.$auth.loggedIn" class="mt-8 text-sm text-center font-gilroy">
+
+        <nuxt-link class="text-sm text-center font-gilroy mt-8" to="/info/supportedDevice">
+          Поддерживаемые устройства
+        </nuxt-link>
+        <p v-if="!this.$auth.loggedIn" class="mt-2 text-sm text-center font-gilroy">
           {{ getYear }} myID - будущее нетворкинга
         </p>
       </v-row>

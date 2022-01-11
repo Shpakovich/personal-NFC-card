@@ -20,6 +20,17 @@
         if (!this.$auth.loggedIn){
           this.$router.push('/authorization');
         }
+      },
+
+      head () {
+        return {
+          meta: [
+            { hid: 'robots', name: 'robots', content: 'noindex, nofollow' },
+            { hid: 'og:description', property: 'og:description', content: 'myID это электронная визитка в которой можно указать ссылки на все свои соцсети и контакты.' },
+            { hid: 'og:image:width', property: 'og:image:width', content: '196' },
+            { hid: 'og:image:height', property: 'og:image:height', content: '196' }
+          ]
+        };
       }
     }
 </script>
